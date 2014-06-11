@@ -1,7 +1,7 @@
 language: cpp
 install:
   - sudo apt-get install libblas3gf libblas-dev
-  - pip install cpp-coveralls
+  - sudo pip install cpp-coveralls
 script:
   - ./setup --cxx=g++ --coverage
   - cd build

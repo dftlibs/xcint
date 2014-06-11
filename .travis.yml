@@ -1,9 +1,10 @@
 language: cpp
 install:
-- "sudo apt-get install libblas3gf libblas-dev"
+  - sudo apt-get install libblas3gf libblas-dev
+  - pip install cpp-coveralls
 script:
-- "mkdir build"
-- "cd build"
-- "cmake .."
-- "make"
-- "./unit_tests"
+  - ./setup --cxx=g++ --coverage
+  - cd build
+  - make
+  - ./unit_tests
+  - coveralls --exclude lib --exclude tests

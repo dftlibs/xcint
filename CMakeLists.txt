@@ -6,6 +6,7 @@ option(ENABLE_FORTRAN_INTERFACE "Build Fortran interface" OFF)
 option(ENABLE_OPENCL            "Enable OpenCL"           OFF)
 option(ENABLE_OMP               "Enable OpenMP"           OFF)
 option(ENABLE_MPI               "Enable MPI"              OFF)
+option(ENABLE_CODE_COVERAGE     "Enable code coverage"    OFF)
 
 if(ENABLE_FORTRAN_INTERFACE)
     enable_language(C CXX Fortran)

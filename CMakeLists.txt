@@ -214,6 +214,7 @@ target_link_libraries(
     xcint
     ${PROJECT_BINARY_DIR}/external/xcfun-build/libxcfun.a
     ${EXTERNAL_LIBS}
+    pthread
     )
 
 add_custom_command(

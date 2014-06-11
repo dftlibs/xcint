@@ -1,0 +1,9 @@
+[submodule "external/xcfun"]
+	path = external/xcfun
+	url = git://repo.ctcc.no/xcfun.git
+[submodule "external/clBLAS"]
+	path = external/clBLAS
+	url = https://github.com/clMathLibraries/clBLAS
+[submodule "external/googletest"]
+	path = external/googletest
+	url = https://github.com/svn2github/googletest.git

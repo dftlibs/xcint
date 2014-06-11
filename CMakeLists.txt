@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
 project(xcint)
 
-option(ENABLE_FORTRAN_INTERFACE "Build Fortran interface" ON)
+option(ENABLE_FORTRAN_INTERFACE "Build Fortran interface" OFF)
 option(ENABLE_OPENCL            "Enable OpenCL"           OFF)
 option(ENABLE_OMP               "Enable OpenMP"           OFF)
 option(ENABLE_MPI               "Enable MPI"              OFF)

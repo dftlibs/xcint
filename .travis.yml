@@ -1,0 +1,9 @@
+language: cpp
+install:
+  - "sudo apt-get install cmake"
+  - "mkdir build"
+  - "cd build"
+  - "cmake .."
+  - "make"
+script:
+  - "./unit_tests"

@@ -1,4 +1,6 @@
 language: cpp
+install:
+- "sudo apt-get install libblas3gf libblas-dev"
 script:
 - "mkdir build"
 - "cd build"

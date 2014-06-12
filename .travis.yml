@@ -8,4 +8,4 @@ script:
   - make
   - ./unit_tests
 after_success:
-  - coveralls --root .. --exclude CMakeFiles
+  - coveralls --root .. -E ".*external.*"

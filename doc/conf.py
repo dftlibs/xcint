@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # XCint documentation build configuration file, created by
-# sphinx-quickstart on Tue Mar 18 21:01:33 2014.
+# sphinx-quickstart on Thu Jun 12 14:59:50 2014.
 #
 # This file is execfile()d with the current directory set to its containing dir.
 #
@@ -25,10 +25,10 @@ import sys, os
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.todo', 'sphinx.ext.mathjax', 'sphinx.ext.ifconfig']
+extensions = ['sphinx.ext.mathjax', 'sphinx.ext.ifconfig']
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['doc/_templates']
+templates_path = ['_templates']
 
 # The suffix of source filenames.
 source_suffix = '.rst'
@@ -120,7 +120,7 @@ html_theme = 'default'
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['doc/_static']
+html_static_path = ['_static']
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.

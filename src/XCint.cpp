@@ -1408,9 +1408,10 @@ void XCint::print_splash()
     io::speak_your_mind(" **   //** //****** /** ***  /**  //**\n");
     io::speak_your_mind("//     //   //////  // ///   //    //\n");
 
-    io::speak_your_mind("\nhttp://xcint.readthedocs.org\n");
+    io::speak_your_mind("\nhttp://rbast.github.io/xcint\n");
 
     io::speak_your_mind("\nCopyright: XCint developers\n");
+    io::speak_your_mind("\nLicensed under LGPL Version 3\n");
 
     io::speak_your_mind("\n\nAppropriate citation\n");
     io::speak_your_mind("--------------------\n\n");

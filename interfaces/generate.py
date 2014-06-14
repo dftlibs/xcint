@@ -1,5 +1,4 @@
 
-
 import sys
 
 
@@ -37,6 +36,7 @@ def main(argv):
     f = open(argv[2], 'w')
     f.write(get_fortran_code(l))
     f.close()
+
 
 if __name__ == '__main__':
     main(sys.argv)

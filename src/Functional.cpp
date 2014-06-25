@@ -109,7 +109,7 @@ void Functional::sync_functional(const MPI_Comm &comm)
         {
             double hfx, mu, beta;
             functional_line[l] = '\0';
-            set_functional(functional_line, hfx, mu, beta);
+            set_functional(0, functional_line, hfx, mu, beta);
         }
 
         is_synced = true;

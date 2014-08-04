@@ -212,6 +212,7 @@ add_executable(
     test/main.cpp
     test/energy_lda.cpp
     test/energy_b3lyp.cpp
+#   test/bench_valinomycin.cpp
     )
 add_dependencies(unit_tests gtest)
 

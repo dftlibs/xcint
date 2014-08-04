@@ -301,13 +301,13 @@ TEST(energy, b3lyp)
                  dmat_to_pert,
                  dmat_to_comp,
                  dmat,
-                 false,
+                 true,
                  xc_energy,
                  true,
                  xc_mat,
                  num_electrons);
     ASSERT_NEAR(num_electrons,   9.999992182101e+00, 1.0e-11);
-    ASSERT_NEAR(xc_energy,  -8.752215380997e+00, 1.0e-11);
+    ASSERT_NEAR(xc_energy,  -1.750443076199e+01, 1.0e-11);
     MemAllocator::deallocate(dmat);
     MemAllocator::deallocate(xc_mat);
     MemAllocator::deallocate(center_xyz);

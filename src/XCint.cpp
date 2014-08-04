@@ -1225,7 +1225,7 @@ void XCint::integrate(const int    mode,
     printf("                 dmat_to_pert,\n");
     printf("                 dmat_to_comp,\n");
     printf("                 dmat,\n");
-    printf("                 false,\n");
+    printf("                 false,\n"); // FIXME
     printf("                 xc_energy,\n");
     printf("                 true,\n");
     printf("                 xc_mat,\n");

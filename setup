@@ -13,6 +13,7 @@ Usage:
           [--omp] [--mpi]
           [--mkl=<MKL> | [--blas=<BLAS>] [--lapack=<LAPACK>]] [--explicit-libs=<LIBS>]
           [--type=<TYPE>]
+          [--coverage]
           [<builddir>]
           [--show]
   ./setup (-h | --help)
@@ -28,6 +29,7 @@ Options:
   --lapack=<LAPACK>       Specify LAPACK library (auto, builtin, none, or full path) [default: auto].
   --explicit-libs=<LIBS>  Explicit linker specification for extra libraries; passed directly to the linker.
   --type=<TYPE>           Set the CMake build type (debug, release) [default: release].
+  --coverage              Enable code coverage.
   <builddir>              Build directory.
   --show                  Show CMake command and exit. Do not write any files.
   -h --help               Show this screen.
@@ -103,6 +105,9 @@ def gen_cmake_command(args):
         command.append('-DEXPLICIT_LIBS="%s"' % arguments['--explicit-libs'].strip())
 
     command.append('-DCMAKE_BUILD_TYPE=%s' % arguments['--type'])
+
+    if arguments['--coverage']:
+        command.append('-DENABLE_CODE_COVERAGE=ON')
 
     # this has to be the last argument
     command.append(root_directory)

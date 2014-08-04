@@ -1053,6 +1053,13 @@ void XCint::integrate(const int    mode,
         std::fill(&xc_mat_buffer[0], &xc_mat_buffer[num_threads*mat_dim*mat_dim], 0.0);
     }
 
+#ifdef CREATE_UNIT_TEST
+    for (int i = 0; i < mat_dim*mat_dim; i++)
+    {
+        if (fabs(dmat[i]) < 1.0e-10) dmat[i] = 0.0;
+    }
+#endif // CREATE_UNIT_TEST
+
     #pragma omp parallel
     {
         int ithread = omp_get_thread_num();
@@ -1198,11 +1205,12 @@ void XCint::integrate(const int    mode,
     printf("    double *xc_mat = NULL;\n");
     printf("    block_size = mat_dim*mat_dim*sizeof(double);\n");
     printf("    dmat = (double*) MemAllocator::allocate(block_size);\n");
+    printf("    std::fill(&dmat[0], &dmat[mat_dim*mat_dim], 0.0);\n");
     printf("    xc_mat = (double*) MemAllocator::allocate(block_size);\n");
 
     for (int i = 0; i < mat_dim*mat_dim; i++)
     {
-        printf("    dmat[%i] = %20.12e;\n", i, dmat[i]);
+        if (fabs(dmat[i]) > 1.0e-10) printf("    dmat[%i] = %20.12e;\n", i, dmat[i]);
     }
 
     printf("    double xc_energy = 0.0;\n");
@@ -1223,10 +1231,8 @@ void XCint::integrate(const int    mode,
     printf("                 xc_mat,\n");
     printf("                 num_electrons);\n");
 
-    for (int i = 0; i < mat_dim*mat_dim; i++)
-    {
-        printf("    ASSERT_NEAR(xc_mat[%i], %20.12e, 1.0e-11);\n", i, xc_mat[i]);
-    }
+    printf("    ASSERT_NEAR(num_electrons, %20.12e, 1.0e-11);\n", num_electrons);
+    printf("    ASSERT_NEAR(xc_energy, %20.12e, 1.0e-11);\n", xc_energy);
 
     printf("    MemAllocator::deallocate(dmat);\n");
     printf("    MemAllocator::deallocate(xc_mat);\n");

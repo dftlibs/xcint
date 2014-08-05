@@ -1225,14 +1225,25 @@ void XCint::integrate(const int    mode,
     printf("                 dmat_to_pert,\n");
     printf("                 dmat_to_comp,\n");
     printf("                 dmat,\n");
-    printf("                 false,\n"); // FIXME
+    printf("                 false,\n");
     printf("                 xc_energy,\n");
     printf("                 true,\n");
     printf("                 xc_mat,\n");
     printf("                 num_electrons);\n");
 
     printf("    ASSERT_NEAR(num_electrons, %20.12e, 1.0e-11);\n", num_electrons);
-    printf("    ASSERT_NEAR(xc_energy, %20.12e, 1.0e-11);\n", xc_energy);
+
+    double dot = 0.0;
+    for (int i = 0; i < mat_dim*mat_dim; i++)
+    {
+        dot += xc_mat[i]*dmat[i];
+    }
+    printf("    double dot = 0.0;\n");
+    printf("    for (int i = 0; i < mat_dim*mat_dim; i++)\n");
+    printf("    {\n");
+    printf("        dot += xc_mat[i]*dmat[i];\n");
+    printf("    }\n");
+    printf("    ASSERT_NEAR(dot, %20.12e, 1.0e-11);\n", dot);
 
     printf("    MemAllocator::deallocate(dmat);\n");
     printf("    MemAllocator::deallocate(xc_mat);\n");

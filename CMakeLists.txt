@@ -53,6 +53,7 @@ if(ENABLE_MPI)
 endif()
 
 include(ConfigSafeGuards)
+include(CheckCXX11Features)
 include(ConfigCompilerFlags)
 
 set(CMAKE_Fortran_MODULE_DIRECTORY

@@ -5764,8 +5764,13 @@ TEST(bench, valinomycin)
                  true,
                  xc_mat,
                  num_electrons);
-    ASSERT_NEAR(num_electrons,   5.999982396714e+02, 1.0e-11);
-    ASSERT_NEAR(xc_energy,  -4.875199285634e+02, 1.0e-11);
+    ASSERT_NEAR(num_electrons,   5.999982396714e+02, 1.0e-9);
+    double dot = 0.0;
+    for (int i = 0; i < mat_dim*mat_dim; i++)
+    {
+        dot += xc_mat[i]*dmat[i];
+    }
+    ASSERT_NEAR(dot,  -3.209049907382e+02, 1.0e-9);
     MemAllocator::deallocate(dmat);
     MemAllocator::deallocate(xc_mat);
     MemAllocator::deallocate(center_xyz);

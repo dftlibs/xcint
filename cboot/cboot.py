@@ -152,6 +152,31 @@ def parse_options(options, argv=None):
 
 #-------------------------------------------------------------------------------
 
+def configure(options, root_directory):
+
+    default_build_path = os.path.join(root_directory, 'build')
+
+    arguments = parse_options(options)
+    command = '%s %s' % (gen_cmake_command(options, arguments), root_directory)
+
+    # check that CMake is available, if not stop
+    check_cmake_exists('cmake')
+
+    # deal with build path
+    build_path = arguments['<builddir>']
+    if build_path == None:
+        build_path = default_build_path
+    if not arguments['--show']:
+        setup_build_path(build_path)
+
+    print('%s\n' % command)
+    if arguments['--show']:
+        sys.exit(0)
+
+    run_cmake(command, build_path, default_build_path)
+
+#-------------------------------------------------------------------------------
+
 # for testing only
 options = """
 Usage:

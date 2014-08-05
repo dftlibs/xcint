@@ -1,22 +1,13 @@
 #!/usr/bin/env python
 
-# CMake-boot: bootstrapping front-end to CMake
-# Copyright 2014 by Radovan Bast and Jonas Juselius
-# Repository and issue tracking: https://github.com/rbast/cmake-boot
-
 import os
-import re
 import sys
-import subprocess
+from cboot.cboot import parse_options, gen_cmake_command, check_cmake_exists, setup_build_path, run_cmake
 
-__version__ = '0.0.0' # heavy refactoring
-
-options = """CMake-boot: bootstrapping front-end to CMake
-
+options = """
 Usage:
   ./setup [options] [<builddir>]
   ./setup (-h | --help)
-  ./setup --version
 
 Options:
   --cc=<CC>               C compiler [default: gcc].
@@ -33,193 +24,30 @@ Options:
   <builddir>              Build directory.
   --show                  Show CMake command and exit. Do not write any files.
   -h --help               Show this screen.
-  --version               Show version.
 """
-
-sys.path.append('cmake')
-from docopt import docopt
 
 root_directory = os.path.dirname(os.path.realpath(__file__))
 default_build_path = os.path.join(root_directory, 'build')
 
 #-------------------------------------------------------------------------------
 
-def check_cmake_exists(cmake_command):
-    p = subprocess.Popen('%s --version' % cmake_command,
-                         shell=True,
-                         stdin=subprocess.PIPE,
-                         stdout=subprocess.PIPE)
-    if not ('cmake version' in p.communicate()[0]):
-        sys.stderr.write('   This code is built using CMake\n\n')
-        sys.stderr.write('   CMake is not found\n')
-        sys.stderr.write('   get CMake at http://www.cmake.org/\n')
-        sys.stderr.write('   on many clusters CMake is installed\n')
-        sys.stderr.write('   but you have to load it first:\n')
-        sys.stderr.write('   $ module load cmake\n')
-        sys.exit(1)
-
-#-------------------------------------------------------------------------------
-
-def gen_cmake_command(arguments):
-
-    command = []
-
-    # take care of compilers
-    for lang in ['fc', 'cc', 'cxx']:
-        if '--%s' % lang in arguments:
-            command.append('%s=%s' % (lang.upper(), arguments['--%s' % lang]))
-
-    command.append('cmake')
-
-    # here we figure out that for instance --omp sets -DENABLE_OMP=ON
-    for line in re.findall('.*sets.*ON.*', options):
-        flag = line.split()[0]
-        action = re.findall('-\w+=ON', line)[0]
-        if arguments[flag]:
-            command.append(action)
-
-    for libtype in ['blas', 'lapack']:
-        arg = arguments['--%s' % libtype]
-        if arg == 'builtin':
-            command.append('-DENABLE_BUILTIN_%s=ON' % libtype.upper())
-            command.append('-DENABLE_AUTO_%s=OFF' % libtype.upper())
-        elif arg == 'auto':
-            command.append('-DENABLE_AUTO_%s=ON' % libtype.upper())
-        elif arg == 'none':
-            command.append('-DENABLE_AUTO_%s=OFF' % libtype.upper())
-        else:
-            if not os.path.isfile(arg):
-                sys.stderr.write('ERROR: --%s=%s does not exist\n' % (libtype, arg))
-                sys.exit(1)
-            command.append('-DEXPLICIT_%s_LIB=%s' % (libtype.upper(), arg))
-            command.append('-DENABLE_AUTO_%s=OFF' % libtype.upper())
-
-    # FIXME --mkl and --blas/--lapack conflict
-    if arguments['--mkl']:
-        possible_mkl_values = ['sequential', 'parallel', 'cluster']
-        if arguments['--mkl'] not in possible_mkl_values:
-            sys.stderr.write('ERROR: possible --mkl values are: %s\n' % ', '.join(possible_mkl_values))
-            sys.exit(1)
-        command.append('-DMKL_FLAG="-mkl=%s"' % arguments['--mkl'])
-        command.append('-DENABLE_AUTO_BLAS=OFF')
-        command.append('-DENABLE_AUTO_LAPACK=OFF')
-
-    if arguments['--explicit-libs']:
-        # remove leading and trailing whitespace
-        # otherwise CMake complains
-        command.append('-DEXPLICIT_LIBS="%s"' % arguments['--explicit-libs'].strip())
-
-    command.append('-DCMAKE_BUILD_TYPE=%s' % arguments['--type'])
-
-    # this has to be the last argument
-    command.append(root_directory)
-
-    return ' '.join(command)
-
-#-------------------------------------------------------------------------------
-
-def setup_build_path(build_path):
-    if os.path.isdir(build_path):
-        fname = os.path.join(build_path, 'CMakeCache.txt')
-        if os.path.exists(fname):
-            sys.stderr.write('aborting setup - build directory %s which contains CMakeCache.txt exists already\n' % build_path)
-            sys.stderr.write('remove the build directory and then rerun setup\n')
-            sys.exit(1)
-    else:
-        os.makedirs(build_path, 0755)
-
-#-------------------------------------------------------------------------------
-
-def run_cmake(command, build_path):
-    topdir = os.getcwd()
-    os.chdir(build_path)
-    p = subprocess.Popen(command,
-            shell=True,
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE)
-    s = p.communicate()[0]
-    # print cmake output to screen
-    print(s)
-    # write cmake output to file
-    f = open('cmake_output', 'w')
-    f.write(s)
-    f.close()
-    # change directory and return
-    os.chdir(topdir)
-    return s
-
-#-------------------------------------------------------------------------------
-
-def print_build_help(build_path):
-    print('   configure step is done')
-    print('   now you need to compile the sources:')
-    if (build_path == default_build_path):
-        print('   $ cd build')
-    else:
-        print('   $ cd ' + build_path)
-    print('   $ make')
-
-#-------------------------------------------------------------------------------
-
-def save_configure_command(argv, build_path):
-    file_name = os.path.join(build_path, 'configure_command')
-    f = open(file_name, 'w')
-    f.write(' '.join(argv[:]) + '\n')
-    f.close()
-
-#-------------------------------------------------------------------------------
-
 if __name__ == '__main__':
 
-    arguments = docopt(options, version='CMake-bootstrap setup %s' % __version__)
+    arguments = parse_options(options)
+    command = '%s %s' % (gen_cmake_command(options, arguments), root_directory)
 
+    # check that CMake is available, if not stop
     check_cmake_exists('cmake')
 
+    # deal with build path
     build_path = arguments['<builddir>']
     if build_path == None:
         build_path = default_build_path
-
     if not arguments['--show']:
         setup_build_path(build_path)
 
-    command = gen_cmake_command(arguments)
     print('%s\n' % command)
     if arguments['--show']:
         sys.exit(0)
 
-    status = run_cmake(command, build_path)
-
-    if 'Configuring incomplete' in status:
-        # configuration was not successful
-        if (build_path == default_build_path):
-            # remove build_path iff not set by the user
-            # otherwise removal can be dangerous
-            shutil.rmtree(default_build_path)
-    else:
-        # configuration was successful
-        save_configure_command(sys.argv, build_path)
-        print_build_help(build_path)
-
-#-------------------------------------------------------------------------------
-
-def test_args_to_command_bare():
-
-    arguments = docopt(options, argv=['./setup'])
-    command = gen_cmake_command(arguments)
-    assert command == 'CC=gcc CXX=g++ cmake -DENABLE_AUTO_BLAS=ON -DENABLE_AUTO_LAPACK=ON -DCMAKE_BUILD_TYPE=release %s' % root_directory
-
-#-------------------------------------------------------------------------------
-
-def test_args_to_command():
-
-    arguments = docopt(options, argv=['./setup', '--cc=icc', '--cxx=icpc', '--mkl=parallel', '--omp'])
-    command = gen_cmake_command(arguments)
-    assert command == 'CC=icc CXX=icpc cmake -DENABLE_OMP=ON -DENABLE_AUTO_BLAS=ON -DENABLE_AUTO_LAPACK=ON -DMKL_FLAG="-mkl=parallel" -DENABLE_AUTO_BLAS=OFF -DENABLE_AUTO_LAPACK=OFF -DCMAKE_BUILD_TYPE=release %s' % root_directory
-
-#-------------------------------------------------------------------------------
-
-def test_options_regex():
-
-    arguments = docopt(options, argv=['./setup', '--omp', '--mpi', '--coverage'])
-    command = gen_cmake_command(arguments)
-    assert command == 'CC=gcc CXX=g++ cmake -DENABLE_OMP=ON -DENABLE_MPI=ON -DENABLE_CODE_COVERAGE=ON -DENABLE_AUTO_BLAS=ON -DENABLE_AUTO_LAPACK=ON -DCMAKE_BUILD_TYPE=release %s' % root_directory
+    run_cmake(command, build_path, default_build_path)

@@ -1,40 +1,40 @@
 #!/usr/bin/env python
 
+# CMake-boot: bootstrapping front-end to CMake
+# Copyright 2014 by Radovan Bast and Jonas Juselius
+# Repository and issue tracking: https://github.com/rbast/cmake-boot
+
 import os
+import re
 import sys
 import subprocess
 
-__version__ = '0.0.1-alpha'
+__version__ = '0.0.0' # heavy refactoring
 
-options = """Setup: primitive frontend to CMake (part of CMake-bootstrap)
+options = """CMake-boot: bootstrapping front-end to CMake
 
 Usage:
-  ./setup [--cc=<CC>] [--cxx=<CXX>]
-          [--omp] [--mpi]
-          [--mkl=<MKL> | [--blas=<BLAS>] [--lapack=<LAPACK>]] [--explicit-libs=<LIBS>]
-          [--type=<TYPE>]
-          [--coverage]
-          [<builddir>]
-          [--show]
+  ./setup [options] [<builddir>]
   ./setup (-h | --help)
   ./setup --version
 
 Options:
   --cc=<CC>               C compiler [default: gcc].
   --cxx=<CXX>             C++ compiler [default: g++].
-  --omp                   Enable OpenMP.
-  --mpi                   Enable MPI.
+  --omp                   Enable OpenMP (sets -DENABLE_OMP=ON).
+  --mpi                   Enable MPI (sets -DENABLE_MPI=ON).
+  --coverage              Enable code coverage (sets -DENABLE_CODE_COVERAGE=ON).
   --mkl=<MKL>             Pass MKL flag to the compiler and linker (sequential, parallel, or cluster).
   --blas=<BLAS>           Specify BLAS library (auto, builtin, none, or full path) [default: auto].
   --lapack=<LAPACK>       Specify LAPACK library (auto, builtin, none, or full path) [default: auto].
   --explicit-libs=<LIBS>  Explicit linker specification for extra libraries; passed directly to the linker.
   --type=<TYPE>           Set the CMake build type (debug, release) [default: release].
-  --coverage              Enable code coverage.
   <builddir>              Build directory.
   --show                  Show CMake command and exit. Do not write any files.
   -h --help               Show this screen.
   --version               Show version.
 """
+
 sys.path.append('cmake')
 from docopt import docopt
 
@@ -59,20 +59,23 @@ def check_cmake_exists(cmake_command):
 
 #-------------------------------------------------------------------------------
 
-def gen_cmake_command(args):
+def gen_cmake_command(arguments):
 
     command = []
 
-    command.append('CC=%s' % arguments['--cc'])
-    command.append('CXX=%s' % arguments['--cxx'])
+    # take care of compilers
+    for lang in ['fc', 'cc', 'cxx']:
+        if '--%s' % lang in arguments:
+            command.append('%s=%s' % (lang.upper(), arguments['--%s' % lang]))
 
     command.append('cmake')
 
-    if arguments['--omp']:
-        command.append('-DENABLE_OMP=ON')
-
-    if arguments['--mpi']:
-        command.append('-DENABLE_MPI=ON')
+    # here we figure out that for instance --omp sets -DENABLE_OMP=ON
+    for line in re.findall('.*sets.*ON.*', options):
+        flag = line.split()[0]
+        action = re.findall('-\w+=ON', line)[0]
+        if arguments[flag]:
+            command.append(action)
 
     for libtype in ['blas', 'lapack']:
         arg = arguments['--%s' % libtype]
@@ -90,6 +93,7 @@ def gen_cmake_command(args):
             command.append('-DEXPLICIT_%s_LIB=%s' % (libtype.upper(), arg))
             command.append('-DENABLE_AUTO_%s=OFF' % libtype.upper())
 
+    # FIXME --mkl and --blas/--lapack conflict
     if arguments['--mkl']:
         possible_mkl_values = ['sequential', 'parallel', 'cluster']
         if arguments['--mkl'] not in possible_mkl_values:
@@ -105,9 +109,6 @@ def gen_cmake_command(args):
         command.append('-DEXPLICIT_LIBS="%s"' % arguments['--explicit-libs'].strip())
 
     command.append('-DCMAKE_BUILD_TYPE=%s' % arguments['--type'])
-
-    if arguments['--coverage']:
-        command.append('-DENABLE_CODE_COVERAGE=ON')
 
     # this has to be the last argument
     command.append(root_directory)
@@ -197,3 +198,27 @@ if __name__ == '__main__':
         # configuration was successful
         save_setup_command(sys.argv, build_path)
         print_build_help(build_path)
+
+#-------------------------------------------------------------------------------
+
+def test_args_to_command_bare():
+
+    arguments = docopt(options, argv=['./setup'])
+    command = gen_cmake_command(arguments)
+    assert command == 'CC=gcc CXX=g++ cmake -DENABLE_AUTO_BLAS=ON -DENABLE_AUTO_LAPACK=ON -DCMAKE_BUILD_TYPE=release %s' % root_directory
+
+#-------------------------------------------------------------------------------
+
+def test_args_to_command():
+
+    arguments = docopt(options, argv=['./setup', '--cc=icc', '--cxx=icpc', '--mkl=parallel', '--omp'])
+    command = gen_cmake_command(arguments)
+    assert command == 'CC=icc CXX=icpc cmake -DENABLE_OMP=ON -DENABLE_AUTO_BLAS=ON -DENABLE_AUTO_LAPACK=ON -DMKL_FLAG="-mkl=parallel" -DENABLE_AUTO_BLAS=OFF -DENABLE_AUTO_LAPACK=OFF -DCMAKE_BUILD_TYPE=release %s' % root_directory
+
+#-------------------------------------------------------------------------------
+
+def test_options_regex():
+
+    arguments = docopt(options, argv=['./setup', '--omp', '--mpi', '--coverage'])
+    command = gen_cmake_command(arguments)
+    assert command == 'CC=gcc CXX=g++ cmake -DENABLE_OMP=ON -DENABLE_MPI=ON -DENABLE_CODE_COVERAGE=ON -DENABLE_AUTO_BLAS=ON -DENABLE_AUTO_LAPACK=ON -DCMAKE_BUILD_TYPE=release %s' % root_directory

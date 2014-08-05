@@ -90,6 +90,9 @@ if(ENABLE_OPENCL)
         -DCMAKE_INSTALL_PREFIX=${PROJECT_BINARY_DIR}/external
         -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
         -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
+        -DBUILD_TEST=OFF
+        -DBUILD_KTEST=OFF
+        -DBUILD_CLIENT=OFF
         )
     ExternalProject_Add(clBLAS
         DOWNLOAD_COMMAND ${UPDATE_COMMAND}
@@ -249,6 +252,9 @@ add_custom_target(
 
 
 add_dependencies(xcint xcfun)
+if(ENABLE_OPENCL)
+    add_dependencies(xcint clBLAS)
+endif()
 
 if(ENABLE_FORTRAN_INTERFACE)
     add_library(
@@ -256,17 +262,6 @@ if(ENABLE_FORTRAN_INTERFACE)
         interfaces/xcint_fortran_interface.F90
         )
     add_dependencies(xcint_fortran_interface generate_interface_parameters)
-endif()
-
-if(ENABLE_OPENCL)
-    add_executable(
-        dgemm_example.x
-        src/dgemm_example.cpp
-        )
-    target_link_libraries(
-        dgemm_example.x
-        ${EXTERNAL_LIBS}
-        )
 endif()
 
 install(TARGETS xcint ARCHIVE DESTINATION lib)

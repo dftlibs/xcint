@@ -23,6 +23,7 @@ Options:
   --cxx=<CXX>             C++ compiler [default: g++].
   --omp                   Enable OpenMP (sets -DENABLE_OMP=ON).
   --mpi                   Enable MPI (sets -DENABLE_MPI=ON).
+  --opencl                Enable OpenCL (sets -DENABLE_OPENCL=ON).
   --coverage              Enable code coverage (sets -DENABLE_CODE_COVERAGE=ON).
   --mkl=<MKL>             Pass MKL flag to the compiler and linker (sequential, parallel, or cluster).
   --blas=<BLAS>           Specify BLAS library (auto, builtin, none, or full path) [default: auto].
@@ -160,8 +161,8 @@ def print_build_help(build_path):
 
 #-------------------------------------------------------------------------------
 
-def save_setup_command(argv, build_path):
-    file_name = os.path.join(build_path, 'setup_command')
+def save_configure_command(argv, build_path):
+    file_name = os.path.join(build_path, 'configure_command')
     f = open(file_name, 'w')
     f.write(' '.join(argv[:]) + '\n')
     f.close()
@@ -196,7 +197,7 @@ if __name__ == '__main__':
             shutil.rmtree(default_build_path)
     else:
         # configuration was successful
-        save_setup_command(sys.argv, build_path)
+        save_configure_command(sys.argv, build_path)
         print_build_help(build_path)
 
 #-------------------------------------------------------------------------------

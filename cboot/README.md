@@ -1,3 +1,27 @@
+
+
+[![Build Status](https://travis-ci.org/rbast/cmake-boot.svg?branch=master)](https://travis-ci.org/rbast/cmake-boot/builds)
+
+CMake-boot
+==========
+
+Bootstrapping front-end to CMake.
+
+- Uses [docopt](http://docopt.org).
+- Copyright 2014 by Radovan Bast and Jonas Jusélius.
+- Status: Pre-alpha. Both interfaces and internals subject to heavy modifications.
+- Licensed under [LGPLv3](../master/LICENSE).
+
+
+## Example
+
+First clone the code:
+```
+$ git clone https://github.com/rbast/cmake-boot.git cboot
+```
+
+Then:
+```python
 #!/usr/bin/env python
 
 import os
@@ -47,3 +71,4 @@ if arguments['--show']:
     sys.exit(0)
 
 run_cmake(command, build_path, default_build_path)
+```

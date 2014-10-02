@@ -41,7 +41,7 @@ Volume 59, Number 3, 1999, pages 477-481].
 The angular grid is pruned.
 The pruning is a primitive linear interpolation between the minimum number and
 the maximum number of angular points per radial shell.
-The full angular grid is reached at 0.2 times the Bragg radius of the center.
+The maximum number is reached at 0.2 times the Bragg radius of the center.
 
 The higher the values for minimum and maximum number of angular points, the better.
 
@@ -54,3 +54,6 @@ table and select the closest number with at least the desired precision::
    4934, 5294, 5810}
 
 The defaults are 86 and 302 for the minimum and maximum number of angular points per radial shell, respectively.
+
+Taking the same number for the minimum and maximum number of angular points
+switches off pruning.

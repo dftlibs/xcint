@@ -1029,7 +1029,7 @@ void XCint::integrate(const int    mode,
         dmat_index[dmat_to_pert[k]] = k*mat_dim*mat_dim;
     }
 
-    assert(num_pert < 6);
+    assert(num_pert < 7);
 
     int block_length;
 

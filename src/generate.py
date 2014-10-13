@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 
-MAX_ORDER = 5
+MAX_ORDER = 6
 
 import math
 import itertools

@@ -1,1 +1,1 @@
-const int MAX_NUM_DENSITIES = 32;
+const int MAX_NUM_DENSITIES = 64;

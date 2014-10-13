@@ -4836,3 +4836,10590 @@ if (geo_derv_order > 4)
     }
 }
 
+if (geo_derv_order > 5)
+{
+    if (use_dmat[0])
+    {
+        if (!n_is_used[32])
+        {
+            std::fill(&n[32*block_length*num_variables], &n[(32+1)*block_length*num_variables], 0.0);
+            n_is_used[32] = true;
+        }
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[32*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[0]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 0)
+{
+    if (use_dmat[32])
+    {
+        if (!n_is_used[33])
+        {
+            std::fill(&n[33*block_length*num_variables], &n[(33+1)*block_length*num_variables], 0.0);
+            n_is_used[33] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[33*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[32]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[1])
+    {
+        if (!n_is_used[33])
+        {
+            std::fill(&n[33*block_length*num_variables], &n[(33+1)*block_length*num_variables], 0.0);
+            n_is_used[33] = true;
+        }
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[33*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[1]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[0])
+    {
+        if (!n_is_used[33])
+        {
+            std::fill(&n[33*block_length*num_variables], &n[(33+1)*block_length*num_variables], 0.0);
+            n_is_used[33] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[33*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[0]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 1)
+{
+    if (use_dmat[32])
+    {
+        if (!n_is_used[34])
+        {
+            std::fill(&n[34*block_length*num_variables], &n[(34+1)*block_length*num_variables], 0.0);
+            n_is_used[34] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[34*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[32]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[2])
+    {
+        if (!n_is_used[34])
+        {
+            std::fill(&n[34*block_length*num_variables], &n[(34+1)*block_length*num_variables], 0.0);
+            n_is_used[34] = true;
+        }
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[34*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[2]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[0])
+    {
+        if (!n_is_used[34])
+        {
+            std::fill(&n[34*block_length*num_variables], &n[(34+1)*block_length*num_variables], 0.0);
+            n_is_used[34] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[34*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[0]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 0)
+{
+    if (use_dmat[34])
+    {
+        if (!n_is_used[35])
+        {
+            std::fill(&n[35*block_length*num_variables], &n[(35+1)*block_length*num_variables], 0.0);
+            n_is_used[35] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[35*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[34]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 1)
+{
+    if (use_dmat[33])
+    {
+        if (!n_is_used[35])
+        {
+            std::fill(&n[35*block_length*num_variables], &n[(35+1)*block_length*num_variables], 0.0);
+            n_is_used[35] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[35*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[33]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[3])
+    {
+        if (!n_is_used[35])
+        {
+            std::fill(&n[35*block_length*num_variables], &n[(35+1)*block_length*num_variables], 0.0);
+            n_is_used[35] = true;
+        }
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[35*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[3]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 1)
+{
+    if (use_dmat[32])
+    {
+        if (!n_is_used[35])
+        {
+            std::fill(&n[35*block_length*num_variables], &n[(35+1)*block_length*num_variables], 0.0);
+            n_is_used[35] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[35*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[32]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[2])
+    {
+        if (!n_is_used[35])
+        {
+            std::fill(&n[35*block_length*num_variables], &n[(35+1)*block_length*num_variables], 0.0);
+            n_is_used[35] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[35*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[2]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[1])
+    {
+        if (!n_is_used[35])
+        {
+            std::fill(&n[35*block_length*num_variables], &n[(35+1)*block_length*num_variables], 0.0);
+            n_is_used[35] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[35*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[1]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[0])
+    {
+        if (!n_is_used[35])
+        {
+            std::fill(&n[35*block_length*num_variables], &n[(35+1)*block_length*num_variables], 0.0);
+            n_is_used[35] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[35*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[0]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 2)
+{
+    if (use_dmat[32])
+    {
+        if (!n_is_used[36])
+        {
+            std::fill(&n[36*block_length*num_variables], &n[(36+1)*block_length*num_variables], 0.0);
+            n_is_used[36] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[36*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[32]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[4])
+    {
+        if (!n_is_used[36])
+        {
+            std::fill(&n[36*block_length*num_variables], &n[(36+1)*block_length*num_variables], 0.0);
+            n_is_used[36] = true;
+        }
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[36*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[4]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[0])
+    {
+        if (!n_is_used[36])
+        {
+            std::fill(&n[36*block_length*num_variables], &n[(36+1)*block_length*num_variables], 0.0);
+            n_is_used[36] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[36*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[0]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 0)
+{
+    if (use_dmat[36])
+    {
+        if (!n_is_used[37])
+        {
+            std::fill(&n[37*block_length*num_variables], &n[(37+1)*block_length*num_variables], 0.0);
+            n_is_used[37] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[37*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[36]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 2)
+{
+    if (use_dmat[33])
+    {
+        if (!n_is_used[37])
+        {
+            std::fill(&n[37*block_length*num_variables], &n[(37+1)*block_length*num_variables], 0.0);
+            n_is_used[37] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[37*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[33]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[5])
+    {
+        if (!n_is_used[37])
+        {
+            std::fill(&n[37*block_length*num_variables], &n[(37+1)*block_length*num_variables], 0.0);
+            n_is_used[37] = true;
+        }
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[37*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[5]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 2)
+{
+    if (use_dmat[32])
+    {
+        if (!n_is_used[37])
+        {
+            std::fill(&n[37*block_length*num_variables], &n[(37+1)*block_length*num_variables], 0.0);
+            n_is_used[37] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[2]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[37*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[32]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[4])
+    {
+        if (!n_is_used[37])
+        {
+            std::fill(&n[37*block_length*num_variables], &n[(37+1)*block_length*num_variables], 0.0);
+            n_is_used[37] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[37*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[4]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[1])
+    {
+        if (!n_is_used[37])
+        {
+            std::fill(&n[37*block_length*num_variables], &n[(37+1)*block_length*num_variables], 0.0);
+            n_is_used[37] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[37*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[1]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[0])
+    {
+        if (!n_is_used[37])
+        {
+            std::fill(&n[37*block_length*num_variables], &n[(37+1)*block_length*num_variables], 0.0);
+            n_is_used[37] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[37*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[0]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 1)
+{
+    if (use_dmat[36])
+    {
+        if (!n_is_used[38])
+        {
+            std::fill(&n[38*block_length*num_variables], &n[(38+1)*block_length*num_variables], 0.0);
+            n_is_used[38] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[38*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[36]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 2)
+{
+    if (use_dmat[34])
+    {
+        if (!n_is_used[38])
+        {
+            std::fill(&n[38*block_length*num_variables], &n[(38+1)*block_length*num_variables], 0.0);
+            n_is_used[38] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[38*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[34]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[6])
+    {
+        if (!n_is_used[38])
+        {
+            std::fill(&n[38*block_length*num_variables], &n[(38+1)*block_length*num_variables], 0.0);
+            n_is_used[38] = true;
+        }
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[38*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[6]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 2)
+{
+    if (use_dmat[32])
+    {
+        if (!n_is_used[38])
+        {
+            std::fill(&n[38*block_length*num_variables], &n[(38+1)*block_length*num_variables], 0.0);
+            n_is_used[38] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[38*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[32]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[4])
+    {
+        if (!n_is_used[38])
+        {
+            std::fill(&n[38*block_length*num_variables], &n[(38+1)*block_length*num_variables], 0.0);
+            n_is_used[38] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[38*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[4]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[2])
+    {
+        if (!n_is_used[38])
+        {
+            std::fill(&n[38*block_length*num_variables], &n[(38+1)*block_length*num_variables], 0.0);
+            n_is_used[38] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[38*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[2]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[0])
+    {
+        if (!n_is_used[38])
+        {
+            std::fill(&n[38*block_length*num_variables], &n[(38+1)*block_length*num_variables], 0.0);
+            n_is_used[38] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[38*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[0]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 0)
+{
+    if (use_dmat[38])
+    {
+        if (!n_is_used[39])
+        {
+            std::fill(&n[39*block_length*num_variables], &n[(39+1)*block_length*num_variables], 0.0);
+            n_is_used[39] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[39*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[38]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 1)
+{
+    if (use_dmat[37])
+    {
+        if (!n_is_used[39])
+        {
+            std::fill(&n[39*block_length*num_variables], &n[(39+1)*block_length*num_variables], 0.0);
+            n_is_used[39] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[39*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[37]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 2)
+{
+    if (use_dmat[35])
+    {
+        if (!n_is_used[39])
+        {
+            std::fill(&n[39*block_length*num_variables], &n[(39+1)*block_length*num_variables], 0.0);
+            n_is_used[39] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[39*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[35]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[7])
+    {
+        if (!n_is_used[39])
+        {
+            std::fill(&n[39*block_length*num_variables], &n[(39+1)*block_length*num_variables], 0.0);
+            n_is_used[39] = true;
+        }
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[39*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[7]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 1)
+{
+    if (use_dmat[36])
+    {
+        if (!n_is_used[39])
+        {
+            std::fill(&n[39*block_length*num_variables], &n[(39+1)*block_length*num_variables], 0.0);
+            n_is_used[39] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[39*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[36]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 2)
+{
+    if (use_dmat[34])
+    {
+        if (!n_is_used[39])
+        {
+            std::fill(&n[39*block_length*num_variables], &n[(39+1)*block_length*num_variables], 0.0);
+            n_is_used[39] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[2]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[39*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[34]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[6])
+    {
+        if (!n_is_used[39])
+        {
+            std::fill(&n[39*block_length*num_variables], &n[(39+1)*block_length*num_variables], 0.0);
+            n_is_used[39] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[39*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[6]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 2)
+{
+    if (use_dmat[33])
+    {
+        if (!n_is_used[39])
+        {
+            std::fill(&n[39*block_length*num_variables], &n[(39+1)*block_length*num_variables], 0.0);
+            n_is_used[39] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[39*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[33]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[5])
+    {
+        if (!n_is_used[39])
+        {
+            std::fill(&n[39*block_length*num_variables], &n[(39+1)*block_length*num_variables], 0.0);
+            n_is_used[39] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[39*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[5]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[3])
+    {
+        if (!n_is_used[39])
+        {
+            std::fill(&n[39*block_length*num_variables], &n[(39+1)*block_length*num_variables], 0.0);
+            n_is_used[39] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[39*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[3]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 2)
+{
+    if (use_dmat[32])
+    {
+        if (!n_is_used[39])
+        {
+            std::fill(&n[39*block_length*num_variables], &n[(39+1)*block_length*num_variables], 0.0);
+            n_is_used[39] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[39*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[32]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[4])
+    {
+        if (!n_is_used[39])
+        {
+            std::fill(&n[39*block_length*num_variables], &n[(39+1)*block_length*num_variables], 0.0);
+            n_is_used[39] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[39*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[4]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[2])
+    {
+        if (!n_is_used[39])
+        {
+            std::fill(&n[39*block_length*num_variables], &n[(39+1)*block_length*num_variables], 0.0);
+            n_is_used[39] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[39*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[2]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[1])
+    {
+        if (!n_is_used[39])
+        {
+            std::fill(&n[39*block_length*num_variables], &n[(39+1)*block_length*num_variables], 0.0);
+            n_is_used[39] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[39*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[1]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[0])
+    {
+        if (!n_is_used[39])
+        {
+            std::fill(&n[39*block_length*num_variables], &n[(39+1)*block_length*num_variables], 0.0);
+            n_is_used[39] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[39*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[0]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[32])
+    {
+        if (!n_is_used[40])
+        {
+            std::fill(&n[40*block_length*num_variables], &n[(40+1)*block_length*num_variables], 0.0);
+            n_is_used[40] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[40*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[32]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[8])
+    {
+        if (!n_is_used[40])
+        {
+            std::fill(&n[40*block_length*num_variables], &n[(40+1)*block_length*num_variables], 0.0);
+            n_is_used[40] = true;
+        }
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[40*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[8]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[0])
+    {
+        if (!n_is_used[40])
+        {
+            std::fill(&n[40*block_length*num_variables], &n[(40+1)*block_length*num_variables], 0.0);
+            n_is_used[40] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[40*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[0]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 0)
+{
+    if (use_dmat[40])
+    {
+        if (!n_is_used[41])
+        {
+            std::fill(&n[41*block_length*num_variables], &n[(41+1)*block_length*num_variables], 0.0);
+            n_is_used[41] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[41*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[40]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[33])
+    {
+        if (!n_is_used[41])
+        {
+            std::fill(&n[41*block_length*num_variables], &n[(41+1)*block_length*num_variables], 0.0);
+            n_is_used[41] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[41*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[33]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[9])
+    {
+        if (!n_is_used[41])
+        {
+            std::fill(&n[41*block_length*num_variables], &n[(41+1)*block_length*num_variables], 0.0);
+            n_is_used[41] = true;
+        }
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[41*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[9]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[32])
+    {
+        if (!n_is_used[41])
+        {
+            std::fill(&n[41*block_length*num_variables], &n[(41+1)*block_length*num_variables], 0.0);
+            n_is_used[41] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[41*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[32]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[8])
+    {
+        if (!n_is_used[41])
+        {
+            std::fill(&n[41*block_length*num_variables], &n[(41+1)*block_length*num_variables], 0.0);
+            n_is_used[41] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[41*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[8]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[1])
+    {
+        if (!n_is_used[41])
+        {
+            std::fill(&n[41*block_length*num_variables], &n[(41+1)*block_length*num_variables], 0.0);
+            n_is_used[41] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[41*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[1]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[0])
+    {
+        if (!n_is_used[41])
+        {
+            std::fill(&n[41*block_length*num_variables], &n[(41+1)*block_length*num_variables], 0.0);
+            n_is_used[41] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[41*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[0]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 1)
+{
+    if (use_dmat[40])
+    {
+        if (!n_is_used[42])
+        {
+            std::fill(&n[42*block_length*num_variables], &n[(42+1)*block_length*num_variables], 0.0);
+            n_is_used[42] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[42*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[40]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[34])
+    {
+        if (!n_is_used[42])
+        {
+            std::fill(&n[42*block_length*num_variables], &n[(42+1)*block_length*num_variables], 0.0);
+            n_is_used[42] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[42*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[34]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[10])
+    {
+        if (!n_is_used[42])
+        {
+            std::fill(&n[42*block_length*num_variables], &n[(42+1)*block_length*num_variables], 0.0);
+            n_is_used[42] = true;
+        }
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[42*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[10]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[32])
+    {
+        if (!n_is_used[42])
+        {
+            std::fill(&n[42*block_length*num_variables], &n[(42+1)*block_length*num_variables], 0.0);
+            n_is_used[42] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[42*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[32]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[8])
+    {
+        if (!n_is_used[42])
+        {
+            std::fill(&n[42*block_length*num_variables], &n[(42+1)*block_length*num_variables], 0.0);
+            n_is_used[42] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[42*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[8]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[2])
+    {
+        if (!n_is_used[42])
+        {
+            std::fill(&n[42*block_length*num_variables], &n[(42+1)*block_length*num_variables], 0.0);
+            n_is_used[42] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[42*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[2]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[0])
+    {
+        if (!n_is_used[42])
+        {
+            std::fill(&n[42*block_length*num_variables], &n[(42+1)*block_length*num_variables], 0.0);
+            n_is_used[42] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[42*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[0]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 0)
+{
+    if (use_dmat[42])
+    {
+        if (!n_is_used[43])
+        {
+            std::fill(&n[43*block_length*num_variables], &n[(43+1)*block_length*num_variables], 0.0);
+            n_is_used[43] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[43*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[42]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 1)
+{
+    if (use_dmat[41])
+    {
+        if (!n_is_used[43])
+        {
+            std::fill(&n[43*block_length*num_variables], &n[(43+1)*block_length*num_variables], 0.0);
+            n_is_used[43] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[43*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[41]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[35])
+    {
+        if (!n_is_used[43])
+        {
+            std::fill(&n[43*block_length*num_variables], &n[(43+1)*block_length*num_variables], 0.0);
+            n_is_used[43] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[43*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[35]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[11])
+    {
+        if (!n_is_used[43])
+        {
+            std::fill(&n[43*block_length*num_variables], &n[(43+1)*block_length*num_variables], 0.0);
+            n_is_used[43] = true;
+        }
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[43*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[11]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 1)
+{
+    if (use_dmat[40])
+    {
+        if (!n_is_used[43])
+        {
+            std::fill(&n[43*block_length*num_variables], &n[(43+1)*block_length*num_variables], 0.0);
+            n_is_used[43] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[43*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[40]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[34])
+    {
+        if (!n_is_used[43])
+        {
+            std::fill(&n[43*block_length*num_variables], &n[(43+1)*block_length*num_variables], 0.0);
+            n_is_used[43] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[43*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[34]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[10])
+    {
+        if (!n_is_used[43])
+        {
+            std::fill(&n[43*block_length*num_variables], &n[(43+1)*block_length*num_variables], 0.0);
+            n_is_used[43] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[43*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[10]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[33])
+    {
+        if (!n_is_used[43])
+        {
+            std::fill(&n[43*block_length*num_variables], &n[(43+1)*block_length*num_variables], 0.0);
+            n_is_used[43] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[43*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[33]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[9])
+    {
+        if (!n_is_used[43])
+        {
+            std::fill(&n[43*block_length*num_variables], &n[(43+1)*block_length*num_variables], 0.0);
+            n_is_used[43] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[43*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[9]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[3])
+    {
+        if (!n_is_used[43])
+        {
+            std::fill(&n[43*block_length*num_variables], &n[(43+1)*block_length*num_variables], 0.0);
+            n_is_used[43] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[43*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[3]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[32])
+    {
+        if (!n_is_used[43])
+        {
+            std::fill(&n[43*block_length*num_variables], &n[(43+1)*block_length*num_variables], 0.0);
+            n_is_used[43] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[43*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[32]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[8])
+    {
+        if (!n_is_used[43])
+        {
+            std::fill(&n[43*block_length*num_variables], &n[(43+1)*block_length*num_variables], 0.0);
+            n_is_used[43] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[43*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[8]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[2])
+    {
+        if (!n_is_used[43])
+        {
+            std::fill(&n[43*block_length*num_variables], &n[(43+1)*block_length*num_variables], 0.0);
+            n_is_used[43] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[43*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[2]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[1])
+    {
+        if (!n_is_used[43])
+        {
+            std::fill(&n[43*block_length*num_variables], &n[(43+1)*block_length*num_variables], 0.0);
+            n_is_used[43] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[43*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[1]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[0])
+    {
+        if (!n_is_used[43])
+        {
+            std::fill(&n[43*block_length*num_variables], &n[(43+1)*block_length*num_variables], 0.0);
+            n_is_used[43] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[43*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[0]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 2)
+{
+    if (use_dmat[40])
+    {
+        if (!n_is_used[44])
+        {
+            std::fill(&n[44*block_length*num_variables], &n[(44+1)*block_length*num_variables], 0.0);
+            n_is_used[44] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[44*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[40]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[36])
+    {
+        if (!n_is_used[44])
+        {
+            std::fill(&n[44*block_length*num_variables], &n[(44+1)*block_length*num_variables], 0.0);
+            n_is_used[44] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[44*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[36]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[12])
+    {
+        if (!n_is_used[44])
+        {
+            std::fill(&n[44*block_length*num_variables], &n[(44+1)*block_length*num_variables], 0.0);
+            n_is_used[44] = true;
+        }
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[44*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[12]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[32])
+    {
+        if (!n_is_used[44])
+        {
+            std::fill(&n[44*block_length*num_variables], &n[(44+1)*block_length*num_variables], 0.0);
+            n_is_used[44] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[44*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[32]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[8])
+    {
+        if (!n_is_used[44])
+        {
+            std::fill(&n[44*block_length*num_variables], &n[(44+1)*block_length*num_variables], 0.0);
+            n_is_used[44] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[44*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[8]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[4])
+    {
+        if (!n_is_used[44])
+        {
+            std::fill(&n[44*block_length*num_variables], &n[(44+1)*block_length*num_variables], 0.0);
+            n_is_used[44] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[44*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[4]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[0])
+    {
+        if (!n_is_used[44])
+        {
+            std::fill(&n[44*block_length*num_variables], &n[(44+1)*block_length*num_variables], 0.0);
+            n_is_used[44] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[44*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[0]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 0)
+{
+    if (use_dmat[44])
+    {
+        if (!n_is_used[45])
+        {
+            std::fill(&n[45*block_length*num_variables], &n[(45+1)*block_length*num_variables], 0.0);
+            n_is_used[45] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[45*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[44]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 2)
+{
+    if (use_dmat[41])
+    {
+        if (!n_is_used[45])
+        {
+            std::fill(&n[45*block_length*num_variables], &n[(45+1)*block_length*num_variables], 0.0);
+            n_is_used[45] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[45*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[41]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[37])
+    {
+        if (!n_is_used[45])
+        {
+            std::fill(&n[45*block_length*num_variables], &n[(45+1)*block_length*num_variables], 0.0);
+            n_is_used[45] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[45*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[37]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[13])
+    {
+        if (!n_is_used[45])
+        {
+            std::fill(&n[45*block_length*num_variables], &n[(45+1)*block_length*num_variables], 0.0);
+            n_is_used[45] = true;
+        }
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[45*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[13]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 2)
+{
+    if (use_dmat[40])
+    {
+        if (!n_is_used[45])
+        {
+            std::fill(&n[45*block_length*num_variables], &n[(45+1)*block_length*num_variables], 0.0);
+            n_is_used[45] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[2]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[45*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[40]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[36])
+    {
+        if (!n_is_used[45])
+        {
+            std::fill(&n[45*block_length*num_variables], &n[(45+1)*block_length*num_variables], 0.0);
+            n_is_used[45] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[45*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[36]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[12])
+    {
+        if (!n_is_used[45])
+        {
+            std::fill(&n[45*block_length*num_variables], &n[(45+1)*block_length*num_variables], 0.0);
+            n_is_used[45] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[45*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[12]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[33])
+    {
+        if (!n_is_used[45])
+        {
+            std::fill(&n[45*block_length*num_variables], &n[(45+1)*block_length*num_variables], 0.0);
+            n_is_used[45] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[45*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[33]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[9])
+    {
+        if (!n_is_used[45])
+        {
+            std::fill(&n[45*block_length*num_variables], &n[(45+1)*block_length*num_variables], 0.0);
+            n_is_used[45] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[45*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[9]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[5])
+    {
+        if (!n_is_used[45])
+        {
+            std::fill(&n[45*block_length*num_variables], &n[(45+1)*block_length*num_variables], 0.0);
+            n_is_used[45] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[45*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[5]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[32])
+    {
+        if (!n_is_used[45])
+        {
+            std::fill(&n[45*block_length*num_variables], &n[(45+1)*block_length*num_variables], 0.0);
+            n_is_used[45] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[45*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[32]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[8])
+    {
+        if (!n_is_used[45])
+        {
+            std::fill(&n[45*block_length*num_variables], &n[(45+1)*block_length*num_variables], 0.0);
+            n_is_used[45] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[45*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[8]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[4])
+    {
+        if (!n_is_used[45])
+        {
+            std::fill(&n[45*block_length*num_variables], &n[(45+1)*block_length*num_variables], 0.0);
+            n_is_used[45] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[45*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[4]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[1])
+    {
+        if (!n_is_used[45])
+        {
+            std::fill(&n[45*block_length*num_variables], &n[(45+1)*block_length*num_variables], 0.0);
+            n_is_used[45] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[45*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[1]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[0])
+    {
+        if (!n_is_used[45])
+        {
+            std::fill(&n[45*block_length*num_variables], &n[(45+1)*block_length*num_variables], 0.0);
+            n_is_used[45] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[45*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[0]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 1)
+{
+    if (use_dmat[44])
+    {
+        if (!n_is_used[46])
+        {
+            std::fill(&n[46*block_length*num_variables], &n[(46+1)*block_length*num_variables], 0.0);
+            n_is_used[46] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[46*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[44]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 2)
+{
+    if (use_dmat[42])
+    {
+        if (!n_is_used[46])
+        {
+            std::fill(&n[46*block_length*num_variables], &n[(46+1)*block_length*num_variables], 0.0);
+            n_is_used[46] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[46*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[42]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[38])
+    {
+        if (!n_is_used[46])
+        {
+            std::fill(&n[46*block_length*num_variables], &n[(46+1)*block_length*num_variables], 0.0);
+            n_is_used[46] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[46*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[38]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[14])
+    {
+        if (!n_is_used[46])
+        {
+            std::fill(&n[46*block_length*num_variables], &n[(46+1)*block_length*num_variables], 0.0);
+            n_is_used[46] = true;
+        }
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[46*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[14]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 2)
+{
+    if (use_dmat[40])
+    {
+        if (!n_is_used[46])
+        {
+            std::fill(&n[46*block_length*num_variables], &n[(46+1)*block_length*num_variables], 0.0);
+            n_is_used[46] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[46*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[40]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[36])
+    {
+        if (!n_is_used[46])
+        {
+            std::fill(&n[46*block_length*num_variables], &n[(46+1)*block_length*num_variables], 0.0);
+            n_is_used[46] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[46*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[36]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[12])
+    {
+        if (!n_is_used[46])
+        {
+            std::fill(&n[46*block_length*num_variables], &n[(46+1)*block_length*num_variables], 0.0);
+            n_is_used[46] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[46*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[12]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[34])
+    {
+        if (!n_is_used[46])
+        {
+            std::fill(&n[46*block_length*num_variables], &n[(46+1)*block_length*num_variables], 0.0);
+            n_is_used[46] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[46*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[34]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[10])
+    {
+        if (!n_is_used[46])
+        {
+            std::fill(&n[46*block_length*num_variables], &n[(46+1)*block_length*num_variables], 0.0);
+            n_is_used[46] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[46*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[10]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[6])
+    {
+        if (!n_is_used[46])
+        {
+            std::fill(&n[46*block_length*num_variables], &n[(46+1)*block_length*num_variables], 0.0);
+            n_is_used[46] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[46*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[6]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[32])
+    {
+        if (!n_is_used[46])
+        {
+            std::fill(&n[46*block_length*num_variables], &n[(46+1)*block_length*num_variables], 0.0);
+            n_is_used[46] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[46*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[32]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[8])
+    {
+        if (!n_is_used[46])
+        {
+            std::fill(&n[46*block_length*num_variables], &n[(46+1)*block_length*num_variables], 0.0);
+            n_is_used[46] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[46*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[8]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[4])
+    {
+        if (!n_is_used[46])
+        {
+            std::fill(&n[46*block_length*num_variables], &n[(46+1)*block_length*num_variables], 0.0);
+            n_is_used[46] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[46*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[4]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[2])
+    {
+        if (!n_is_used[46])
+        {
+            std::fill(&n[46*block_length*num_variables], &n[(46+1)*block_length*num_variables], 0.0);
+            n_is_used[46] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[46*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[2]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[0])
+    {
+        if (!n_is_used[46])
+        {
+            std::fill(&n[46*block_length*num_variables], &n[(46+1)*block_length*num_variables], 0.0);
+            n_is_used[46] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[46*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[0]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 0)
+{
+    if (use_dmat[46])
+    {
+        if (!n_is_used[47])
+        {
+            std::fill(&n[47*block_length*num_variables], &n[(47+1)*block_length*num_variables], 0.0);
+            n_is_used[47] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[47*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[46]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 1)
+{
+    if (use_dmat[45])
+    {
+        if (!n_is_used[47])
+        {
+            std::fill(&n[47*block_length*num_variables], &n[(47+1)*block_length*num_variables], 0.0);
+            n_is_used[47] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[47*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[45]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 2)
+{
+    if (use_dmat[43])
+    {
+        if (!n_is_used[47])
+        {
+            std::fill(&n[47*block_length*num_variables], &n[(47+1)*block_length*num_variables], 0.0);
+            n_is_used[47] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[47*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[43]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[39])
+    {
+        if (!n_is_used[47])
+        {
+            std::fill(&n[47*block_length*num_variables], &n[(47+1)*block_length*num_variables], 0.0);
+            n_is_used[47] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[47*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[39]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[15])
+    {
+        if (!n_is_used[47])
+        {
+            std::fill(&n[47*block_length*num_variables], &n[(47+1)*block_length*num_variables], 0.0);
+            n_is_used[47] = true;
+        }
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[47*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[15]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 1)
+{
+    if (use_dmat[44])
+    {
+        if (!n_is_used[47])
+        {
+            std::fill(&n[47*block_length*num_variables], &n[(47+1)*block_length*num_variables], 0.0);
+            n_is_used[47] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[47*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[44]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 2)
+{
+    if (use_dmat[42])
+    {
+        if (!n_is_used[47])
+        {
+            std::fill(&n[47*block_length*num_variables], &n[(47+1)*block_length*num_variables], 0.0);
+            n_is_used[47] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[2]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[47*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[42]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[38])
+    {
+        if (!n_is_used[47])
+        {
+            std::fill(&n[47*block_length*num_variables], &n[(47+1)*block_length*num_variables], 0.0);
+            n_is_used[47] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[47*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[38]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[14])
+    {
+        if (!n_is_used[47])
+        {
+            std::fill(&n[47*block_length*num_variables], &n[(47+1)*block_length*num_variables], 0.0);
+            n_is_used[47] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[47*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[14]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 2)
+{
+    if (use_dmat[41])
+    {
+        if (!n_is_used[47])
+        {
+            std::fill(&n[47*block_length*num_variables], &n[(47+1)*block_length*num_variables], 0.0);
+            n_is_used[47] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[47*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[41]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[37])
+    {
+        if (!n_is_used[47])
+        {
+            std::fill(&n[47*block_length*num_variables], &n[(47+1)*block_length*num_variables], 0.0);
+            n_is_used[47] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[47*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[37]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[13])
+    {
+        if (!n_is_used[47])
+        {
+            std::fill(&n[47*block_length*num_variables], &n[(47+1)*block_length*num_variables], 0.0);
+            n_is_used[47] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[47*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[13]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[35])
+    {
+        if (!n_is_used[47])
+        {
+            std::fill(&n[47*block_length*num_variables], &n[(47+1)*block_length*num_variables], 0.0);
+            n_is_used[47] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[47*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[35]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[11])
+    {
+        if (!n_is_used[47])
+        {
+            std::fill(&n[47*block_length*num_variables], &n[(47+1)*block_length*num_variables], 0.0);
+            n_is_used[47] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[47*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[11]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[7])
+    {
+        if (!n_is_used[47])
+        {
+            std::fill(&n[47*block_length*num_variables], &n[(47+1)*block_length*num_variables], 0.0);
+            n_is_used[47] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[47*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[7]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 2)
+{
+    if (use_dmat[40])
+    {
+        if (!n_is_used[47])
+        {
+            std::fill(&n[47*block_length*num_variables], &n[(47+1)*block_length*num_variables], 0.0);
+            n_is_used[47] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[47*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[40]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[36])
+    {
+        if (!n_is_used[47])
+        {
+            std::fill(&n[47*block_length*num_variables], &n[(47+1)*block_length*num_variables], 0.0);
+            n_is_used[47] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[47*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[36]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[12])
+    {
+        if (!n_is_used[47])
+        {
+            std::fill(&n[47*block_length*num_variables], &n[(47+1)*block_length*num_variables], 0.0);
+            n_is_used[47] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[47*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[12]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[34])
+    {
+        if (!n_is_used[47])
+        {
+            std::fill(&n[47*block_length*num_variables], &n[(47+1)*block_length*num_variables], 0.0);
+            n_is_used[47] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[47*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[34]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[10])
+    {
+        if (!n_is_used[47])
+        {
+            std::fill(&n[47*block_length*num_variables], &n[(47+1)*block_length*num_variables], 0.0);
+            n_is_used[47] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[47*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[10]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[6])
+    {
+        if (!n_is_used[47])
+        {
+            std::fill(&n[47*block_length*num_variables], &n[(47+1)*block_length*num_variables], 0.0);
+            n_is_used[47] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[47*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[6]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[33])
+    {
+        if (!n_is_used[47])
+        {
+            std::fill(&n[47*block_length*num_variables], &n[(47+1)*block_length*num_variables], 0.0);
+            n_is_used[47] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[47*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[33]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[9])
+    {
+        if (!n_is_used[47])
+        {
+            std::fill(&n[47*block_length*num_variables], &n[(47+1)*block_length*num_variables], 0.0);
+            n_is_used[47] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[47*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[9]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[5])
+    {
+        if (!n_is_used[47])
+        {
+            std::fill(&n[47*block_length*num_variables], &n[(47+1)*block_length*num_variables], 0.0);
+            n_is_used[47] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[47*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[5]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[3])
+    {
+        if (!n_is_used[47])
+        {
+            std::fill(&n[47*block_length*num_variables], &n[(47+1)*block_length*num_variables], 0.0);
+            n_is_used[47] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[47*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[3]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[32])
+    {
+        if (!n_is_used[47])
+        {
+            std::fill(&n[47*block_length*num_variables], &n[(47+1)*block_length*num_variables], 0.0);
+            n_is_used[47] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[47*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[32]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[8])
+    {
+        if (!n_is_used[47])
+        {
+            std::fill(&n[47*block_length*num_variables], &n[(47+1)*block_length*num_variables], 0.0);
+            n_is_used[47] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[47*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[8]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[4])
+    {
+        if (!n_is_used[47])
+        {
+            std::fill(&n[47*block_length*num_variables], &n[(47+1)*block_length*num_variables], 0.0);
+            n_is_used[47] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[47*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[4]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[2])
+    {
+        if (!n_is_used[47])
+        {
+            std::fill(&n[47*block_length*num_variables], &n[(47+1)*block_length*num_variables], 0.0);
+            n_is_used[47] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[47*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[2]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[1])
+    {
+        if (!n_is_used[47])
+        {
+            std::fill(&n[47*block_length*num_variables], &n[(47+1)*block_length*num_variables], 0.0);
+            n_is_used[47] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[47*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[1]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[0])
+    {
+        if (!n_is_used[47])
+        {
+            std::fill(&n[47*block_length*num_variables], &n[(47+1)*block_length*num_variables], 0.0);
+            n_is_used[47] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[47*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[0]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[32])
+    {
+        if (!n_is_used[48])
+        {
+            std::fill(&n[48*block_length*num_variables], &n[(48+1)*block_length*num_variables], 0.0);
+            n_is_used[48] = true;
+        }
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[48*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[32]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[16])
+    {
+        if (!n_is_used[48])
+        {
+            std::fill(&n[48*block_length*num_variables], &n[(48+1)*block_length*num_variables], 0.0);
+            n_is_used[48] = true;
+        }
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[48*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[16]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[0])
+    {
+        if (!n_is_used[48])
+        {
+            std::fill(&n[48*block_length*num_variables], &n[(48+1)*block_length*num_variables], 0.0);
+            n_is_used[48] = true;
+        }
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[48*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[0]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 0)
+{
+    if (use_dmat[48])
+    {
+        if (!n_is_used[49])
+        {
+            std::fill(&n[49*block_length*num_variables], &n[(49+1)*block_length*num_variables], 0.0);
+            n_is_used[49] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[49*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[48]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[33])
+    {
+        if (!n_is_used[49])
+        {
+            std::fill(&n[49*block_length*num_variables], &n[(49+1)*block_length*num_variables], 0.0);
+            n_is_used[49] = true;
+        }
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[49*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[33]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[17])
+    {
+        if (!n_is_used[49])
+        {
+            std::fill(&n[49*block_length*num_variables], &n[(49+1)*block_length*num_variables], 0.0);
+            n_is_used[49] = true;
+        }
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[49*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[17]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[32])
+    {
+        if (!n_is_used[49])
+        {
+            std::fill(&n[49*block_length*num_variables], &n[(49+1)*block_length*num_variables], 0.0);
+            n_is_used[49] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[49*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[32]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[16])
+    {
+        if (!n_is_used[49])
+        {
+            std::fill(&n[49*block_length*num_variables], &n[(49+1)*block_length*num_variables], 0.0);
+            n_is_used[49] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[49*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[16]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[1])
+    {
+        if (!n_is_used[49])
+        {
+            std::fill(&n[49*block_length*num_variables], &n[(49+1)*block_length*num_variables], 0.0);
+            n_is_used[49] = true;
+        }
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[49*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[1]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[0])
+    {
+        if (!n_is_used[49])
+        {
+            std::fill(&n[49*block_length*num_variables], &n[(49+1)*block_length*num_variables], 0.0);
+            n_is_used[49] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[49*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[0]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 1)
+{
+    if (use_dmat[48])
+    {
+        if (!n_is_used[50])
+        {
+            std::fill(&n[50*block_length*num_variables], &n[(50+1)*block_length*num_variables], 0.0);
+            n_is_used[50] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[50*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[48]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[34])
+    {
+        if (!n_is_used[50])
+        {
+            std::fill(&n[50*block_length*num_variables], &n[(50+1)*block_length*num_variables], 0.0);
+            n_is_used[50] = true;
+        }
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[50*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[34]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[18])
+    {
+        if (!n_is_used[50])
+        {
+            std::fill(&n[50*block_length*num_variables], &n[(50+1)*block_length*num_variables], 0.0);
+            n_is_used[50] = true;
+        }
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[50*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[18]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[32])
+    {
+        if (!n_is_used[50])
+        {
+            std::fill(&n[50*block_length*num_variables], &n[(50+1)*block_length*num_variables], 0.0);
+            n_is_used[50] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[50*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[32]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[16])
+    {
+        if (!n_is_used[50])
+        {
+            std::fill(&n[50*block_length*num_variables], &n[(50+1)*block_length*num_variables], 0.0);
+            n_is_used[50] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[50*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[16]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[2])
+    {
+        if (!n_is_used[50])
+        {
+            std::fill(&n[50*block_length*num_variables], &n[(50+1)*block_length*num_variables], 0.0);
+            n_is_used[50] = true;
+        }
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[50*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[2]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[0])
+    {
+        if (!n_is_used[50])
+        {
+            std::fill(&n[50*block_length*num_variables], &n[(50+1)*block_length*num_variables], 0.0);
+            n_is_used[50] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[50*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[0]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 0)
+{
+    if (use_dmat[50])
+    {
+        if (!n_is_used[51])
+        {
+            std::fill(&n[51*block_length*num_variables], &n[(51+1)*block_length*num_variables], 0.0);
+            n_is_used[51] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[51*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[50]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 1)
+{
+    if (use_dmat[49])
+    {
+        if (!n_is_used[51])
+        {
+            std::fill(&n[51*block_length*num_variables], &n[(51+1)*block_length*num_variables], 0.0);
+            n_is_used[51] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[51*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[49]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[35])
+    {
+        if (!n_is_used[51])
+        {
+            std::fill(&n[51*block_length*num_variables], &n[(51+1)*block_length*num_variables], 0.0);
+            n_is_used[51] = true;
+        }
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[51*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[35]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[19])
+    {
+        if (!n_is_used[51])
+        {
+            std::fill(&n[51*block_length*num_variables], &n[(51+1)*block_length*num_variables], 0.0);
+            n_is_used[51] = true;
+        }
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[51*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[19]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 1)
+{
+    if (use_dmat[48])
+    {
+        if (!n_is_used[51])
+        {
+            std::fill(&n[51*block_length*num_variables], &n[(51+1)*block_length*num_variables], 0.0);
+            n_is_used[51] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[51*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[48]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[34])
+    {
+        if (!n_is_used[51])
+        {
+            std::fill(&n[51*block_length*num_variables], &n[(51+1)*block_length*num_variables], 0.0);
+            n_is_used[51] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[51*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[34]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[18])
+    {
+        if (!n_is_used[51])
+        {
+            std::fill(&n[51*block_length*num_variables], &n[(51+1)*block_length*num_variables], 0.0);
+            n_is_used[51] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[51*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[18]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[33])
+    {
+        if (!n_is_used[51])
+        {
+            std::fill(&n[51*block_length*num_variables], &n[(51+1)*block_length*num_variables], 0.0);
+            n_is_used[51] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[51*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[33]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[17])
+    {
+        if (!n_is_used[51])
+        {
+            std::fill(&n[51*block_length*num_variables], &n[(51+1)*block_length*num_variables], 0.0);
+            n_is_used[51] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[51*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[17]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[3])
+    {
+        if (!n_is_used[51])
+        {
+            std::fill(&n[51*block_length*num_variables], &n[(51+1)*block_length*num_variables], 0.0);
+            n_is_used[51] = true;
+        }
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[51*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[3]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[32])
+    {
+        if (!n_is_used[51])
+        {
+            std::fill(&n[51*block_length*num_variables], &n[(51+1)*block_length*num_variables], 0.0);
+            n_is_used[51] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[51*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[32]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[16])
+    {
+        if (!n_is_used[51])
+        {
+            std::fill(&n[51*block_length*num_variables], &n[(51+1)*block_length*num_variables], 0.0);
+            n_is_used[51] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[51*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[16]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[2])
+    {
+        if (!n_is_used[51])
+        {
+            std::fill(&n[51*block_length*num_variables], &n[(51+1)*block_length*num_variables], 0.0);
+            n_is_used[51] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[51*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[2]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[1])
+    {
+        if (!n_is_used[51])
+        {
+            std::fill(&n[51*block_length*num_variables], &n[(51+1)*block_length*num_variables], 0.0);
+            n_is_used[51] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[51*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[1]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[0])
+    {
+        if (!n_is_used[51])
+        {
+            std::fill(&n[51*block_length*num_variables], &n[(51+1)*block_length*num_variables], 0.0);
+            n_is_used[51] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[51*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[0]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 2)
+{
+    if (use_dmat[48])
+    {
+        if (!n_is_used[52])
+        {
+            std::fill(&n[52*block_length*num_variables], &n[(52+1)*block_length*num_variables], 0.0);
+            n_is_used[52] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[52*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[48]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[36])
+    {
+        if (!n_is_used[52])
+        {
+            std::fill(&n[52*block_length*num_variables], &n[(52+1)*block_length*num_variables], 0.0);
+            n_is_used[52] = true;
+        }
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[52*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[36]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[20])
+    {
+        if (!n_is_used[52])
+        {
+            std::fill(&n[52*block_length*num_variables], &n[(52+1)*block_length*num_variables], 0.0);
+            n_is_used[52] = true;
+        }
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[52*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[20]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[32])
+    {
+        if (!n_is_used[52])
+        {
+            std::fill(&n[52*block_length*num_variables], &n[(52+1)*block_length*num_variables], 0.0);
+            n_is_used[52] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[52*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[32]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[16])
+    {
+        if (!n_is_used[52])
+        {
+            std::fill(&n[52*block_length*num_variables], &n[(52+1)*block_length*num_variables], 0.0);
+            n_is_used[52] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[52*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[16]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[4])
+    {
+        if (!n_is_used[52])
+        {
+            std::fill(&n[52*block_length*num_variables], &n[(52+1)*block_length*num_variables], 0.0);
+            n_is_used[52] = true;
+        }
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[52*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[4]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[0])
+    {
+        if (!n_is_used[52])
+        {
+            std::fill(&n[52*block_length*num_variables], &n[(52+1)*block_length*num_variables], 0.0);
+            n_is_used[52] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[52*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[0]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 0)
+{
+    if (use_dmat[52])
+    {
+        if (!n_is_used[53])
+        {
+            std::fill(&n[53*block_length*num_variables], &n[(53+1)*block_length*num_variables], 0.0);
+            n_is_used[53] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[53*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[52]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 2)
+{
+    if (use_dmat[49])
+    {
+        if (!n_is_used[53])
+        {
+            std::fill(&n[53*block_length*num_variables], &n[(53+1)*block_length*num_variables], 0.0);
+            n_is_used[53] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[53*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[49]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[37])
+    {
+        if (!n_is_used[53])
+        {
+            std::fill(&n[53*block_length*num_variables], &n[(53+1)*block_length*num_variables], 0.0);
+            n_is_used[53] = true;
+        }
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[53*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[37]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[21])
+    {
+        if (!n_is_used[53])
+        {
+            std::fill(&n[53*block_length*num_variables], &n[(53+1)*block_length*num_variables], 0.0);
+            n_is_used[53] = true;
+        }
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[53*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[21]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 2)
+{
+    if (use_dmat[48])
+    {
+        if (!n_is_used[53])
+        {
+            std::fill(&n[53*block_length*num_variables], &n[(53+1)*block_length*num_variables], 0.0);
+            n_is_used[53] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[2]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[53*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[48]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[36])
+    {
+        if (!n_is_used[53])
+        {
+            std::fill(&n[53*block_length*num_variables], &n[(53+1)*block_length*num_variables], 0.0);
+            n_is_used[53] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[53*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[36]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[20])
+    {
+        if (!n_is_used[53])
+        {
+            std::fill(&n[53*block_length*num_variables], &n[(53+1)*block_length*num_variables], 0.0);
+            n_is_used[53] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[53*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[20]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[33])
+    {
+        if (!n_is_used[53])
+        {
+            std::fill(&n[53*block_length*num_variables], &n[(53+1)*block_length*num_variables], 0.0);
+            n_is_used[53] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[53*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[33]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[17])
+    {
+        if (!n_is_used[53])
+        {
+            std::fill(&n[53*block_length*num_variables], &n[(53+1)*block_length*num_variables], 0.0);
+            n_is_used[53] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[53*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[17]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[5])
+    {
+        if (!n_is_used[53])
+        {
+            std::fill(&n[53*block_length*num_variables], &n[(53+1)*block_length*num_variables], 0.0);
+            n_is_used[53] = true;
+        }
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[53*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[5]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[32])
+    {
+        if (!n_is_used[53])
+        {
+            std::fill(&n[53*block_length*num_variables], &n[(53+1)*block_length*num_variables], 0.0);
+            n_is_used[53] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[53*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[32]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[16])
+    {
+        if (!n_is_used[53])
+        {
+            std::fill(&n[53*block_length*num_variables], &n[(53+1)*block_length*num_variables], 0.0);
+            n_is_used[53] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[53*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[16]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[4])
+    {
+        if (!n_is_used[53])
+        {
+            std::fill(&n[53*block_length*num_variables], &n[(53+1)*block_length*num_variables], 0.0);
+            n_is_used[53] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[53*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[4]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[1])
+    {
+        if (!n_is_used[53])
+        {
+            std::fill(&n[53*block_length*num_variables], &n[(53+1)*block_length*num_variables], 0.0);
+            n_is_used[53] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[53*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[1]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[0])
+    {
+        if (!n_is_used[53])
+        {
+            std::fill(&n[53*block_length*num_variables], &n[(53+1)*block_length*num_variables], 0.0);
+            n_is_used[53] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[53*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[0]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 1)
+{
+    if (use_dmat[52])
+    {
+        if (!n_is_used[54])
+        {
+            std::fill(&n[54*block_length*num_variables], &n[(54+1)*block_length*num_variables], 0.0);
+            n_is_used[54] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[54*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[52]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 2)
+{
+    if (use_dmat[50])
+    {
+        if (!n_is_used[54])
+        {
+            std::fill(&n[54*block_length*num_variables], &n[(54+1)*block_length*num_variables], 0.0);
+            n_is_used[54] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[54*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[50]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[38])
+    {
+        if (!n_is_used[54])
+        {
+            std::fill(&n[54*block_length*num_variables], &n[(54+1)*block_length*num_variables], 0.0);
+            n_is_used[54] = true;
+        }
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[54*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[38]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[22])
+    {
+        if (!n_is_used[54])
+        {
+            std::fill(&n[54*block_length*num_variables], &n[(54+1)*block_length*num_variables], 0.0);
+            n_is_used[54] = true;
+        }
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[54*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[22]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 2)
+{
+    if (use_dmat[48])
+    {
+        if (!n_is_used[54])
+        {
+            std::fill(&n[54*block_length*num_variables], &n[(54+1)*block_length*num_variables], 0.0);
+            n_is_used[54] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[54*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[48]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[36])
+    {
+        if (!n_is_used[54])
+        {
+            std::fill(&n[54*block_length*num_variables], &n[(54+1)*block_length*num_variables], 0.0);
+            n_is_used[54] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[54*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[36]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[20])
+    {
+        if (!n_is_used[54])
+        {
+            std::fill(&n[54*block_length*num_variables], &n[(54+1)*block_length*num_variables], 0.0);
+            n_is_used[54] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[54*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[20]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[34])
+    {
+        if (!n_is_used[54])
+        {
+            std::fill(&n[54*block_length*num_variables], &n[(54+1)*block_length*num_variables], 0.0);
+            n_is_used[54] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[54*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[34]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[18])
+    {
+        if (!n_is_used[54])
+        {
+            std::fill(&n[54*block_length*num_variables], &n[(54+1)*block_length*num_variables], 0.0);
+            n_is_used[54] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[54*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[18]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[6])
+    {
+        if (!n_is_used[54])
+        {
+            std::fill(&n[54*block_length*num_variables], &n[(54+1)*block_length*num_variables], 0.0);
+            n_is_used[54] = true;
+        }
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[54*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[6]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[32])
+    {
+        if (!n_is_used[54])
+        {
+            std::fill(&n[54*block_length*num_variables], &n[(54+1)*block_length*num_variables], 0.0);
+            n_is_used[54] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[54*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[32]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[16])
+    {
+        if (!n_is_used[54])
+        {
+            std::fill(&n[54*block_length*num_variables], &n[(54+1)*block_length*num_variables], 0.0);
+            n_is_used[54] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[54*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[16]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[4])
+    {
+        if (!n_is_used[54])
+        {
+            std::fill(&n[54*block_length*num_variables], &n[(54+1)*block_length*num_variables], 0.0);
+            n_is_used[54] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[54*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[4]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[2])
+    {
+        if (!n_is_used[54])
+        {
+            std::fill(&n[54*block_length*num_variables], &n[(54+1)*block_length*num_variables], 0.0);
+            n_is_used[54] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[54*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[2]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[0])
+    {
+        if (!n_is_used[54])
+        {
+            std::fill(&n[54*block_length*num_variables], &n[(54+1)*block_length*num_variables], 0.0);
+            n_is_used[54] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[54*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[0]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 0)
+{
+    if (use_dmat[54])
+    {
+        if (!n_is_used[55])
+        {
+            std::fill(&n[55*block_length*num_variables], &n[(55+1)*block_length*num_variables], 0.0);
+            n_is_used[55] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[55*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[54]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 1)
+{
+    if (use_dmat[53])
+    {
+        if (!n_is_used[55])
+        {
+            std::fill(&n[55*block_length*num_variables], &n[(55+1)*block_length*num_variables], 0.0);
+            n_is_used[55] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[55*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[53]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 2)
+{
+    if (use_dmat[51])
+    {
+        if (!n_is_used[55])
+        {
+            std::fill(&n[55*block_length*num_variables], &n[(55+1)*block_length*num_variables], 0.0);
+            n_is_used[55] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[55*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[51]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[39])
+    {
+        if (!n_is_used[55])
+        {
+            std::fill(&n[55*block_length*num_variables], &n[(55+1)*block_length*num_variables], 0.0);
+            n_is_used[55] = true;
+        }
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[55*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[39]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[23])
+    {
+        if (!n_is_used[55])
+        {
+            std::fill(&n[55*block_length*num_variables], &n[(55+1)*block_length*num_variables], 0.0);
+            n_is_used[55] = true;
+        }
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[55*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[23]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 1)
+{
+    if (use_dmat[52])
+    {
+        if (!n_is_used[55])
+        {
+            std::fill(&n[55*block_length*num_variables], &n[(55+1)*block_length*num_variables], 0.0);
+            n_is_used[55] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[55*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[52]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 2)
+{
+    if (use_dmat[50])
+    {
+        if (!n_is_used[55])
+        {
+            std::fill(&n[55*block_length*num_variables], &n[(55+1)*block_length*num_variables], 0.0);
+            n_is_used[55] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[2]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[55*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[50]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[38])
+    {
+        if (!n_is_used[55])
+        {
+            std::fill(&n[55*block_length*num_variables], &n[(55+1)*block_length*num_variables], 0.0);
+            n_is_used[55] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[55*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[38]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[22])
+    {
+        if (!n_is_used[55])
+        {
+            std::fill(&n[55*block_length*num_variables], &n[(55+1)*block_length*num_variables], 0.0);
+            n_is_used[55] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[55*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[22]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 2)
+{
+    if (use_dmat[49])
+    {
+        if (!n_is_used[55])
+        {
+            std::fill(&n[55*block_length*num_variables], &n[(55+1)*block_length*num_variables], 0.0);
+            n_is_used[55] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[55*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[49]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[37])
+    {
+        if (!n_is_used[55])
+        {
+            std::fill(&n[55*block_length*num_variables], &n[(55+1)*block_length*num_variables], 0.0);
+            n_is_used[55] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[55*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[37]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[21])
+    {
+        if (!n_is_used[55])
+        {
+            std::fill(&n[55*block_length*num_variables], &n[(55+1)*block_length*num_variables], 0.0);
+            n_is_used[55] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[55*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[21]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[35])
+    {
+        if (!n_is_used[55])
+        {
+            std::fill(&n[55*block_length*num_variables], &n[(55+1)*block_length*num_variables], 0.0);
+            n_is_used[55] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[55*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[35]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[19])
+    {
+        if (!n_is_used[55])
+        {
+            std::fill(&n[55*block_length*num_variables], &n[(55+1)*block_length*num_variables], 0.0);
+            n_is_used[55] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[55*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[19]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[7])
+    {
+        if (!n_is_used[55])
+        {
+            std::fill(&n[55*block_length*num_variables], &n[(55+1)*block_length*num_variables], 0.0);
+            n_is_used[55] = true;
+        }
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[55*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[7]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 2)
+{
+    if (use_dmat[48])
+    {
+        if (!n_is_used[55])
+        {
+            std::fill(&n[55*block_length*num_variables], &n[(55+1)*block_length*num_variables], 0.0);
+            n_is_used[55] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[55*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[48]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[36])
+    {
+        if (!n_is_used[55])
+        {
+            std::fill(&n[55*block_length*num_variables], &n[(55+1)*block_length*num_variables], 0.0);
+            n_is_used[55] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[55*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[36]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[20])
+    {
+        if (!n_is_used[55])
+        {
+            std::fill(&n[55*block_length*num_variables], &n[(55+1)*block_length*num_variables], 0.0);
+            n_is_used[55] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[55*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[20]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[34])
+    {
+        if (!n_is_used[55])
+        {
+            std::fill(&n[55*block_length*num_variables], &n[(55+1)*block_length*num_variables], 0.0);
+            n_is_used[55] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[55*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[34]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[18])
+    {
+        if (!n_is_used[55])
+        {
+            std::fill(&n[55*block_length*num_variables], &n[(55+1)*block_length*num_variables], 0.0);
+            n_is_used[55] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[55*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[18]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[6])
+    {
+        if (!n_is_used[55])
+        {
+            std::fill(&n[55*block_length*num_variables], &n[(55+1)*block_length*num_variables], 0.0);
+            n_is_used[55] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[55*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[6]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[33])
+    {
+        if (!n_is_used[55])
+        {
+            std::fill(&n[55*block_length*num_variables], &n[(55+1)*block_length*num_variables], 0.0);
+            n_is_used[55] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[55*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[33]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[17])
+    {
+        if (!n_is_used[55])
+        {
+            std::fill(&n[55*block_length*num_variables], &n[(55+1)*block_length*num_variables], 0.0);
+            n_is_used[55] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[55*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[17]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[5])
+    {
+        if (!n_is_used[55])
+        {
+            std::fill(&n[55*block_length*num_variables], &n[(55+1)*block_length*num_variables], 0.0);
+            n_is_used[55] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[55*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[5]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[3])
+    {
+        if (!n_is_used[55])
+        {
+            std::fill(&n[55*block_length*num_variables], &n[(55+1)*block_length*num_variables], 0.0);
+            n_is_used[55] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[55*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[3]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[32])
+    {
+        if (!n_is_used[55])
+        {
+            std::fill(&n[55*block_length*num_variables], &n[(55+1)*block_length*num_variables], 0.0);
+            n_is_used[55] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[55*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[32]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[16])
+    {
+        if (!n_is_used[55])
+        {
+            std::fill(&n[55*block_length*num_variables], &n[(55+1)*block_length*num_variables], 0.0);
+            n_is_used[55] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[55*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[16]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[4])
+    {
+        if (!n_is_used[55])
+        {
+            std::fill(&n[55*block_length*num_variables], &n[(55+1)*block_length*num_variables], 0.0);
+            n_is_used[55] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[55*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[4]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[2])
+    {
+        if (!n_is_used[55])
+        {
+            std::fill(&n[55*block_length*num_variables], &n[(55+1)*block_length*num_variables], 0.0);
+            n_is_used[55] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[55*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[2]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[1])
+    {
+        if (!n_is_used[55])
+        {
+            std::fill(&n[55*block_length*num_variables], &n[(55+1)*block_length*num_variables], 0.0);
+            n_is_used[55] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[55*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[1]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[0])
+    {
+        if (!n_is_used[55])
+        {
+            std::fill(&n[55*block_length*num_variables], &n[(55+1)*block_length*num_variables], 0.0);
+            n_is_used[55] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[55*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[0]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[48])
+    {
+        if (!n_is_used[56])
+        {
+            std::fill(&n[56*block_length*num_variables], &n[(56+1)*block_length*num_variables], 0.0);
+            n_is_used[56] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[56*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[48]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[40])
+    {
+        if (!n_is_used[56])
+        {
+            std::fill(&n[56*block_length*num_variables], &n[(56+1)*block_length*num_variables], 0.0);
+            n_is_used[56] = true;
+        }
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[56*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[40]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[24])
+    {
+        if (!n_is_used[56])
+        {
+            std::fill(&n[56*block_length*num_variables], &n[(56+1)*block_length*num_variables], 0.0);
+            n_is_used[56] = true;
+        }
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[56*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[24]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[32])
+    {
+        if (!n_is_used[56])
+        {
+            std::fill(&n[56*block_length*num_variables], &n[(56+1)*block_length*num_variables], 0.0);
+            n_is_used[56] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[56*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[32]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[16])
+    {
+        if (!n_is_used[56])
+        {
+            std::fill(&n[56*block_length*num_variables], &n[(56+1)*block_length*num_variables], 0.0);
+            n_is_used[56] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[56*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[16]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[8])
+    {
+        if (!n_is_used[56])
+        {
+            std::fill(&n[56*block_length*num_variables], &n[(56+1)*block_length*num_variables], 0.0);
+            n_is_used[56] = true;
+        }
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[56*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[8]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[0])
+    {
+        if (!n_is_used[56])
+        {
+            std::fill(&n[56*block_length*num_variables], &n[(56+1)*block_length*num_variables], 0.0);
+            n_is_used[56] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[56*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[0]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 0)
+{
+    if (use_dmat[56])
+    {
+        if (!n_is_used[57])
+        {
+            std::fill(&n[57*block_length*num_variables], &n[(57+1)*block_length*num_variables], 0.0);
+            n_is_used[57] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[57*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[56]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[49])
+    {
+        if (!n_is_used[57])
+        {
+            std::fill(&n[57*block_length*num_variables], &n[(57+1)*block_length*num_variables], 0.0);
+            n_is_used[57] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[57*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[49]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[41])
+    {
+        if (!n_is_used[57])
+        {
+            std::fill(&n[57*block_length*num_variables], &n[(57+1)*block_length*num_variables], 0.0);
+            n_is_used[57] = true;
+        }
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[57*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[41]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[25])
+    {
+        if (!n_is_used[57])
+        {
+            std::fill(&n[57*block_length*num_variables], &n[(57+1)*block_length*num_variables], 0.0);
+            n_is_used[57] = true;
+        }
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[57*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[25]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[48])
+    {
+        if (!n_is_used[57])
+        {
+            std::fill(&n[57*block_length*num_variables], &n[(57+1)*block_length*num_variables], 0.0);
+            n_is_used[57] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[57*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[48]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[40])
+    {
+        if (!n_is_used[57])
+        {
+            std::fill(&n[57*block_length*num_variables], &n[(57+1)*block_length*num_variables], 0.0);
+            n_is_used[57] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[57*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[40]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[24])
+    {
+        if (!n_is_used[57])
+        {
+            std::fill(&n[57*block_length*num_variables], &n[(57+1)*block_length*num_variables], 0.0);
+            n_is_used[57] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[57*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[24]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[33])
+    {
+        if (!n_is_used[57])
+        {
+            std::fill(&n[57*block_length*num_variables], &n[(57+1)*block_length*num_variables], 0.0);
+            n_is_used[57] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[57*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[33]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[17])
+    {
+        if (!n_is_used[57])
+        {
+            std::fill(&n[57*block_length*num_variables], &n[(57+1)*block_length*num_variables], 0.0);
+            n_is_used[57] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[57*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[17]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[9])
+    {
+        if (!n_is_used[57])
+        {
+            std::fill(&n[57*block_length*num_variables], &n[(57+1)*block_length*num_variables], 0.0);
+            n_is_used[57] = true;
+        }
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[57*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[9]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[32])
+    {
+        if (!n_is_used[57])
+        {
+            std::fill(&n[57*block_length*num_variables], &n[(57+1)*block_length*num_variables], 0.0);
+            n_is_used[57] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[57*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[32]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[16])
+    {
+        if (!n_is_used[57])
+        {
+            std::fill(&n[57*block_length*num_variables], &n[(57+1)*block_length*num_variables], 0.0);
+            n_is_used[57] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[57*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[16]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[8])
+    {
+        if (!n_is_used[57])
+        {
+            std::fill(&n[57*block_length*num_variables], &n[(57+1)*block_length*num_variables], 0.0);
+            n_is_used[57] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[57*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[8]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[1])
+    {
+        if (!n_is_used[57])
+        {
+            std::fill(&n[57*block_length*num_variables], &n[(57+1)*block_length*num_variables], 0.0);
+            n_is_used[57] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[57*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[1]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[0])
+    {
+        if (!n_is_used[57])
+        {
+            std::fill(&n[57*block_length*num_variables], &n[(57+1)*block_length*num_variables], 0.0);
+            n_is_used[57] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[57*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[0]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 1)
+{
+    if (use_dmat[56])
+    {
+        if (!n_is_used[58])
+        {
+            std::fill(&n[58*block_length*num_variables], &n[(58+1)*block_length*num_variables], 0.0);
+            n_is_used[58] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[58*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[56]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[50])
+    {
+        if (!n_is_used[58])
+        {
+            std::fill(&n[58*block_length*num_variables], &n[(58+1)*block_length*num_variables], 0.0);
+            n_is_used[58] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[58*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[50]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[42])
+    {
+        if (!n_is_used[58])
+        {
+            std::fill(&n[58*block_length*num_variables], &n[(58+1)*block_length*num_variables], 0.0);
+            n_is_used[58] = true;
+        }
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[58*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[42]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[26])
+    {
+        if (!n_is_used[58])
+        {
+            std::fill(&n[58*block_length*num_variables], &n[(58+1)*block_length*num_variables], 0.0);
+            n_is_used[58] = true;
+        }
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[58*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[26]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[48])
+    {
+        if (!n_is_used[58])
+        {
+            std::fill(&n[58*block_length*num_variables], &n[(58+1)*block_length*num_variables], 0.0);
+            n_is_used[58] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[58*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[48]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[40])
+    {
+        if (!n_is_used[58])
+        {
+            std::fill(&n[58*block_length*num_variables], &n[(58+1)*block_length*num_variables], 0.0);
+            n_is_used[58] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[58*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[40]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[24])
+    {
+        if (!n_is_used[58])
+        {
+            std::fill(&n[58*block_length*num_variables], &n[(58+1)*block_length*num_variables], 0.0);
+            n_is_used[58] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[58*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[24]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[34])
+    {
+        if (!n_is_used[58])
+        {
+            std::fill(&n[58*block_length*num_variables], &n[(58+1)*block_length*num_variables], 0.0);
+            n_is_used[58] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[58*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[34]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[18])
+    {
+        if (!n_is_used[58])
+        {
+            std::fill(&n[58*block_length*num_variables], &n[(58+1)*block_length*num_variables], 0.0);
+            n_is_used[58] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[58*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[18]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[10])
+    {
+        if (!n_is_used[58])
+        {
+            std::fill(&n[58*block_length*num_variables], &n[(58+1)*block_length*num_variables], 0.0);
+            n_is_used[58] = true;
+        }
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[58*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[10]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[32])
+    {
+        if (!n_is_used[58])
+        {
+            std::fill(&n[58*block_length*num_variables], &n[(58+1)*block_length*num_variables], 0.0);
+            n_is_used[58] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[58*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[32]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[16])
+    {
+        if (!n_is_used[58])
+        {
+            std::fill(&n[58*block_length*num_variables], &n[(58+1)*block_length*num_variables], 0.0);
+            n_is_used[58] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[58*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[16]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[8])
+    {
+        if (!n_is_used[58])
+        {
+            std::fill(&n[58*block_length*num_variables], &n[(58+1)*block_length*num_variables], 0.0);
+            n_is_used[58] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[58*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[8]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[2])
+    {
+        if (!n_is_used[58])
+        {
+            std::fill(&n[58*block_length*num_variables], &n[(58+1)*block_length*num_variables], 0.0);
+            n_is_used[58] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[58*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[2]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[0])
+    {
+        if (!n_is_used[58])
+        {
+            std::fill(&n[58*block_length*num_variables], &n[(58+1)*block_length*num_variables], 0.0);
+            n_is_used[58] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[58*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[0]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 0)
+{
+    if (use_dmat[58])
+    {
+        if (!n_is_used[59])
+        {
+            std::fill(&n[59*block_length*num_variables], &n[(59+1)*block_length*num_variables], 0.0);
+            n_is_used[59] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[59*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[58]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 1)
+{
+    if (use_dmat[57])
+    {
+        if (!n_is_used[59])
+        {
+            std::fill(&n[59*block_length*num_variables], &n[(59+1)*block_length*num_variables], 0.0);
+            n_is_used[59] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[59*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[57]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[51])
+    {
+        if (!n_is_used[59])
+        {
+            std::fill(&n[59*block_length*num_variables], &n[(59+1)*block_length*num_variables], 0.0);
+            n_is_used[59] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[59*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[51]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[43])
+    {
+        if (!n_is_used[59])
+        {
+            std::fill(&n[59*block_length*num_variables], &n[(59+1)*block_length*num_variables], 0.0);
+            n_is_used[59] = true;
+        }
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[59*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[43]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[27])
+    {
+        if (!n_is_used[59])
+        {
+            std::fill(&n[59*block_length*num_variables], &n[(59+1)*block_length*num_variables], 0.0);
+            n_is_used[59] = true;
+        }
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[59*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[27]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 1)
+{
+    if (use_dmat[56])
+    {
+        if (!n_is_used[59])
+        {
+            std::fill(&n[59*block_length*num_variables], &n[(59+1)*block_length*num_variables], 0.0);
+            n_is_used[59] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[59*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[56]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[50])
+    {
+        if (!n_is_used[59])
+        {
+            std::fill(&n[59*block_length*num_variables], &n[(59+1)*block_length*num_variables], 0.0);
+            n_is_used[59] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[59*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[50]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[42])
+    {
+        if (!n_is_used[59])
+        {
+            std::fill(&n[59*block_length*num_variables], &n[(59+1)*block_length*num_variables], 0.0);
+            n_is_used[59] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[59*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[42]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[26])
+    {
+        if (!n_is_used[59])
+        {
+            std::fill(&n[59*block_length*num_variables], &n[(59+1)*block_length*num_variables], 0.0);
+            n_is_used[59] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[59*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[26]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[49])
+    {
+        if (!n_is_used[59])
+        {
+            std::fill(&n[59*block_length*num_variables], &n[(59+1)*block_length*num_variables], 0.0);
+            n_is_used[59] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[59*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[49]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[41])
+    {
+        if (!n_is_used[59])
+        {
+            std::fill(&n[59*block_length*num_variables], &n[(59+1)*block_length*num_variables], 0.0);
+            n_is_used[59] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[59*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[41]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[25])
+    {
+        if (!n_is_used[59])
+        {
+            std::fill(&n[59*block_length*num_variables], &n[(59+1)*block_length*num_variables], 0.0);
+            n_is_used[59] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[59*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[25]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[35])
+    {
+        if (!n_is_used[59])
+        {
+            std::fill(&n[59*block_length*num_variables], &n[(59+1)*block_length*num_variables], 0.0);
+            n_is_used[59] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[59*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[35]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[19])
+    {
+        if (!n_is_used[59])
+        {
+            std::fill(&n[59*block_length*num_variables], &n[(59+1)*block_length*num_variables], 0.0);
+            n_is_used[59] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[59*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[19]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[11])
+    {
+        if (!n_is_used[59])
+        {
+            std::fill(&n[59*block_length*num_variables], &n[(59+1)*block_length*num_variables], 0.0);
+            n_is_used[59] = true;
+        }
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[59*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[11]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[48])
+    {
+        if (!n_is_used[59])
+        {
+            std::fill(&n[59*block_length*num_variables], &n[(59+1)*block_length*num_variables], 0.0);
+            n_is_used[59] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[59*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[48]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[40])
+    {
+        if (!n_is_used[59])
+        {
+            std::fill(&n[59*block_length*num_variables], &n[(59+1)*block_length*num_variables], 0.0);
+            n_is_used[59] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[59*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[40]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[24])
+    {
+        if (!n_is_used[59])
+        {
+            std::fill(&n[59*block_length*num_variables], &n[(59+1)*block_length*num_variables], 0.0);
+            n_is_used[59] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[59*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[24]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[34])
+    {
+        if (!n_is_used[59])
+        {
+            std::fill(&n[59*block_length*num_variables], &n[(59+1)*block_length*num_variables], 0.0);
+            n_is_used[59] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[59*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[34]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[18])
+    {
+        if (!n_is_used[59])
+        {
+            std::fill(&n[59*block_length*num_variables], &n[(59+1)*block_length*num_variables], 0.0);
+            n_is_used[59] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[59*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[18]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[10])
+    {
+        if (!n_is_used[59])
+        {
+            std::fill(&n[59*block_length*num_variables], &n[(59+1)*block_length*num_variables], 0.0);
+            n_is_used[59] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[59*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[10]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[33])
+    {
+        if (!n_is_used[59])
+        {
+            std::fill(&n[59*block_length*num_variables], &n[(59+1)*block_length*num_variables], 0.0);
+            n_is_used[59] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[59*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[33]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[17])
+    {
+        if (!n_is_used[59])
+        {
+            std::fill(&n[59*block_length*num_variables], &n[(59+1)*block_length*num_variables], 0.0);
+            n_is_used[59] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[59*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[17]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[9])
+    {
+        if (!n_is_used[59])
+        {
+            std::fill(&n[59*block_length*num_variables], &n[(59+1)*block_length*num_variables], 0.0);
+            n_is_used[59] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[59*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[9]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[3])
+    {
+        if (!n_is_used[59])
+        {
+            std::fill(&n[59*block_length*num_variables], &n[(59+1)*block_length*num_variables], 0.0);
+            n_is_used[59] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[59*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[3]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[32])
+    {
+        if (!n_is_used[59])
+        {
+            std::fill(&n[59*block_length*num_variables], &n[(59+1)*block_length*num_variables], 0.0);
+            n_is_used[59] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[59*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[32]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[16])
+    {
+        if (!n_is_used[59])
+        {
+            std::fill(&n[59*block_length*num_variables], &n[(59+1)*block_length*num_variables], 0.0);
+            n_is_used[59] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[59*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[16]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[8])
+    {
+        if (!n_is_used[59])
+        {
+            std::fill(&n[59*block_length*num_variables], &n[(59+1)*block_length*num_variables], 0.0);
+            n_is_used[59] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[59*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[8]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[2])
+    {
+        if (!n_is_used[59])
+        {
+            std::fill(&n[59*block_length*num_variables], &n[(59+1)*block_length*num_variables], 0.0);
+            n_is_used[59] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[59*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[2]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[1])
+    {
+        if (!n_is_used[59])
+        {
+            std::fill(&n[59*block_length*num_variables], &n[(59+1)*block_length*num_variables], 0.0);
+            n_is_used[59] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[59*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[1]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[0])
+    {
+        if (!n_is_used[59])
+        {
+            std::fill(&n[59*block_length*num_variables], &n[(59+1)*block_length*num_variables], 0.0);
+            n_is_used[59] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[59*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[0]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 2)
+{
+    if (use_dmat[56])
+    {
+        if (!n_is_used[60])
+        {
+            std::fill(&n[60*block_length*num_variables], &n[(60+1)*block_length*num_variables], 0.0);
+            n_is_used[60] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[60*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[56]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[52])
+    {
+        if (!n_is_used[60])
+        {
+            std::fill(&n[60*block_length*num_variables], &n[(60+1)*block_length*num_variables], 0.0);
+            n_is_used[60] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[60*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[52]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[44])
+    {
+        if (!n_is_used[60])
+        {
+            std::fill(&n[60*block_length*num_variables], &n[(60+1)*block_length*num_variables], 0.0);
+            n_is_used[60] = true;
+        }
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[60*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[44]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[28])
+    {
+        if (!n_is_used[60])
+        {
+            std::fill(&n[60*block_length*num_variables], &n[(60+1)*block_length*num_variables], 0.0);
+            n_is_used[60] = true;
+        }
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[60*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[28]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[48])
+    {
+        if (!n_is_used[60])
+        {
+            std::fill(&n[60*block_length*num_variables], &n[(60+1)*block_length*num_variables], 0.0);
+            n_is_used[60] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[60*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[48]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[40])
+    {
+        if (!n_is_used[60])
+        {
+            std::fill(&n[60*block_length*num_variables], &n[(60+1)*block_length*num_variables], 0.0);
+            n_is_used[60] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[60*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[40]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[24])
+    {
+        if (!n_is_used[60])
+        {
+            std::fill(&n[60*block_length*num_variables], &n[(60+1)*block_length*num_variables], 0.0);
+            n_is_used[60] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[60*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[24]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[36])
+    {
+        if (!n_is_used[60])
+        {
+            std::fill(&n[60*block_length*num_variables], &n[(60+1)*block_length*num_variables], 0.0);
+            n_is_used[60] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[60*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[36]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[20])
+    {
+        if (!n_is_used[60])
+        {
+            std::fill(&n[60*block_length*num_variables], &n[(60+1)*block_length*num_variables], 0.0);
+            n_is_used[60] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[60*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[20]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[12])
+    {
+        if (!n_is_used[60])
+        {
+            std::fill(&n[60*block_length*num_variables], &n[(60+1)*block_length*num_variables], 0.0);
+            n_is_used[60] = true;
+        }
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[60*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[12]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[32])
+    {
+        if (!n_is_used[60])
+        {
+            std::fill(&n[60*block_length*num_variables], &n[(60+1)*block_length*num_variables], 0.0);
+            n_is_used[60] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[60*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[32]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[16])
+    {
+        if (!n_is_used[60])
+        {
+            std::fill(&n[60*block_length*num_variables], &n[(60+1)*block_length*num_variables], 0.0);
+            n_is_used[60] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[60*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[16]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[8])
+    {
+        if (!n_is_used[60])
+        {
+            std::fill(&n[60*block_length*num_variables], &n[(60+1)*block_length*num_variables], 0.0);
+            n_is_used[60] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[60*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[8]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[4])
+    {
+        if (!n_is_used[60])
+        {
+            std::fill(&n[60*block_length*num_variables], &n[(60+1)*block_length*num_variables], 0.0);
+            n_is_used[60] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[60*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[4]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[0])
+    {
+        if (!n_is_used[60])
+        {
+            std::fill(&n[60*block_length*num_variables], &n[(60+1)*block_length*num_variables], 0.0);
+            n_is_used[60] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[60*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[0]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 0)
+{
+    if (use_dmat[60])
+    {
+        if (!n_is_used[61])
+        {
+            std::fill(&n[61*block_length*num_variables], &n[(61+1)*block_length*num_variables], 0.0);
+            n_is_used[61] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[61*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[60]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 2)
+{
+    if (use_dmat[57])
+    {
+        if (!n_is_used[61])
+        {
+            std::fill(&n[61*block_length*num_variables], &n[(61+1)*block_length*num_variables], 0.0);
+            n_is_used[61] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[61*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[57]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[53])
+    {
+        if (!n_is_used[61])
+        {
+            std::fill(&n[61*block_length*num_variables], &n[(61+1)*block_length*num_variables], 0.0);
+            n_is_used[61] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[61*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[53]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[45])
+    {
+        if (!n_is_used[61])
+        {
+            std::fill(&n[61*block_length*num_variables], &n[(61+1)*block_length*num_variables], 0.0);
+            n_is_used[61] = true;
+        }
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[61*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[45]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[29])
+    {
+        if (!n_is_used[61])
+        {
+            std::fill(&n[61*block_length*num_variables], &n[(61+1)*block_length*num_variables], 0.0);
+            n_is_used[61] = true;
+        }
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[61*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[29]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 2)
+{
+    if (use_dmat[56])
+    {
+        if (!n_is_used[61])
+        {
+            std::fill(&n[61*block_length*num_variables], &n[(61+1)*block_length*num_variables], 0.0);
+            n_is_used[61] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[2]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[61*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[56]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[52])
+    {
+        if (!n_is_used[61])
+        {
+            std::fill(&n[61*block_length*num_variables], &n[(61+1)*block_length*num_variables], 0.0);
+            n_is_used[61] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[61*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[52]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[44])
+    {
+        if (!n_is_used[61])
+        {
+            std::fill(&n[61*block_length*num_variables], &n[(61+1)*block_length*num_variables], 0.0);
+            n_is_used[61] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[61*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[44]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[28])
+    {
+        if (!n_is_used[61])
+        {
+            std::fill(&n[61*block_length*num_variables], &n[(61+1)*block_length*num_variables], 0.0);
+            n_is_used[61] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[61*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[28]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[49])
+    {
+        if (!n_is_used[61])
+        {
+            std::fill(&n[61*block_length*num_variables], &n[(61+1)*block_length*num_variables], 0.0);
+            n_is_used[61] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[61*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[49]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[41])
+    {
+        if (!n_is_used[61])
+        {
+            std::fill(&n[61*block_length*num_variables], &n[(61+1)*block_length*num_variables], 0.0);
+            n_is_used[61] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[61*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[41]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[25])
+    {
+        if (!n_is_used[61])
+        {
+            std::fill(&n[61*block_length*num_variables], &n[(61+1)*block_length*num_variables], 0.0);
+            n_is_used[61] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[61*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[25]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[37])
+    {
+        if (!n_is_used[61])
+        {
+            std::fill(&n[61*block_length*num_variables], &n[(61+1)*block_length*num_variables], 0.0);
+            n_is_used[61] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[61*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[37]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[21])
+    {
+        if (!n_is_used[61])
+        {
+            std::fill(&n[61*block_length*num_variables], &n[(61+1)*block_length*num_variables], 0.0);
+            n_is_used[61] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[61*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[21]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[13])
+    {
+        if (!n_is_used[61])
+        {
+            std::fill(&n[61*block_length*num_variables], &n[(61+1)*block_length*num_variables], 0.0);
+            n_is_used[61] = true;
+        }
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[61*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[13]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[48])
+    {
+        if (!n_is_used[61])
+        {
+            std::fill(&n[61*block_length*num_variables], &n[(61+1)*block_length*num_variables], 0.0);
+            n_is_used[61] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[61*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[48]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[40])
+    {
+        if (!n_is_used[61])
+        {
+            std::fill(&n[61*block_length*num_variables], &n[(61+1)*block_length*num_variables], 0.0);
+            n_is_used[61] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[61*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[40]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[24])
+    {
+        if (!n_is_used[61])
+        {
+            std::fill(&n[61*block_length*num_variables], &n[(61+1)*block_length*num_variables], 0.0);
+            n_is_used[61] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[61*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[24]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[36])
+    {
+        if (!n_is_used[61])
+        {
+            std::fill(&n[61*block_length*num_variables], &n[(61+1)*block_length*num_variables], 0.0);
+            n_is_used[61] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[61*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[36]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[20])
+    {
+        if (!n_is_used[61])
+        {
+            std::fill(&n[61*block_length*num_variables], &n[(61+1)*block_length*num_variables], 0.0);
+            n_is_used[61] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[61*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[20]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[12])
+    {
+        if (!n_is_used[61])
+        {
+            std::fill(&n[61*block_length*num_variables], &n[(61+1)*block_length*num_variables], 0.0);
+            n_is_used[61] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[61*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[12]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[33])
+    {
+        if (!n_is_used[61])
+        {
+            std::fill(&n[61*block_length*num_variables], &n[(61+1)*block_length*num_variables], 0.0);
+            n_is_used[61] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[61*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[33]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[17])
+    {
+        if (!n_is_used[61])
+        {
+            std::fill(&n[61*block_length*num_variables], &n[(61+1)*block_length*num_variables], 0.0);
+            n_is_used[61] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[61*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[17]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[9])
+    {
+        if (!n_is_used[61])
+        {
+            std::fill(&n[61*block_length*num_variables], &n[(61+1)*block_length*num_variables], 0.0);
+            n_is_used[61] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[61*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[9]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[5])
+    {
+        if (!n_is_used[61])
+        {
+            std::fill(&n[61*block_length*num_variables], &n[(61+1)*block_length*num_variables], 0.0);
+            n_is_used[61] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[61*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[5]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[32])
+    {
+        if (!n_is_used[61])
+        {
+            std::fill(&n[61*block_length*num_variables], &n[(61+1)*block_length*num_variables], 0.0);
+            n_is_used[61] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[61*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[32]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[16])
+    {
+        if (!n_is_used[61])
+        {
+            std::fill(&n[61*block_length*num_variables], &n[(61+1)*block_length*num_variables], 0.0);
+            n_is_used[61] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[61*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[16]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[8])
+    {
+        if (!n_is_used[61])
+        {
+            std::fill(&n[61*block_length*num_variables], &n[(61+1)*block_length*num_variables], 0.0);
+            n_is_used[61] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[61*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[8]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[4])
+    {
+        if (!n_is_used[61])
+        {
+            std::fill(&n[61*block_length*num_variables], &n[(61+1)*block_length*num_variables], 0.0);
+            n_is_used[61] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[61*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[4]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[1])
+    {
+        if (!n_is_used[61])
+        {
+            std::fill(&n[61*block_length*num_variables], &n[(61+1)*block_length*num_variables], 0.0);
+            n_is_used[61] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[61*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[1]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[0])
+    {
+        if (!n_is_used[61])
+        {
+            std::fill(&n[61*block_length*num_variables], &n[(61+1)*block_length*num_variables], 0.0);
+            n_is_used[61] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[61*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[0]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 1)
+{
+    if (use_dmat[60])
+    {
+        if (!n_is_used[62])
+        {
+            std::fill(&n[62*block_length*num_variables], &n[(62+1)*block_length*num_variables], 0.0);
+            n_is_used[62] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[62*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[60]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 2)
+{
+    if (use_dmat[58])
+    {
+        if (!n_is_used[62])
+        {
+            std::fill(&n[62*block_length*num_variables], &n[(62+1)*block_length*num_variables], 0.0);
+            n_is_used[62] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[62*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[58]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[54])
+    {
+        if (!n_is_used[62])
+        {
+            std::fill(&n[62*block_length*num_variables], &n[(62+1)*block_length*num_variables], 0.0);
+            n_is_used[62] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[62*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[54]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[46])
+    {
+        if (!n_is_used[62])
+        {
+            std::fill(&n[62*block_length*num_variables], &n[(62+1)*block_length*num_variables], 0.0);
+            n_is_used[62] = true;
+        }
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[62*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[46]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[30])
+    {
+        if (!n_is_used[62])
+        {
+            std::fill(&n[62*block_length*num_variables], &n[(62+1)*block_length*num_variables], 0.0);
+            n_is_used[62] = true;
+        }
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[62*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[30]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 2)
+{
+    if (use_dmat[56])
+    {
+        if (!n_is_used[62])
+        {
+            std::fill(&n[62*block_length*num_variables], &n[(62+1)*block_length*num_variables], 0.0);
+            n_is_used[62] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[62*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[56]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[52])
+    {
+        if (!n_is_used[62])
+        {
+            std::fill(&n[62*block_length*num_variables], &n[(62+1)*block_length*num_variables], 0.0);
+            n_is_used[62] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[62*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[52]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[44])
+    {
+        if (!n_is_used[62])
+        {
+            std::fill(&n[62*block_length*num_variables], &n[(62+1)*block_length*num_variables], 0.0);
+            n_is_used[62] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[62*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[44]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[28])
+    {
+        if (!n_is_used[62])
+        {
+            std::fill(&n[62*block_length*num_variables], &n[(62+1)*block_length*num_variables], 0.0);
+            n_is_used[62] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[62*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[28]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[50])
+    {
+        if (!n_is_used[62])
+        {
+            std::fill(&n[62*block_length*num_variables], &n[(62+1)*block_length*num_variables], 0.0);
+            n_is_used[62] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[62*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[50]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[42])
+    {
+        if (!n_is_used[62])
+        {
+            std::fill(&n[62*block_length*num_variables], &n[(62+1)*block_length*num_variables], 0.0);
+            n_is_used[62] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[62*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[42]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[26])
+    {
+        if (!n_is_used[62])
+        {
+            std::fill(&n[62*block_length*num_variables], &n[(62+1)*block_length*num_variables], 0.0);
+            n_is_used[62] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[62*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[26]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[38])
+    {
+        if (!n_is_used[62])
+        {
+            std::fill(&n[62*block_length*num_variables], &n[(62+1)*block_length*num_variables], 0.0);
+            n_is_used[62] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[62*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[38]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[22])
+    {
+        if (!n_is_used[62])
+        {
+            std::fill(&n[62*block_length*num_variables], &n[(62+1)*block_length*num_variables], 0.0);
+            n_is_used[62] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[62*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[22]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[14])
+    {
+        if (!n_is_used[62])
+        {
+            std::fill(&n[62*block_length*num_variables], &n[(62+1)*block_length*num_variables], 0.0);
+            n_is_used[62] = true;
+        }
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[62*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[14]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[48])
+    {
+        if (!n_is_used[62])
+        {
+            std::fill(&n[62*block_length*num_variables], &n[(62+1)*block_length*num_variables], 0.0);
+            n_is_used[62] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[62*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[48]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[40])
+    {
+        if (!n_is_used[62])
+        {
+            std::fill(&n[62*block_length*num_variables], &n[(62+1)*block_length*num_variables], 0.0);
+            n_is_used[62] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[62*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[40]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[24])
+    {
+        if (!n_is_used[62])
+        {
+            std::fill(&n[62*block_length*num_variables], &n[(62+1)*block_length*num_variables], 0.0);
+            n_is_used[62] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[62*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[24]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[36])
+    {
+        if (!n_is_used[62])
+        {
+            std::fill(&n[62*block_length*num_variables], &n[(62+1)*block_length*num_variables], 0.0);
+            n_is_used[62] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[62*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[36]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[20])
+    {
+        if (!n_is_used[62])
+        {
+            std::fill(&n[62*block_length*num_variables], &n[(62+1)*block_length*num_variables], 0.0);
+            n_is_used[62] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[62*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[20]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[12])
+    {
+        if (!n_is_used[62])
+        {
+            std::fill(&n[62*block_length*num_variables], &n[(62+1)*block_length*num_variables], 0.0);
+            n_is_used[62] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[62*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[12]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[34])
+    {
+        if (!n_is_used[62])
+        {
+            std::fill(&n[62*block_length*num_variables], &n[(62+1)*block_length*num_variables], 0.0);
+            n_is_used[62] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[62*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[34]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[18])
+    {
+        if (!n_is_used[62])
+        {
+            std::fill(&n[62*block_length*num_variables], &n[(62+1)*block_length*num_variables], 0.0);
+            n_is_used[62] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[62*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[18]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[10])
+    {
+        if (!n_is_used[62])
+        {
+            std::fill(&n[62*block_length*num_variables], &n[(62+1)*block_length*num_variables], 0.0);
+            n_is_used[62] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[62*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[10]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[6])
+    {
+        if (!n_is_used[62])
+        {
+            std::fill(&n[62*block_length*num_variables], &n[(62+1)*block_length*num_variables], 0.0);
+            n_is_used[62] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[62*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[6]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[32])
+    {
+        if (!n_is_used[62])
+        {
+            std::fill(&n[62*block_length*num_variables], &n[(62+1)*block_length*num_variables], 0.0);
+            n_is_used[62] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[62*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[32]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[16])
+    {
+        if (!n_is_used[62])
+        {
+            std::fill(&n[62*block_length*num_variables], &n[(62+1)*block_length*num_variables], 0.0);
+            n_is_used[62] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[62*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[16]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[8])
+    {
+        if (!n_is_used[62])
+        {
+            std::fill(&n[62*block_length*num_variables], &n[(62+1)*block_length*num_variables], 0.0);
+            n_is_used[62] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[62*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[8]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[4])
+    {
+        if (!n_is_used[62])
+        {
+            std::fill(&n[62*block_length*num_variables], &n[(62+1)*block_length*num_variables], 0.0);
+            n_is_used[62] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[62*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[4]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[2])
+    {
+        if (!n_is_used[62])
+        {
+            std::fill(&n[62*block_length*num_variables], &n[(62+1)*block_length*num_variables], 0.0);
+            n_is_used[62] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[62*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[2]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[0])
+    {
+        if (!n_is_used[62])
+        {
+            std::fill(&n[62*block_length*num_variables], &n[(62+1)*block_length*num_variables], 0.0);
+            n_is_used[62] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[62*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[0]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 0)
+{
+    if (use_dmat[62])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[62]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 1)
+{
+    if (use_dmat[61])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[61]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 2)
+{
+    if (use_dmat[59])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[59]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[55])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[55]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[47])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[47]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[31])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[31]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 1)
+{
+    if (use_dmat[60])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[60]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 2)
+{
+    if (use_dmat[58])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[2]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[58]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[54])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[54]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[46])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[46]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[30])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[30]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 2)
+{
+    if (use_dmat[57])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[57]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[53])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[53]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[45])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[45]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[29])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[29]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[51])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[51]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[43])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[43]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[27])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[27]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[39])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[39]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[23])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[23]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[15])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[15]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 2)
+{
+    if (use_dmat[56])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[56]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[52])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[52]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[44])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[44]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[28])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[28]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[50])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[50]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[42])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[42]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[26])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[26]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[38])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[38]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[22])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[22]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[14])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[14]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[49])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[49]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[41])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[41]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[25])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[25]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[37])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[37]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[21])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[21]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[13])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[13]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[35])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[35]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[19])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[19]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[11])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[11]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[7])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[7]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 3)
+{
+    if (use_dmat[48])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[48]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[40])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[40]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[24])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[24]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[36])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[36]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[20])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[20]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[12])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[12]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[34])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[34]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[18])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[18]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[10])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[10]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[6])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[6]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[33])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[33]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[17])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[17]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[9])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[9]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[5])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[5]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[3])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[3]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 4)
+{
+    if (use_dmat[32])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[32]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[16])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[16]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[8])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[8]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[4])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[4]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[2])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[2]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[1])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[1]]);
+        coor.clear();
+    }
+}
+
+if (geo_derv_order > 5)
+{
+    if (use_dmat[0])
+    {
+        if (!n_is_used[63])
+        {
+            std::fill(&n[63*block_length*num_variables], &n[(63+1)*block_length*num_variables], 0.0);
+            n_is_used[63] = true;
+        }
+        coor.push_back(geo_coor[0]);
+        coor.push_back(geo_coor[1]);
+        coor.push_back(geo_coor[2]);
+        coor.push_back(geo_coor[3]);
+        coor.push_back(geo_coor[4]);
+        coor.push_back(geo_coor[5]);
+        batch.get_dens_geo_derv(basis,
+                                mat_dim,
+                                get_gradient,
+                                get_tau,
+                                coor,
+                                &n[63*block_length*num_variables],
+                                true,
+                                &dmat[dmat_index[0]]);
+        coor.clear();
+    }
+}
+

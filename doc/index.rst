@@ -13,3 +13,4 @@ Contents:
    compilation
    interfaces
    grid
+   basis_functions

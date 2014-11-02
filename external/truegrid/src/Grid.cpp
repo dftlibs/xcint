@@ -13,9 +13,9 @@
 #include "rolex.h"
 #include "parameters.h"
 #include "sphere_lebedev_rule.h"
-#include "becke_partitioning.h"
-#include "grid_radial.h"
 #include "grid_constants.h"
+#include "grid_radial.h"
+#include "becke_partitioning.h"
 #include "MemAllocator.h"
 
 

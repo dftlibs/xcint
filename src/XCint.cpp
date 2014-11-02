@@ -17,6 +17,7 @@
 #include "xcint_parameters.h"
 #include "parameters.h"
 #include "xcint_c_interface.h"
+#include "truegrid_c_interface.h"
 
 #ifdef HAVE_MKL_BLAS
 #include "mkl.h"
@@ -91,19 +92,19 @@ void XCint::generate_grid(const double radial_precision,
                           const int    shell_num_primitives[],
                           const double primitive_exp[])
 {
-    grid.set_grid_parameters(radial_precision,
-                             angular_min,
-                             angular_max);
+    truegrid_set_grid_parameters(radial_precision,
+                                 angular_min,
+                                 angular_max);
 
-    grid.generate(verbosity,
-                  num_centers,
-                  center_xyz,
-                  center_element,
-                  num_shells,
-                  shell_center,
-                  l_quantum_num,
-                  shell_num_primitives,
-                  primitive_exp);
+    truegrid_generate(verbosity,
+                      num_centers,
+                      center_xyz,
+                      center_element,
+                      num_shells,
+                      shell_center,
+                      l_quantum_num,
+                      shell_num_primitives,
+                      primitive_exp);
 }
 
 
@@ -319,7 +320,9 @@ void XCint::integrate_batch(      double dmat[],
                             const int    mat_dim,
                             const bool   get_gradient,
                             const bool   get_tau,
-                            const int    dmat_index[])
+                            const int    dmat_index[],
+                            const double grid_p[],
+                            const double grid_w[])
 {
     rTypeAOBatch batch;
     batch.allocate_buffers(mat_dim, AO_BLOCK_LENGTH); // FIXME
@@ -340,7 +343,7 @@ void XCint::integrate_batch(      double dmat[],
     batch.get_ao(basis,
                  get_gradient,
                  max_ao_order_g,
-                 &grid.p[ipoint*3]);
+                 &grid_p[ipoint*3]);
 
     time_ao += rolex::stop_partial();
 
@@ -363,7 +366,7 @@ void XCint::integrate_batch(      double dmat[],
 
     for (int ib = 0; ib < block_length; ib++)
     {
-        num_electrons += grid.w[ipoint + ib]*n[ib];
+        num_electrons += grid_w[ipoint + ib]*n[ib];
     }
 
     time_densities += rolex::stop_partial();
@@ -457,10 +460,10 @@ void XCint::integrate_batch(      double dmat[],
         double sum = 0.0;
         for (int ib = 0; ib < block_length; ib++)
         {
-            if (n[ib] > 1.0e-14 and fabs(grid.w[ipoint + ib]) > 1.0e-30)
+            if (n[ib] > 1.0e-14 and fabs(grid_w[ipoint + ib]) > 1.0e-30)
             {
                 xc_eval(fun.fun, &xcin[ib*num_variables*fun.dens_offset], &xcout[ib*fun.dens_offset]);
-                sum += xcout[ib*fun.dens_offset + fun.dens_offset - 1]*grid.w[ipoint + ib];
+                sum += xcout[ib*fun.dens_offset + fun.dens_offset - 1]*grid_w[ipoint + ib];
             }
         }
         xc_energy += sum;
@@ -517,7 +520,8 @@ void XCint::integrate_batch(      double dmat[],
                               xc_mat,
                               xc_energy,
                               coor,
-                              batch);
+                              batch,
+                              grid_w);
         }
 
         if (geo_derv_order > 0) // we have geo dervs
@@ -555,7 +559,8 @@ void XCint::integrate_batch(      double dmat[],
                                   xc_mat,
                                   xc_energy,
                                   coor,
-                                  batch);
+                                  batch,
+                                  grid_w);
                 n_is_used[1] = false;
 
                 // M_i  d_n
@@ -572,7 +577,8 @@ void XCint::integrate_batch(      double dmat[],
                                   xc_mat,
                                   xc_energy,
                                   coor,
-                                  batch);
+                                  batch,
+                                  grid_w);
                 coor.clear();
             }
 
@@ -595,7 +601,8 @@ void XCint::integrate_batch(      double dmat[],
                                   xc_mat,
                                   xc_energy,
                                   coor,
-                                  batch);
+                                  batch,
+                                  grid_w);
                 coor.clear();
 
                 // FIXME add shortcut if i == j
@@ -629,7 +636,8 @@ void XCint::integrate_batch(      double dmat[],
                                   xc_mat,
                                   xc_energy,
                                   coor,
-                                  batch);
+                                  batch,
+                                  grid_w);
                 coor.clear();
                 n_is_used[1] = false;
 
@@ -663,7 +671,8 @@ void XCint::integrate_batch(      double dmat[],
                                   xc_mat,
                                   xc_energy,
                                   coor,
-                                  batch);
+                                  batch,
+                                  grid_w);
                 coor.clear();
                 n_is_used[1] = false;
 
@@ -731,7 +740,8 @@ void XCint::integrate_batch(      double dmat[],
                                   xc_mat,
                                   xc_energy,
                                   coor,
-                                  batch);
+                                  batch,
+                                  grid_w);
                 n_is_used[1] = false;
                 n_is_used[2] = false;
                 n_is_used[3] = false;
@@ -769,7 +779,8 @@ void XCint::integrate_batch(      double dmat[],
                                   xc_mat,
                                   xc_energy,
                                   coor,
-                                  batch);
+                                  batch,
+                                  grid_w);
                 coor.clear();
 
                 // M    d_nnn n_i n_a
@@ -818,7 +829,8 @@ void XCint::integrate_batch(      double dmat[],
                                   xc_mat,
                                   xc_energy,
                                   coor,
-                                  batch);
+                                  batch,
+                                  grid_w);
                 n_is_used[1] = false;
                 n_is_used[2] = false;
                 n_is_used[3] = false;
@@ -1000,7 +1012,7 @@ void XCint::integrate(const int    mode,
     // read grid
     if (rank == 0)
     {
-        grid.read();
+        truegrid_read();
     }
 
 #ifdef ENABLE_MPI
@@ -1008,7 +1020,10 @@ void XCint::integrate(const int    mode,
 #endif
 
     // stretch to align on block length
-    grid.stretch();
+    truegrid_stretch();
+
+    double *grid_p = (double*) truegrid_get_grid_p();
+    double *grid_w = (double*) truegrid_get_grid_w();
 
     bool *use_dmat = NULL;
     int  *dmat_index = NULL;
@@ -1077,7 +1092,7 @@ void XCint::integrate(const int    mode,
         double *xc_mat_local = NULL;
         if (get_xc_mat) xc_mat_local = &xc_mat[0];
 #endif
-        for (int ibatch = 0; ibatch < grid.num_points/AO_BLOCK_LENGTH; ibatch++)
+        for (int ibatch = 0; ibatch < truegrid_get_num_points()/AO_BLOCK_LENGTH; ibatch++)
         {
             int ipoint = ibatch*AO_BLOCK_LENGTH;
 
@@ -1101,7 +1116,9 @@ void XCint::integrate(const int    mode,
                             mat_dim,
                             get_gradient,
                             get_tau,
-                            dmat_index);
+                            dmat_index,
+                            grid_p,
+                            grid_w);
         }
 
 #ifdef ENABLE_OMP
@@ -1279,7 +1296,8 @@ void XCint::distribute_matrix(const int              block_length,
                                     double           xc_mat[],
                                     double           &xc_energy,
                               const std::vector<int> coor,
-                                    rTypeAOBatch     &batch)
+                                    rTypeAOBatch     &batch,
+                              const double           grid_w[])
 {
     rolex::start_partial();
 
@@ -1339,10 +1357,10 @@ void XCint::distribute_matrix(const int              block_length,
         std::fill(&xcout[0], &xcout[fun.dens_offset*block_length], 0.0);
         for (int ib = 0; ib < block_length; ib++)
         {
-            if (n[ib] > 1.0e-14 and fabs(grid.w[w_off + ib]) > 1.0e-30)
+            if (n[ib] > 1.0e-14 and fabs(grid_w[w_off + ib]) > 1.0e-30)
             {
                 xc_eval(fun.fun, &xcin[ib*num_variables*fun.dens_offset], &xcout[ib*fun.dens_offset]);
-                u[off + ib] += xcout[(ib+1)*fun.dens_offset - 1]*grid.w[w_off + ib];
+                u[off + ib] += xcout[(ib+1)*fun.dens_offset - 1]*grid_w[w_off + ib];
             }
         }
     }
@@ -1393,7 +1411,7 @@ void XCint::distribute_matrix(const int              block_length,
 
     for (int ib = 0; ib < block_length; ib++)
     {
-        xc_energy += xcout[ib*fun.dens_offset]*grid.w[w_off + ib];
+        xc_energy += xcout[ib*fun.dens_offset]*grid_w[w_off + ib];
     }
 
     MemAllocator::deallocate(xcin);

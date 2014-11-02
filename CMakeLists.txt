@@ -66,10 +66,10 @@ set(DEVELOPMENT_CODE TRUE)
 
 include(ConfigExternal)
 
+# XCFun code
 if(MPI_FOUND)
     set(PARENT_DEFINITIONS "${PARENT_DEFINITIONS} -DENABLE_MPI")
 endif()
-
 set(ExternalProjectCMakeArgs
     -DCMAKE_BUILD_TYPE=Release
     -DCMAKE_INSTALL_PREFIX=${PROJECT_BINARY_DIR}/external
@@ -78,6 +78,17 @@ set(ExternalProjectCMakeArgs
     -DENABLE_FORTRAN_INTERFACE=OFF
     )
 add_external(xcfun)
+
+
+# truegrid code
+set(ExternalProjectCMakeArgs
+    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+    -DCMAKE_INSTALL_PREFIX=${PROJECT_BINARY_DIR}/external
+    -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
+    -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
+    )
+add_external(truegrid)
+include_directories(${PROJECT_SOURCE_DIR}/external/truegrid/interfaces)
 
 
 # math detection
@@ -150,12 +161,8 @@ add_library(
     src/io.cpp
     src/rolex.cpp
     src/Functional.cpp
-    src/Grid.cpp
     src/XCint.cpp
-    src/becke_partitioning.cpp
-    src/grid_radial.cpp
     src/MemAllocator.cpp
-    external/lebedev/sphere_lebedev_rule.cpp
     interfaces/xcint_c_interface.cpp
     src/density/ao_vector.cpp
     src/density/rTypeBasis.cpp
@@ -194,6 +201,7 @@ target_link_libraries(
     gtest
     xcint
     ${PROJECT_BINARY_DIR}/external/xcfun-build/libxcfun.a
+    ${PROJECT_BINARY_DIR}/external/truegrid-build/libtruegrid.a
     ${EXTERNAL_LIBS}
     pthread
     )
@@ -221,6 +229,7 @@ add_custom_target(
 
 
 add_dependencies(xcint xcfun)
+add_dependencies(xcint truegrid)
 
 if(ENABLE_FORTRAN_INTERFACE)
     add_library(

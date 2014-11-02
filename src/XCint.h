@@ -4,7 +4,6 @@
 #include "rTypeBasis.h"
 #include "rTypeAOBatch.h"
 #include "Functional.h"
-#include "Grid.h"
 
 typedef int (*print_function)(const char* line);
 
@@ -74,7 +73,6 @@ class XCint
 
         Functional fun;
         rTypeBasis basis;
-        Grid grid;
 
         void nullify();
 
@@ -90,7 +88,8 @@ class XCint
                                      double           xc_mat[],
                                      double           &xc_energy,
                                const std::vector<int> coor,
-                                     rTypeAOBatch     &batch);
+                                     rTypeAOBatch     &batch,
+                               const double           grid_w[]);
 
         void integrate_batch(      double dmat[],
                              const int    get_xc_energy,
@@ -110,7 +109,9 @@ class XCint
                              const int    mat_dim,
                              const bool   get_gradient,
                              const bool   get_tau,
-                             const int    dmat_index[]);
+                             const int    dmat_index[],
+                             const double grid_p[],
+                             const double grid_w[]);
 
         double time_total;
         double time_ao;

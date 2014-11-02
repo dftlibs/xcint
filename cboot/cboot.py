@@ -188,7 +188,6 @@ Options:
   --cxx=<CXX>             C++ compiler [default: g++].
   --omp                   Enable OpenMP (sets -DENABLE_OMP=ON).
   --mpi                   Enable MPI (sets -DENABLE_MPI=ON).
-  --opencl                Enable OpenCL (sets -DENABLE_OPENCL=ON).
   --coverage              Enable code coverage (sets -DENABLE_CODE_COVERAGE=ON).
   --mkl=<MKL>             Pass MKL flag to the compiler and linker (sequential, parallel, or cluster).
   --blas=<BLAS>           Specify BLAS library (auto, builtin, none, or full path) [default: auto].

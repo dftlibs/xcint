@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project(xcint)
 
 option(ENABLE_FORTRAN_INTERFACE "Build Fortran interface" OFF)
-option(ENABLE_OPENCL            "Enable OpenCL"           OFF)
 option(ENABLE_OMP               "Enable OpenMP"           OFF)
 option(ENABLE_MPI               "Enable MPI"              OFF)
 option(ENABLE_CODE_COVERAGE     "Enable code coverage"    OFF)
@@ -63,10 +62,6 @@ include(ConfigParentSettings)
 
 set(EXTERNAL_LIBS)
 
-if(ENABLE_OPENCL)
-    add_definitions(-DENABLE_OPENCL)
-endif()
-
 set(DEVELOPMENT_CODE TRUE)
 
 include(ConfigExternal)
@@ -83,32 +78,6 @@ set(ExternalProjectCMakeArgs
     -DENABLE_FORTRAN_INTERFACE=OFF
     )
 add_external(xcfun)
-
-if(ENABLE_OPENCL)
-    set(ExternalProjectCMakeArgs
-        -DCMAKE_BUILD_TYPE=Release
-        -DCMAKE_INSTALL_PREFIX=${PROJECT_BINARY_DIR}/external
-        -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
-        -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
-        -DBUILD_TEST=OFF
-        -DBUILD_KTEST=OFF
-        -DBUILD_CLIENT=OFF
-        )
-    ExternalProject_Add(clBLAS
-        DOWNLOAD_COMMAND ${UPDATE_COMMAND}
-        DOWNLOAD_DIR ${PROJECT_SOURCE_DIR}
-        SOURCE_DIR ${PROJECT_SOURCE_DIR}/external/clBLAS/src
-        BINARY_DIR ${PROJECT_BINARY_DIR}/external/clBLAS-build
-        STAMP_DIR ${PROJECT_BINARY_DIR}/external/clBLAS-stamp
-        TMP_DIR ${PROJECT_BINARY_DIR}/external/clBLAS-tmp
-        INSTALL_DIR ${PROJECT_BINARY_DIR}/external
-        CMAKE_ARGS ${ExternalProjectCMakeArgs}
-        )
-    set(EXTERNAL_LIBS
-        ${PROJECT_BINARY_DIR}/external/lib64/libclBLAS.so
-        ${EXTERNAL_LIBS}
-        )
-endif()
 
 
 # math detection
@@ -252,9 +221,6 @@ add_custom_target(
 
 
 add_dependencies(xcint xcfun)
-if(ENABLE_OPENCL)
-    add_dependencies(xcint clBLAS)
-endif()
 
 if(ENABLE_FORTRAN_INTERFACE)
     add_library(

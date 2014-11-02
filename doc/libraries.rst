@@ -12,6 +12,3 @@ External libraries used by XCint
       licensed under LGPL Version 3
 - Google Test
       Copyright: Google Inc.
-- AMD clBLAS
-      Copyright: Advanced Micro Devices, Inc.,
-      licensed under Apache License Version 2.0

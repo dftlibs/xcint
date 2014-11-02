@@ -37,32 +37,6 @@ rTypeAOBatch::rTypeAOBatch()
     nullify();
 
     assert(AO_BLOCK_LENGTH%AO_CHUNK_LENGTH == 0);
-
-#ifdef ENABLE_OPENCL
-#define DEVICE_TYPE CL_DEVICE_TYPE_GPU
-    platform = 0;
-    device   = 0;
-    props[0] = CL_CONTEXT_PLATFORM;
-    props[1] = 0;
-    props[2] = 0;
-    context  = 0;
-    queue    = 0;
-    event    = NULL;
-
-    cl_int err;
-
-    // setup opencl environment
-    err = clGetPlatformIDs(1, &platform, NULL);
-
-    err = clGetDeviceIDs(platform, DEVICE_TYPE, 1, &device, NULL);
-
-    props[1] = (cl_context_properties)platform;
-    context = clCreateContext(props, 1, &device, NULL, NULL, &err);
-    queue = clCreateCommandQueue(context, device, 0, &err);
-
-    // setup clblas
-    err = clblasSetup();
-#endif // ENABLE_OPENCL
 }
 
 
@@ -81,20 +55,6 @@ rTypeAOBatch::~rTypeAOBatch()
 
     MemAllocator::deallocate(A);
     MemAllocator::deallocate(C);
-
-#ifdef ENABLE_OPENCL
-    // release opencl memory objects
-    clReleaseMemObject(A_opencl_buffer);
-    clReleaseMemObject(B_opencl_buffer);
-    clReleaseMemObject(C_opencl_buffer);
-
-    // finalize work with clblas
-    clblasTeardown();
-
-    // release opencl working objects
-    clReleaseCommandQueue(queue);
-    clReleaseContext(context);
-#endif
 
     nullify();
 }
@@ -133,24 +93,6 @@ void rTypeAOBatch::allocate_buffers(const int n,
 
     if (A == NULL) A = (double*) MemAllocator::allocate(A_buffer_size*sizeof(double));
     if (C == NULL) C = (double*) MemAllocator::allocate(C_buffer_size*sizeof(double));
-
-#ifdef ENABLE_OPENCL
-    cl_int err;
-
-    // prepare opencl memory objects
-    A_opencl_buffer = clCreateBuffer(context,
-                                     CL_MEM_READ_ONLY,
-                                     A_buffer_size*sizeof(cl_double),
-                                     NULL, &err);
-    B_opencl_buffer = clCreateBuffer(context,
-                                     CL_MEM_READ_ONLY,
-                                     B_buffer_size*sizeof(cl_double),
-                                     NULL, &err);
-    C_opencl_buffer = clCreateBuffer(context,
-                                     CL_MEM_READ_ONLY,
-                                     C_buffer_size*sizeof(cl_double),
-                                     NULL, &err);
-#endif
 }
 
 
@@ -379,88 +321,17 @@ void rTypeAOBatch::distribute_matrix(const int    mat_dim,
         }
     }
 
-#ifdef ENABLE_OPENCL
-    if (k_aoc_num > 128) // don't bother calling the OCL infrastructure for small matrices FIXME add proper threshold
-    {
-        cl_int err;
-
-        size_t K = AO_BLOCK_LENGTH;
-        size_t M = k_aoc_num;
-        size_t N = l_aoc_num;
-
-        size_t lda = K;
-        size_t ldb = K;
-        size_t ldc = N;
-
-        size_t A_size = M*K;
-        size_t B_size = K*N;
-        size_t C_size = M*N;
-
-        // place matrices inside buffer
-        err = clEnqueueWriteBuffer(queue,
-                                   A_opencl_buffer,
-                                   CL_TRUE, 0,
-                                   A_size*sizeof(cl_double),
-                                   A,
-                                   0, NULL, NULL);
-        err = clEnqueueWriteBuffer(queue,
-                                   B_opencl_buffer,
-                                   CL_TRUE, 0,
-                                   B_size*sizeof(cl_double),
-                                   l_aoc,
-                                   0, NULL, NULL);
-
-        // call the matrix multiply
-        err = clblasDgemm(clblasRowMajor,
-                          clblasNoTrans,
-                          clblasTrans,
-                          M, N, K,
-                          1.0,
-                          A_opencl_buffer, 0, lda,
-                          B_opencl_buffer, 0, ldb,
-                          0.0,
-                          C_opencl_buffer, 0, ldc,
-                          1, &queue, 0, NULL, &event);
-
-        // wait for calculations to be finished
-        err = clWaitForEvents(1, &event);
-
-        // fetch results from device memory
-        err = clEnqueueReadBuffer(queue,
-                                  C_opencl_buffer,
-                                  CL_TRUE, 0,
-                                  C_size*sizeof(cl_double),
-                                  C,
-                                  0, NULL, NULL);
-//      cblas_dgemm(CblasRowMajor,
-//                  CblasNoTrans,
-//                  CblasTrans,
-//                  M,
-//                  N,
-//                  K,
-//                  1.0,
-//                  A, lda,
-//                  l_aoc, ldb,
-//                  0.0,
-//                  C, ldc);
-    }
-    else
-    {
-#endif // ENABLE_OPENCL
-        cblas_dgemm(CblasRowMajor,
-                    CblasNoTrans,
-                    CblasTrans,
-                    k_aoc_num,
-                    l_aoc_num,
-                    AO_BLOCK_LENGTH,
-                    1.0,
-                    A, AO_BLOCK_LENGTH,
-                    l_aoc, AO_BLOCK_LENGTH,
-                    0.0,
-                    C, l_aoc_num);
-#ifdef ENABLE_OPENCL
-    }
-#endif
+    cblas_dgemm(CblasRowMajor,
+                CblasNoTrans,
+                CblasTrans,
+                k_aoc_num,
+                l_aoc_num,
+                AO_BLOCK_LENGTH,
+                1.0,
+                A, AO_BLOCK_LENGTH,
+                l_aoc, AO_BLOCK_LENGTH,
+                0.0,
+                C, l_aoc_num);
 
     if (use_tau)
     {

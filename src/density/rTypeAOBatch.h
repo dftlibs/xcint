@@ -4,10 +4,6 @@
 #include <stdlib.h>
 #include <vector>
 
-#ifdef ENABLE_OPENCL
-#include <clBLAS.h>
-#endif
-
 #include "rTypeBasis.h"
 
 class rTypeAOBatch
@@ -125,19 +121,6 @@ class rTypeAOBatch
         size_t A_buffer_size;
         size_t B_buffer_size;
         size_t C_buffer_size;
-
-#ifdef ENABLE_OPENCL // FIXME later move to own class
-        cl_mem A_opencl_buffer;
-        cl_mem B_opencl_buffer;
-        cl_mem C_opencl_buffer;
-
-        cl_platform_id        platform;
-        cl_device_id          device;
-        cl_context_properties props[3];
-        cl_context            context;
-        cl_command_queue      queue;
-        cl_event              event;
-#endif
 
         int     ao_length;
         double *ao;

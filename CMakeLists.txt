@@ -19,7 +19,7 @@ endif()
 
 find_package(PythonInterp)
 if(NOT PYTHONINTERP_FOUND)
-    message(FATAL_ERROR "ERROR: Python interpreter not foubnd. Cannot continue - sorry.")
+    message(FATAL_ERROR "ERROR: Python interpreter not found. Cannot continue - sorry.")
 endif()
 
 option(ENABLE_GIT_SUBMODULES "Download external projects using Git submodules at compilation time" ON)

@@ -6,7 +6,6 @@ XCint
 
 Integrate your ideas.
 
-- [Project website](http://rbast.github.io/xcint)
 - [Documentation](http://xcint.readthedocs.org/)
 - [Build and test history](https://travis-ci.org/rbast/xcint/builds)
 - [Code coverage](https://coveralls.io/r/rbast/xcint)

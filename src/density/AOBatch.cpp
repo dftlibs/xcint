@@ -2,13 +2,22 @@
 #include <stdio.h>
 #include <math.h>
 
-#ifdef HAVE_MKL_BLAS
-#include "mkl.h"
-#elif HAVE_SYSTEM_NATIVE_BLAS
-#include "cblas.h"
-#elif HAVE_ATLAS_BLAS
-#include "cblas.h"
-#endif
+extern "C" {
+    extern void dgemm_(char *ta, char *tb,
+                       int *m, int *n, int *k,
+                       double *alpha,
+                       const double *a, int *lda,
+                       const double *b, int *ldb,
+                       double *beta,
+                       double *c, int *ldc);
+    extern void dsymm_(char *si, char *up,
+                       int *m, int *n,
+                       double *alpha,
+                       const double *a, int *lda,
+                       const double *b, int *ldb,
+                       double *beta,
+                       double *c, int *ldc);
+};
 
 #include <algorithm>
 #include <iostream>
@@ -241,17 +250,17 @@ void AOBatch::distribute_matrix_undiff(const int    mat_dim,
 
 
 void AOBatch::distribute_matrix(const int    mat_dim,
-                                     const bool   use_gradient,
-                                     const bool   use_tau,
-                                     const double prefactors[],
-                                     const double u[],
-                                           double fmat[],
-                                     const int    k_aoc_num,
-                                     const int    k_aoc_index[],
-                                     const double k_aoc[],
-                                     const int    l_aoc_num,
-                                     const int    l_aoc_index[],
-                                     const double l_aoc[])
+                                const bool   use_gradient,
+                                const bool   use_tau,
+                                const double prefactors[],
+                                const double u[],
+                                      double fmat[],
+                                const int    k_aoc_num,
+                                const int    k_aoc_index[],
+                                const double k_aoc[],
+                                const int    l_aoc_num,
+                                const int    l_aoc_index[],
+                                const double l_aoc[])
 {
     // here we compute       F(k, l) += AO_k(k, b) u(b) AO_l(l, b)
     // in two steps
@@ -303,19 +312,19 @@ void AOBatch::distribute_matrix(const int    mat_dim,
     int ldc = im;
     double alpha = 1.0;
     double beta = 0.0;
-    dgemm(&ta,
-          &tb,
-          &im,
-          &in,
-          &ik,
-          &alpha,
-          W,
-          &lda,
-          l_aoc,
-          &ldb,
-          &beta,
-          F,
-          &ldc);
+    dgemm_(&ta,
+           &tb,
+           &im,
+           &in,
+           &ik,
+           &alpha,
+           W,
+           &lda,
+           l_aoc,
+           &ldb,
+           &beta,
+           F,
+           &ldc);
 
     if (use_tau)
     {
@@ -336,19 +345,19 @@ void AOBatch::distribute_matrix(const int    mat_dim,
 
                 alpha = prefactors[4];
                 beta = 1.0;
-                dgemm(&ta,
-                      &tb,
-                      &im,
-                      &in,
-                      &ik,
-                      &alpha,
-                      W,
-                      &lda,
-                      &l_aoc[(ixyz+1)*AO_BLOCK_LENGTH*mat_dim],
-                      &ldb,
-                      &beta,
-                      F,
-                      &ldc);
+                dgemm_(&ta,
+                       &tb,
+                       &im,
+                       &in,
+                       &ik,
+                       &alpha,
+                       W,
+                       &lda,
+                       &l_aoc[(ixyz+1)*AO_BLOCK_LENGTH*mat_dim],
+                       &ldb,
+                       &beta,
+                       F,
+                       &ldc);
             }
         }
     }
@@ -478,7 +487,7 @@ void AOBatch::get_density(const int    mat_dim,
                 {
                     lc = l_aoc_index[l];
                     D[k*l_aoc_num + l] = dmat[kc*mat_dim + lc]
-                                                    + dmat[lc*mat_dim + kc];
+                                       + dmat[lc*mat_dim + kc];
                 }
             }
         }
@@ -487,30 +496,53 @@ void AOBatch::get_density(const int    mat_dim,
     // form xmat
     if (dmat_is_symmetric)
     {
-        cblas_dsymm(CblasRowMajor,
-                    CblasLeft,
-                    CblasLower,
-                    k_aoc_num,
-                    AO_BLOCK_LENGTH,
-                    1.0,
-                    D, k_aoc_num,
-                    l_aoc, AO_BLOCK_LENGTH,
-                    0.0,
-                    X, AO_BLOCK_LENGTH);
+        char si = 'r';
+        char up = 'u';
+        int im = AO_BLOCK_LENGTH;
+        int in = k_aoc_num;
+        int lda = in;
+        int ldb = im;
+        int ldc = im;
+        double alpha = 1.0;
+        double beta = 0.0;
+        dsymm_(&si,
+               &up,
+               &im,
+               &in,
+               &alpha,
+               D,
+               &lda,
+               l_aoc,
+               &ldb,
+               &beta,
+               X,
+               &ldc);
     }
     else
     {
-        cblas_dgemm(CblasRowMajor,
-                    CblasNoTrans,
-                    CblasNoTrans,
-                    k_aoc_num,
-                    AO_BLOCK_LENGTH,
-                    l_aoc_num,
-                    1.0,
-                    D, l_aoc_num,
-                    l_aoc, AO_BLOCK_LENGTH,
-                    0.0,
-                    X, AO_BLOCK_LENGTH);
+        char ta = 'n';
+        char tb = 'n';
+        int im = AO_BLOCK_LENGTH;
+        int in = k_aoc_num;
+        int ik = l_aoc_num;
+        int lda = im;
+        int ldb = ik;
+        int ldc = im;
+        double alpha = 1.0;
+        double beta = 0.0;
+        dgemm_(&ta,
+               &tb,
+               &im,
+               &in,
+               &ik,
+               &alpha,
+               l_aoc,
+               &lda,
+               D,
+               &ldb,
+               &beta,
+               X,
+               &ldc);
     }
 
     int num_slices;
@@ -542,30 +574,53 @@ void AOBatch::get_density(const int    mat_dim,
             {
                 if (dmat_is_symmetric)
                 {
-                    cblas_dsymm(CblasRowMajor,
-                                CblasLeft,
-                                CblasLower,
-                                k_aoc_num,
-                                AO_BLOCK_LENGTH,
-                                1.0,
-                                D, k_aoc_num,
-                                &l_aoc[(ixyz+1)*AO_BLOCK_LENGTH*mat_dim], AO_BLOCK_LENGTH,
-                                0.0,
-                                X, AO_BLOCK_LENGTH);
+                    char si = 'r';
+                    char up = 'u';
+                    int im = AO_BLOCK_LENGTH;
+                    int in = k_aoc_num;
+                    int lda = in;
+                    int ldb = im;
+                    int ldc = im;
+                    double alpha = 1.0;
+                    double beta = 0.0;
+                    dsymm_(&si,
+                           &up,
+                           &im,
+                           &in,
+                           &alpha,
+                           D,
+                           &lda,
+                           &l_aoc[(ixyz+1)*AO_BLOCK_LENGTH*mat_dim],
+                           &ldb,
+                           &beta,
+                           X,
+                           &ldc);
                 }
                 else
                 {
-                    cblas_dgemm(CblasRowMajor,
-                                CblasNoTrans,
-                                CblasNoTrans,
-                                k_aoc_num,
-                                AO_BLOCK_LENGTH,
-                                l_aoc_num,
-                                1.0,
-                                D, l_aoc_num,
-                                &l_aoc[(ixyz+1)*AO_BLOCK_LENGTH*mat_dim], AO_BLOCK_LENGTH,
-                                0.0,
-                                X, AO_BLOCK_LENGTH);
+                    char ta = 'n';
+                    char tb = 'n';
+                    int im = AO_BLOCK_LENGTH;
+                    int in = k_aoc_num;
+                    int ik = l_aoc_num;
+                    int lda = im;
+                    int ldb = ik;
+                    int ldc = im;
+                    double alpha = 1.0;
+                    double beta = 0.0;
+                    dgemm_(&ta,
+                           &tb,
+                           &im,
+                           &in,
+                           &ik,
+                           &alpha,
+                           &l_aoc[(ixyz+1)*AO_BLOCK_LENGTH*mat_dim],
+                           &lda,
+                           D,
+                           &ldb,
+                           &beta,
+                           X,
+                           &ldc);
                 }
 
                 for (int k = 0; k < k_aoc_num; k++)

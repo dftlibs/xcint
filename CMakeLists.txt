@@ -97,7 +97,7 @@ include_directories(${PROJECT_SOURCE_DIR}/external/truegrid/interfaces)
 
 
 # math detection
-set(BLAS_LANG "C")
+set(BLAS_LANG "Fortran")
 set(LAPACK_LANG "Fortran")
 set(MKL_COMPILER_BINDINGS ${CMAKE_CXX_COMPILER_ID})
 include(ConfigMath)

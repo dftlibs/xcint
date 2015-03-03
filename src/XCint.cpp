@@ -19,14 +19,6 @@
 #include "xcint_c_interface.h"
 #include "truegrid_c_interface.h"
 
-#ifdef HAVE_MKL_BLAS
-#include "mkl.h"
-#elif HAVE_SYSTEM_NATIVE_BLAS
-#include "cblas.h"
-#elif HAVE_ATLAS_BLAS
-#include "cblas.h"
-#endif
-
 #ifdef ENABLE_OMP
 #include "omp.h"
 #endif
@@ -1128,7 +1120,14 @@ void XCint::integrate(const int    mode,
     {
         num_electrons += num_electrons_buffer[ithread];
         if (get_xc_energy) xc_energy += xc_energy_buffer[ithread];
-        if (get_xc_mat) cblas_daxpy(mat_dim*mat_dim, 1.0, &xc_mat_buffer[ithread*mat_dim*mat_dim], 1, &xc_mat[0], 1);
+        if (get_xc_mat)
+        {
+            // FIXME consider using blas daxpy for this
+            for (int i = 0; i < mat_dim*mat_dim; i++)
+            {
+                xc_mat[i] += xc_mat_buffer[ithread*mat_dim*mat_dim + i];
+            }
+        }
     }
 
     MemAllocator::deallocate(num_electrons_buffer);

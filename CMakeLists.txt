@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project(xcint)
 
 option(ENABLE_FORTRAN_INTERFACE "Build Fortran interface" OFF)
-option(ENABLE_OMP               "Enable OpenMP"           OFF)
 option(ENABLE_MPI               "Enable MPI"              OFF)
 option(ENABLE_CODE_COVERAGE     "Enable code coverage"    OFF)
 
@@ -11,10 +10,6 @@ if(ENABLE_FORTRAN_INTERFACE)
     enable_language(C CXX Fortran)
 else()
     enable_language(C CXX)
-endif()
-
-if(ENABLE_OMP)
-    add_definitions(-DENABLE_OMP)
 endif()
 
 find_package(PythonInterp)
@@ -54,6 +49,16 @@ endif()
 include(ConfigSafeGuards)
 include(CheckCXX11Features)
 include(ConfigCompilerFlags)
+
+option(ENABLE_OMP "Enable OpenMP" OFF)
+if(ENABLE_OMP)
+    find_package(OpenMP)
+    if(OPENMP_FOUND)
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+        add_definitions(-DENABLE_OMP)
+    endif()
+endif()
 
 set(CMAKE_Fortran_MODULE_DIRECTORY
     ${PROJECT_BINARY_DIR}/modules

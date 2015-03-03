@@ -8,7 +8,7 @@
 #include <algorithm>
 #include <iostream>
 
-#include "rTypeBasis.h"
+#include "Basis.h"
 
 #include "io.h"
 #include "parameters.h"
@@ -17,13 +17,13 @@
 #include "MemAllocator.h"
 
 
-rTypeBasis::rTypeBasis()
+Basis::Basis()
 {
     nullify();
 }
 
 
-rTypeBasis::~rTypeBasis()
+Basis::~Basis()
 {
     MemAllocator::deallocate(l_quantum_num);
     MemAllocator::deallocate(center_xyz);
@@ -44,7 +44,7 @@ rTypeBasis::~rTypeBasis()
 }
 
 
-void rTypeBasis::nullify()
+void Basis::nullify()
 {
     num_centers                  = -1;
     num_shells                   = -1;
@@ -73,7 +73,7 @@ void rTypeBasis::nullify()
 }
 
 
-void rTypeBasis::init(const int    in_basis_type,
+void Basis::init(const int    in_basis_type,
                       const int    in_num_centers,
                       const double in_center_xyz[],
                       const int    in_center_element[],
@@ -258,7 +258,7 @@ void rTypeBasis::init(const int    in_basis_type,
 
 
 #ifdef ENABLE_MPI
-void rTypeBasis::sync(const MPI_Comm &comm)
+void Basis::sync(const MPI_Comm &comm)
 {
     size_t block_size;
 
@@ -397,7 +397,7 @@ void rTypeBasis::sync(const MPI_Comm &comm)
 #endif /* ENABLE_MPI */
 
 
-void rTypeBasis::report()
+void Basis::report()
 {
     io::speak_your_mind("\n\nXCint basis set information\n");
     io::speak_your_mind("---------------------------\n\n");
@@ -431,7 +431,7 @@ void rTypeBasis::report()
 }
 
 
-void rTypeBasis::set_geo_off(const int g)
+void Basis::set_geo_off(const int g)
 {
     int i, j, k, m, id;
     int array_length = (int)pow(g + 1, 3);
@@ -467,7 +467,7 @@ void rTypeBasis::set_geo_off(const int g)
 }
 
 
-int rTypeBasis::get_geo_off(const int i, const int j, const int k) const
+int Basis::get_geo_off(const int i, const int j, const int k) const
 {
     int id;
     // FIXME add guard against going past the array
@@ -478,31 +478,31 @@ int rTypeBasis::get_geo_off(const int i, const int j, const int k) const
 }
 
 
-int rTypeBasis::get_num_centers() const
+int Basis::get_num_centers() const
 {
     return num_centers;
 }
 
 
-int rTypeBasis::get_num_ao_slices() const
+int Basis::get_num_ao_slices() const
 {
     return num_ao_slices;
 }
 
 
-int rTypeBasis::get_num_ao() const
+int Basis::get_num_ao() const
 {
     return num_ao;
 }
 
 
-int rTypeBasis::get_num_ao_cartesian() const
+int Basis::get_num_ao_cartesian() const
 {
     return num_ao_cartesian;
 }
 
 
-int rTypeBasis::get_ao_center(const int i) const
+int Basis::get_ao_center(const int i) const
 {
     return ao_center[i];
 }

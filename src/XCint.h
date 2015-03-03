@@ -1,8 +1,8 @@
 #ifndef XCint_h_
 #define XCint_h_
 
-#include "rTypeBasis.h"
-#include "rTypeAOBatch.h"
+#include "Basis.h"
+#include "AOBatch.h"
 #include "Functional.h"
 
 typedef int (*print_function)(const char* line);
@@ -72,7 +72,7 @@ class XCint
         XCint &operator=(const XCint &rhs); // not implemented
 
         Functional fun;
-        rTypeBasis basis;
+        Basis basis;
 
         void nullify();
 
@@ -88,7 +88,7 @@ class XCint
                                      double           xc_mat[],
                                      double           &xc_energy,
                                const std::vector<int> coor,
-                                     rTypeAOBatch     &batch,
+                                     AOBatch     &batch,
                                const double           grid_w[]);
 
         void integrate_batch(      double dmat[],

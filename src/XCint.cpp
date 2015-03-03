@@ -11,7 +11,7 @@
 #include "io.h"
 #include "rolex.h"
 #include "XCint.h"
-#include "rTypeAOBatch.h"
+#include "AOBatch.h"
 #include "MemAllocator.h"
 
 #include "xcint_parameters.h"
@@ -314,7 +314,7 @@ void XCint::integrate_batch(      double dmat[],
                             const double grid_p[],
                             const double grid_w[])
 {
-    rTypeAOBatch batch;
+    AOBatch batch;
 
     size_t block_size = AO_BLOCK_LENGTH*num_variables*MAX_NUM_DENSITIES*sizeof(double);
     double *n = (double*) MemAllocator::allocate(block_size);
@@ -1292,7 +1292,7 @@ void XCint::distribute_matrix(const int              block_length,
                                     double           xc_mat[],
                                     double           &xc_energy,
                               const std::vector<int> coor,
-                                    rTypeAOBatch     &batch,
+                                    AOBatch     &batch,
                               const double           grid_w[])
 {
     rolex::start_partial();

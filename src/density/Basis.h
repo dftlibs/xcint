@@ -1,18 +1,18 @@
-#ifndef rTypeBasis_h_
-#define rTypeBasis_h_
+#ifndef Basis_h_
+#define Basis_h_
 
 #ifdef ENABLE_MPI
 #include "mpi.h"
 #endif
 
-class rTypeBasis
+class Basis
 {
-    friend class rTypeAOBatch;
+    friend class AOBatch;
 
     public:
 
-        rTypeBasis();
-        ~rTypeBasis();
+        Basis();
+        ~Basis();
 
         void init(const int    in_basis_type,
                   const int    in_num_centers,
@@ -49,8 +49,8 @@ class rTypeBasis
 
     private:
 
-        rTypeBasis(const rTypeBasis &rhs);            // not implemented
-        rTypeBasis &operator=(const rTypeBasis &rhs); // not implemented
+        Basis(const Basis &rhs);            // not implemented
+        Basis &operator=(const Basis &rhs); // not implemented
 
         void    nullify();
 
@@ -72,4 +72,4 @@ class rTypeBasis
         bool    is_synced;
 };
 
-#endif // rTypeBasis_h_
+#endif // Basis_h_

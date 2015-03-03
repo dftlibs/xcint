@@ -1,31 +1,31 @@
-#ifndef rTypeAOBatch_h_
-#define rTypeAOBatch_h_
+#ifndef AOBatch_h_
+#define AOBatch_h_
 
 #include <stdlib.h>
 #include <vector>
 
-#include "rTypeBasis.h"
+#include "Basis.h"
 
-class rTypeAOBatch
+class AOBatch
 {
     public:
 
-        rTypeAOBatch();
-        ~rTypeAOBatch();
+        AOBatch();
+        ~AOBatch();
 
-        void get_ao(const rTypeBasis &basis,
+        void get_ao(const Basis &basis,
                     const bool       use_gradient,
                     const int        max_ao_geo_order,
                     const double     p[]);
 
         void get_ao_shell(const int        ishell,
-                          const rTypeBasis &basis,
+                          const Basis &basis,
                                 double     ao_local[],
                           const int        max_ao_geo_order,
                           const double     p[]);
 
         void get_ao_shell(const int        ishell,
-                          const rTypeBasis &basis,
+                          const Basis &basis,
                           const int        max_ao_geo_order,
                           const double     p[]);
 
@@ -73,7 +73,7 @@ class rTypeAOBatch
                          const int    l_aoc_index[],
                          const double l_aoc[]);
 
-        void get_dens_geo_derv(const rTypeBasis       &basis,
+        void get_dens_geo_derv(const Basis       &basis,
                                const int              mat_dim,
                                const bool             use_gradient,
                                const bool             use_tau,
@@ -84,13 +84,13 @@ class rTypeAOBatch
 
     private:
 
-        rTypeAOBatch(const rTypeAOBatch &rhs);            // not implemented
-        rTypeAOBatch &operator=(const rTypeAOBatch &rhs); // not implemented
+        AOBatch(const AOBatch &rhs);            // not implemented
+        AOBatch &operator=(const AOBatch &rhs); // not implemented
 
         bool is_same_center(const int c,
                             const std::vector<int> &carray) const;
 
-        void diff_wrt_center_tuple(const rTypeBasis       &basis,
+        void diff_wrt_center_tuple(const Basis       &basis,
                                    const int              mat_dim,
                                    const bool             use_gradient,
                                    const bool             use_tau,
@@ -101,14 +101,14 @@ class rTypeAOBatch
                                          double           u[],
                                          double           M[]);
 
-        void compress(const rTypeBasis       &basis,
+        void compress(const Basis       &basis,
                       const bool             use_gradient,
                             int              &aoc_num,
                             int              *(&aoc_index),
                             double           *(&aoc),
                       const std::vector<int> &coor);
 
-        void transform_basis(const rTypeBasis &basis) const;
+        void transform_basis(const Basis &basis) const;
 
         void nullify();
 
@@ -128,4 +128,4 @@ class rTypeAOBatch
         int    *l_ao_compressed_index;
 };
 
-#endif // rTypeAOBatch_h_
+#endif // AOBatch_h_

@@ -10,12 +10,6 @@
 #include "cblas.h"
 #endif
 
-#ifdef HAVE_MKL_LAPACK
-#include "mkl.h"
-#elif HAVE_SYSTEM_NATIVE_LAPACK
-    // there are no C headers, sorry
-#endif
-
 #include <algorithm>
 #include <iostream>
 #include <assert.h>
@@ -49,9 +43,6 @@ rTypeAOBatch::~rTypeAOBatch()
     MemAllocator::deallocate(l_ao_compressed);
     MemAllocator::deallocate(l_ao_compressed_index);
 
-    MemAllocator::deallocate(A);
-    MemAllocator::deallocate(C);
-
     nullify();
 }
 
@@ -60,13 +51,6 @@ void rTypeAOBatch::nullify()
 {
     ao_length = -1;
     ao = NULL;
-
-    A = NULL;
-    C = NULL;
-
-    A_buffer_size = 0;
-    B_buffer_size = 0;
-    C_buffer_size = 0;
 
     ao_compressed         = NULL;
     ao_compressed_num     = -1;
@@ -77,18 +61,6 @@ void rTypeAOBatch::nullify()
     l_ao_compressed       = NULL;
     l_ao_compressed_num   = -1;
     l_ao_compressed_index = NULL;
-}
-
-
-void rTypeAOBatch::allocate_buffers(const int n,
-                                    const int k)
-{
-    A_buffer_size = k*n;
-    B_buffer_size = k*n;
-    C_buffer_size = n*n;
-
-    if (A == NULL) A = (double*) MemAllocator::allocate(A_buffer_size*sizeof(double));
-    if (C == NULL) C = (double*) MemAllocator::allocate(C_buffer_size*sizeof(double));
 }
 
 
@@ -289,11 +261,10 @@ void rTypeAOBatch::distribute_matrix(const int    mat_dim,
     if (k_aoc_num == 0) return;
     if (l_aoc_num == 0) return;
 
-    assert(A_buffer_size >= k_aoc_num*AO_BLOCK_LENGTH);
-    assert(B_buffer_size >= l_aoc_num*AO_BLOCK_LENGTH);
-    assert(C_buffer_size >= k_aoc_num*l_aoc_num);
+    size_t W_buffer_size = k_aoc_num*AO_BLOCK_LENGTH;
+    double *W = (double*) MemAllocator::allocate(W_buffer_size*sizeof(double));
 
-    std::fill(&A[0], &A[AO_BLOCK_LENGTH*k_aoc_num], 0.0);
+    std::fill(&W[0], &W[AO_BLOCK_LENGTH*k_aoc_num], 0.0);
 
     int kc, lc, iboff;
 
@@ -311,11 +282,14 @@ void rTypeAOBatch::distribute_matrix(const int    mat_dim,
                 #pragma vector aligned
                 for (int ib = 0; ib < AO_BLOCK_LENGTH; ib++)
                 {
-                    A[iboff + ib] += prefactors[islice]*u[islice*AO_BLOCK_LENGTH + ib]*k_aoc[islice*AO_BLOCK_LENGTH*mat_dim + iboff + ib];
+                    W[iboff + ib] += prefactors[islice]*u[islice*AO_BLOCK_LENGTH + ib]*k_aoc[islice*AO_BLOCK_LENGTH*mat_dim + iboff + ib];
                 }
             }
         }
     }
+
+    size_t F_buffer_size = k_aoc_num*l_aoc_num;
+    double *F = (double*) MemAllocator::allocate(F_buffer_size*sizeof(double));
 
     cblas_dgemm(CblasRowMajor,
                 CblasNoTrans,
@@ -324,10 +298,10 @@ void rTypeAOBatch::distribute_matrix(const int    mat_dim,
                 l_aoc_num,
                 AO_BLOCK_LENGTH,
                 1.0,
-                A, AO_BLOCK_LENGTH,
+                W, AO_BLOCK_LENGTH,
                 l_aoc, AO_BLOCK_LENGTH,
                 0.0,
-                C, l_aoc_num);
+                F, l_aoc_num);
 
     if (use_tau)
     {
@@ -342,7 +316,7 @@ void rTypeAOBatch::distribute_matrix(const int    mat_dim,
                     #pragma vector aligned
                     for (int ib = 0; ib < AO_BLOCK_LENGTH; ib++)
                     {
-                        A[iboff + ib] = u[4*AO_BLOCK_LENGTH + ib]*k_aoc[(ixyz+1)*AO_BLOCK_LENGTH*mat_dim + iboff + ib];
+                        W[iboff + ib] = u[4*AO_BLOCK_LENGTH + ib]*k_aoc[(ixyz+1)*AO_BLOCK_LENGTH*mat_dim + iboff + ib];
                     }
                 }
 
@@ -353,13 +327,16 @@ void rTypeAOBatch::distribute_matrix(const int    mat_dim,
                             l_aoc_num,
                             AO_BLOCK_LENGTH,
                             prefactors[4],
-                            A, AO_BLOCK_LENGTH,
+                            W, AO_BLOCK_LENGTH,
                             &l_aoc[(ixyz+1)*AO_BLOCK_LENGTH*mat_dim], AO_BLOCK_LENGTH,
                             1.0,
-                            C, l_aoc_num);
+                            F, l_aoc_num);
             }
         }
     }
+
+    MemAllocator::deallocate(W);
+    W = NULL;
 
     // FIXME easier route possible if k and l match
     for (int k = 0; k < k_aoc_num; k++)
@@ -368,9 +345,12 @@ void rTypeAOBatch::distribute_matrix(const int    mat_dim,
         for (int l = 0; l < l_aoc_num; l++)
         {
             lc = l_aoc_index[l];
-            fmat[kc*mat_dim + lc] += C[k*l_aoc_num + l];
+            fmat[kc*mat_dim + lc] += F[k*l_aoc_num + l];
         }
     }
+
+    MemAllocator::deallocate(F);
+    F = NULL;
 }
 
 void rTypeAOBatch::get_density_undiff(const int    mat_dim,
@@ -424,6 +404,11 @@ void rTypeAOBatch::get_density(const int    mat_dim,
 
     int kc, lc, iboff;
 
+    size_t D_buffer_size = k_aoc_num*l_aoc_num;
+    double *D = (double*) MemAllocator::allocate(D_buffer_size*sizeof(double));
+    size_t X_buffer_size = k_aoc_num*AO_BLOCK_LENGTH;
+    double *X = (double*) MemAllocator::allocate(X_buffer_size*sizeof(double));
+
     // compress dmat
     if (kl_match)
     {
@@ -435,7 +420,7 @@ void rTypeAOBatch::get_density(const int    mat_dim,
                 for (int l = 0; l <= k; l++)
                 {
                     lc = l_aoc_index[l];
-                    C[k*l_aoc_num + l] = 2.0*dmat[kc*mat_dim + lc];
+                    D[k*l_aoc_num + l] = 2.0*dmat[kc*mat_dim + lc];
                 }
             }
         }
@@ -447,7 +432,7 @@ void rTypeAOBatch::get_density(const int    mat_dim,
                 for (int l = 0; l < l_aoc_num; l++)
                 {
                     lc = l_aoc_index[l];
-                    C[k*l_aoc_num + l] = 2.0*dmat[kc*mat_dim + lc];
+                    D[k*l_aoc_num + l] = 2.0*dmat[kc*mat_dim + lc];
                 }
             }
         }
@@ -462,7 +447,7 @@ void rTypeAOBatch::get_density(const int    mat_dim,
                 for (int l = 0; l < l_aoc_num; l++)
                 {
                     lc = l_aoc_index[l];
-                    C[k*l_aoc_num + l] = 2.0*dmat[kc*mat_dim + lc];
+                    D[k*l_aoc_num + l] = 2.0*dmat[kc*mat_dim + lc];
                 }
             }
         }
@@ -474,7 +459,7 @@ void rTypeAOBatch::get_density(const int    mat_dim,
                 for (int l = 0; l < l_aoc_num; l++)
                 {
                     lc = l_aoc_index[l];
-                    C[k*l_aoc_num + l] = dmat[kc*mat_dim + lc]
+                    D[k*l_aoc_num + l] = dmat[kc*mat_dim + lc]
                                                     + dmat[lc*mat_dim + kc];
                 }
             }
@@ -490,10 +475,10 @@ void rTypeAOBatch::get_density(const int    mat_dim,
                     k_aoc_num,
                     AO_BLOCK_LENGTH,
                     1.0,
-                    C, k_aoc_num,
+                    D, k_aoc_num,
                     l_aoc, AO_BLOCK_LENGTH,
                     0.0,
-                    A, AO_BLOCK_LENGTH);
+                    X, AO_BLOCK_LENGTH);
     }
     else
     {
@@ -504,10 +489,10 @@ void rTypeAOBatch::get_density(const int    mat_dim,
                     AO_BLOCK_LENGTH,
                     l_aoc_num,
                     1.0,
-                    C, l_aoc_num,
+                    D, l_aoc_num,
                     l_aoc, AO_BLOCK_LENGTH,
                     0.0,
-                    A, AO_BLOCK_LENGTH);
+                    X, AO_BLOCK_LENGTH);
     }
 
     int num_slices;
@@ -525,7 +510,7 @@ void rTypeAOBatch::get_density(const int    mat_dim,
                 #pragma vector aligned
                 for (int ib = 0; ib < AO_BLOCK_LENGTH; ib++)
                 {
-                    density[islice*AO_BLOCK_LENGTH + ib] += prefactors[islice]*A[iboff + ib]*k_aoc[islice*AO_BLOCK_LENGTH*mat_dim + iboff + ib];
+                    density[islice*AO_BLOCK_LENGTH + ib] += prefactors[islice]*X[iboff + ib]*k_aoc[islice*AO_BLOCK_LENGTH*mat_dim + iboff + ib];
                 }
             }
         }
@@ -545,10 +530,10 @@ void rTypeAOBatch::get_density(const int    mat_dim,
                                 k_aoc_num,
                                 AO_BLOCK_LENGTH,
                                 1.0,
-                                C, k_aoc_num,
+                                D, k_aoc_num,
                                 &l_aoc[(ixyz+1)*AO_BLOCK_LENGTH*mat_dim], AO_BLOCK_LENGTH,
                                 0.0,
-                                A, AO_BLOCK_LENGTH);
+                                X, AO_BLOCK_LENGTH);
                 }
                 else
                 {
@@ -559,10 +544,10 @@ void rTypeAOBatch::get_density(const int    mat_dim,
                                 AO_BLOCK_LENGTH,
                                 l_aoc_num,
                                 1.0,
-                                C, l_aoc_num,
+                                D, l_aoc_num,
                                 &l_aoc[(ixyz+1)*AO_BLOCK_LENGTH*mat_dim], AO_BLOCK_LENGTH,
                                 0.0,
-                                A, AO_BLOCK_LENGTH);
+                                X, AO_BLOCK_LENGTH);
                 }
 
                 for (int k = 0; k < k_aoc_num; k++)
@@ -572,12 +557,17 @@ void rTypeAOBatch::get_density(const int    mat_dim,
                     #pragma vector aligned
                     for (int ib = 0; ib < AO_BLOCK_LENGTH; ib++)
                     {
-                        density[4*AO_BLOCK_LENGTH + ib] += prefactors[4]*A[iboff + ib]*k_aoc[(ixyz+1)*AO_BLOCK_LENGTH*mat_dim + iboff + ib];
+                        density[4*AO_BLOCK_LENGTH + ib] += prefactors[4]*X[iboff + ib]*k_aoc[(ixyz+1)*AO_BLOCK_LENGTH*mat_dim + iboff + ib];
                     }
                 }
             }
         }
     }
+
+    MemAllocator::deallocate(D);
+    D = NULL;
+    MemAllocator::deallocate(X);
+    X = NULL;
 }
 
 

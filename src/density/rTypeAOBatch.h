@@ -82,9 +82,6 @@ class rTypeAOBatch
                                const bool             get_dens,
                                      double           mat[]);
 
-        void allocate_buffers(const int n,
-                              const int k);
-
     private:
 
         rTypeAOBatch(const rTypeAOBatch &rhs);            // not implemented
@@ -114,13 +111,6 @@ class rTypeAOBatch
         void transform_basis(const rTypeBasis &basis) const;
 
         void nullify();
-
-        double *A;
-        double *C;
-
-        size_t A_buffer_size;
-        size_t B_buffer_size;
-        size_t C_buffer_size;
 
         int     ao_length;
         double *ao;

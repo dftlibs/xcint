@@ -315,7 +315,6 @@ void XCint::integrate_batch(      double dmat[],
                             const double grid_w[])
 {
     rTypeAOBatch batch;
-    batch.allocate_buffers(mat_dim, AO_BLOCK_LENGTH); // FIXME
 
     size_t block_size = AO_BLOCK_LENGTH*num_variables*MAX_NUM_DENSITIES*sizeof(double);
     double *n = (double*) MemAllocator::allocate(block_size);

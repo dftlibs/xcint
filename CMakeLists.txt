@@ -182,15 +182,31 @@ add_library(
 
 include(ConfigTesting)
 
+
+set(_gtest_sources
+    ${PROJECT_SOURCE_DIR}/external/googletest/src/gtest_main.cc
+    ${PROJECT_SOURCE_DIR}/external/googletest/src/gtest.cc
+    ${PROJECT_SOURCE_DIR}/external/googletest/src/gtest-death-test.cc
+    ${PROJECT_SOURCE_DIR}/external/googletest/src/gtest-filepath.cc
+    ${PROJECT_SOURCE_DIR}/external/googletest/src/gtest-port.cc
+    ${PROJECT_SOURCE_DIR}/external/googletest/src/gtest-printers.cc
+    ${PROJECT_SOURCE_DIR}/external/googletest/src/gtest-test-part.cc
+    ${PROJECT_SOURCE_DIR}/external/googletest/src/gtest-typed-test.cc
+    )
+
+foreach(_source ${_gtest_sources})
+    set_source_files_properties(${_source} PROPERTIES GENERATED 1)
+    if(CMAKE_CXX_COMPILER_ID MATCHES Intel)
+        set_source_files_properties(${_source} PROPERTIES COMPILE_FLAGS "-w")
+    endif()
+endforeach()
+
 add_library(
     gtest
-    ${PROJECT_SOURCE_DIR}/external/googletest/src/gtest-all.cc
-    ${PROJECT_SOURCE_DIR}/external/googletest/src/gtest_main.cc
+    ${_gtest_sources}
     )
 add_dependencies(gtest git_update)
 
-set_source_files_properties(${PROJECT_SOURCE_DIR}/external/googletest/src/gtest-all.cc  PROPERTIES GENERATED 1)
-set_source_files_properties(${PROJECT_SOURCE_DIR}/external/googletest/src/gtest_main.cc PROPERTIES GENERATED 1)
 
 add_executable(
     unit_tests

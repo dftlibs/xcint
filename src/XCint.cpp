@@ -21,8 +21,6 @@
 
 #ifdef HAVE_MKL_BLAS
 #include "mkl.h"
-#elif HAVE_ACCELERATE_FRAMEWORK
-#include "Accelerate/Accelerate.h"
 #elif HAVE_SYSTEM_NATIVE_BLAS
 #include "cblas.h"
 #elif HAVE_ATLAS_BLAS

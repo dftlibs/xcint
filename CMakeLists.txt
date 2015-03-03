@@ -102,16 +102,6 @@ set(LAPACK_LANG "Fortran")
 set(MKL_COMPILER_BINDINGS ${CMAKE_CXX_COMPILER_ID})
 include(ConfigMath)
 
-# in case accelerate is available but MKL is not, we take accelerate
-find_package(Accelerate)
-if(ACCELERATE_FOUND AND NOT HAVE_MKL_BLAS AND NOT HAVE_MKL_LAPACK AND ${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
-    add_definitions(-DHAVE_ACCELERATE_FRAMEWORK)
-    include_directories(${ACCELERATE_INCLUDE_DIRS})
-    set(EXTERNAL_LIBS
-        ${ACCELERATE_LIBRARIES}
-        ${EXTERNAL_LIBS}
-        )
-endif()
 
 include_directories(
     ${PROJECT_SOURCE_DIR}/src

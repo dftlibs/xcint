@@ -291,17 +291,31 @@ void rTypeAOBatch::distribute_matrix(const int    mat_dim,
     size_t F_buffer_size = k_aoc_num*l_aoc_num;
     double *F = (double*) MemAllocator::allocate(F_buffer_size*sizeof(double));
 
-    cblas_dgemm(CblasRowMajor,
-                CblasNoTrans,
-                CblasTrans,
-                k_aoc_num,
-                l_aoc_num,
-                AO_BLOCK_LENGTH,
-                1.0,
-                W, AO_BLOCK_LENGTH,
-                l_aoc, AO_BLOCK_LENGTH,
-                0.0,
-                F, l_aoc_num);
+    // we compute F(k, l) += W(k, b) AO_l(l, b)^T
+    // we transpose W instead of AO_l because we call fortran blas
+    char ta = 'T';
+    char tb = 'N';
+    int im = k_aoc_num;
+    int in = l_aoc_num;
+    int ik = AO_BLOCK_LENGTH;
+    int lda = ik;
+    int ldb = ik;
+    int ldc = im;
+    double alpha = 1.0;
+    double beta = 0.0;
+    dgemm(&ta,
+          &tb,
+          &im,
+          &in,
+          &ik,
+          &alpha,
+          W,
+          &lda,
+          l_aoc,
+          &ldb,
+          &beta,
+          F,
+          &ldc);
 
     if (use_tau)
     {
@@ -320,17 +334,21 @@ void rTypeAOBatch::distribute_matrix(const int    mat_dim,
                     }
                 }
 
-                cblas_dgemm(CblasRowMajor,
-                            CblasNoTrans,
-                            CblasTrans,
-                            k_aoc_num,
-                            l_aoc_num,
-                            AO_BLOCK_LENGTH,
-                            prefactors[4],
-                            W, AO_BLOCK_LENGTH,
-                            &l_aoc[(ixyz+1)*AO_BLOCK_LENGTH*mat_dim], AO_BLOCK_LENGTH,
-                            1.0,
-                            F, l_aoc_num);
+                alpha = prefactors[4];
+                beta = 1.0;
+                dgemm(&ta,
+                      &tb,
+                      &im,
+                      &in,
+                      &ik,
+                      &alpha,
+                      W,
+                      &lda,
+                      &l_aoc[(ixyz+1)*AO_BLOCK_LENGTH*mat_dim],
+                      &ldb,
+                      &beta,
+                      F,
+                      &ldc);
             }
         }
     }

@@ -1005,7 +1005,7 @@ void XCint::integrate(const int    mode,
     }
 
 #ifdef ENABLE_MPI
-    if (num_proc > 1) grid.distribute(comm);
+    if (num_proc > 1) truegrid_distribute(comm);
 #endif
 
     // stretch to align on block length

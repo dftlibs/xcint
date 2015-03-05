@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project(xcint)
 
 option(ENABLE_FORTRAN_INTERFACE "Build Fortran interface" OFF)
-option(ENABLE_MPI               "Enable MPI"              OFF)
 option(ENABLE_CODE_COVERAGE     "Enable code coverage"    OFF)
 
 if(ENABLE_FORTRAN_INTERFACE)
@@ -36,6 +35,7 @@ set(CMAKE_MODULE_PATH
     ${CMAKE_CURRENT_SOURCE_DIR}/cmake/compilers
     )
 
+option(ENABLE_MPI "Enable MPI" OFF)
 if(ENABLE_MPI)
     find_package(MPI)
     if(MPI_FOUND)
@@ -84,13 +84,13 @@ set(ExternalProjectCMakeArgs
     )
 add_external(xcfun)
 
-
 # truegrid code
 set(ExternalProjectCMakeArgs
     -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
     -DCMAKE_INSTALL_PREFIX=${PROJECT_BINARY_DIR}/external
     -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
     -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
+    -DENABLE_MPI=${ENABLE_MPI}
     )
 add_external(truegrid)
 include_directories(${PROJECT_SOURCE_DIR}/external/truegrid/interfaces)

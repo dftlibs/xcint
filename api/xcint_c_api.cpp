@@ -1,6 +1,6 @@
 
 #include "XCint.h"
-#include "xcint_c_interface.h"
+#include "xcint_c_api.h"
 
 #ifdef ENABLE_MPI
 #include "mpi.h"

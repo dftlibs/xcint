@@ -110,7 +110,7 @@ include_directories(
     ${PROJECT_SOURCE_DIR}/external/lebedev
     ${PROJECT_SOURCE_DIR}/external/googletest
     ${PROJECT_SOURCE_DIR}/external/googletest/include
-    ${PROJECT_SOURCE_DIR}/interfaces
+    ${PROJECT_SOURCE_DIR}/api
     ${PROJECT_BINARY_DIR}/generated
     )
 
@@ -158,7 +158,7 @@ add_library(
     src/Functional.cpp
     src/XCint.cpp
     src/MemAllocator.cpp
-    interfaces/xcint_c_interface.cpp
+    api/xcint_c_api.cpp
     src/density/ao_vector.cpp
     src/density/Basis.cpp
     src/density/AOBatch.cpp
@@ -223,11 +223,11 @@ add_custom_command(
         ${PROJECT_BINARY_DIR}/generated/xcint_c_parameters.h
         ${PROJECT_BINARY_DIR}/generated/xcint_fortran_parameters.h
     COMMAND
-        ${PYTHON_EXECUTABLE} ${PROJECT_SOURCE_DIR}/interfaces/generate.py ${PROJECT_BINARY_DIR}/generated/xcint_c_parameters.h ${PROJECT_BINARY_DIR}/generated/xcint_fortran_parameters.h
+        ${PYTHON_EXECUTABLE} ${PROJECT_SOURCE_DIR}/api/generate.py ${PROJECT_BINARY_DIR}/generated/xcint_c_parameters.h ${PROJECT_BINARY_DIR}/generated/xcint_fortran_parameters.h
     WORKING_DIRECTORY
         ${PROJECT_SOURCE_DIR}
     DEPENDS
-        ${PROJECT_SOURCE_DIR}/interfaces/generate.py
+        ${PROJECT_SOURCE_DIR}/api/generate.py
     )
 add_custom_target(
     generate_interface_parameters
@@ -243,10 +243,10 @@ add_dependencies(xcint numgrid)
 
 if(ENABLE_FORTRAN_INTERFACE)
     add_library(
-        xcint_fortran_interface
-        interfaces/xcint_fortran_interface.F90
+        xcint_fortran_api
+        api/xcint_fortran_api.F90
         )
-    add_dependencies(xcint_fortran_interface generate_interface_parameters)
+    add_dependencies(xcint_fortran_api generate_interface_parameters)
 endif()
 
 install(TARGETS xcint ARCHIVE DESTINATION lib)

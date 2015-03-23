@@ -1,5 +1,5 @@
-#ifndef xcint_c_interface_h
-#define xcint_c_interface_h
+#ifndef xcint_c_api_h
+#define xcint_c_api_h
 
 #include "xcint_c_parameters.h"
 
@@ -62,4 +62,4 @@ extern "C"
 #endif
 }
 
-#endif // xcint_c_interface_h
+#endif // xcint_c_api_h

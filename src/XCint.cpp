@@ -16,7 +16,7 @@
 
 #include "xcint_parameters.h"
 #include "parameters.h"
-#include "xcint_c_interface.h"
+#include "xcint_c_api.h"
 #include "numgrid_c_api.h"
 
 #ifdef ENABLE_OMP
@@ -129,7 +129,7 @@ void XCint::set_basis(const int    basis_type,
     printf("#include \"gtest/gtest.h\"\n");
     printf("#include \"XCint.h\"\n");
     printf("#include \"MemAllocator.h\"\n");
-    printf("#include \"xcint_c_interface.h\"\n");
+    printf("#include \"xcint_c_api.h\"\n");
 
     printf("\n");
 

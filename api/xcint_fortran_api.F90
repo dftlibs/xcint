@@ -1,4 +1,4 @@
-module xcint_fortran_interface
+module xcint_fortran_api
 
    use, intrinsic :: iso_c_binding
    implicit none

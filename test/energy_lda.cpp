@@ -1,7 +1,7 @@
 #include "gtest/gtest.h"
 #include "XCint.h"
 #include "MemAllocator.h"
-#include "xcint_c_interface.h"
+#include "xcint_c_api.h"
 
 TEST(energy, lda)
 {

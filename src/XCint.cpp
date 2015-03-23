@@ -17,7 +17,7 @@
 #include "xcint_parameters.h"
 #include "parameters.h"
 #include "xcint_c_interface.h"
-#include "truegrid_c_interface.h"
+#include "numgrid_c_api.h"
 
 #ifdef ENABLE_OMP
 #include "omp.h"
@@ -82,11 +82,11 @@ void XCint::generate_grid(const double radial_precision,
                           const int    shell_num_primitives[],
                           const double primitive_exp[])
 {
-    truegrid_set_grid_parameters(radial_precision,
+    numgrid_set_grid_parameters(radial_precision,
                                  angular_min,
                                  angular_max);
 
-    truegrid_generate(verbosity,
+    numgrid_generate(verbosity,
                       num_centers,
                       center_xyz,
                       center_element,
@@ -1001,18 +1001,18 @@ void XCint::integrate(const int    mode,
     // read grid
     if (rank == 0)
     {
-        truegrid_read();
+        numgrid_read();
     }
 
 #ifdef ENABLE_MPI
-    if (num_proc > 1) truegrid_distribute(comm);
+    if (num_proc > 1) numgrid_distribute(comm);
 #endif
 
     // stretch to align on block length
-    truegrid_stretch();
+    numgrid_stretch();
 
-    double *grid_p = (double*) truegrid_get_grid_p();
-    double *grid_w = (double*) truegrid_get_grid_w();
+    double *grid_p = (double*) numgrid_get_grid_p();
+    double *grid_w = (double*) numgrid_get_grid_w();
 
     bool *use_dmat = NULL;
     int  *dmat_index = NULL;
@@ -1081,7 +1081,7 @@ void XCint::integrate(const int    mode,
         double *xc_mat_local = NULL;
         if (get_xc_mat) xc_mat_local = &xc_mat[0];
 #endif
-        for (int ibatch = 0; ibatch < truegrid_get_num_points()/AO_BLOCK_LENGTH; ibatch++)
+        for (int ibatch = 0; ibatch < numgrid_get_num_points()/AO_BLOCK_LENGTH; ibatch++)
         {
             int ipoint = ibatch*AO_BLOCK_LENGTH;
 

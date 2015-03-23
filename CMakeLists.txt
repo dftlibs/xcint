@@ -84,7 +84,7 @@ set(ExternalProjectCMakeArgs
     )
 add_external(xcfun)
 
-# truegrid code
+# numgrid code
 set(ExternalProjectCMakeArgs
     -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
     -DCMAKE_INSTALL_PREFIX=${PROJECT_BINARY_DIR}/external
@@ -92,8 +92,8 @@ set(ExternalProjectCMakeArgs
     -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
     -DENABLE_MPI=${ENABLE_MPI}
     )
-add_external(truegrid)
-include_directories(${PROJECT_SOURCE_DIR}/external/truegrid/interfaces)
+add_external(numgrid)
+include_directories(${PROJECT_SOURCE_DIR}/external/numgrid/api)
 
 
 # math detection
@@ -211,7 +211,7 @@ target_link_libraries(
     gtest
     xcint
     ${PROJECT_BINARY_DIR}/external/xcfun-build/libxcfun.a
-    ${PROJECT_BINARY_DIR}/external/truegrid-build/libtruegrid.a
+    ${PROJECT_BINARY_DIR}/external/numgrid-build/libnumgrid.a
     ${EXTERNAL_LIBS}
     pthread
     )
@@ -239,7 +239,7 @@ add_custom_target(
 
 
 add_dependencies(xcint xcfun)
-add_dependencies(xcint truegrid)
+add_dependencies(xcint numgrid)
 
 if(ENABLE_FORTRAN_INTERFACE)
     add_library(

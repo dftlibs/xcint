@@ -4,6 +4,6 @@
 [submodule "external/googletest"]
 	path = external/googletest
 	url = https://github.com/svn2github/googletest.git
-[submodule "external/truegrid"]
-	path = external/truegrid
-	url = https://github.com/rbast/truegrid.git
+[submodule "external/numgrid"]
+	path = external/numgrid
+	url = https://github.com/rbast/numgrid.git

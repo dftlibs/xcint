@@ -31,4 +31,4 @@ Evaluating functional values and derivatives
 
 The function ``xc_eval`` receives a functional object (``fun.fun``)
 and a Taylor series expansion of the density variables (``xcin``)
-and computes a Taylor series expansion of the XC energy density.
+and computes a Taylor series expansion of the XC energy density (``xcout``).

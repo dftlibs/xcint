@@ -1,4 +1,9 @@
 
+// has to be first include
+#ifdef ENABLE_MPI
+#include "mpi.h"
+#endif
+
 #include <math.h>
 
 #include <cstdlib>
@@ -9,10 +14,6 @@
 #include <algorithm>
 #include <stdio.h>
 #include <string.h>
-
-#ifdef ENABLE_MPI
-#include "mpi.h"
-#endif
 
 #include "io.h"
 #include "Functional.h"

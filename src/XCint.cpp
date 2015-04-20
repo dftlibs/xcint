@@ -1,4 +1,6 @@
 
+// has to be first include
+#include "xcint_c_api.h"
 
 #include <math.h>
 #include <time.h>
@@ -16,7 +18,6 @@
 
 #include "xcint_parameters.h"
 #include "parameters.h"
-#include "xcint_c_api.h"
 #include "numgrid_c_api.h"
 
 #ifdef ENABLE_OMP

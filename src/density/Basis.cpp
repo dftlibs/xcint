@@ -1,9 +1,10 @@
-
-#include <stdio.h>
-#include <math.h>
+// has to be first include
 #ifdef ENABLE_MPI
 #include <mpi.h>
 #endif
+
+#include <stdio.h>
+#include <math.h>
 
 #include <algorithm>
 #include <iostream>

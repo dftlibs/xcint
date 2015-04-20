@@ -1,7 +1,9 @@
+// has to be first include
+#include "xcint_c_api.h"
+
 #include "gtest/gtest.h"
 #include "XCint.h"
 #include "MemAllocator.h"
-#include "xcint_c_api.h"
 
 TEST(energy, b3lyp)
 {

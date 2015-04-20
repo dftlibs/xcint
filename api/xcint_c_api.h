@@ -1,6 +1,9 @@
 #ifndef xcint_c_api_h
 #define xcint_c_api_h
 
+#ifdef ENABLE_MPI
+#include "mpi.h"
+#endif
 #include "xcint_c_parameters.h"
 
 extern "C"

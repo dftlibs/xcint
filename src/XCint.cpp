@@ -1440,8 +1440,6 @@ void XCint::print_splash()
     io::speak_your_mind(" **   //** //****** /** ***  /**  //**\n");
     io::speak_your_mind("//     //   //////  // ///   //    //\n");
 
-    io::speak_your_mind("\nhttp://rbast.github.io/xcint\n");
-
     io::speak_your_mind("\nCopyright: XCint developers\n");
     io::speak_your_mind("\nLicensed under LGPL Version 3\n");
 
@@ -1459,9 +1457,6 @@ void XCint::print_splash()
     io::speak_your_mind("      Licensed under LGPL Version 3\n");
     io::speak_your_mind("- Google Test\n");
     io::speak_your_mind("      Copyright: Google Inc.\n");
-    io::speak_your_mind("- AMD clBLAS\n");
-    io::speak_your_mind("      Copyright: Advanced Micro Devices, Inc.\n");
-    io::speak_your_mind("      Licensed under Apache License Version 2.0\n");
 }
 
 

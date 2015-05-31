@@ -16,7 +16,6 @@ if(NOT PYTHONINTERP_FOUND)
     message(FATAL_ERROR "ERROR: Python interpreter not found. Cannot continue - sorry.")
 endif()
 
-option(ENABLE_GIT_SUBMODULES "Download external projects using Git submodules at compilation time" ON)
 option(ALWAYS_RESET_EXTERNAL_BUILDS "Always remove builds stamps of external projects"    ON)
 option(ENABLE_TESTS "Enable tests" ON)
 
@@ -66,8 +65,6 @@ set(CMAKE_Fortran_MODULE_DIRECTORY
 include(ConfigParentSettings)
 
 set(EXTERNAL_LIBS)
-
-set(DEVELOPMENT_CODE TRUE)
 
 include(ConfigExternal)
 
@@ -195,8 +192,6 @@ add_library(
     gtest
     ${_gtest_sources}
     )
-add_dependencies(gtest git_update)
-
 
 add_executable(
     unit_tests

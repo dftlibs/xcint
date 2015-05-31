@@ -1,27 +1,7 @@
 
-if(DEVELOPMENT_CODE)
-    include(FindGit)
-    if (GIT_FOUND)
-        add_custom_target(
-            git_update
-            COMMAND ${GIT_EXECUTABLE} submodule init
-            COMMAND ${GIT_EXECUTABLE} submodule update
-            WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-        )
-    else()
-        message("-- Git not found. You need Git for the Git submodule mechanism to work.")
-    endif()
-endif()
-
 include(ExternalProject)
 
 macro(add_external _project)
-
-    if(DEVELOPMENT_CODE AND GIT_FOUND)
-        set(UPDATE_COMMAND ${GIT_EXECUTABLE} submodule update)
-    else()
-        set(UPDATE_COMMAND echo)
-    endif()
 
     ExternalProject_Add(${_project}
         DOWNLOAD_COMMAND ${UPDATE_COMMAND}
@@ -36,9 +16,6 @@ macro(add_external _project)
     include_directories(${PROJECT_BINARY_DIR}/external/${_project}-build)
     include_directories(${PROJECT_BINARY_DIR}/external/${_project}-build/modules)
     link_directories(${PROJECT_BINARY_DIR}/external/lib)
-    if(DEVELOPMENT_CODE)
-        add_dependencies(${_project} git_update)
-    endif()
 
     if(ALWAYS_RESET_EXTERNAL_BUILDS)
         # remove stamps for external builds so that they are rebuilt every time

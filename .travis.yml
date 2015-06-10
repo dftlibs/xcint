@@ -1,11 +1,17 @@
 language: cpp
 install:
   - sudo apt-get install libblas3gf libblas-dev
+  - sudo apt-get install libcr-dev mpich2 mpich2-doc
   - sudo pip install cpp-coveralls
 script:
   - ./configure.py --cxx=g++ --coverage --type=debug
   - cd build
   - make
-  - ./unit_tests
+  - make test
+  - cd ..
+  - ./configure.py --mpi --cc=mpicc --cxx=mpicxx build_mpi
+  - cd build_mpi
+  - make
+  - make test
 after_success:
   - coveralls --root .. -E ".*external.*" -E ".*CMakeFiles.*" -E ".*generated.*" -E ".*test_.*"

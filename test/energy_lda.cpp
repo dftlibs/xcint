@@ -1,13 +1,31 @@
 // has to be first include
 #include "xcint_c_api.h"
 
-#include "gtest/gtest.h"
+#ifdef ENABLE_MPI
+#include "mpi.h"
+#endif
+#include <cmath>
+
 #include "XCint.h"
 #include "MemAllocator.h"
 
-TEST(energy, lda)
+int main(int argc, char** argv)
 {
+    int return_code = 0;
     XCint xc;
+
+#ifdef ENABLE_MPI
+    MPI_Init(&argc, &argv);
+    xc.set_mpi_comm(MPI_COMM_WORLD);
+    int rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    if (rank != 0)
+    {
+        xc.integrate_worker();
+    }
+    else
+    {
+#endif
     xc.set_verbosity(0);
     int num_centers;
     int num_shells;
@@ -308,13 +326,13 @@ TEST(energy, lda)
                  true,
                  xc_mat,
                  num_electrons);
-    ASSERT_NEAR(num_electrons,   9.999992074832e+00, 1.0e-11);
+    if (fabs(num_electrons - 9.999992074832e+00) > 1.0e-11) return_code++;
     double dot = 0.0;
     for (int i = 0; i < mat_dim*mat_dim; i++)
     {
         dot += xc_mat[i]*dmat[i];
     }
-    ASSERT_NEAR(dot,  -6.729996811122e+00, 1.0e-11);
+    if (fabs(dot - -6.729996811122e+00) > 1.0e-11) return_code++;
     MemAllocator::deallocate(dmat);
     MemAllocator::deallocate(xc_mat);
     MemAllocator::deallocate(center_xyz);
@@ -324,4 +342,9 @@ TEST(energy, lda)
     MemAllocator::deallocate(shell_num_primitives);
     MemAllocator::deallocate(primitive_exp);
     MemAllocator::deallocate(contraction_coef);
+#ifdef ENABLE_MPI
+    }
+    MPI_Finalize();
+#endif
+    return return_code;
 }

@@ -4,7 +4,7 @@
 XCint
 =====
 
-Integrate your ideas.
+Exchange-correlation integrator.
 
 - [Documentation](http://xcint.readthedocs.org/)
 - [Build and test history](https://travis-ci.org/bast/xcint/builds)

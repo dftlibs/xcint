@@ -113,19 +113,6 @@ include_directories(
 
 file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/generated)
 
-include(OptimizeForArchitecture)
-OptimizeForArchitecture()
-if(AVX_FOUND)
-    add_definitions(-DCPU_MEM_ALIGN=32)
-    message(STATUS "Setting CPU_MEM_ALIGN=32")
-elseif(SSE3_FOUND)
-    add_definitions(-DCPU_MEM_ALIGN=16)
-    message(STATUS "Setting CPU_MEM_ALIGN=16")
-else()
-    message(FATAL_ERROR "neither SSE3 nor AVX detected; adapt CMakeLists.txt")
-endif()
-
-
 # generate AO evaluation code
 add_custom_command(
     OUTPUT

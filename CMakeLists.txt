@@ -194,7 +194,7 @@ foreach(_test energy_lda energy_b3lyp)
         )
 
     if(MPI_FOUND)
-        add_test(${_test} mpirun -np 4 ${PROJECT_BINARY_DIR}/${_test})
+        add_test(${_test}_mpi mpirun -np 4 ${PROJECT_BINARY_DIR}/${_test})
     else()
         add_test(${_test} ${PROJECT_BINARY_DIR}/${_test})
     endif()
@@ -223,13 +223,13 @@ add_custom_target(
 
 add_dependencies(xcint xcfun)
 add_dependencies(xcint numgrid)
+add_dependencies(xcint generate_interface_parameters)
 
 if(ENABLE_FORTRAN_INTERFACE)
     add_library(
         xcint_fortran_api
         api/xcint_fortran_api.F90
         )
-    add_dependencies(xcint_fortran_api generate_interface_parameters)
 endif()
 
 install(TARGETS xcint ARCHIVE DESTINATION lib)

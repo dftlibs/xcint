@@ -11,7 +11,7 @@ script:
   - cd build
   - make
   - make test
-  - valgrind -v ./test_lda_energy
+  - valgrind -v ./test_energy_lda
   - cd ..
   - py.test -vv test/test.py build
 after_success:

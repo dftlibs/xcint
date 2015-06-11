@@ -19,6 +19,5 @@ script:
   - make test
   - cd ..
   - py.test -vv test/test.py build
-  - valgrind -v build/test_energy_lda
 after_success:
   - coveralls -E ".*external.*" -E ".*CMakeFiles.*" -E ".*generated.*" -E ".*test_.*"

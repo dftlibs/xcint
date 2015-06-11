@@ -1,5 +1,3 @@
-
-// has to be before stdio
 #include "Basis.h"
 
 #include <stdio.h>

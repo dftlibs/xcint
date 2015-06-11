@@ -1,5 +1,3 @@
-
-// has to be first include
 #include "xcint_c_api.h"
 
 #include <math.h>
@@ -202,95 +200,6 @@ void XCint::set_basis(const int    basis_type,
     }
 #endif // CREATE_UNIT_TEST
 }
-
-
-#ifdef ENABLE_MPI
-void XCint::set_mpi_comm(const MPI_Comm &extern_comm)
-{
-    comm = extern_comm;
-}
-
-
-void XCint::integrate_worker()
-{
-    size_t block_size;
-
-    int mat_dim;
-    MPI_Bcast(&mat_dim, 1, MPI_INT, 0, comm);
-
-    int mode;
-    MPI_Bcast(&mode, 1, MPI_INT, 0, comm);
-
-    int num_pert;
-    MPI_Bcast(&num_pert, 1, MPI_INT, 0, comm);
-
-    int *pert = NULL;
-    block_size = num_pert*sizeof(int);
-    pert = (int*) MemAllocator::allocate(block_size);
-    MPI_Bcast(pert, num_pert, MPI_INT, 0, comm);
-
-    int *comp = NULL;
-    block_size = 2*num_pert*sizeof(int);
-    comp = (int*) MemAllocator::allocate(block_size);
-    MPI_Bcast(comp, 2*num_pert, MPI_INT, 0, comm);
-
-    int num_dmat;
-    MPI_Bcast(&num_dmat, 1, MPI_INT, 0, comm);
-
-    int *dmat_to_pert = NULL;
-    block_size = num_dmat*sizeof(int);
-    dmat_to_pert = (int*) MemAllocator::allocate(block_size);
-    MPI_Bcast(dmat_to_pert, num_dmat, MPI_INT, 0, comm);
-
-    int *dmat_to_comp = NULL;
-    block_size = num_dmat*sizeof(int);
-    dmat_to_comp = (int*) MemAllocator::allocate(block_size);
-    MPI_Bcast(dmat_to_comp, num_dmat, MPI_INT, 0, comm);
-
-    double *dmat = NULL;
-    block_size = mat_dim*mat_dim*num_dmat*sizeof(double);
-    dmat = (double*) MemAllocator::allocate(block_size);
-    MPI_Bcast(dmat, mat_dim*mat_dim*num_dmat, MPI_DOUBLE, 0, comm);
-
-    int get_xc_energy;
-    MPI_Bcast(&get_xc_energy, 1, MPI_INT, 0, comm);
-
-    double xc_energy;
-
-    int get_xc_mat;
-    MPI_Bcast(&get_xc_mat, 1, MPI_INT, 0, comm);
-
-    double *xc_mat = NULL;
-    if (get_xc_mat)
-    {
-        block_size = mat_dim*mat_dim*sizeof(double);
-        xc_mat = (double*) MemAllocator::allocate(block_size);
-    }
-
-    double num_electrons;
-
-    integrate(mode,
-              num_pert,
-              pert,
-              comp,
-              num_dmat,
-              dmat_to_pert,
-              dmat_to_comp,
-              dmat,
-              get_xc_energy,
-              xc_energy,
-              get_xc_mat,
-              xc_mat,
-              num_electrons);
-
-    MemAllocator::deallocate(pert);
-    MemAllocator::deallocate(comp);
-    MemAllocator::deallocate(dmat_to_pert);
-    MemAllocator::deallocate(dmat_to_comp);
-    MemAllocator::deallocate(dmat);
-    MemAllocator::deallocate(xc_mat);
-}
-#endif /* ENABLE_MPI */
 
 
 void XCint::integrate_batch(      double dmat[],
@@ -872,11 +781,6 @@ void XCint::integrate(const int    mode,
     int rank = 0;
     int num_proc = 1;
 
-#ifdef ENABLE_MPI
-    MPI_Comm_rank(comm, &rank);
-    MPI_Comm_size(comm, &num_proc);
-#endif
-
     int mat_dim;
     if (rank == 0) mat_dim = basis.get_num_ao();
 
@@ -898,64 +802,6 @@ void XCint::integrate(const int    mode,
             if (pert[i] == XCINT_PERT_GEO) geo_coor[i] = comp[2*i]; // FIXME
         }
     }
-
-#ifdef ENABLE_MPI
-    if (rank == 0 && num_proc > 1)
-    {
-        int *iarray = NULL;
-        int i;
-
-        MPI_Bcast(&mat_dim, 1, MPI_INT, 0, comm);
-
-        i = mode;
-        MPI_Bcast(&i, 1, MPI_INT, 0, comm);
-
-        i = num_pert;
-        MPI_Bcast(&i, 1, MPI_INT, 0, comm);
-
-        block_size = num_pert*sizeof(int);
-        iarray = (int*) MemAllocator::allocate(block_size);
-        std::copy(pert, pert + num_pert, &iarray[0]);
-        MPI_Bcast(iarray, num_pert, MPI_INT, 0, comm);
-        MemAllocator::deallocate(iarray);
-
-        block_size = 2*num_pert*sizeof(int);
-        iarray = (int*) MemAllocator::allocate(block_size);
-        std::copy(comp, comp + 2*num_pert, &iarray[0]);
-        MPI_Bcast(iarray, 2*num_pert, MPI_INT, 0, comm);
-        MemAllocator::deallocate(iarray);
-
-        i = num_dmat;
-        MPI_Bcast(&i, 1, MPI_INT, 0, comm);
-
-        block_size = num_dmat*sizeof(int);
-        iarray = (int*) MemAllocator::allocate(block_size);
-        std::copy(dmat_to_pert, dmat_to_pert + num_dmat, &iarray[0]);
-        MPI_Bcast(iarray, num_dmat, MPI_INT, 0, comm);
-        std::copy(dmat_to_comp, dmat_to_comp + num_dmat, &iarray[0]);
-        MPI_Bcast(iarray, num_dmat, MPI_INT, 0, comm);
-        MemAllocator::deallocate(iarray);
-
-        MPI_Bcast(dmat, mat_dim*mat_dim*num_dmat, MPI_DOUBLE, 0, comm);
-
-        i = get_xc_energy;
-        MPI_Bcast(&i, 1, MPI_INT, 0, comm);
-
-        i = get_xc_mat;
-        MPI_Bcast(&i, 1, MPI_INT, 0, comm);
-    }
-#endif /* ENABLE_MPI */
-
-#ifdef ENABLE_MPI
-    if (num_proc > 1)
-    {
-        // yes we need to broadcast it again, for the workers the value is not known at this stage
-        MPI_Bcast(&mat_dim, 1, MPI_INT, 0, comm);
-
-        basis.sync(comm);
-        fun.sync_functional(comm);
-    }
-#endif
 
     assert(mode == XCINT_MODE_RKS);
 
@@ -1007,10 +853,6 @@ void XCint::integrate(const int    mode,
     {
         numgrid_read();
     }
-
-#ifdef ENABLE_MPI
-    if (num_proc > 1) numgrid_distribute(comm);
-#endif
 
     // stretch to align on block length
     numgrid_stretch();
@@ -1145,38 +987,8 @@ void XCint::integrate(const int    mode,
     MemAllocator::deallocate(dmat_index);
     MemAllocator::deallocate(geo_coor);
 
-#ifdef ENABLE_MPI
-    if (num_proc > 1)
-    {
-        if (rank == 0)
-        {
-            MPI_Reduce(MPI_IN_PLACE, &xc_energy, 1, MPI_DOUBLE, MPI_SUM, 0, comm);
-            MPI_Reduce(MPI_IN_PLACE, &num_electrons, 1, MPI_DOUBLE, MPI_SUM, 0, comm);
-        }
-        else
-        {
-            MPI_Reduce(&xc_energy, MPI_IN_PLACE, 1, MPI_DOUBLE, MPI_SUM, 0, comm);
-            MPI_Reduce(&num_electrons, MPI_IN_PLACE, 1, MPI_DOUBLE, MPI_SUM, 0, comm);
-        }
-    }
-#endif /* ENABLE_MPI */
-
     if (get_xc_mat)
     {
-#ifdef ENABLE_MPI
-        if (num_proc > 1)
-        {
-            if (rank == 0)
-            {
-                MPI_Reduce(MPI_IN_PLACE, xc_mat, mat_dim*mat_dim, MPI_DOUBLE, MPI_SUM, 0, comm);
-            }
-            else
-            {
-                MPI_Reduce(xc_mat, MPI_IN_PLACE, mat_dim*mat_dim, MPI_DOUBLE, MPI_SUM, 0, comm);
-            }
-        }
-#endif /* ENABLE_MPI */
-
         // symmetrize result matrix
         if (rank == 0)
         {

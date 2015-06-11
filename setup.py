@@ -21,7 +21,6 @@ Options:
   --cxx=<CXX>                         C++ compiler [default: g++].
   --extra-cxx-flags=<EXTRA_CXXFLAGS>  Extra C++ compiler flags [default: ''].
   --coverage                          Enable code coverage [default: False].
-  --mpi                               Enable MPI parallelization [default: False].
   --omp                               Enable OpenMP parallelization [default: False].
   --blas=<BLAS>                       Detect and link BLAS library (auto or off) [default: auto].
   --lapack=<LAPACK>                   Detect and link LAPACK library (auto or off) [default: auto].
@@ -42,7 +41,6 @@ def gen_cmake_command(options, arguments):
     command.append('cmake')
     command.append('-DEXTRA_CXXFLAGS="%s"' % arguments['--extra-cxx-flags'])
     command.append('-DENABLE_CODE_COVERAGE=%s' % arguments['--coverage'])
-    command.append('-DENABLE_MPI=%s' % arguments['--mpi'])
     command.append('-DENABLE_OPENMP=%s' % arguments['--omp'])
     command.append('-DENABLE_BLAS=%s' % arguments['--blas'])
     command.append('-DENABLE_LAPACK=%s' % arguments['--lapack'])

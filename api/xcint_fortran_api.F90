@@ -153,9 +153,6 @@ contains
       ! end function
    end subroutine
 
-   subroutine xcint_integrate_worker() bind (c)
-   end subroutine
-
    subroutine xcint_print_splash() bind (c)
    end subroutine
 

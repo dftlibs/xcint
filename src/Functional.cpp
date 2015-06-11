@@ -1,9 +1,3 @@
-
-// has to be first include
-#ifdef ENABLE_MPI
-#include "mpi.h"
-#endif
-
 #include <math.h>
 
 #include <cstdlib>
@@ -79,44 +73,6 @@ void Functional::set_functional(const int verbosity, const char *line, double &h
         }
     }
 }
-
-
-#ifdef ENABLE_MPI
-void Functional::sync_functional(const MPI_Comm &comm)
-{
-    if (is_synced) return;
-
-    int rank = 0;
-    int num_proc = 1;
-
-    MPI_Comm_size(comm, &num_proc);
-    MPI_Comm_rank(comm, &rank);
-
-    if (num_proc > 1)
-    {
-        int l;
-        if (rank == 0) l = strlen(functional_line);
-
-        MPI_Bcast(&l, 1, MPI_INT, 0, comm);
-
-        if (rank > 0)
-        {
-            functional_line = new char[l+1];
-        }
-
-        MPI_Bcast(functional_line, l, MPI_CHAR, 0, comm);
-
-        if (rank > 0)
-        {
-            double hfx, mu, beta;
-            functional_line[l] = '\0';
-            set_functional(0, functional_line, hfx, mu, beta);
-        }
-
-        is_synced = true;
-    }
-}
-#endif
 
 
 void Functional::parse(const char *line,

@@ -1,10 +1,6 @@
 #ifndef Basis_h_
 #define Basis_h_
 
-#ifdef ENABLE_MPI
-#include "mpi.h"
-#endif
-
 class Basis
 {
     friend class AOBatch;
@@ -33,9 +29,6 @@ class Basis
                          const int j,
                          const int k) const;
         void report();
-#ifdef ENABLE_MPI
-        void sync(const MPI_Comm &comm);
-#endif
         void set_geo_off(const int geo_diff_order);
 
         int     num_centers; // FIXME

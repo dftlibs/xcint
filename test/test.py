@@ -23,7 +23,6 @@ def test_valgrind():
         ],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE).communicate()[1]
-    print(res)
 #   if not 'All heap blocks were freed -- no leaks are possible' in res:
 #       assert 'definitely lost: 0 bytes in 0 blocks' in res
 #       assert 'indirectly lost: 0 bytes in 0 blocks' in res

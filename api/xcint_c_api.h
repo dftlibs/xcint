@@ -1,9 +1,6 @@
 #ifndef xcint_c_api_h
 #define xcint_c_api_h
 
-#ifdef ENABLE_MPI
-#include "mpi.h"
-#endif
 #include "xcint_c_parameters.h"
 
 extern "C"
@@ -57,12 +54,6 @@ extern "C"
     void xcint_set_stdout_function(int (*fun)(const char* line));
 
     void xcint_set_stderr_function(int (*fun)(const char* line));
-
-#ifdef ENABLE_MPI
-    void xcint_set_mpi_comm_(MPI_Fint &extern_comm);
-
-    void xcint_integrate_worker();
-#endif
 }
 
 #endif // xcint_c_api_h

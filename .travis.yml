@@ -6,17 +6,12 @@ install:
   - sudo apt-get update
   - sudo apt-get install gcc-4.9 g++-4.9 valgrind
   - sudo apt-get install libblas3gf libblas-dev
-  - sudo apt-get install libcr-dev mpich2 mpich2-doc
 script:
-  - python setup.py --mpi --cxx=mpicxx build_mpi
-  - cd build_mpi
-  - make
-  - make test
-  - cd ..
   - python setup.py --cxx=g++ --coverage --type=debug
   - cd build
   - make
   - make test
+  - valgrind -v ./test_lda_energy
   - cd ..
   - py.test -vv test/test.py build
 after_success:

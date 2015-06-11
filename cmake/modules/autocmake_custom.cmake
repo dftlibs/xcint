@@ -13,9 +13,6 @@ if(USE_EXTERNAL_NUM_GRID)
 endif()
 
 # XCFun code
-if(MPI_FOUND)
-    set(PARENT_DEFINITIONS "${PARENT_DEFINITIONS} -DENABLE_MPI")
-endif()
 set(ExternalProjectCMakeArgs
     -DCMAKE_BUILD_TYPE=Release
     -DCMAKE_INSTALL_PREFIX=${PROJECT_BINARY_DIR}/external
@@ -31,7 +28,6 @@ set(ExternalProjectCMakeArgs
     -DCMAKE_INSTALL_PREFIX=${PROJECT_BINARY_DIR}/external
     -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
     -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
-    -DENABLE_MPI=${ENABLE_MPI}
     )
 add_external(numgrid)
 include_directories(${PROJECT_SOURCE_DIR}/external/numgrid/api)
@@ -116,11 +112,7 @@ foreach(_test energy_lda energy_b3lyp)
         ${MATH_LIBS}
         )
 
-    if(MPI_FOUND)
-        add_test(${_test}_mpi mpirun -np 4 ${PROJECT_BINARY_DIR}/test_${_test})
-    else()
-        add_test(${_test} ${PROJECT_BINARY_DIR}/test_${_test})
-    endif()
+    add_test(${_test} ${PROJECT_BINARY_DIR}/test_${_test})
 endforeach()
 
 # generate interface headers

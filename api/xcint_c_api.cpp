@@ -2,10 +2,6 @@
 #include "XCint.h"
 #include "xcint_c_api.h"
 
-#ifdef ENABLE_MPI
-#include "mpi.h"
-#endif
-
 XCint xc;
 
 typedef int (*print_function)(const char* line);
@@ -123,19 +119,4 @@ extern "C"
     {
         xc.set_stderr_function(fun);
     }
-
-
-#ifdef ENABLE_MPI
-    void xcint_set_mpi_comm_(MPI_Fint &extern_comm)
-    {
-        MPI_Comm comm = MPI_Comm_f2c(extern_comm);
-        xc.set_mpi_comm(comm);
-    }
-
-
-    void xcint_integrate_worker()
-    {
-        xc.integrate_worker();
-    }
-#endif
 }

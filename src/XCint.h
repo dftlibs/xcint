@@ -60,12 +60,6 @@ class XCint
                              double xc_mat[],
                              double &num_electrons);
 
-#ifdef ENABLE_MPI
-        void set_mpi_comm(const MPI_Comm &extern_comm);
-        void integrate_worker();
-        MPI_Comm comm;
-#endif
-
     private:
 
         XCint(const XCint &rhs);            // not implemented

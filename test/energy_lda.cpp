@@ -1,9 +1,5 @@
-// has to be first include
 #include "xcint_c_api.h"
 
-#ifdef ENABLE_MPI
-#include "mpi.h"
-#endif
 #include <cmath>
 
 #include "XCint.h"
@@ -14,18 +10,6 @@ int main(int argc, char** argv)
     int return_code = 0;
     XCint xc;
 
-#ifdef ENABLE_MPI
-    MPI_Init(&argc, &argv);
-    xc.set_mpi_comm(MPI_COMM_WORLD);
-    int rank;
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    if (rank != 0)
-    {
-        xc.integrate_worker();
-    }
-    else
-    {
-#endif
     xc.set_verbosity(0);
     int num_centers;
     int num_shells;
@@ -342,9 +326,5 @@ int main(int argc, char** argv)
     MemAllocator::deallocate(shell_num_primitives);
     MemAllocator::deallocate(primitive_exp);
     MemAllocator::deallocate(contraction_coef);
-#ifdef ENABLE_MPI
-    }
-    MPI_Finalize();
-#endif
     return return_code;
 }

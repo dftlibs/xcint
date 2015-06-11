@@ -6,12 +6,6 @@ else()
     enable_language(C CXX)
 endif()
 
-# FIXME
-option(USE_EXTERNAL_NUM_GRID "Use external numerical grid" OFF)
-if(USE_EXTERNAL_NUM_GRID)
-    add_definitions(-DUSE_EXTERNAL_NUM_GRID)
-endif()
-
 # XCFun code
 set(ExternalProjectCMakeArgs
     -DCMAKE_BUILD_TYPE=Release

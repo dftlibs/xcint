@@ -6,7 +6,7 @@ Compilation and testing
 
 ::
 
-  $ ./configure.py
+  $ python setup.py --cxx=g++
   $ cd build
   $ make
-  $ ./unit_tests
+  $ make test

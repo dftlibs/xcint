@@ -9,5 +9,6 @@ Exchange-correlation integrator.
 - [Documentation](http://xcint.readthedocs.org/)
 - [Build and test history](https://travis-ci.org/bast/xcint/builds)
 - [Code coverage](https://coveralls.io/r/bast/xcint)
+- Built with [Autocmake](https://github.com/scisoft/autocmake)
 - Status: pre-alpha
 - Licensed under [BSD-3](../master/LICENSE)

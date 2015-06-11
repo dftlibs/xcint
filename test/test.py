@@ -18,7 +18,7 @@ def test_valgrind():
     res = subprocess.Popen(
         [
             'valgrind',
-            os.path.join(BUILD_DIR, 'energy_lda')
+            os.path.join(BUILD_DIR, 'test_energy_lda')
         ],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE).communicate()[1]

@@ -170,10 +170,10 @@ include(CTest)
 enable_testing()
 
 foreach(_test energy_lda energy_b3lyp)
-    add_executable(${_test} test/${_test}.cpp)
+    add_executable(test_${_test} test/${_test}.cpp)
 
     target_link_libraries(
-        ${_test}
+        test_${_test}
         xcint
         ${PROJECT_BINARY_DIR}/external/xcfun-build/libxcfun.a
         ${PROJECT_BINARY_DIR}/external/numgrid-build/libnumgrid.a
@@ -181,9 +181,9 @@ foreach(_test energy_lda energy_b3lyp)
         )
 
     if(MPI_FOUND)
-        add_test(${_test}_mpi mpirun -np 4 ${PROJECT_BINARY_DIR}/${_test})
+        add_test(${_test}_mpi mpirun -np 4 ${PROJECT_BINARY_DIR}/test_${_test})
     else()
-        add_test(${_test} ${PROJECT_BINARY_DIR}/${_test})
+        add_test(${_test} ${PROJECT_BINARY_DIR}/test_${_test})
     endif()
 endforeach()
 

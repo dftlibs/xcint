@@ -995,7 +995,10 @@ void XCint::integrate(const int    mode,
         max_ao_order_g++;
     }
 
-    basis.set_geo_off(max_ao_order_g);
+//  FIXME
+//  this causes the geo_off array to become
+//  too small and leads to out of bounds access
+//  basis.set_geo_off(max_ao_order_g);
 
     rolex::start_partial();
 

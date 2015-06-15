@@ -4,16 +4,8 @@
 
 XCint xc;
 
-typedef int (*print_function)(const char* line);
-
 extern "C"
 {
-    void xcint_print_splash()
-    {
-        xc.print_splash();
-    }
-
-
     int xcint_set_functional(const char *line, double &hfx, double &mu, double &beta)
     {
         xc.set_functional(line, hfx, mu, beta);
@@ -76,23 +68,5 @@ extern "C"
                      get_xc_mat,
                      xc_mat,
                      num_electrons);
-    }
-
-
-    void xcint_set_verbosity(const int v)
-    {
-        xc.set_verbosity(v);
-    }
-
-
-    void xcint_set_stdout_function(print_function fun)
-    {
-        xc.set_stdout_function(fun);
-    }
-
-
-    void xcint_set_stderr_function(print_function fun)
-    {
-        xc.set_stderr_function(fun);
     }
 }

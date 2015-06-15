@@ -5,8 +5,6 @@
 
 extern "C"
 {
-    void xcint_print_splash();
-
     int xcint_set_functional(const char   *line,
                                    double &hfx,
                                    double &mu,
@@ -38,12 +36,6 @@ extern "C"
                          const int    get_xc_mat,
                                double xc_mat[],
                                double &num_electrons);
-
-    void xcint_set_verbosity(const int v);
-
-    void xcint_set_stdout_function(int (*fun)(const char* line));
-
-    void xcint_set_stderr_function(int (*fun)(const char* line));
 }
 
 #endif // xcint_c_api_h

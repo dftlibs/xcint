@@ -103,9 +103,6 @@ class XCint
         double time_matrix_distribution;
 
         void reset_time();
-        void print_timing();
-
-        int verbosity;
 };
 
 #endif // XCint_h_

@@ -9,7 +9,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "io.h"
 #include "Functional.h"
 
 
@@ -41,7 +40,7 @@ void Functional::nullify()
 }
 
 
-void Functional::set_functional(const int verbosity, const char *line, double &hfx, double &mu, double &beta)
+void Functional::set_functional(const char *line, double &hfx, double &mu, double &beta)
 {
     int ierr;
 
@@ -51,14 +50,6 @@ void Functional::set_functional(const int verbosity, const char *line, double &h
     for (int i = 0; i < strlen(line); i++) functional_line[i] = line[i];
     functional_line[strlen(line)] = '\0';
 
-    if (verbosity > 0)
-    {
-        io::speak_your_mind("\n\nXCint functional\n");
-        io::speak_your_mind("----------------\n\n");
-        io::speak_your_mind("XC functional: %s\n", line);
-        io::speak_your_mind("Composition (XC part):\n");
-    }
-
     for (int i = 0; i < keys.size(); i++)
     {
         ierr = xc_set(fun, keys[i].c_str(), weights[i]);
@@ -66,10 +57,6 @@ void Functional::set_functional(const int verbosity, const char *line, double &h
         {
             fprintf(stderr, "ERROR in fun init: \"%s\" not recognized, quitting.\n", keys[i].c_str());
             exit(-1);
-        }
-        if (verbosity > 0)
-        {
-            io::speak_your_mind("        %s=%.4f\n", keys[i].c_str(), weights[i]);
         }
     }
 }

@@ -12,7 +12,7 @@ class Functional
         Functional();
         ~Functional();
 
-        void set_functional(const int verbosity, const char *line, double &hfx, double &mu, double &beta);
+        void set_functional(const char *line, double &hfx, double &mu, double &beta);
         void set_order(const int order);
 
         bool is_gga;      // FIXME make private

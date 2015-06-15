@@ -63,7 +63,6 @@ add_custom_command(
 
 add_library(
     xcint
-    src/io.cpp
     src/rolex.cpp
     src/Functional.cpp
     src/XCint.cpp

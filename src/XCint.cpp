@@ -8,7 +8,6 @@
 #include <fstream>
 #include <algorithm>
 
-#include "io.h"
 #include "rolex.h"
 #include "XCint.h"
 #include "AOBatch.h"
@@ -20,9 +19,6 @@
 #ifdef ENABLE_OMP
 #include "omp.h"
 #endif
-
-
-typedef int (*print_function)(const char* line);
 
 
 XCint::XCint()
@@ -40,31 +36,12 @@ XCint::~XCint()
 void XCint::nullify()
 {
     reset_time();
-    verbosity = 1;
-}
-
-
-void XCint::set_verbosity(const int v)
-{
-    verbosity = v;
-}
-
-
-void XCint::set_stdout_function(print_function fun)
-{
-    io::set_stdout_function(fun);
-}
-
-
-void XCint::set_stderr_function(print_function fun)
-{
-    io::set_stderr_function(fun);
 }
 
 
 void XCint::set_functional(const char *line, double &hfx, double &mu, double &beta)
 {
-    fun.set_functional(verbosity, line, hfx, mu, beta);
+    fun.set_functional(line, hfx, mu, beta);
 }
 
 
@@ -89,8 +66,6 @@ void XCint::set_basis(const int    basis_type,
                shell_num_primitives,
                primitive_exp,
                contraction_coef);
-
-    if (verbosity > 0) basis.report();
 
 //#define CREATE_UNIT_TEST
 #ifdef CREATE_UNIT_TEST
@@ -1050,8 +1025,6 @@ void XCint::integrate(const int    mode,
     }
 
     time_total += rolex::stop_global();
-
-    if (verbosity > 1) print_timing();
 }
 
 
@@ -1199,55 +1172,4 @@ void XCint::reset_time()
     time_fun_derv = 0.0;
     time_densities = 0.0;
     time_matrix_distribution = 0.0;
-}
-
-
-void XCint::print_splash()
-{
-    io::speak_your_mind("\n\n\n\n\n\n\n\n\n\n");
-    io::speak_your_mind(" **     **   ******  **            **\n");
-    io::speak_your_mind("//**   **   **////**//            /**\n");
-    io::speak_your_mind(" //** **   **    //  ** *******  ******\n");
-    io::speak_your_mind("  //***   /**       /**//**///**///**/\n");
-    io::speak_your_mind("   **/**  /**       /** /**  /**  /**\n");
-    io::speak_your_mind("  ** //** //**    **/** /**  /**  /**\n");
-    io::speak_your_mind(" **   //** //****** /** ***  /**  //**\n");
-    io::speak_your_mind("//     //   //////  // ///   //    //\n");
-
-    io::speak_your_mind("\nCopyright: XCint developers\n");
-    io::speak_your_mind("\nLicensed under LGPL Version 3\n");
-
-    io::speak_your_mind("\n\nAppropriate citation\n");
-    io::speak_your_mind("--------------------\n\n");
-    io::speak_your_mind("coming up ...\n");
-
-    io::speak_your_mind("\n\nLibraries used by XCint\n");
-    io::speak_your_mind("-----------------------\n\n");
-    io::speak_your_mind("- XCFun\n");
-    io::speak_your_mind("      Copyright: Ulf Ekstrom\n");
-    io::speak_your_mind("      Licensed under LGPL Version 3\n");
-    io::speak_your_mind("- Lebedev grid generator sphere_lebedev_rule\n");
-    io::speak_your_mind("      Copyright: John Burkardt\n");
-    io::speak_your_mind("      Licensed under LGPL Version 3\n");
-    io::speak_your_mind("- Google Test\n");
-    io::speak_your_mind("      Copyright: Google Inc.\n");
-}
-
-
-void XCint::print_timing()
-{
-    double time_rest = time_total
-                     - time_ao
-                     - time_fun_derv
-                     - time_densities
-                     - time_matrix_distribution;
-
-    io::speak_your_mind("\n\nXCint timing information\n");
-    io::speak_your_mind("------------------------\n\n");
-    io::speak_your_mind("%25s %8.2f sec\n",         "Total time",             time_total);
-    io::speak_your_mind("%25s %8.2f sec %7.1f%%\n", "AO evaluation",          time_ao, 100.0*time_ao/time_total);
-    io::speak_your_mind("%25s %8.2f sec %7.1f%%\n", "Functional derivatives", time_fun_derv, 100.0*time_fun_derv/time_total);
-    io::speak_your_mind("%25s %8.2f sec %7.1f%%\n", "Densities",              time_densities, 100.0*time_densities/time_total);
-    io::speak_your_mind("%25s %8.2f sec %7.1f%%\n", "Matrix distribution",    time_matrix_distribution, 100.0*time_matrix_distribution/time_total);
-    io::speak_your_mind("%25s %8.2f sec %7.1f%%\n", "Rest",                   time_rest, 100.0*time_rest/time_total);
 }

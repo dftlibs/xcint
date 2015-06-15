@@ -11,7 +11,6 @@ int main(int argc, char** argv)
     int return_code = 0;
     XCint xc;
 
-    xc.set_verbosity(0);
     int num_centers;
     int num_shells;
     double *center_xyz = NULL;

@@ -84,7 +84,7 @@ void vec_daxpy(const double  s,
 
 
 void get_p2(const double* __restrict__ shell_center_xyz,
-            const double* __restrict__ p,
+            const double* __restrict__ pw,
                   double* __restrict__ px,
                   double* __restrict__ py,
                   double* __restrict__ pz,
@@ -94,9 +94,9 @@ void get_p2(const double* __restrict__ shell_center_xyz,
     #pragma vector aligned
     for (int k = 0; k < AO_CHUNK_LENGTH; k++)
     {
-        px[k] = p[k*3    ] - shell_center_xyz[0];
-        py[k] = p[k*3 + 1] - shell_center_xyz[1];
-        pz[k] = p[k*3 + 2] - shell_center_xyz[2];
+        px[k] = pw[k*4    ] - shell_center_xyz[0];
+        py[k] = pw[k*4 + 1] - shell_center_xyz[1];
+        pz[k] = pw[k*4 + 2] - shell_center_xyz[2];
         p2[k] = px[k]*px[k] + py[k]*py[k] + pz[k]*pz[k];
     }
 }

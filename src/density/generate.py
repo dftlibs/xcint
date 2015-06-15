@@ -120,7 +120,7 @@ def write_routine(_maxg, file_name):
                      double buffer[],
                const double shell_center_xyz[],
                const double extent_squared,
-               const double p[],
+               const double pw[],
                      double px[],
                      double py[],
                      double pz[],
@@ -154,7 +154,7 @@ def write_routine(_maxg, file_name):
     sfoo += '    {\n'
 
     sfoo += '        get_p2(shell_center_xyz,\n'
-    sfoo += '               &p[3*koff],\n'
+    sfoo += '               &pw[4*koff],\n'
     sfoo += '               px,\n'
     sfoo += '               py,\n'
     sfoo += '               pz,\n'
@@ -316,7 +316,7 @@ def write_header(file_name):
         f.write('                         double buffer[],\n')
         f.write('                   const double shell_center_xyz[],\n')
         f.write('                   const double extent_squared,\n')
-        f.write('                   const double p[],\n')
+        f.write('                   const double pw[],\n')
         f.write('                         double px[],\n')
         f.write('                         double py[],\n')
         f.write('                         double pz[],\n')

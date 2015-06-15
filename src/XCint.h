@@ -4,7 +4,6 @@
 #include "Basis.h"
 #include "AOBatch.h"
 #include "Functional.h"
-#include "numgrid.h"
 
 typedef int (*print_function)(const char* line);
 
@@ -35,19 +34,9 @@ class XCint
 
         void set_functional(const char *line, double &hfx, double &mu, double &beta);
 
-        void generate_grid(const double radial_precision,
-                           const int    angular_min,
-                           const int    angular_max,
-                           const int    num_centers,
-                           const double center_xyz[],
-                           const int    center_element[],
-                           const int    num_shells,
-                           const int    shell_center[],
-                           const int    l_quantum_num[],
-                           const int    shell_num_primitives[],
-                           const double primitive_exp[]);
-
         void integrate(const int    mode,
+                       const int    num_points,
+                       const double grid_pw[],
                        const int    num_pert,
                        const int    pert[],
                        const int    comp[],
@@ -68,7 +57,6 @@ class XCint
 
         Functional fun;
         Basis basis;
-        numgrid_context_t *context;
 
         void nullify();
 
@@ -85,7 +73,7 @@ class XCint
                                      double           &xc_energy,
                                const std::vector<int> coor,
                                      AOBatch     &batch,
-                               const double           grid_w[]);
+                               const double           grid_pw[]);
 
         void integrate_batch(      double dmat[],
                              const int    get_xc_energy,
@@ -106,8 +94,7 @@ class XCint
                              const bool   get_gradient,
                              const bool   get_tau,
                              const int    dmat_index[],
-                             const double grid_p[],
-                             const double grid_w[]);
+                             const double grid_pw[]);
 
         double time_total;
         double time_ao;

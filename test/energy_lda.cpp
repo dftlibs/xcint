@@ -4,6 +4,7 @@
 
 #include "XCint.h"
 #include "MemAllocator.h"
+#include "numgrid.h"
 
 int main(int argc, char** argv)
 {
@@ -143,17 +144,7 @@ int main(int argc, char** argv)
                  shell_num_primitives,
                  primitive_exp,
                  contraction_coef);
-    xc.generate_grid(1.0e-12,
-                     86,
-                     302,
-                     num_centers,
-                     center_xyz,
-                     center_element,
-                     num_shells,
-                     shell_center,
-                     l_quantum_num,
-                     shell_num_primitives,
-                     primitive_exp);
+
     int mat_dim = 19;
     double *dmat = NULL;
     double *xc_mat = NULL;
@@ -297,7 +288,36 @@ int main(int argc, char** argv)
     double num_electrons = 0.0;
     int dmat_to_pert[1]  = {0};
     int dmat_to_comp[1]  = {0};
+
+    // generate grid
+    numgrid_context_t *numgrid_context = numgrid_new();
+    double radial_precision = 1.0e-12;
+    int angular_min = 86;
+    int angular_max = 302;
+    int num_outer_centers = 0;
+    double *outer_center_xyz = NULL;
+    int *outer_center_element = NULL;
+    numgrid_generate(numgrid_context,
+                     radial_precision,
+                     angular_min,
+                     angular_max,
+                     num_centers,
+                     center_xyz,
+                     center_element,
+                     num_outer_centers,
+                     outer_center_xyz,
+                     outer_center_element,
+                     num_shells,
+                     shell_center,
+                     l_quantum_num,
+                     shell_num_primitives,
+                     primitive_exp);
+    int num_points = numgrid_get_num_points(numgrid_context);
+    double *grid_pw = (double*) numgrid_get_grid(numgrid_context);
+
     xc.integrate(XCINT_MODE_RKS,
+                 num_points,
+                 grid_pw,
                  0,
                  0,
                  0,
@@ -310,6 +330,10 @@ int main(int argc, char** argv)
                  true,
                  xc_mat,
                  num_electrons);
+
+    // free grid
+    numgrid_free(numgrid_context);
+
     if (fabs(num_electrons - 9.999992074832e+00) > 1.0e-11) return_code++;
     double dot = 0.0;
     for (int i = 0; i < mat_dim*mat_dim; i++)

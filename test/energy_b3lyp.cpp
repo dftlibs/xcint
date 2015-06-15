@@ -1,15 +1,16 @@
-#include "xcint_c_api.h"
-
 #include <cmath>
 
 #include "XCint.h"
+#include "xcint.h"
+#include "xcint_c_parameters.h"
 #include "MemAllocator.h"
 #include "numgrid.h"
 
 int main(int argc, char** argv)
 {
     int return_code = 0;
-    XCint xc;
+
+    xcint_context_t *xcint_context = xcint_new();
 
     int num_centers;
     int num_shells;
@@ -132,17 +133,18 @@ int main(int argc, char** argv)
     primitive_exp[30] =   7.270000000000e-01;
     contraction_coef[30] =   9.568810000000e-01;
     double hfx, mu, beta; // we don't care about it here
-    xc.set_functional("b3lyp", hfx, mu, beta);
-    xc.set_basis(XCINT_BASIS_SPHERICAL,
-                 num_centers,
-                 center_xyz,
-                 center_element,
-                 num_shells,
-                 shell_center,
-                 l_quantum_num,
-                 shell_num_primitives,
-                 primitive_exp,
-                 contraction_coef);
+    xcint_set_functional(xcint_context, "b3lyp", hfx, mu, beta);
+    xcint_set_basis(xcint_context,
+                    XCINT_BASIS_SPHERICAL,
+                    num_centers,
+                    center_xyz,
+                    center_element,
+                    num_shells,
+                    shell_center,
+                    l_quantum_num,
+                    shell_num_primitives,
+                    primitive_exp,
+                    contraction_coef);
 
     int mat_dim = 19;
     double *dmat = NULL;
@@ -314,21 +316,22 @@ int main(int argc, char** argv)
     int num_points = numgrid_get_num_points(numgrid_context);
     double *grid_pw = (double*) numgrid_get_grid(numgrid_context);
 
-    xc.integrate(XCINT_MODE_RKS,
-                 num_points,
-                 grid_pw,
-                 0,
-                 0,
-                 0,
-                 1,
-                 dmat_to_pert,
-                 dmat_to_comp,
-                 dmat,
-                 false,
-                 xc_energy,
-                 true,
-                 xc_mat,
-                 num_electrons);
+    xcint_integrate(xcint_context,
+                    XCINT_MODE_RKS,
+                    num_points,
+                    grid_pw,
+                    0,
+                    0,
+                    0,
+                    1,
+                    dmat_to_pert,
+                    dmat_to_comp,
+                    dmat,
+                    false,
+                    xc_energy,
+                    true,
+                    xc_mat,
+                    num_electrons);
 
     // free grid
     numgrid_free(numgrid_context);
@@ -349,5 +352,8 @@ int main(int argc, char** argv)
     MemAllocator::deallocate(shell_num_primitives);
     MemAllocator::deallocate(primitive_exp);
     MemAllocator::deallocate(contraction_coef);
+
+    xcint_free(xcint_context);
+
     return return_code;
 }

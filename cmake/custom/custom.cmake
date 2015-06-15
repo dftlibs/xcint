@@ -67,7 +67,6 @@ add_library(
     src/Functional.cpp
     src/XCint.cpp
     src/MemAllocator.cpp
-    api/xcint_c_api.cpp
     src/density/ao_vector.cpp
     src/density/Basis.cpp
     src/density/AOBatch.cpp

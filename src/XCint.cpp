@@ -1,4 +1,4 @@
-#include "xcint_c_api.h"
+#include "xcint.h"
 
 #include <math.h>
 #include <time.h>
@@ -15,21 +15,70 @@
 
 #include "xcint_parameters.h"
 #include "parameters.h"
+#include "xcint_c_parameters.h"
 
 #ifdef ENABLE_OMP
 #include "omp.h"
 #endif
 
+#define AS_TYPE(Type, Obj) reinterpret_cast<Type *>(Obj)
+#define AS_CTYPE(Type, Obj) reinterpret_cast<const Type *>(Obj)
 
+
+xcint_context_t *xcint_new()
+{
+    return AS_TYPE(xcint_context_t, new XCint());
+}
 XCint::XCint()
 {
     nullify();
 }
 
 
+void xcint_free(xcint_context_t *context)
+{
+    if (!context) return;
+    delete AS_TYPE(XCint, context);
+}
 XCint::~XCint()
 {
     nullify();
+}
+
+
+int xcint_set_functional(xcint_context_t *context,
+                         const char   *line,
+                               double &hfx,
+                               double &mu,
+                               double &beta)
+{
+    AS_TYPE(XCint, context)->set_functional(line, hfx, mu, beta);
+    return 0;
+}
+
+
+void xcint_set_basis(xcint_context_t *context,
+                     const int    basis_type,
+                     const int    num_centers,
+                     const double center_xyz[],
+                     const int    center_element[],
+                     const int    num_shells,
+                     const int    shell_center[],
+                     const int    l_quantum_num[],
+                     const int    shell_num_primitives[],
+                     const double primitive_exp[],
+                     const double contraction_coef[])
+{
+    AS_TYPE(XCint, context)->set_basis(basis_type,
+                                       num_centers,
+                                       center_xyz,
+                                       center_element,
+                                       num_shells,
+                                       shell_center,
+                                       l_quantum_num,
+                                       shell_num_primitives,
+                                       primitive_exp,
+                                       contraction_coef);
 }
 
 
@@ -693,6 +742,39 @@ void XCint::integrate_batch(      double dmat[],
 }
 
 
+void xcint_integrate(xcint_context_t *context,
+                     const int    mode,
+                     const int    num_points,
+                     const double grid_pw[],
+                     const int    num_pert,
+                     const int    pert[],
+                     const int    comp[],
+                     const int    num_dmat,
+                     const int    dmat_to_pert[],
+                     const int    dmat_to_comp[],
+                           double dmat[],
+                     const int    get_xc_energy,
+                           double &xc_energy,
+                     const int    get_xc_mat,
+                           double xc_mat[],
+                           double &num_electrons)
+{
+    return AS_TYPE(XCint, context)->integrate(mode,
+                                              num_points,
+                                              grid_pw,
+                                              num_pert,
+                                              pert,
+                                              comp,
+                                              num_dmat,
+                                              dmat_to_pert,
+                                              dmat_to_comp,
+                                              dmat,
+                                              get_xc_energy,
+                                              xc_energy,
+                                              get_xc_mat,
+                                              xc_mat,
+                                              num_electrons);
+}
 void XCint::integrate(const int    mode,
                       const int    num_points,
                       const double grid_pw[],

@@ -16,7 +16,7 @@
 
 #include "xcint_parameters.h"
 #include "parameters.h"
-#include "numgrid_c_api.h"
+#include "numgrid.h"
 
 #ifdef ENABLE_OMP
 #include "omp.h"
@@ -29,12 +29,14 @@ typedef int (*print_function)(const char* line);
 XCint::XCint()
 {
     nullify();
+    context = numgrid_new();
 }
 
 
 XCint::~XCint()
 {
     nullify();
+    numgrid_free(context);
 }
 
 
@@ -81,19 +83,25 @@ void XCint::generate_grid(const double radial_precision,
                           const int    shell_num_primitives[],
                           const double primitive_exp[])
 {
-    numgrid_set_grid_parameters(radial_precision,
-                                 angular_min,
-                                 angular_max);
+    int num_outer_centers = 0;
+    double *outer_center_xyz = NULL;
+    int *outer_center_element = NULL;
 
-    numgrid_generate(verbosity,
-                      num_centers,
-                      center_xyz,
-                      center_element,
-                      num_shells,
-                      shell_center,
-                      l_quantum_num,
-                      shell_num_primitives,
-                      primitive_exp);
+    numgrid_generate(context,
+                     radial_precision,
+                     angular_min,
+                     angular_max,
+                     num_centers,
+                     center_xyz,
+                     center_element,
+                     num_outer_centers,
+                     outer_center_xyz,
+                     outer_center_element,
+                     num_shells,
+                     shell_center,
+                     l_quantum_num,
+                     shell_num_primitives,
+                     primitive_exp);
 }
 
 
@@ -848,17 +856,21 @@ void XCint::integrate(const int    mode,
 
     rolex::start_partial();
 
-    // read grid
-    if (rank == 0)
+    double *grid_pw = (double*) numgrid_get_grid(context);
+
+    // FIXME
+    int num_points = numgrid_get_num_points(context);
+    double *grid_p = (double*) MemAllocator::allocate(num_points*3*sizeof(double));
+    double *grid_w = (double*) MemAllocator::allocate(num_points*1*sizeof(double));
+    int k = 0;
+    int l = 0;
+    for (int i = 0; i < num_points; i++)
     {
-        numgrid_read();
+        grid_p[k++] = grid_pw[l++];
+        grid_p[k++] = grid_pw[l++];
+        grid_p[k++] = grid_pw[l++];
+        grid_w[i]   = grid_pw[l++];
     }
-
-    // stretch to align on block length
-    numgrid_stretch();
-
-    double *grid_p = (double*) numgrid_get_grid_p();
-    double *grid_w = (double*) numgrid_get_grid_w();
 
     bool *use_dmat = NULL;
     int  *dmat_index = NULL;
@@ -927,7 +939,7 @@ void XCint::integrate(const int    mode,
         double *xc_mat_local = NULL;
         if (get_xc_mat) xc_mat_local = &xc_mat[0];
 #endif
-        for (int ibatch = 0; ibatch < numgrid_get_num_points()/AO_BLOCK_LENGTH; ibatch++)
+        for (int ibatch = 0; ibatch < numgrid_get_num_points(context)/AO_BLOCK_LENGTH; ibatch++)
         {
             int ipoint = ibatch*AO_BLOCK_LENGTH;
 
@@ -986,6 +998,9 @@ void XCint::integrate(const int    mode,
     MemAllocator::deallocate(use_dmat);
     MemAllocator::deallocate(dmat_index);
     MemAllocator::deallocate(geo_coor);
+
+    MemAllocator::deallocate(grid_p);
+    MemAllocator::deallocate(grid_w);
 
     if (get_xc_mat)
     {

@@ -102,7 +102,7 @@ foreach(_test energy_lda energy_b3lyp)
         test_${_test}
         xcint
         ${PROJECT_BINARY_DIR}/external/xcfun-build/libxcfun.a
-        ${PROJECT_BINARY_DIR}/external/numgrid-build/libnumgrid.a
+        ${PROJECT_BINARY_DIR}/external/numgrid-build/lib/libnumgrid.so
         ${MATH_LIBS}
         )
 

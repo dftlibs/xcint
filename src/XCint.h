@@ -4,6 +4,7 @@
 #include "Basis.h"
 #include "AOBatch.h"
 #include "Functional.h"
+#include "numgrid.h"
 
 typedef int (*print_function)(const char* line);
 
@@ -67,6 +68,7 @@ class XCint
 
         Functional fun;
         Basis basis;
+        numgrid_context_t *context;
 
         void nullify();
 

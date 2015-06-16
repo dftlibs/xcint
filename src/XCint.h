@@ -16,13 +16,13 @@ class XCint
 
         void set_basis(const int    basis_type,
                        const int    num_centers,
-                       const double center_xyz[],
-                       const int    center_element[],
+                       const double center_coordinates[],
+                       const int    center_elements[],
                        const int    num_shells,
-                       const int    shell_center[],
-                       const int    l_quantum_num[],
+                       const int    shell_centers[],
+                       const int    l_quantum_numbers[],
                        const int    shell_num_primitives[],
-                       const double primitive_exp[],
+                       const double primitive_exponents[],
                        const double contraction_coef[]);
 
         void print_splash();

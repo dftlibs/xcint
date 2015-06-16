@@ -60,24 +60,24 @@ int xcint_set_functional(xcint_context_t *context,
 void xcint_set_basis(xcint_context_t *context,
                      const int    basis_type,
                      const int    num_centers,
-                     const double center_xyz[],
-                     const int    center_element[],
+                     const double center_coordinates[],
+                     const int    center_elements[],
                      const int    num_shells,
-                     const int    shell_center[],
-                     const int    l_quantum_num[],
+                     const int    shell_centers[],
+                     const int    l_quantum_numbers[],
                      const int    shell_num_primitives[],
-                     const double primitive_exp[],
+                     const double primitive_exponents[],
                      const double contraction_coef[])
 {
     AS_TYPE(XCint, context)->set_basis(basis_type,
                                        num_centers,
-                                       center_xyz,
-                                       center_element,
+                                       center_coordinates,
+                                       center_elements,
                                        num_shells,
-                                       shell_center,
-                                       l_quantum_num,
+                                       shell_centers,
+                                       l_quantum_numbers,
                                        shell_num_primitives,
-                                       primitive_exp,
+                                       primitive_exponents,
                                        contraction_coef);
 }
 
@@ -96,24 +96,24 @@ void XCint::set_functional(const char *line, double &hfx, double &mu, double &be
 
 void XCint::set_basis(const int    basis_type,
                       const int    num_centers,
-                      const double center_xyz[],
-                      const int    center_element[],
+                      const double center_coordinates[],
+                      const int    center_elements[],
                       const int    num_shells,
-                      const int    shell_center[],
-                      const int    l_quantum_num[],
+                      const int    shell_centers[],
+                      const int    l_quantum_numbers[],
                       const int    shell_num_primitives[],
-                      const double primitive_exp[],
+                      const double primitive_exponents[],
                       const double contraction_coef[])
 {
     basis.init(basis_type,
                num_centers,
-               center_xyz,
-               center_element,
+               center_coordinates,
+               center_elements,
                num_shells,
-               shell_center,
-               l_quantum_num,
+               shell_centers,
+               l_quantum_numbers,
                shell_num_primitives,
-               primitive_exp,
+               primitive_exponents,
                contraction_coef);
 
 //#define CREATE_UNIT_TEST
@@ -136,12 +136,12 @@ void XCint::set_basis(const int    basis_type,
     printf("    int num_centers;\n");
     printf("    int num_shells;\n");
 
-    printf("    double *center_xyz = NULL;\n");
-    printf("    int *center_element = NULL;\n");
-    printf("    int *shell_center = NULL;\n");
-    printf("    int *l_quantum_num = NULL;\n");
+    printf("    double *center_coordinates = NULL;\n");
+    printf("    int *center_elements = NULL;\n");
+    printf("    int *shell_centers = NULL;\n");
+    printf("    int *l_quantum_numbers = NULL;\n");
     printf("    int *shell_num_primitives = NULL;\n");
-    printf("    double *primitive_exp = NULL;\n");
+    printf("    double *primitive_exponents = NULL;\n");
     printf("    double *contraction_coef = NULL;\n");
     printf("    size_t block_size;\n");
 
@@ -149,27 +149,27 @@ void XCint::set_basis(const int    basis_type,
     printf("    num_shells = %i;\n", num_shells);
 
     printf("    block_size = 3*num_centers*sizeof(double);\n");
-    printf("    center_xyz = (double*) MemAllocator::allocate(block_size);\n");
+    printf("    center_coordinates = (double*) MemAllocator::allocate(block_size);\n");
     for (int i = 0; i < 3*num_centers; i++)
     {
-        printf("    center_xyz[%i] = %20.12e;\n", i, center_xyz[i]);
+        printf("    center_coordinates[%i] = %20.12e;\n", i, center_coordinates[i]);
     }
 
     printf("    block_size = num_centers*sizeof(int);\n");
-    printf("    center_element = (int*) MemAllocator::allocate(block_size);\n");
+    printf("    center_elements = (int*) MemAllocator::allocate(block_size);\n");
     for (int i = 0; i < num_centers; i++)
     {
-        printf("    center_element[%i] = %i;\n", i, center_element[i]);
+        printf("    center_elements[%i] = %i;\n", i, center_elements[i]);
     }
 
     printf("    block_size = num_shells*sizeof(int);\n");
-    printf("    shell_center = (int*) MemAllocator::allocate(block_size);\n");
-    printf("    l_quantum_num = (int*) MemAllocator::allocate(block_size);\n");
+    printf("    shell_centers = (int*) MemAllocator::allocate(block_size);\n");
+    printf("    l_quantum_numbers = (int*) MemAllocator::allocate(block_size);\n");
     printf("    shell_num_primitives = (int*) MemAllocator::allocate(block_size);\n");
     for (int i = 0; i < num_shells; i++)
     {
-        printf("    shell_center[%i] = %i;\n", i, shell_center[i]);
-        printf("    l_quantum_num[%i] = %i;\n", i, l_quantum_num[i]);
+        printf("    shell_centers[%i] = %i;\n", i, shell_centers[i]);
+        printf("    l_quantum_numbers[%i] = %i;\n", i, l_quantum_numbers[i]);
         printf("    shell_num_primitives[%i] = %i;\n", i, shell_num_primitives[i]);
     }
 
@@ -180,7 +180,7 @@ void XCint::set_basis(const int    basis_type,
     }
 
     printf("    block_size = %i*sizeof(double);\n", n);
-    printf("    primitive_exp = (double*) MemAllocator::allocate(block_size);\n");
+    printf("    primitive_exponents = (double*) MemAllocator::allocate(block_size);\n");
     printf("    contraction_coef = (double*) MemAllocator::allocate(block_size);\n");
 
     n = 0;
@@ -188,7 +188,7 @@ void XCint::set_basis(const int    basis_type,
     {
         for (int j = 0; j < shell_num_primitives[i]; j++)
         {
-            printf("    primitive_exp[%i] = %20.12e;\n", n, primitive_exp[n]);
+            printf("    primitive_exponents[%i] = %20.12e;\n", n, primitive_exponents[n]);
             printf("    contraction_coef[%i] = %20.12e;\n", n, contraction_coef[n]);
             n++;
         }
@@ -1024,25 +1024,25 @@ void XCint::integrate(const int    mode,
     printf("    xc.set_functional(\"lda\", hfx, mu, beta);\n"); // FIXME
     printf("    xc.set_basis(XCINT_BASIS_SPHERICAL,\n");
     printf("                 num_centers,\n");
-    printf("                 center_xyz,\n");
-    printf("                 center_element,\n");
+    printf("                 center_coordinates,\n");
+    printf("                 center_elements,\n");
     printf("                 num_shells,\n");
-    printf("                 shell_center,\n");
-    printf("                 l_quantum_num,\n");
+    printf("                 shell_centers,\n");
+    printf("                 l_quantum_numbers,\n");
     printf("                 shell_num_primitives,\n");
-    printf("                 primitive_exp,\n");
+    printf("                 primitive_exponents,\n");
     printf("                 contraction_coef);\n");
     printf("    xc.generate_grid(1.0e-12,\n");
     printf("                     86,\n");
     printf("                     302,\n");
     printf("                     num_centers,\n");
-    printf("                     center_xyz,\n");
-    printf("                     center_element,\n");
+    printf("                     center_coordinates,\n");
+    printf("                     center_elements,\n");
     printf("                     num_shells,\n");
-    printf("                     shell_center,\n");
-    printf("                     l_quantum_num,\n");
+    printf("                     shell_centers,\n");
+    printf("                     l_quantum_numbers,\n");
     printf("                     shell_num_primitives,\n");
-    printf("                     primitive_exp);\n");
+    printf("                     primitive_exponents);\n");
 
     printf("    int mat_dim = %i;\n", mat_dim);
 
@@ -1092,12 +1092,12 @@ void XCint::integrate(const int    mode,
 
     printf("    MemAllocator::deallocate(dmat);\n");
     printf("    MemAllocator::deallocate(xc_mat);\n");
-    printf("    MemAllocator::deallocate(center_xyz);\n");
-    printf("    MemAllocator::deallocate(center_element);\n");
-    printf("    MemAllocator::deallocate(shell_center);\n");
-    printf("    MemAllocator::deallocate(l_quantum_num);\n");
+    printf("    MemAllocator::deallocate(center_coordinates);\n");
+    printf("    MemAllocator::deallocate(center_elements);\n");
+    printf("    MemAllocator::deallocate(shell_centers);\n");
+    printf("    MemAllocator::deallocate(l_quantum_numbers);\n");
     printf("    MemAllocator::deallocate(shell_num_primitives);\n");
-    printf("    MemAllocator::deallocate(primitive_exp);\n");
+    printf("    MemAllocator::deallocate(primitive_exponents);\n");
     printf("    MemAllocator::deallocate(contraction_coef);\n");
 
     printf("}\n");

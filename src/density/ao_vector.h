@@ -28,7 +28,7 @@ void vec_daxpy(const double  s,
                const double* __restrict__ a,
                      double* __restrict__ r);
 
-void get_p2(const double* __restrict__ shell_center_xyz,
+void get_p2(const double* __restrict__ shell_centers_coordinates,
             const double* __restrict__ p,
                   double* __restrict__ px,
                   double* __restrict__ py,

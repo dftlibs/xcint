@@ -50,13 +50,13 @@ Generate the integration grid.
                                                angular_min,          &
                                                angular_max,          &
                                                num_centers,          &
-                                               center_xyz,           &
-                                               center_element,       &
+                                               center_coordinates,           &
+                                               center_elements,       &
                                                num_shells,           &
-                                               shell_center,         &
-                                               l_quantum_num,        &
+                                               shell_centers,         &
+                                               l_quantum_numbers,        &
                                                shell_num_primitives, &
-                                               primitive_exp)        &
+                                               primitive_exponents)        &
                            bind (c)
    ! input
       ! desired radial precision
@@ -68,19 +68,19 @@ Generate the integration grid.
       ! number of centers (atoms)
       integer(c_int), value :: num_centers
       ! center coordinates, dimension is 3*num_centers
-      real(c_double)        :: center_xyz(*)
+      real(c_double)        :: center_coordinates(*)
       ! center element (1 for H, 2 for He, ...), dimension is num_centers
-      integer(c_int)        :: center_element(*)
+      integer(c_int)        :: center_elements(*)
       ! number of shells
       integer(c_int), value :: num_shells
       ! shell center, dimension is num_shells
-      integer(c_int)        :: shell_center(*)
+      integer(c_int)        :: shell_centers(*)
       ! L quantum number for each shell, dimension is num_shells
-      integer(c_int)        :: l_quantum_num(*)
+      integer(c_int)        :: l_quantum_numbers(*)
       ! number of primitives for each shell, dimension is num_shells
       integer(c_int)        :: shell_num_primitives(*)
       ! primitive exponents, dimension is sum(shell_num_primitives)
-      real(c_double)        :: primitive_exp(*)
+      real(c_double)        :: primitive_exponents(*)
    ! returns
    !    0 upon success
    end function
@@ -95,13 +95,13 @@ Set the basis set.
 
    subroutine xcint_set_basis(basis_type,           &
                               num_centers,          &
-                              center_xyz,           &
-                              center_element,       &
+                              center_coordinates,           &
+                              center_elements,       &
                               num_shells,           &
-                              shell_center,         &
-                              l_quantum_num,        &
+                              shell_centers,         &
+                              l_quantum_numbers,        &
                               shell_num_primitives, &
-                              primitive_exp,        &
+                              primitive_exponents,        &
                               contraction_coef)     &
               bind (c)
    ! input
@@ -110,19 +110,19 @@ Set the basis set.
       ! number of centers (atoms)
       integer(c_int), value :: num_centers
       ! center coordinates, dimension is 3*num_centers
-      real(c_double)        :: center_xyz(*)
+      real(c_double)        :: center_coordinates(*)
       ! center element (1 for H, 2 for He, ...), dimension is num_centers
-      integer(c_int)        :: center_element(*)
+      integer(c_int)        :: center_elements(*)
       ! number of shells
       integer(c_int), value :: num_shells
       ! shell center, dimension is num_shells
-      integer(c_int)        :: shell_center(*)
+      integer(c_int)        :: shell_centers(*)
       ! L quantum number for each shell, dimension is num_shells
-      integer(c_int)        :: l_quantum_num(*)
+      integer(c_int)        :: l_quantum_numbers(*)
       ! number of primitives for each shell, dimension is num_shells
       integer(c_int)        :: shell_num_primitives(*)
       ! primitive exponents, dimension is sum(shell_num_primitives)
-      real(c_double)        :: primitive_exp(*)
+      real(c_double)        :: primitive_exponents(*)
       ! contraction coefficients, dimension is sum(shell_num_primitives)
       real(c_double)        :: contraction_coef(*)
    end subroutine

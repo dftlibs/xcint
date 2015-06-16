@@ -112,13 +112,13 @@ def write_routine(_maxg, file_name):
 #include "ao_vector.h"
           \n'''
 
-    s = '''void get_ao_g%i(const int    l_quantum_num,
+    s = '''void get_ao_g%i(const int    l_quantum_numbers,
                const int    num_primitives,
-               const double primitive_exp[],
+               const double primitive_exponents[],
                const double contraction_coef[],
                      double s[],
                      double buffer[],
-               const double shell_center_xyz[],
+               const double shell_centers_coordinates[],
                const double extent_squared,
                const double pw[],
                      double px[],
@@ -153,7 +153,7 @@ def write_routine(_maxg, file_name):
     sfoo += '    for (int koff = 0; koff < %i; koff += %i)\n' % (AO_BLOCK_LENGTH, AO_CHUNK_LENGTH)
     sfoo += '    {\n'
 
-    sfoo += '        get_p2(shell_center_xyz,\n'
+    sfoo += '        get_p2(shell_centers_coordinates,\n'
     sfoo += '               &pw[4*koff],\n'
     sfoo += '               px,\n'
     sfoo += '               py,\n'
@@ -173,7 +173,7 @@ def write_routine(_maxg, file_name):
     sfoo += '''
         for (int i = 0; i < num_primitives; i++)
         {
-            a = -primitive_exp[i];
+            a = -primitive_exponents[i];
             c = contraction_coef[i];
 
             get_exp(p2, c, a, s);
@@ -209,7 +209,7 @@ def write_routine(_maxg, file_name):
     sfoo += '        }\n'
 
     for l in range(0, MAX_L_VALUE+1):
-        sfoo += '\n        if (l_quantum_num == ' + '%i)\n' % l
+        sfoo += '\n        if (l_quantum_numbers == ' + '%i)\n' % l
         sfoo += '        {\n'
         c = 0
         for exp in get_ijk_list(l):
@@ -260,13 +260,13 @@ def write_aocalls(file_name):
 
     f = open(file_name, 'w')
 
-    s1 = '''              basis.l_quantum_num[ishell],
+    s1 = '''              basis.l_quantum_numbers[ishell],
               basis.shell_num_primitives[ishell],
-              &basis.primitive_exp[n],
+              &basis.primitive_exponents[n],
               &basis.contraction_coef[n],
               s,
               buffer,
-              &basis.shell_center_xyz[3*ishell],
+              &basis.shell_centers_coordinates[3*ishell],
               basis.shell_extent_squared[ishell],
               p,
               px,
@@ -308,13 +308,13 @@ def write_header(file_name):
     f.write('{\n')
 
     for g in range(0, MAX_GEO_DIFF_ORDER+1):
-        f.write('    void get_ao_g%i(const int    l_quantum_num,\n' % g)
+        f.write('    void get_ao_g%i(const int    l_quantum_numbers,\n' % g)
         f.write('                   const int    num_primitives,\n')
-        f.write('                   const double primitive_exp[],\n')
+        f.write('                   const double primitive_exponents[],\n')
         f.write('                   const double contraction_coef[],\n')
         f.write('                         double s[],\n')
         f.write('                         double buffer[],\n')
-        f.write('                   const double shell_center_xyz[],\n')
+        f.write('                   const double shell_centers_coordinates[],\n')
         f.write('                   const double extent_squared,\n')
         f.write('                   const double pw[],\n')
         f.write('                         double px[],\n')

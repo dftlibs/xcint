@@ -12,13 +12,13 @@ class Basis
 
         void init(const int    in_basis_type,
                   const int    in_num_centers,
-                  const double in_center_xyz[],
-                  const int    in_center_element[],
+                  const double in_center_coordinates[],
+                  const int    in_center_elements[],
                   const int    in_num_shells,
-                  const int    in_shell_center[],
-                  const int    in_l_quantum_num[],
+                  const int    in_shell_centers[],
+                  const int    in_l_quantum_numbers[],
                   const int    in_shell_num_primitives[],
-                  const double in_primitive_exp[],
+                  const double in_primitive_exponents[],
                   const double in_contraction_coef[]);
         int  get_num_centers() const;
         int  get_num_ao_slices() const;
@@ -33,12 +33,12 @@ class Basis
 
         int     num_centers; // FIXME
         int     num_shells; // FIXME
-        int    *l_quantum_num; // FIXME
+        int    *l_quantum_numbers; // FIXME
         int    *shell_num_primitives; // FIXME
-        double *primitive_exp; // FIXME
-        double *center_xyz; // FIXME
-        int    *center_element; // FIXME
-        int    *shell_center; // FIXME
+        double *primitive_exponents; // FIXME
+        double *center_coordinates; // FIXME
+        int    *center_elements; // FIXME
+        int    *shell_centers; // FIXME
 
     private:
 
@@ -47,7 +47,7 @@ class Basis
 
         void    nullify();
 
-        double *shell_center_xyz;
+        double *shell_centers_coordinates;
         double *shell_extent_squared;
         int    *cartesian_deg;
         int    *shell_off;

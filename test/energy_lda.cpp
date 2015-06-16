@@ -14,136 +14,136 @@ int main(int argc, char** argv)
 
     int num_centers;
     int num_shells;
-    double *center_xyz = NULL;
-    int *center_element = NULL;
-    int *shell_center = NULL;
-    int *l_quantum_num = NULL;
+    double *center_coordinates = NULL;
+    int *center_elements = NULL;
+    int *shell_centers = NULL;
+    int *l_quantum_numbers = NULL;
     int *shell_num_primitives = NULL;
-    double *primitive_exp = NULL;
+    double *primitive_exponents = NULL;
     double *contraction_coef = NULL;
     size_t block_size;
     num_centers = 2;
     num_shells = 9;
     block_size = 3*num_centers*sizeof(double);
-    center_xyz = (double*) MemAllocator::allocate(block_size);
-    center_xyz[0] =   1.700000000000e+00;
-    center_xyz[1] =   0.000000000000e+00;
-    center_xyz[2] =   0.000000000000e+00;
-    center_xyz[3] =   0.000000000000e+00;
-    center_xyz[4] =   0.000000000000e+00;
-    center_xyz[5] =   0.000000000000e+00;
+    center_coordinates = (double*) MemAllocator::allocate(block_size);
+    center_coordinates[0] =   1.700000000000e+00;
+    center_coordinates[1] =   0.000000000000e+00;
+    center_coordinates[2] =   0.000000000000e+00;
+    center_coordinates[3] =   0.000000000000e+00;
+    center_coordinates[4] =   0.000000000000e+00;
+    center_coordinates[5] =   0.000000000000e+00;
     block_size = num_centers*sizeof(int);
-    center_element = (int*) MemAllocator::allocate(block_size);
-    center_element[0] = 9;
-    center_element[1] = 1;
+    center_elements = (int*) MemAllocator::allocate(block_size);
+    center_elements[0] = 9;
+    center_elements[1] = 1;
     block_size = num_shells*sizeof(int);
-    shell_center = (int*) MemAllocator::allocate(block_size);
-    l_quantum_num = (int*) MemAllocator::allocate(block_size);
+    shell_centers = (int*) MemAllocator::allocate(block_size);
+    l_quantum_numbers = (int*) MemAllocator::allocate(block_size);
     shell_num_primitives = (int*) MemAllocator::allocate(block_size);
-    shell_center[0] = 1;
-    l_quantum_num[0] = 0;
+    shell_centers[0] = 1;
+    l_quantum_numbers[0] = 0;
     shell_num_primitives[0] = 9;
-    shell_center[1] = 1;
-    l_quantum_num[1] = 0;
+    shell_centers[1] = 1;
+    l_quantum_numbers[1] = 0;
     shell_num_primitives[1] = 9;
-    shell_center[2] = 1;
-    l_quantum_num[2] = 0;
+    shell_centers[2] = 1;
+    l_quantum_numbers[2] = 0;
     shell_num_primitives[2] = 1;
-    shell_center[3] = 1;
-    l_quantum_num[3] = 1;
+    shell_centers[3] = 1;
+    l_quantum_numbers[3] = 1;
     shell_num_primitives[3] = 4;
-    shell_center[4] = 1;
-    l_quantum_num[4] = 1;
+    shell_centers[4] = 1;
+    l_quantum_numbers[4] = 1;
     shell_num_primitives[4] = 1;
-    shell_center[5] = 1;
-    l_quantum_num[5] = 2;
+    shell_centers[5] = 1;
+    l_quantum_numbers[5] = 2;
     shell_num_primitives[5] = 1;
-    shell_center[6] = 2;
-    l_quantum_num[6] = 0;
+    shell_centers[6] = 2;
+    l_quantum_numbers[6] = 0;
     shell_num_primitives[6] = 4;
-    shell_center[7] = 2;
-    l_quantum_num[7] = 0;
+    shell_centers[7] = 2;
+    l_quantum_numbers[7] = 0;
     shell_num_primitives[7] = 1;
-    shell_center[8] = 2;
-    l_quantum_num[8] = 1;
+    shell_centers[8] = 2;
+    l_quantum_numbers[8] = 1;
     shell_num_primitives[8] = 1;
     block_size = 31*sizeof(double);
-    primitive_exp = (double*) MemAllocator::allocate(block_size);
+    primitive_exponents = (double*) MemAllocator::allocate(block_size);
     contraction_coef = (double*) MemAllocator::allocate(block_size);
-    primitive_exp[0] =   1.471000000000e+04;
+    primitive_exponents[0] =   1.471000000000e+04;
     contraction_coef[0] =   6.863650000000e-01;
-    primitive_exp[1] =   2.207000000000e+03;
+    primitive_exponents[1] =   2.207000000000e+03;
     contraction_coef[1] =   1.274350000000e+00;
-    primitive_exp[2] =   5.028000000000e+02;
+    primitive_exponents[2] =   5.028000000000e+02;
     contraction_coef[2] =   2.139130000000e+00;
-    primitive_exp[3] =   1.426000000000e+02;
+    primitive_exponents[3] =   1.426000000000e+02;
     contraction_coef[3] =   3.130550000000e+00;
-    primitive_exp[4] =   4.647000000000e+01;
+    primitive_exponents[4] =   4.647000000000e+01;
     contraction_coef[4] =   3.638230000000e+00;
-    primitive_exp[5] =   1.670000000000e+01;
+    primitive_exponents[5] =   1.670000000000e+01;
     contraction_coef[5] =   2.641480000000e+00;
-    primitive_exp[6] =   6.356000000000e+00;
+    primitive_exponents[6] =   6.356000000000e+00;
     contraction_coef[6] =   7.553570000000e-01;
-    primitive_exp[7] =   1.316000000000e+00;
+    primitive_exponents[7] =   1.316000000000e+00;
     contraction_coef[7] =   1.342700000000e-02;
-    primitive_exp[8] =   3.897000000000e-01;
+    primitive_exponents[8] =   3.897000000000e-01;
     contraction_coef[8] =  -8.197600000000e-04;
-    primitive_exp[9] =   1.471000000000e+04;
+    primitive_exponents[9] =   1.471000000000e+04;
     contraction_coef[9] =  -1.570740000000e-01;
-    primitive_exp[10] =   2.207000000000e+03;
+    primitive_exponents[10] =   2.207000000000e+03;
     contraction_coef[10] =  -3.001720000000e-01;
-    primitive_exp[11] =   5.028000000000e+02;
+    primitive_exponents[11] =   5.028000000000e+02;
     contraction_coef[11] =  -4.915140000000e-01;
-    primitive_exp[12] =   1.426000000000e+02;
+    primitive_exponents[12] =   1.426000000000e+02;
     contraction_coef[12] =  -7.849910000000e-01;
-    primitive_exp[13] =   4.647000000000e+01;
+    primitive_exponents[13] =   4.647000000000e+01;
     contraction_coef[13] =  -9.347560000000e-01;
-    primitive_exp[14] =   1.670000000000e+01;
+    primitive_exponents[14] =   1.670000000000e+01;
     contraction_coef[14] =  -1.005480000000e+00;
-    primitive_exp[15] =   6.356000000000e+00;
+    primitive_exponents[15] =   6.356000000000e+00;
     contraction_coef[15] =  -3.204660000000e-01;
-    primitive_exp[16] =   1.316000000000e+00;
+    primitive_exponents[16] =   1.316000000000e+00;
     contraction_coef[16] =   4.928530000000e-01;
-    primitive_exp[17] =   3.897000000000e-01;
+    primitive_exponents[17] =   3.897000000000e-01;
     contraction_coef[17] =   1.999410000000e-01;
-    primitive_exp[18] =   3.897000000000e-01;
+    primitive_exponents[18] =   3.897000000000e-01;
     contraction_coef[18] =   3.515260000000e-01;
-    primitive_exp[19] =   2.267000000000e+01;
+    primitive_exponents[19] =   2.267000000000e+01;
     contraction_coef[19] =   3.164380000000e+00;
-    primitive_exp[20] =   4.977000000000e+00;
+    primitive_exponents[20] =   4.977000000000e+00;
     contraction_coef[20] =   2.497710000000e+00;
-    primitive_exp[21] =   1.347000000000e+00;
+    primitive_exponents[21] =   1.347000000000e+00;
     contraction_coef[21] =   1.051860000000e+00;
-    primitive_exp[22] =   3.471000000000e-01;
+    primitive_exponents[22] =   3.471000000000e-01;
     contraction_coef[22] =   1.739750000000e-01;
-    primitive_exp[23] =   3.471000000000e-01;
+    primitive_exponents[23] =   3.471000000000e-01;
     contraction_coef[23] =   3.797590000000e-01;
-    primitive_exp[24] =   1.640000000000e+00;
+    primitive_exponents[24] =   1.640000000000e+00;
     contraction_coef[24] =   6.775590000000e+00;
-    primitive_exp[25] =   1.301000000000e+01;
+    primitive_exponents[25] =   1.301000000000e+01;
     contraction_coef[25] =   9.610660000000e-02;
-    primitive_exp[26] =   1.962000000000e+00;
+    primitive_exponents[26] =   1.962000000000e+00;
     contraction_coef[26] =   1.630200000000e-01;
-    primitive_exp[27] =   4.446000000000e-01;
+    primitive_exponents[27] =   4.446000000000e-01;
     contraction_coef[27] =   1.855450000000e-01;
-    primitive_exp[28] =   1.220000000000e-01;
+    primitive_exponents[28] =   1.220000000000e-01;
     contraction_coef[28] =   7.374380000000e-02;
-    primitive_exp[29] =   1.220000000000e-01;
+    primitive_exponents[29] =   1.220000000000e-01;
     contraction_coef[29] =   1.471230000000e-01;
-    primitive_exp[30] =   7.270000000000e-01;
+    primitive_exponents[30] =   7.270000000000e-01;
     contraction_coef[30] =   9.568810000000e-01;
     double hfx, mu, beta; // we don't care about it here
     xcint_set_functional(xcint_context, "lda", hfx, mu, beta);
     xcint_set_basis(xcint_context,
                     XCINT_BASIS_SPHERICAL,
                     num_centers,
-                    center_xyz,
-                    center_element,
+                    center_coordinates,
+                    center_elements,
                     num_shells,
-                    shell_center,
-                    l_quantum_num,
+                    shell_centers,
+                    l_quantum_numbers,
                     shell_num_primitives,
-                    primitive_exp,
+                    primitive_exponents,
                     contraction_coef);
 
     int mat_dim = 19;
@@ -296,23 +296,23 @@ int main(int argc, char** argv)
     int angular_min = 86;
     int angular_max = 302;
     int num_outer_centers = 0;
-    double *outer_center_xyz = NULL;
-    int *outer_center_element = NULL;
-    numgrid_generate(numgrid_context,
-                     radial_precision,
-                     angular_min,
-                     angular_max,
-                     num_centers,
-                     center_xyz,
-                     center_element,
-                     num_outer_centers,
-                     outer_center_xyz,
-                     outer_center_element,
-                     num_shells,
-                     shell_center,
-                     l_quantum_num,
-                     shell_num_primitives,
-                     primitive_exp);
+    double *outer_center_coordinates = NULL;
+    int *outer_center_elements = NULL;
+    int ierr = numgrid_generate(numgrid_context,
+                                radial_precision,
+                                angular_min,
+                                angular_max,
+                                num_centers,
+                                center_coordinates,
+                                center_elements,
+                                num_outer_centers,
+                                outer_center_coordinates,
+                                outer_center_elements,
+                                num_shells,
+                                shell_centers,
+                                l_quantum_numbers,
+                                shell_num_primitives,
+                                primitive_exponents);
     int num_points = numgrid_get_num_points(numgrid_context);
     double *grid_pw = (double*) numgrid_get_grid(numgrid_context);
 
@@ -345,12 +345,12 @@ int main(int argc, char** argv)
     if (fabs(dot - -6.729996811122e+00) > 1.0e-11) return_code++;
     MemAllocator::deallocate(dmat);
     MemAllocator::deallocate(xc_mat);
-    MemAllocator::deallocate(center_xyz);
-    MemAllocator::deallocate(center_element);
-    MemAllocator::deallocate(shell_center);
-    MemAllocator::deallocate(l_quantum_num);
+    MemAllocator::deallocate(center_coordinates);
+    MemAllocator::deallocate(center_elements);
+    MemAllocator::deallocate(shell_centers);
+    MemAllocator::deallocate(l_quantum_numbers);
     MemAllocator::deallocate(shell_num_primitives);
-    MemAllocator::deallocate(primitive_exp);
+    MemAllocator::deallocate(primitive_exponents);
     MemAllocator::deallocate(contraction_coef);
 
     xcint_free(xcint_context);

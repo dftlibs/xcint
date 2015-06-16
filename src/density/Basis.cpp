@@ -20,11 +20,11 @@ Basis::Basis()
 
 Basis::~Basis()
 {
-    MemAllocator::deallocate(l_quantum_num);
-    MemAllocator::deallocate(center_xyz);
-    MemAllocator::deallocate(center_element);
-    MemAllocator::deallocate(shell_center);
-    MemAllocator::deallocate(shell_center_xyz);
+    MemAllocator::deallocate(l_quantum_numbers);
+    MemAllocator::deallocate(center_coordinates);
+    MemAllocator::deallocate(center_elements);
+    MemAllocator::deallocate(shell_centers);
+    MemAllocator::deallocate(shell_centers_coordinates);
     MemAllocator::deallocate(shell_extent_squared);
     MemAllocator::deallocate(cartesian_deg);
     MemAllocator::deallocate(shell_off);
@@ -32,7 +32,7 @@ Basis::~Basis()
     MemAllocator::deallocate(ao_center);
     MemAllocator::deallocate(shell_num_primitives);
     MemAllocator::deallocate(geo_off);
-    MemAllocator::deallocate(primitive_exp);
+    MemAllocator::deallocate(primitive_exponents);
     MemAllocator::deallocate(contraction_coef);
 
     nullify();
@@ -43,11 +43,11 @@ void Basis::nullify()
 {
     num_centers                  = -1;
     num_shells                   = -1;
-    l_quantum_num                = NULL;
-    center_xyz                   = NULL;
-    center_element               = NULL;
-    shell_center                 = NULL;
-    shell_center_xyz             = NULL;
+    l_quantum_numbers                = NULL;
+    center_coordinates                   = NULL;
+    center_elements               = NULL;
+    shell_centers                 = NULL;
+    shell_centers_coordinates             = NULL;
     shell_extent_squared         = NULL;
     cartesian_deg                = NULL;
     shell_off                    = NULL;
@@ -61,7 +61,7 @@ void Basis::nullify()
     shell_num_primitives     = NULL;
     geo_diff_order               = -1;
     geo_off                      = NULL;
-    primitive_exp                = NULL;
+    primitive_exponents                = NULL;
     contraction_coef             = NULL;
     is_initialized               = false;
     is_synced                    = false;
@@ -70,13 +70,13 @@ void Basis::nullify()
 
 void Basis::init(const int    in_basis_type,
                       const int    in_num_centers,
-                      const double in_center_xyz[],
-                      const int    in_center_element[],
+                      const double in_center_coordinates[],
+                      const int    in_center_elements[],
                       const int    in_num_shells,
-                      const int    in_shell_center[],
-                      const int    in_l_quantum_num[],
+                      const int    in_shell_centers[],
+                      const int    in_l_quantum_numbers[],
                       const int    in_shell_num_primitives[],
-                      const double in_primitive_exp[],
+                      const double in_primitive_exponents[],
                       const double in_contraction_coef[])
 {
     int i, l, deg, kc, ks;
@@ -105,35 +105,35 @@ void Basis::init(const int    in_basis_type,
     num_shells = in_num_shells;
 
     block_size = 3*num_centers*sizeof(double);
-    center_xyz = (double*) MemAllocator::allocate(block_size);
-    std::copy(&in_center_xyz[0], &in_center_xyz[3*num_centers], &center_xyz[0]);
+    center_coordinates = (double*) MemAllocator::allocate(block_size);
+    std::copy(&in_center_coordinates[0], &in_center_coordinates[3*num_centers], &center_coordinates[0]);
 
     block_size = num_centers*sizeof(int);
-    center_element = (int*) MemAllocator::allocate(block_size);
-    std::copy(&in_center_element[0], &in_center_element[num_centers], &center_element[0]);
+    center_elements = (int*) MemAllocator::allocate(block_size);
+    std::copy(&in_center_elements[0], &in_center_elements[num_centers], &center_elements[0]);
 
     block_size = num_shells*sizeof(int);
-    shell_center = (int*) MemAllocator::allocate(block_size);
-    std::copy(&in_shell_center[0], &in_shell_center[num_shells], &shell_center[0]);
+    shell_centers = (int*) MemAllocator::allocate(block_size);
+    std::copy(&in_shell_centers[0], &in_shell_centers[num_shells], &shell_centers[0]);
 
     block_size = 3*num_shells*sizeof(double);
-    shell_center_xyz = (double*) MemAllocator::allocate(block_size);
+    shell_centers_coordinates = (double*) MemAllocator::allocate(block_size);
 
     for (int ishell = 0; ishell < num_shells; ishell++)
     {
         for (int ixyz = 0; ixyz < 3; ixyz++)
         {
-            shell_center_xyz[3*ishell + ixyz] = in_center_xyz[3*(in_shell_center[ishell]-1) + ixyz];
+            shell_centers_coordinates[3*ishell + ixyz] = in_center_coordinates[3*(in_shell_centers[ishell]-1) + ixyz];
         }
     }
 
     block_size = num_shells*sizeof(int);
-    l_quantum_num = (int*) MemAllocator::allocate(block_size);
-    std::copy(&in_l_quantum_num[0], &in_l_quantum_num[num_shells], &l_quantum_num[0]);
+    l_quantum_numbers = (int*) MemAllocator::allocate(block_size);
+    std::copy(&in_l_quantum_numbers[0], &in_l_quantum_numbers[num_shells], &l_quantum_numbers[0]);
 
     for (int ishell = 0; ishell < num_shells; ishell++)
     {
-        if (l_quantum_num[ishell] > MAX_L_VALUE)
+        if (l_quantum_numbers[ishell] > MAX_L_VALUE)
         {
             fprintf(stderr, "ERROR: increase MAX_L_VALUE.\n");
             exit(-1);
@@ -151,9 +151,9 @@ void Basis::init(const int    in_basis_type,
     }
 
     block_size = n*sizeof(double);
-    primitive_exp = (double*) MemAllocator::allocate(block_size);
+    primitive_exponents = (double*) MemAllocator::allocate(block_size);
     contraction_coef = (double*) MemAllocator::allocate(block_size);
-    std::copy(&in_primitive_exp[0], &in_primitive_exp[n], &primitive_exp[0]);
+    std::copy(&in_primitive_exponents[0], &in_primitive_exponents[n], &primitive_exponents[0]);
     std::copy(&in_contraction_coef[0], &in_contraction_coef[n], &contraction_coef[0]);
 
     // get approximate spacial shell extent
@@ -169,15 +169,15 @@ void Basis::init(const int    in_basis_type,
         r = 0.0;
         for (int j = 0; j < shell_num_primitives[ishell]; j++)
         {
-            e = primitive_exp[n];
+            e = primitive_exponents[n];
             c = contraction_coef[n];
             n++;
             r_temp = (log(fabs(c)) - log(SHELL_SCREENING_THRESHOLD))/e;
             if (r_temp > r) r = r_temp;
         }
-        if (l_quantum_num[ishell] < 10)
+        if (l_quantum_numbers[ishell] < 10)
         {
-            r = pow(r, 0.5)*f[l_quantum_num[ishell]];
+            r = pow(r, 0.5)*f[l_quantum_numbers[ishell]];
         }
         else
         {
@@ -195,7 +195,7 @@ void Basis::init(const int    in_basis_type,
     num_ao_spherical = 0;
     for (int ishell = 0; ishell < num_shells; ishell++)
     {
-        l = l_quantum_num[ishell];
+        l = l_quantum_numbers[ishell];
         kc = (l+1)*(l+2)/2;
         ks = 2*l + 1;
         cartesian_deg[ishell] = kc;
@@ -240,7 +240,7 @@ void Basis::init(const int    in_basis_type,
        }
        for (int j = i; j < (i + deg); j++)
        {
-           ao_center[j] = in_shell_center[ishell] - 1;
+           ao_center[j] = in_shell_centers[ishell] - 1;
        }
 
        i += deg;

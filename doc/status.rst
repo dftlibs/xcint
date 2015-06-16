@@ -14,7 +14,7 @@ Grid generation
 ---------------
 
 The grid generation has been moved outside XCint
-(the tests employ [numgrid](https://github.com/bast/numgrid)).
+(the tests employ https://github.com/bast/numgrid).
 This has the following advantages:
 
 - Gives the caller the possibility to use other grid generators.
@@ -28,6 +28,19 @@ MPI parallelization
 MPI parallelization has been removed (see above section) as it can be
 introduced by the caller in very few lines.  Not having MPI parallelization
 inside XCint simplifies the code and testing.
+
+
+Python interface
+----------------
+
+An optional Python interface is under construction.
+
+
+Fortran interface
+-----------------
+
+An optional Fortran interface is currently broken and will be restored/reintroduced
+as soon as the C interface stabilizes a bit.
 
 
 Outlook

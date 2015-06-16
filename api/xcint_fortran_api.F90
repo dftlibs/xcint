@@ -28,14 +28,14 @@ contains
    end function
 
    integer(c_int) function xcint_generate_grid(radial_precision,     &
-                                               angular_min,          &
-                                               angular_max,          &
+                                               min_num_angular_points,          &
+                                               max_num_angular_points,          &
                                                num_centers,          &
                                                center_coordinates,           &
                                                center_elements,       &
                                                num_shells,           &
                                                shell_centers,         &
-                                               l_quantum_numbers,        &
+                                               shell_l_quantum_numbers,        &
                                                shell_num_primitives, &
                                                primitive_exponents)        &
                            bind (c)
@@ -43,9 +43,9 @@ contains
       ! desired radial precision
       real(c_double), intent(in), value :: radial_precision
       ! min number of angular points (pruning)
-      integer(c_int), intent(in), value :: angular_min
+      integer(c_int), intent(in), value :: min_num_angular_points
       ! max number of angular points
-      integer(c_int), intent(in), value :: angular_max
+      integer(c_int), intent(in), value :: max_num_angular_points
       ! number of centers (atoms)
       integer(c_int), value :: num_centers
       ! center coordinates, dimension is 3*num_centers
@@ -57,7 +57,7 @@ contains
       ! shell center, dimension is num_shells
       integer(c_int)        :: shell_centers(*)
       ! L quantum number for each shell, dimension is num_shells
-      integer(c_int)        :: l_quantum_numbers(*)
+      integer(c_int)        :: shell_l_quantum_numbers(*)
       ! number of primitives for each shell, dimension is num_shells
       integer(c_int)        :: shell_num_primitives(*)
       ! primitive exponents, dimension is sum(shell_num_primitives)
@@ -72,7 +72,7 @@ contains
                               center_elements,       &
                               num_shells,           &
                               shell_centers,         &
-                              l_quantum_numbers,        &
+                              shell_l_quantum_numbers,        &
                               shell_num_primitives, &
                               primitive_exponents,        &
                               contraction_coefficients)     &
@@ -91,7 +91,7 @@ contains
       ! shell center, dimension is num_shells
       integer(c_int)        :: shell_centers(*)
       ! L quantum number for each shell, dimension is num_shells
-      integer(c_int)        :: l_quantum_numbers(*)
+      integer(c_int)        :: shell_l_quantum_numbers(*)
       ! number of primitives for each shell, dimension is num_shells
       integer(c_int)        :: shell_num_primitives(*)
       ! primitive exponents, dimension is sum(shell_num_primitives)

@@ -16,7 +16,7 @@ class Basis
                   const int    in_center_elements[],
                   const int    in_num_shells,
                   const int    in_shell_centers[],
-                  const int    in_l_quantum_numbers[],
+                  const int    in_shell_l_quantum_numbers[],
                   const int    in_shell_num_primitives[],
                   const double in_primitive_exponents[],
                   const double in_contraction_coefficients[]);
@@ -33,7 +33,7 @@ class Basis
 
         int     num_centers; // FIXME
         int     num_shells; // FIXME
-        int    *l_quantum_numbers; // FIXME
+        int    *shell_l_quantum_numbers; // FIXME
         int    *shell_num_primitives; // FIXME
         double *primitive_exponents; // FIXME
         double *center_coordinates; // FIXME

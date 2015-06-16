@@ -112,7 +112,7 @@ def write_routine(_maxg, file_name):
 #include "ao_vector.h"
           \n'''
 
-    s = '''void get_ao_g%i(const int    l_quantum_numbers,
+    s = '''void get_ao_g%i(const int    shell_l_quantum_numbers,
                const int    num_primitives,
                const double primitive_exponents[],
                const double contraction_coefficients[],
@@ -209,7 +209,7 @@ def write_routine(_maxg, file_name):
     sfoo += '        }\n'
 
     for l in range(0, MAX_L_VALUE+1):
-        sfoo += '\n        if (l_quantum_numbers == ' + '%i)\n' % l
+        sfoo += '\n        if (shell_l_quantum_numbers == ' + '%i)\n' % l
         sfoo += '        {\n'
         c = 0
         for exp in get_ijk_list(l):
@@ -260,7 +260,7 @@ def write_aocalls(file_name):
 
     f = open(file_name, 'w')
 
-    s1 = '''              basis.l_quantum_numbers[ishell],
+    s1 = '''              basis.shell_l_quantum_numbers[ishell],
               basis.shell_num_primitives[ishell],
               &basis.primitive_exponents[n],
               &basis.contraction_coefficients[n],
@@ -308,7 +308,7 @@ def write_header(file_name):
     f.write('{\n')
 
     for g in range(0, MAX_GEO_DIFF_ORDER+1):
-        f.write('    void get_ao_g%i(const int    l_quantum_numbers,\n' % g)
+        f.write('    void get_ao_g%i(const int    shell_l_quantum_numbers,\n' % g)
         f.write('                   const int    num_primitives,\n')
         f.write('                   const double primitive_exponents[],\n')
         f.write('                   const double contraction_coefficients[],\n')

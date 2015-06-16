@@ -18,7 +18,7 @@ int main(int argc, char** argv)
     double *center_coordinates = NULL;
     int *center_elements = NULL;
     int *shell_centers = NULL;
-    int *l_quantum_numbers = NULL;
+    int *shell_l_quantum_numbers = NULL;
     int *shell_num_primitives = NULL;
     double *primitive_exponents = NULL;
     double *contraction_coefficients = NULL;
@@ -39,34 +39,34 @@ int main(int argc, char** argv)
     center_elements[1] = 1;
     block_size = num_shells*sizeof(int);
     shell_centers = (int*) MemAllocator::allocate(block_size);
-    l_quantum_numbers = (int*) MemAllocator::allocate(block_size);
+    shell_l_quantum_numbers = (int*) MemAllocator::allocate(block_size);
     shell_num_primitives = (int*) MemAllocator::allocate(block_size);
     shell_centers[0] = 1;
-    l_quantum_numbers[0] = 0;
+    shell_l_quantum_numbers[0] = 0;
     shell_num_primitives[0] = 9;
     shell_centers[1] = 1;
-    l_quantum_numbers[1] = 0;
+    shell_l_quantum_numbers[1] = 0;
     shell_num_primitives[1] = 9;
     shell_centers[2] = 1;
-    l_quantum_numbers[2] = 0;
+    shell_l_quantum_numbers[2] = 0;
     shell_num_primitives[2] = 1;
     shell_centers[3] = 1;
-    l_quantum_numbers[3] = 1;
+    shell_l_quantum_numbers[3] = 1;
     shell_num_primitives[3] = 4;
     shell_centers[4] = 1;
-    l_quantum_numbers[4] = 1;
+    shell_l_quantum_numbers[4] = 1;
     shell_num_primitives[4] = 1;
     shell_centers[5] = 1;
-    l_quantum_numbers[5] = 2;
+    shell_l_quantum_numbers[5] = 2;
     shell_num_primitives[5] = 1;
     shell_centers[6] = 2;
-    l_quantum_numbers[6] = 0;
+    shell_l_quantum_numbers[6] = 0;
     shell_num_primitives[6] = 4;
     shell_centers[7] = 2;
-    l_quantum_numbers[7] = 0;
+    shell_l_quantum_numbers[7] = 0;
     shell_num_primitives[7] = 1;
     shell_centers[8] = 2;
-    l_quantum_numbers[8] = 1;
+    shell_l_quantum_numbers[8] = 1;
     shell_num_primitives[8] = 1;
     block_size = 31*sizeof(double);
     primitive_exponents = (double*) MemAllocator::allocate(block_size);
@@ -141,7 +141,7 @@ int main(int argc, char** argv)
                            center_elements,
                            num_shells,
                            shell_centers,
-                           l_quantum_numbers,
+                           shell_l_quantum_numbers,
                            shell_num_primitives,
                            primitive_exponents,
                            contraction_coefficients);
@@ -293,15 +293,15 @@ int main(int argc, char** argv)
     // generate grid
     numgrid_context_t *numgrid_context = numgrid_new();
     double radial_precision = 1.0e-12;
-    int angular_min = 86;
-    int angular_max = 302;
+    int min_num_angular_points = 86;
+    int max_num_angular_points = 302;
     int num_outer_centers = 0;
     double *outer_center_coordinates = NULL;
     int *outer_center_elements = NULL;
     ierr = numgrid_generate(numgrid_context,
                             radial_precision,
-                            angular_min,
-                            angular_max,
+                            min_num_angular_points,
+                            max_num_angular_points,
                             num_centers,
                             center_coordinates,
                             center_elements,
@@ -310,7 +310,7 @@ int main(int argc, char** argv)
                             outer_center_elements,
                             num_shells,
                             shell_centers,
-                            l_quantum_numbers,
+                            shell_l_quantum_numbers,
                             shell_num_primitives,
                             primitive_exponents);
     int num_points = numgrid_get_num_points(numgrid_context);
@@ -348,7 +348,7 @@ int main(int argc, char** argv)
     MemAllocator::deallocate(center_coordinates);
     MemAllocator::deallocate(center_elements);
     MemAllocator::deallocate(shell_centers);
-    MemAllocator::deallocate(l_quantum_numbers);
+    MemAllocator::deallocate(shell_l_quantum_numbers);
     MemAllocator::deallocate(shell_num_primitives);
     MemAllocator::deallocate(primitive_exponents);
     MemAllocator::deallocate(contraction_coefficients);

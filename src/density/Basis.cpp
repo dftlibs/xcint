@@ -20,7 +20,7 @@ Basis::Basis()
 
 Basis::~Basis()
 {
-    MemAllocator::deallocate(l_quantum_numbers);
+    MemAllocator::deallocate(shell_l_quantum_numbers);
     MemAllocator::deallocate(center_coordinates);
     MemAllocator::deallocate(center_elements);
     MemAllocator::deallocate(shell_centers);
@@ -43,7 +43,7 @@ void Basis::nullify()
 {
     num_centers                  = -1;
     num_shells                   = -1;
-    l_quantum_numbers                = NULL;
+    shell_l_quantum_numbers                = NULL;
     center_coordinates                   = NULL;
     center_elements               = NULL;
     shell_centers                 = NULL;
@@ -74,7 +74,7 @@ void Basis::init(const int    in_basis_type,
                       const int    in_center_elements[],
                       const int    in_num_shells,
                       const int    in_shell_centers[],
-                      const int    in_l_quantum_numbers[],
+                      const int    in_shell_l_quantum_numbers[],
                       const int    in_shell_num_primitives[],
                       const double in_primitive_exponents[],
                       const double in_contraction_coefficients[])
@@ -128,12 +128,12 @@ void Basis::init(const int    in_basis_type,
     }
 
     block_size = num_shells*sizeof(int);
-    l_quantum_numbers = (int*) MemAllocator::allocate(block_size);
-    std::copy(&in_l_quantum_numbers[0], &in_l_quantum_numbers[num_shells], &l_quantum_numbers[0]);
+    shell_l_quantum_numbers = (int*) MemAllocator::allocate(block_size);
+    std::copy(&in_shell_l_quantum_numbers[0], &in_shell_l_quantum_numbers[num_shells], &shell_l_quantum_numbers[0]);
 
     for (int ishell = 0; ishell < num_shells; ishell++)
     {
-        if (l_quantum_numbers[ishell] > MAX_L_VALUE)
+        if (shell_l_quantum_numbers[ishell] > MAX_L_VALUE)
         {
             fprintf(stderr, "ERROR: increase MAX_L_VALUE.\n");
             exit(-1);
@@ -175,9 +175,9 @@ void Basis::init(const int    in_basis_type,
             r_temp = (log(fabs(c)) - log(SHELL_SCREENING_THRESHOLD))/e;
             if (r_temp > r) r = r_temp;
         }
-        if (l_quantum_numbers[ishell] < 10)
+        if (shell_l_quantum_numbers[ishell] < 10)
         {
-            r = pow(r, 0.5)*f[l_quantum_numbers[ishell]];
+            r = pow(r, 0.5)*f[shell_l_quantum_numbers[ishell]];
         }
         else
         {
@@ -195,7 +195,7 @@ void Basis::init(const int    in_basis_type,
     num_ao_spherical = 0;
     for (int ishell = 0; ishell < num_shells; ishell++)
     {
-        l = l_quantum_numbers[ishell];
+        l = shell_l_quantum_numbers[ishell];
         kc = (l+1)*(l+2)/2;
         ks = 2*l + 1;
         cartesian_deg[ishell] = kc;

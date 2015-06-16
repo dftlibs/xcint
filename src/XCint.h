@@ -20,7 +20,7 @@ class XCint
                       const int    center_elements[],
                       const int    num_shells,
                       const int    shell_centers[],
-                      const int    l_quantum_numbers[],
+                      const int    shell_l_quantum_numbers[],
                       const int    shell_num_primitives[],
                       const double primitive_exponents[],
                       const double contraction_coefficients[]);

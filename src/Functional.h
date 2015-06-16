@@ -12,7 +12,7 @@ class Functional
         Functional();
         ~Functional();
 
-        void set_functional(const char *line, double &hfx, double &mu, double &beta);
+        void set_functional(const char *line);
         void set_order(const int order);
 
         bool is_gga;      // FIXME make private
@@ -27,10 +27,7 @@ class Functional
 
         char *functional_line;
 
-        void parse(const char *line,
-                   double &hfx,
-                   double &mu,
-                   double &beta);
+        void parse(const char *line);
         void nullify();
 
         std::vector<std::string> keys;

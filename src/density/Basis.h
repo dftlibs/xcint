@@ -19,7 +19,7 @@ class Basis
                   const int    in_l_quantum_numbers[],
                   const int    in_shell_num_primitives[],
                   const double in_primitive_exponents[],
-                  const double in_contraction_coef[]);
+                  const double in_contraction_coefficients[]);
         int  get_num_centers() const;
         int  get_num_ao_slices() const;
         int  get_num_ao() const;
@@ -60,7 +60,7 @@ class Basis
         int    *ao_center;
         int     geo_diff_order;
         int    *geo_off;
-        double *contraction_coef;
+        double *contraction_coefficients;
         bool    is_initialized;
         bool    is_synced;
 };

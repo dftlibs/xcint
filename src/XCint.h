@@ -14,16 +14,16 @@ class XCint
         XCint();
         ~XCint();
 
-        void set_basis(const int    basis_type,
-                       const int    num_centers,
-                       const double center_coordinates[],
-                       const int    center_elements[],
-                       const int    num_shells,
-                       const int    shell_centers[],
-                       const int    l_quantum_numbers[],
-                       const int    shell_num_primitives[],
-                       const double primitive_exponents[],
-                       const double contraction_coef[]);
+        int set_basis(const int    basis_type,
+                      const int    num_centers,
+                      const double center_coordinates[],
+                      const int    center_elements[],
+                      const int    num_shells,
+                      const int    shell_centers[],
+                      const int    l_quantum_numbers[],
+                      const int    shell_num_primitives[],
+                      const double primitive_exponents[],
+                      const double contraction_coefficients[]);
 
         void print_splash();
 
@@ -32,7 +32,7 @@ class XCint
         void set_stdout_function(print_function fun);
         void set_stderr_function(print_function fun);
 
-        void set_functional(const char *line, double &hfx, double &mu, double &beta);
+        int set_functional(const char *line);
 
         void integrate(const int    mode,
                        const int    num_points,

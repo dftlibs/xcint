@@ -115,7 +115,7 @@ def write_routine(_maxg, file_name):
     s = '''void get_ao_g%i(const int    l_quantum_numbers,
                const int    num_primitives,
                const double primitive_exponents[],
-               const double contraction_coef[],
+               const double contraction_coefficients[],
                      double s[],
                      double buffer[],
                const double shell_centers_coordinates[],
@@ -174,7 +174,7 @@ def write_routine(_maxg, file_name):
         for (int i = 0; i < num_primitives; i++)
         {
             a = -primitive_exponents[i];
-            c = contraction_coef[i];
+            c = contraction_coefficients[i];
 
             get_exp(p2, c, a, s);
 
@@ -263,7 +263,7 @@ def write_aocalls(file_name):
     s1 = '''              basis.l_quantum_numbers[ishell],
               basis.shell_num_primitives[ishell],
               &basis.primitive_exponents[n],
-              &basis.contraction_coef[n],
+              &basis.contraction_coefficients[n],
               s,
               buffer,
               &basis.shell_centers_coordinates[3*ishell],
@@ -311,7 +311,7 @@ def write_header(file_name):
         f.write('    void get_ao_g%i(const int    l_quantum_numbers,\n' % g)
         f.write('                   const int    num_primitives,\n')
         f.write('                   const double primitive_exponents[],\n')
-        f.write('                   const double contraction_coef[],\n')
+        f.write('                   const double contraction_coefficients[],\n')
         f.write('                         double s[],\n')
         f.write('                         double buffer[],\n')
         f.write('                   const double shell_centers_coordinates[],\n')

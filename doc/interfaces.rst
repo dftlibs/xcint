@@ -102,7 +102,7 @@ Set the basis set.
                               l_quantum_numbers,        &
                               shell_num_primitives, &
                               primitive_exponents,        &
-                              contraction_coef)     &
+                              contraction_coefficients)     &
               bind (c)
    ! input
       ! basis set type (XCINT_BASIS_SPHERICAL or XCINT_BASIS_CARTESIAN)
@@ -124,7 +124,7 @@ Set the basis set.
       ! primitive exponents, dimension is sum(shell_num_primitives)
       real(c_double)        :: primitive_exponents(*)
       ! contraction coefficients, dimension is sum(shell_num_primitives)
-      real(c_double)        :: contraction_coef(*)
+      real(c_double)        :: contraction_coefficients(*)
    end subroutine
 
 

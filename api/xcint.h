@@ -30,22 +30,19 @@ XCINT_API xcint_context_t *xcint_new();
 XCINT_API void xcint_free(xcint_context_t *context);
 
 XCINT_API int xcint_set_functional(xcint_context_t *context,
-                                   const char   *line,
-                                         double &hfx,
-                                         double &mu,
-                                         double &beta);
+                                   const char   *line);
 
-XCINT_API void xcint_set_basis(xcint_context_t *context,
-                               const int    basis_type,
-                               const int    num_centers,
-                               const double center_coordinates[],
-                               const int    center_elements[],
-                               const int    num_shells,
-                               const int    shell_centers[],
-                               const int    l_quantum_numbers[],
-                               const int    shell_num_primitives[],
-                               const double primitive_exponents[],
-                               const double contraction_coef[]);
+XCINT_API int xcint_set_basis(xcint_context_t *context,
+                              const int    basis_type,
+                              const int    num_centers,
+                              const double center_coordinates[],
+                              const int    center_elements[],
+                              const int    num_shells,
+                              const int    shell_centers[],
+                              const int    l_quantum_numbers[],
+                              const int    shell_num_primitives[],
+                              const double primitive_exponents[],
+                              const double contraction_coefficients[]);
 
 // FIXME should be const
 XCINT_API void xcint_integrate(xcint_context_t *context,
@@ -69,4 +66,4 @@ XCINT_API void xcint_integrate(xcint_context_t *context,
 }
 #endif
 
-#endif
+#endif /* XCINT_H_INCLUDED */

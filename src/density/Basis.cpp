@@ -33,7 +33,7 @@ Basis::~Basis()
     MemAllocator::deallocate(shell_num_primitives);
     MemAllocator::deallocate(geo_off);
     MemAllocator::deallocate(primitive_exponents);
-    MemAllocator::deallocate(contraction_coef);
+    MemAllocator::deallocate(contraction_coefficients);
 
     nullify();
 }
@@ -62,7 +62,7 @@ void Basis::nullify()
     geo_diff_order               = -1;
     geo_off                      = NULL;
     primitive_exponents                = NULL;
-    contraction_coef             = NULL;
+    contraction_coefficients             = NULL;
     is_initialized               = false;
     is_synced                    = false;
 }
@@ -77,7 +77,7 @@ void Basis::init(const int    in_basis_type,
                       const int    in_l_quantum_numbers[],
                       const int    in_shell_num_primitives[],
                       const double in_primitive_exponents[],
-                      const double in_contraction_coef[])
+                      const double in_contraction_coefficients[])
 {
     int i, l, deg, kc, ks;
     size_t block_size;
@@ -152,9 +152,9 @@ void Basis::init(const int    in_basis_type,
 
     block_size = n*sizeof(double);
     primitive_exponents = (double*) MemAllocator::allocate(block_size);
-    contraction_coef = (double*) MemAllocator::allocate(block_size);
+    contraction_coefficients = (double*) MemAllocator::allocate(block_size);
     std::copy(&in_primitive_exponents[0], &in_primitive_exponents[n], &primitive_exponents[0]);
-    std::copy(&in_contraction_coef[0], &in_contraction_coef[n], &contraction_coef[0]);
+    std::copy(&in_contraction_coefficients[0], &in_contraction_coefficients[n], &contraction_coefficients[0]);
 
     // get approximate spacial shell extent
     double SHELL_SCREENING_THRESHOLD = 2.0e-12;
@@ -170,7 +170,7 @@ void Basis::init(const int    in_basis_type,
         for (int j = 0; j < shell_num_primitives[ishell]; j++)
         {
             e = primitive_exponents[n];
-            c = contraction_coef[n];
+            c = contraction_coefficients[n];
             n++;
             r_temp = (log(fabs(c)) - log(SHELL_SCREENING_THRESHOLD))/e;
             if (r_temp > r) r = r_temp;

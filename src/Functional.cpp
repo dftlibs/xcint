@@ -40,11 +40,11 @@ void Functional::nullify()
 }
 
 
-void Functional::set_functional(const char *line, double &hfx, double &mu, double &beta)
+void Functional::set_functional(const char *line)
 {
     int ierr;
 
-    parse(line, hfx, mu, beta);
+    parse(line);
 
     functional_line = new char[strlen(line)+1];
     for (int i = 0; i < strlen(line); i++) functional_line[i] = line[i];
@@ -62,10 +62,7 @@ void Functional::set_functional(const char *line, double &hfx, double &mu, doubl
 }
 
 
-void Functional::parse(const char *line,
-                       double &hfx,
-                       double &mu,
-                       double &beta)
+void Functional::parse(const char *line)
 {
     int pos;
     double w;
@@ -80,10 +77,6 @@ void Functional::parse(const char *line,
 
     is_gga = false;
     is_tau_mgga = false;
-
-    hfx  = 0.0;
-    mu   = 0.0;
-    beta = 0.0;
 
     for (int i = 0; i < tokens.size(); i++)
     {
@@ -128,9 +121,6 @@ void Functional::parse(const char *line,
             keys.push_back("lypc");
             weights.push_back(w*0.81);
             is_gga = true;
-            hfx = w*0.19;
-            mu = w*0.33;
-            beta = w*0.46;
         }
 
         if (key == "b3lyp")
@@ -144,7 +134,6 @@ void Functional::parse(const char *line,
             keys.push_back("lypc");
             weights.push_back(w*0.81);
             is_gga = true;
-            hfx = w*0.2;
         }
 
         if (key == "pbe")
@@ -163,7 +152,6 @@ void Functional::parse(const char *line,
             keys.push_back("pbec");
             weights.push_back(w);
             is_gga = true;
-            hfx = w*0.25;
         }
 
         if (key == "m06")
@@ -173,7 +161,6 @@ void Functional::parse(const char *line,
             keys.push_back("m06c");
             weights.push_back(w);
             is_tau_mgga = true;
-            hfx = w*0.27;
         }
 
         if (key == "slaterx")

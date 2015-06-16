@@ -15,3 +15,4 @@ Contents:
    grid
    basis_functions
    xcfun
+   status

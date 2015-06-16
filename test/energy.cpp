@@ -1,17 +1,17 @@
 #include <cmath>
 
+#include "gtest/gtest.h"
+
 #include "XCint.h"
 #include "xcint.h"
 #include "xcint_c_parameters.h"
 #include "MemAllocator.h"
 #include "numgrid.h"
 
-int main(int argc, char** argv)
+TEST(xcint, energy)
 {
-    int return_code = 0;
     int ierr;
-
-    xcint_context_t *xcint_context = xcint_new();
+    double dot;
 
     int num_centers;
     int num_shells;
@@ -133,7 +133,9 @@ int main(int argc, char** argv)
     contraction_coefficients[29] =   1.471230000000e-01;
     primitive_exponents[30] =   7.270000000000e-01;
     contraction_coefficients[30] =   9.568810000000e-01;
-    ierr = xcint_set_functional(xcint_context, "lda");
+
+    xcint_context_t *xcint_context = xcint_new();
+
     ierr = xcint_set_basis(xcint_context,
                            XCINT_BASIS_SPHERICAL,
                            num_centers,
@@ -314,12 +316,16 @@ int main(int argc, char** argv)
                             shell_num_primitives,
                             primitive_exponents);
     int num_points = numgrid_get_num_points(numgrid_context);
-    double *grid_pw = (double*) numgrid_get_grid(numgrid_context);
+    double *grid = (double*) numgrid_get_grid(numgrid_context);
+
+    // test idempotency
+    ierr = xcint_set_functional(xcint_context, "lda");
+    ierr = xcint_set_functional(xcint_context, "lda");
 
     xcint_integrate(xcint_context,
                     XCINT_MODE_RKS,
                     num_points,
-                    grid_pw,
+                    grid,
                     0,
                     0,
                     0,
@@ -333,16 +339,43 @@ int main(int argc, char** argv)
                     xc_mat,
                     num_electrons);
 
-    // free grid
-    numgrid_free(numgrid_context);
+    ASSERT_NEAR(num_electrons, 9.999992074832e+00, 1.0e-11);
 
-    if (fabs(num_electrons - 9.999992074832e+00) > 1.0e-11) return_code++;
-    double dot = 0.0;
+    dot = 0.0;
     for (int i = 0; i < mat_dim*mat_dim; i++)
     {
         dot += xc_mat[i]*dmat[i];
     }
-    if (fabs(dot - -6.729996811122e+00) > 1.0e-11) return_code++;
+    ASSERT_NEAR(dot, -6.729996811122e+00, 1.0e-11);
+
+    ierr = xcint_set_functional(xcint_context, "b3lyp");
+
+    xcint_integrate(xcint_context,
+                    XCINT_MODE_RKS,
+                    num_points,
+                    grid,
+                    0,
+                    0,
+                    0,
+                    1,
+                    dmat_to_pert,
+                    dmat_to_comp,
+                    dmat,
+                    false,
+                    xc_energy,
+                    true,
+                    xc_mat,
+                    num_electrons);
+
+    ASSERT_NEAR(num_electrons, 9.999992074832e+00, 1.0e-11);
+
+    dot = 0.0;
+    for (int i = 0; i < mat_dim*mat_dim; i++)
+    {
+        dot += xc_mat[i]*dmat[i];
+    }
+    ASSERT_NEAR(dot, -5.6105711653099748, 1.0e-11);
+
     MemAllocator::deallocate(dmat);
     MemAllocator::deallocate(xc_mat);
     MemAllocator::deallocate(center_coordinates);
@@ -353,7 +386,6 @@ int main(int argc, char** argv)
     MemAllocator::deallocate(primitive_exponents);
     MemAllocator::deallocate(contraction_coefficients);
 
+    numgrid_free(numgrid_context);
     xcint_free(xcint_context);
-
-    return return_code;
 }

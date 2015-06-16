@@ -25,30 +25,23 @@ class XCint
                       const double primitive_exponents[],
                       const double contraction_coefficients[]);
 
-        void print_splash();
-
-        void set_verbosity(const int v);
-
-        void set_stdout_function(print_function fun);
-        void set_stderr_function(print_function fun);
-
         int set_functional(const char *line);
 
-        void integrate(const int    mode,
-                       const int    num_points,
-                       const double grid_pw[],
-                       const int    num_pert,
-                       const int    pert[],
-                       const int    comp[],
-                       const int    num_dmat,
-                       const int    dmat_to_pert[],
-                       const int    dmat_to_comp[],
-                             double dmat[],
-                       const int    get_xc_energy,
-                             double &xc_energy,
-                       const int    get_xc_mat,
-                             double xc_mat[],
-                             double &num_electrons);
+        int integrate(const int    mode,
+                      const int    num_points,
+                      const double grid_pw[],
+                      const int    num_pert,
+                      const int    pert[],
+                      const int    comp[],
+                      const int    num_dmat,
+                      const int    dmat_to_pert[],
+                      const int    dmat_to_comp[],
+                            double dmat[],
+                      const int    get_xc_energy,
+                            double &xc_energy,
+                      const int    get_xc_mat,
+                            double xc_mat[],
+                            double &num_electrons) const;
 
     private:
 
@@ -73,7 +66,7 @@ class XCint
                                      double           &xc_energy,
                                const std::vector<int> coor,
                                      AOBatch     &batch,
-                               const double           grid_pw[]);
+                               const double           grid_pw[]) const;
 
         void integrate_batch(      double dmat[],
                              const int    get_xc_energy,
@@ -94,13 +87,13 @@ class XCint
                              const bool   get_gradient,
                              const bool   get_tau,
                              const int    dmat_index[],
-                             const double grid_pw[]);
+                             const double grid_pw[]) const;
 
-        double time_total;
-        double time_ao;
-        double time_fun_derv;
-        double time_densities;
-        double time_matrix_distribution;
+//      double time_total;
+//      double time_ao;
+//      double time_fun_derv;
+//      double time_densities;
+//      double time_matrix_distribution;
 
         void reset_time();
 };

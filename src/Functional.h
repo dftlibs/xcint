@@ -1,9 +1,10 @@
 #ifndef Functional_h_
 #define Functional_h_
 
-#include <xcfun.h>
 #include <string>
 #include <vector>
+
+#include "xcfun.h"
 
 class Functional
 {
@@ -13,12 +14,12 @@ class Functional
         ~Functional();
 
         void set_functional(const char *line);
-        void set_order(const int order);
+        int set_order(const int order, xc_functional fun) const;
 
         bool is_gga;      // FIXME make private
         bool is_tau_mgga; // FIXME make private
-        int  dens_offset; // FIXME make private
-        xc_functional fun;
+        std::vector<std::string> keys; // FIXME make private
+        std::vector<double>      weights; // FIXME make private
 
     private:
 
@@ -29,9 +30,6 @@ class Functional
 
         void parse(const char *line);
         void nullify();
-
-        std::vector<std::string> keys;
-        std::vector<double>      weights;
 
         bool is_synced;
 };

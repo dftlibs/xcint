@@ -93,19 +93,23 @@ set(DART_TESTING_TIMEOUT
 include(CTest)
 enable_testing()
 
-foreach(_test energy_lda energy_b3lyp)
-    add_executable(test_${_test} test/${_test}.cpp)
+add_executable(
+    unit_tests
+    test/main.cpp
+    test/energy.cpp
+    )
 
-    target_link_libraries(
-        test_${_test}
-        xcint
-        ${PROJECT_BINARY_DIR}/external/xcfun-build/libxcfun.a
-        ${PROJECT_BINARY_DIR}/external/numgrid-build/lib/libnumgrid.so
-        ${MATH_LIBS}
-        )
+target_link_libraries(
+    unit_tests
+    gtest
+    xcint
+    ${PROJECT_BINARY_DIR}/external/xcfun-build/libxcfun.a
+    ${PROJECT_BINARY_DIR}/external/numgrid-build/lib/libnumgrid.so
+    ${MATH_LIBS}
+    pthread
+    )
 
-    add_test(${_test} ${PROJECT_BINARY_DIR}/test_${_test})
-endforeach()
+add_test(unit_tests ${PROJECT_BINARY_DIR}/unit_tests)
 
 # generate interface headers
 add_custom_command(

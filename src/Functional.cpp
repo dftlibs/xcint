@@ -10,19 +10,17 @@
 #include <string.h>
 
 #include "Functional.h"
+#include "xcfun.h"
 
 
 Functional::Functional()
 {
-    fun = xc_new_functional();
-
     nullify();
 }
 
 
 Functional::~Functional()
 {
-    xc_free_functional(fun);
     delete [] functional_line;
     nullify();
 }
@@ -33,7 +31,6 @@ void Functional::nullify()
     is_gga = false;
     is_tau_mgga = false;
     is_synced = false;
-    dens_offset = -1;
     keys.clear();
     weights.clear();
     functional_line = NULL;
@@ -50,6 +47,8 @@ void Functional::set_functional(const char *line)
     for (int i = 0; i < strlen(line); i++) functional_line[i] = line[i];
     functional_line[strlen(line)] = '\0';
 
+    xc_functional fun;
+    fun = xc_new_functional();
     for (int i = 0; i < keys.size(); i++)
     {
         ierr = xc_set(fun, keys[i].c_str(), weights[i]);
@@ -59,6 +58,7 @@ void Functional::set_functional(const char *line)
             exit(-1);
         }
     }
+    xc_free_functional(fun);
 }
 
 
@@ -67,6 +67,9 @@ void Functional::parse(const char *line)
     int pos;
     double w;
     std::string key;
+
+    keys.clear();
+    weights.clear();
 
     std::istringstream iss(line);
 
@@ -227,11 +230,11 @@ void Functional::parse(const char *line)
 }
 
 
-void Functional::set_order(const int order)
+int Functional::set_order(const int order, xc_functional fun) const
 {
     int ierr = -1;
 
-    dens_offset = (int)pow(2, order);
+    int dens_offset = (int)pow(2, order);
 
     if (is_tau_mgga)
     {
@@ -251,4 +254,6 @@ void Functional::set_order(const int order)
         fprintf(stderr, "ERROR in set_order (called with order %i).\n", order);
         exit(-1);
     }
+
+    return dens_offset;
 }

@@ -44,23 +44,22 @@ XCINT_API int xcint_set_basis(xcint_context_t *context,
                               const double primitive_exponents[],
                               const double contraction_coefficients[]);
 
-// FIXME should be const
-XCINT_API void xcint_integrate(xcint_context_t *context,
-                               const int    mode,
-                               const int    num_points,
-                               const double grid_pw[],
-                               const int    num_pert,
-                               const int    pert[],
-                               const int    comp[],
-                               const int    num_dmat,
-                               const int    dmat_to_pert[],
-                               const int    dmat_to_comp[],
-                                     double dmat[],
-                               const int    get_xc_energy,
-                                     double &xc_energy,
-                               const int    get_xc_mat,
-                                     double xc_mat[],
-                                     double &num_electrons);
+XCINT_API int xcint_integrate(const xcint_context_t *context,
+                              const int    mode,
+                              const int    num_points,
+                              const double grid[],
+                              const int    num_pert,
+                              const int    pert[],
+                              const int    comp[],
+                              const int    num_dmat,
+                              const int    dmat_to_pert[],
+                              const int    dmat_to_comp[],
+                                    double dmat[], /* FIXME */
+                              const int    get_xc_energy,
+                                    double &xc_energy,
+                              const int    get_xc_mat,
+                                    double xc_mat[],
+                                    double &num_electrons);
 
 #ifdef __cplusplus
 }

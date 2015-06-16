@@ -43,6 +43,8 @@ void Functional::set_functional(const char *line)
 
     parse(line);
 
+    delete [] functional_line;
+    functional_line = NULL;
     functional_line = new char[strlen(line)+1];
     for (int i = 0; i < strlen(line); i++) functional_line[i] = line[i];
     functional_line[strlen(line)] = '\0';

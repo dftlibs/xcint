@@ -19,13 +19,13 @@ def test_valgrind():
         [
             'valgrind',
             '-v',
-            os.path.join(BUILD_DIR, 'test_energy_lda')
+            os.path.join(BUILD_DIR, 'unit_tests')
         ],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE).communicate()[1]
-#   if not 'All heap blocks were freed -- no leaks are possible' in res:
-#       assert 'definitely lost: 0 bytes in 0 blocks' in res
-#       assert 'indirectly lost: 0 bytes in 0 blocks' in res
-#       assert 'possibly lost: 0 bytes in 0 blocks' in res
-#   assert 'Invalid write' not in res
-#   assert 'Invalid read' not in res
+    if not 'All heap blocks were freed -- no leaks are possible' in res:
+        assert 'definitely lost: 0 bytes in 0 blocks' in res
+        assert 'indirectly lost: 0 bytes in 0 blocks' in res
+        assert 'possibly lost: 0 bytes in 0 blocks' in res
+    assert 'Invalid write' not in res
+    assert 'Invalid read' not in res

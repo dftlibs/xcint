@@ -81,6 +81,7 @@ add_custom_target(
 
 add_library(
     xcint
+    SHARED
     src/rolex.cpp
     src/Functional.cpp
     src/XCint.cpp
@@ -161,4 +162,4 @@ if(ENABLE_FORTRAN_INTERFACE)
         )
 endif()
 
-install(TARGETS xcint ARCHIVE DESTINATION lib)
+install(TARGETS xcint LIBRARY DESTINATION lib)

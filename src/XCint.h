@@ -36,7 +36,7 @@ class XCint
                       const int    num_dmat,
                       const int    dmat_to_pert[],
                       const int    dmat_to_comp[],
-                            double dmat[],
+                      const double dmat[],
                       const int    get_xc_energy,
                             double &xc_energy,
                       const int    get_xc_mat,
@@ -68,7 +68,7 @@ class XCint
                                      AOBatch     &batch,
                                const double           grid_pw[]) const;
 
-        void integrate_batch(      double dmat[],
+        void integrate_batch(const double dmat[],
                              const int    get_xc_energy,
                                    double &xc_energy,
                              const int    get_xc_mat,

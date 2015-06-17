@@ -201,7 +201,7 @@ int XCint::set_basis(const int    basis_type,
 }
 
 
-void XCint::integrate_batch(      double dmat[],
+void XCint::integrate_batch(const double dmat[],
                             const int    get_xc_energy,
                                   double &xc_energy,
                             const int    get_xc_mat,
@@ -325,7 +325,7 @@ void XCint::integrate_batch(      double dmat[],
 
         rolex::start_partial();
 
-        #include "ave_contributions.h"
+#include "ave_contributions.h"
 
 //      time_densities += rolex::stop_partial();
 
@@ -441,7 +441,6 @@ void XCint::integrate_batch(      double dmat[],
                                         get_tau,
                                         coor,
                                         &n[k*block_length*num_variables],
-                                        true,
                                         &dmat[0]);
                 coor.clear();
                 distribute_matrix(block_length,
@@ -517,7 +516,6 @@ void XCint::integrate_batch(      double dmat[],
                                         get_tau,
                                         coor,
                                         &n[k*block_length*num_variables],
-                                        true,
                                         &dmat[0]);
                 coor.clear();
                 coor.push_back(geo_coor[0]);
@@ -552,7 +550,6 @@ void XCint::integrate_batch(      double dmat[],
                                         get_tau,
                                         coor,
                                         &n[k*block_length*num_variables],
-                                        true,
                                         &dmat[0]);
                 coor.clear();
                 coor.push_back(geo_coor[1]);
@@ -589,7 +586,6 @@ void XCint::integrate_batch(      double dmat[],
                                         get_tau,
                                         coor,
                                         &n[k*block_length*num_variables],
-                                        true,
                                         &dmat[0]);
                 coor.clear();
                 k = 2;
@@ -605,7 +601,6 @@ void XCint::integrate_batch(      double dmat[],
                                         get_tau,
                                         coor,
                                         &n[k*block_length*num_variables],
-                                        true,
                                         &dmat[0]);
                 coor.clear();
                 k = 3;
@@ -622,7 +617,6 @@ void XCint::integrate_batch(      double dmat[],
                                         get_tau,
                                         coor,
                                         &n[k*block_length*num_variables],
-                                        true,
                                         &dmat[0]);
                 coor.clear();
                 distribute_matrix(block_length,
@@ -695,7 +689,6 @@ void XCint::integrate_batch(      double dmat[],
                                         get_tau,
                                         coor,
                                         &n[k*block_length*num_variables],
-                                        true,
                                         &dmat[0]);
                 coor.clear();
                 k = 3;
@@ -711,7 +704,6 @@ void XCint::integrate_batch(      double dmat[],
                                         get_tau,
                                         coor,
                                         &n[k*block_length*num_variables],
-                                        true,
                                         &dmat[1*mat_dim*mat_dim]);
                 coor.clear();
                 distribute_matrix(block_length,
@@ -756,7 +748,7 @@ int xcint_integrate(const xcint_context_t *context,
                     const int    num_dmat,
                     const int    dmat_to_pert[],
                     const int    dmat_to_comp[],
-                          double dmat[],
+                    const double dmat[],
                     const int    get_xc_energy,
                           double &xc_energy,
                     const int    get_xc_mat,
@@ -788,7 +780,7 @@ int XCint::integrate(const int    mode,
                      const int    num_dmat,
                      const int    dmat_to_pert[],
                      const int    dmat_to_comp[],
-                           double dmat[],
+                     const double dmat[],
                      const int    get_xc_energy,
                            double &xc_energy,
                      const int    get_xc_mat,
@@ -1242,14 +1234,13 @@ void XCint::distribute_matrix(const int              block_length,
     }
     else
     {
-        batch.get_dens_geo_derv(basis,
-                                mat_dim,
-                                distribute_gradient,
-                                distribute_tau,
-                                coor,
-                                u,
-                                false,
-                                xc_mat);
+        batch.get_mat_geo_derv(basis,
+                               mat_dim,
+                               distribute_gradient,
+                               distribute_tau,
+                               coor,
+                               u,
+                               xc_mat);
     }
 
     for (int ib = 0; ib < block_length; ib++)

@@ -645,13 +645,12 @@ void AOBatch::get_density(const int    mat_dim,
 
 
 void AOBatch::get_dens_geo_derv(const Basis       &basis,
-                                     const int              mat_dim,
-                                     const bool             use_gradient,
-                                     const bool             use_tau,
-                                     const std::vector<int> &coor,
-                                           double           density[],
-                                     const bool             get_dens,
-                                           double           mat[])
+                                const int              mat_dim,
+                                const bool             use_gradient,
+                                const bool             use_tau,
+                                const std::vector<int> &coor,
+                                      double           density[],
+                                const double           mat[])
 {
     /*
     1st                        a,0
@@ -680,19 +679,19 @@ void AOBatch::get_dens_geo_derv(const Basis       &basis,
         // FIXME implement shortcuts
         case 1:
             k_coor.push_back(coor[0]);
-            diff_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, get_dens, density, mat);
+            diff_u_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, density, mat);
             k_coor.clear();
             l_coor.clear();
             break;
         case 2:
             k_coor.push_back(coor[0]);
             k_coor.push_back(coor[1]);
-            diff_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, get_dens, density, mat);
+            diff_u_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, density, mat);
             k_coor.clear();
             l_coor.clear();
             k_coor.push_back(coor[0]);
             l_coor.push_back(coor[1]);
-            diff_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, get_dens, density, mat);
+            diff_u_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, density, mat);
             k_coor.clear();
             l_coor.clear();
             break;
@@ -700,25 +699,25 @@ void AOBatch::get_dens_geo_derv(const Basis       &basis,
             k_coor.push_back(coor[0]);
             k_coor.push_back(coor[1]);
             k_coor.push_back(coor[2]);
-            diff_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, get_dens, density, mat);
+            diff_u_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, density, mat);
             k_coor.clear();
             l_coor.clear();
             k_coor.push_back(coor[0]);
             k_coor.push_back(coor[1]);
             l_coor.push_back(coor[2]);
-            diff_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, get_dens, density, mat);
+            diff_u_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, density, mat);
             k_coor.clear();
             l_coor.clear();
             k_coor.push_back(coor[0]);
             l_coor.push_back(coor[1]);
             l_coor.push_back(coor[2]);
-            diff_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, get_dens, density, mat);
+            diff_u_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, density, mat);
             k_coor.clear();
             l_coor.clear();
             k_coor.push_back(coor[0]);
             k_coor.push_back(coor[2]);
             l_coor.push_back(coor[1]);
-            diff_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, get_dens, density, mat);
+            diff_u_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, density, mat);
             k_coor.clear();
             l_coor.clear();
             break;
@@ -727,56 +726,56 @@ void AOBatch::get_dens_geo_derv(const Basis       &basis,
             k_coor.push_back(coor[1]);
             k_coor.push_back(coor[2]);
             k_coor.push_back(coor[3]);
-            diff_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, get_dens, density, mat);
+            diff_u_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, density, mat);
             k_coor.clear();
             l_coor.clear();
             k_coor.push_back(coor[0]);
             k_coor.push_back(coor[1]);
             k_coor.push_back(coor[2]);
             l_coor.push_back(coor[3]);
-            diff_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, get_dens, density, mat);
+            diff_u_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, density, mat);
             k_coor.clear();
             l_coor.clear();
             k_coor.push_back(coor[0]);
             k_coor.push_back(coor[1]);
             l_coor.push_back(coor[2]);
             l_coor.push_back(coor[3]);
-            diff_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, get_dens, density, mat);
+            diff_u_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, density, mat);
             k_coor.clear();
             l_coor.clear();
             k_coor.push_back(coor[0]);
             l_coor.push_back(coor[1]);
             l_coor.push_back(coor[2]);
             l_coor.push_back(coor[3]);
-            diff_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, get_dens, density, mat);
+            diff_u_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, density, mat);
             k_coor.clear();
             l_coor.clear();
             k_coor.push_back(coor[0]);
             k_coor.push_back(coor[1]);
             k_coor.push_back(coor[3]);
             l_coor.push_back(coor[2]);
-            diff_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, get_dens, density, mat);
+            diff_u_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, density, mat);
             k_coor.clear();
             l_coor.clear();
             k_coor.push_back(coor[0]);
             k_coor.push_back(coor[2]);
             k_coor.push_back(coor[3]);
             l_coor.push_back(coor[1]);
-            diff_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, get_dens, density, mat);
+            diff_u_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, density, mat);
             k_coor.clear();
             l_coor.clear();
             k_coor.push_back(coor[0]);
             k_coor.push_back(coor[2]);
             l_coor.push_back(coor[1]);
             l_coor.push_back(coor[3]);
-            diff_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, get_dens, density, mat);
+            diff_u_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, density, mat);
             k_coor.clear();
             l_coor.clear();
             k_coor.push_back(coor[0]);
             k_coor.push_back(coor[3]);
             l_coor.push_back(coor[1]);
             l_coor.push_back(coor[2]);
-            diff_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, get_dens, density, mat);
+            diff_u_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, density, mat);
             k_coor.clear();
             l_coor.clear();
             break;
@@ -788,16 +787,158 @@ void AOBatch::get_dens_geo_derv(const Basis       &basis,
 }
 
 
-void AOBatch::diff_wrt_center_tuple(const Basis       &basis,
-                                         const int              mat_dim,
-                                         const bool             use_gradient,
-                                         const bool             use_tau,
-                                         const double           f,
-                                         const std::vector<int> &k_coor,
-                                         const std::vector<int> &l_coor,
-                                         const bool             get_dens,
-                                               double           u[],
-                                               double           M[])
+void AOBatch::get_mat_geo_derv(const Basis       &basis,
+                               const int              mat_dim,
+                               const bool             use_gradient,
+                               const bool             use_tau,
+                               const std::vector<int> &coor,
+                               const double           density[],
+                                     double           mat[])
+{
+    /*
+    1st                        a,0
+    2nd            ab,0                    a,b
+                  /    \                  /    \
+                 /      \                /      \
+    3rd     abc,0        ab,c        ac,b        a,bc
+           /    \       /   \       /   \       /   \
+    4th abcd,0 abc,d abd,c ab,cd acd,b ac,bd ad,bc a,bcd
+    */
+
+    for (unsigned int i = 0; i < coor.size(); i++)
+    {
+        if (coor[i] == 0) return;
+    }
+
+    // there is a factor 2 because center-a
+    // differentiation can be left or right
+    double f = 2.0*pow(-1.0, (int)coor.size());
+
+    std::vector<int> k_coor;
+    std::vector<int> l_coor;
+
+    switch (coor.size())
+    {
+        // FIXME implement shortcuts
+        case 1:
+            k_coor.push_back(coor[0]);
+            diff_M_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, density, mat);
+            k_coor.clear();
+            l_coor.clear();
+            break;
+        case 2:
+            k_coor.push_back(coor[0]);
+            k_coor.push_back(coor[1]);
+            diff_M_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, density, mat);
+            k_coor.clear();
+            l_coor.clear();
+            k_coor.push_back(coor[0]);
+            l_coor.push_back(coor[1]);
+            diff_M_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, density, mat);
+            k_coor.clear();
+            l_coor.clear();
+            break;
+        case 3:
+            k_coor.push_back(coor[0]);
+            k_coor.push_back(coor[1]);
+            k_coor.push_back(coor[2]);
+            diff_M_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, density, mat);
+            k_coor.clear();
+            l_coor.clear();
+            k_coor.push_back(coor[0]);
+            k_coor.push_back(coor[1]);
+            l_coor.push_back(coor[2]);
+            diff_M_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, density, mat);
+            k_coor.clear();
+            l_coor.clear();
+            k_coor.push_back(coor[0]);
+            l_coor.push_back(coor[1]);
+            l_coor.push_back(coor[2]);
+            diff_M_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, density, mat);
+            k_coor.clear();
+            l_coor.clear();
+            k_coor.push_back(coor[0]);
+            k_coor.push_back(coor[2]);
+            l_coor.push_back(coor[1]);
+            diff_M_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, density, mat);
+            k_coor.clear();
+            l_coor.clear();
+            break;
+        case 4:
+            k_coor.push_back(coor[0]);
+            k_coor.push_back(coor[1]);
+            k_coor.push_back(coor[2]);
+            k_coor.push_back(coor[3]);
+            diff_M_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, density, mat);
+            k_coor.clear();
+            l_coor.clear();
+            k_coor.push_back(coor[0]);
+            k_coor.push_back(coor[1]);
+            k_coor.push_back(coor[2]);
+            l_coor.push_back(coor[3]);
+            diff_M_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, density, mat);
+            k_coor.clear();
+            l_coor.clear();
+            k_coor.push_back(coor[0]);
+            k_coor.push_back(coor[1]);
+            l_coor.push_back(coor[2]);
+            l_coor.push_back(coor[3]);
+            diff_M_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, density, mat);
+            k_coor.clear();
+            l_coor.clear();
+            k_coor.push_back(coor[0]);
+            l_coor.push_back(coor[1]);
+            l_coor.push_back(coor[2]);
+            l_coor.push_back(coor[3]);
+            diff_M_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, density, mat);
+            k_coor.clear();
+            l_coor.clear();
+            k_coor.push_back(coor[0]);
+            k_coor.push_back(coor[1]);
+            k_coor.push_back(coor[3]);
+            l_coor.push_back(coor[2]);
+            diff_M_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, density, mat);
+            k_coor.clear();
+            l_coor.clear();
+            k_coor.push_back(coor[0]);
+            k_coor.push_back(coor[2]);
+            k_coor.push_back(coor[3]);
+            l_coor.push_back(coor[1]);
+            diff_M_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, density, mat);
+            k_coor.clear();
+            l_coor.clear();
+            k_coor.push_back(coor[0]);
+            k_coor.push_back(coor[2]);
+            l_coor.push_back(coor[1]);
+            l_coor.push_back(coor[3]);
+            diff_M_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, density, mat);
+            k_coor.clear();
+            l_coor.clear();
+            k_coor.push_back(coor[0]);
+            k_coor.push_back(coor[3]);
+            l_coor.push_back(coor[1]);
+            l_coor.push_back(coor[2]);
+            diff_M_wrt_center_tuple(basis, mat_dim, use_gradient, use_tau, f, k_coor, l_coor, density, mat);
+            k_coor.clear();
+            l_coor.clear();
+            break;
+        default:
+            std::cout << "ERROR: get_dens_geo_derv coor.size() too high\n";
+            exit(1);
+            break;
+    }
+}
+
+
+void AOBatch::diff_u_wrt_center_tuple(const Basis            &basis,
+                                      const int              mat_dim,
+                                      const bool             use_gradient,
+                                      const bool             use_tau,
+                                      const double           f,
+                                      const std::vector<int> &k_coor,
+                                      const std::vector<int> &l_coor,
+                                            double           u[],
+                                      const double           M[])
 {
     compress(basis,
              use_gradient,
@@ -815,8 +956,6 @@ void AOBatch::diff_wrt_center_tuple(const Basis       &basis,
 
     double prefactors[5] = {f, f, f, f, 0.5*f};
 
-    if (get_dens)
-    {
         // evaluate density dervs
         get_density(mat_dim,
                     use_gradient,
@@ -850,9 +989,35 @@ void AOBatch::diff_wrt_center_tuple(const Basis       &basis,
                         k_ao_compressed_index,
                         k_ao_compressed);
         }
-    }
-    else
-    {
+}
+
+
+void AOBatch::diff_M_wrt_center_tuple(const Basis            &basis,
+                                      const int              mat_dim,
+                                      const bool             use_gradient,
+                                      const bool             use_tau,
+                                      const double           f,
+                                      const std::vector<int> &k_coor,
+                                      const std::vector<int> &l_coor,
+                                      const double           u[],
+                                            double           M[])
+{
+    compress(basis,
+             use_gradient,
+             k_ao_compressed_num,
+             k_ao_compressed_index,
+             k_ao_compressed,
+             k_coor);
+
+    compress(basis,
+             use_gradient,
+             l_ao_compressed_num,
+             l_ao_compressed_index,
+             l_ao_compressed,
+             l_coor);
+
+    double prefactors[5] = {f, f, f, f, 0.5*f};
+
         // distribute over XC potential derivative matrix
         distribute_matrix(mat_dim,
                           use_gradient,
@@ -882,7 +1047,6 @@ void AOBatch::diff_wrt_center_tuple(const Basis       &basis,
                               k_ao_compressed_index,
                               k_ao_compressed);
         }
-    }
 }
 
 

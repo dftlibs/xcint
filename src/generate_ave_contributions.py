@@ -49,7 +49,6 @@ def get_fortran_code(j, density_index, dmat_index_rest):
     s += '                                get_tau,\n'
     s += '                                coor,\n'
     s += '                                &n[%i*block_length*num_variables],\n' % density_index
-    s += '                                true,\n'
     s += '                                &dmat[dmat_index[%i]]);\n' % dmat_index_rest
     s += '        coor.clear();\n'
     s += '    }\n'

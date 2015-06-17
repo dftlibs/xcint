@@ -54,7 +54,7 @@ XCINT_API int xcint_integrate(const xcint_context_t *context,
                               const int    num_dmat,
                               const int    dmat_to_pert[],
                               const int    dmat_to_comp[],
-                                    double dmat[], /* FIXME */
+                              const double dmat[],
                               const int    get_xc_energy,
                                     double &xc_energy,
                               const int    get_xc_mat,

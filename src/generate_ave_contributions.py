@@ -18,7 +18,7 @@ def add_perturbation(l, debug=False):
         y.extend([order+1])
         l_new.append(y)
     if debug:
-        print l_new
+        print(l_new)
     return l_new
 
 
@@ -65,7 +65,7 @@ def get_all_possible_selections(l, d):
                 k.remove(m)
             density_index   = d[tuple(l)]
             dmat_index_rest = d[tuple(k)]
-            print get_fortran_code(j, density_index, dmat_index_rest)
+            print(get_fortran_code(j, density_index, dmat_index_rest))
 
 
 def main():

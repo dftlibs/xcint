@@ -21,4 +21,4 @@ ffi.cdef(
         ],
         stdout=subprocess.PIPE).communicate()[0])
 
-lib = ffi.dlopen(os.path.join(BUILD_DIR, 'lib', 'libxcint.so'))
+lib = ffi.dlopen(os.path.join(BUILD_DIR, 'lib', 'libxcint_shared.so'))

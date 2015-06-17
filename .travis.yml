@@ -13,8 +13,7 @@ script:
   - cd build
   - make
   - make test
-# - valgrind -v ./unit_tests
   - cd ..
-# - py.test -vv test/test.py build
+  - py.test -vv test/test.py build
 after_success:
   - coveralls -E ".*external.*" -E ".*CMakeFiles.*" -E ".*generated.*" -E ".*test_.*"

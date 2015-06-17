@@ -14,12 +14,12 @@ TEST(xcint, energy)
 
     double *center_coordinates = NULL;
     center_coordinates = new double[3*num_centers];
-    center_coordinates[0] = 1.700000000000e+00;
-    center_coordinates[1] = 0.000000000000e+00;
-    center_coordinates[2] = 0.000000000000e+00;
-    center_coordinates[3] = 0.000000000000e+00;
-    center_coordinates[4] = 0.000000000000e+00;
-    center_coordinates[5] = 0.000000000000e+00;
+    center_coordinates[0] = 1.7;
+    center_coordinates[1] = 0.0;
+    center_coordinates[2] = 0.0;
+    center_coordinates[3] = 0.0;
+    center_coordinates[4] = 0.0;
+    center_coordinates[5] = 0.0;
 
     int *center_elements = NULL;
     center_elements = new int[num_centers];
@@ -159,6 +159,8 @@ TEST(xcint, energy)
                             shell_num_primitives,
                             primitive_exponents);
     int num_points = numgrid_get_num_points(numgrid_context);
+    ASSERT_EQ(num_points, 31424);
+
     double *grid = (double*) numgrid_get_grid(numgrid_context);
 
     xcint_context_t *xcint_context = xcint_new();
@@ -216,22 +218,22 @@ TEST(xcint, energy)
     int dmat_to_pert[1]  = {0};
     int dmat_to_comp[1]  = {0};
 
-    xcint_integrate(xcint_context,
-                    XCINT_MODE_RKS,
-                    num_points,
-                    grid,
-                    0,
-                    0,
-                    0,
-                    1,
-                    dmat_to_pert,
-                    dmat_to_comp,
-                    dmat,
-                    true,
-                    xc_energy,
-                    true,
-                    xc_mat,
-                    num_electrons);
+    ierr = xcint_integrate(xcint_context,
+                           XCINT_MODE_RKS,
+                           num_points,
+                           grid,
+                           0,
+                           0,
+                           0,
+                           1,
+                           dmat_to_pert,
+                           dmat_to_comp,
+                           dmat,
+                           true,
+                           &xc_energy,
+                           true,
+                           xc_mat,
+                           &num_electrons);
 
     ASSERT_NEAR(num_electrons, 9.999992074832, 1.0e-11);
     ASSERT_NEAR(xc_energy, -20.421064966255539, 1.0e-11);
@@ -241,26 +243,26 @@ TEST(xcint, energy)
     {
         dot += xc_mat[i]*dmat[i];
     }
-    ASSERT_NEAR(dot, -6.729996811122e+00, 1.0e-11);
+    ASSERT_NEAR(dot, -6.729996811122, 1.0e-11);
 
     ierr = xcint_set_functional(xcint_context, "b3lyp");
 
-    xcint_integrate(xcint_context,
-                    XCINT_MODE_RKS,
-                    num_points,
-                    grid,
-                    0,
-                    0,
-                    0,
-                    1,
-                    dmat_to_pert,
-                    dmat_to_comp,
-                    dmat,
-                    true,
-                    xc_energy,
-                    true,
-                    xc_mat,
-                    num_electrons);
+    ierr = xcint_integrate(xcint_context,
+                           XCINT_MODE_RKS,
+                           num_points,
+                           grid,
+                           0,
+                           0,
+                           0,
+                           1,
+                           dmat_to_pert,
+                           dmat_to_comp,
+                           dmat,
+                           true,
+                           &xc_energy,
+                           true,
+                           xc_mat,
+                           &num_electrons);
 
     ASSERT_NEAR(num_electrons, 9.999992074832, 1.0e-11);
     ASSERT_NEAR(xc_energy, -17.475254754458547, 1.0e-11);

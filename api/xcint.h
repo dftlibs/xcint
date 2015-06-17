@@ -58,10 +58,10 @@ XCINT_API int xcint_integrate(const xcint_context_t *context,
                               const int    dmat_to_comp[],
                               const double dmat[],
                               const int    get_xc_energy,
-                                    double &xc_energy,
+                                    double *xc_energy,
                               const int    get_xc_mat,
                                     double xc_mat[],
-                                    double &num_electrons);
+                                    double *num_electrons);
 
 #ifdef __cplusplus
 }

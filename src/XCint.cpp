@@ -749,10 +749,10 @@ int xcint_integrate(const xcint_context_t *context,
                     const int    dmat_to_comp[],
                     const double dmat[],
                     const int    get_xc_energy,
-                          double &xc_energy,
+                          double *xc_energy,
                     const int    get_xc_mat,
                           double xc_mat[],
-                          double &num_electrons)
+                          double *num_electrons)
 {
     return AS_CTYPE(XCint, context)->integrate(mode,
                                                num_points,
@@ -781,10 +781,10 @@ int XCint::integrate(const int    mode,
                      const int    dmat_to_comp[],
                      const double dmat[],
                      const int    get_xc_energy,
-                           double &xc_energy,
+                           double *xc_energy,
                      const int    get_xc_mat,
                            double xc_mat[],
-                           double &num_electrons) const
+                           double *num_electrons) const
 {
     xcfun = xc_new_functional();
     for (int i = 0; i < fun.keys.size(); i++)
@@ -840,8 +840,8 @@ int XCint::integrate(const int    mode,
 
     assert(mode == XCINT_MODE_RKS);
 
-    xc_energy = 0.0;
-    num_electrons = 0.0;
+    *xc_energy = 0.0;
+    *num_electrons = 0.0;
 
     if (get_xc_mat) std::fill(&xc_mat[0], &xc_mat[mat_dim*mat_dim], 0.0);
 
@@ -945,8 +945,8 @@ int XCint::integrate(const int    mode,
 
         #pragma omp for schedule(dynamic)
 #else
-        double xc_energy_local = xc_energy;
-        double num_electrons_local = num_electrons;
+        double xc_energy_local = *xc_energy;
+        double num_electrons_local = *num_electrons;
         double *xc_mat_local = NULL;
         if (get_xc_mat) xc_mat_local = &xc_mat[0];
 #endif
@@ -1001,8 +1001,8 @@ int XCint::integrate(const int    mode,
     MemAllocator::deallocate(xc_energy_buffer);
     MemAllocator::deallocate(xc_mat_buffer);
 #else
-    xc_energy = xc_energy_local;
-    num_electrons = num_electrons_local;
+    *xc_energy = xc_energy_local;
+    *num_electrons = num_electrons_local;
 #endif
 
     MemAllocator::deallocate(use_dmat);

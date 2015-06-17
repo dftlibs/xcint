@@ -16,7 +16,6 @@
 
 #include "xcint_parameters.h"
 #include "parameters.h"
-#include "xcint_c_parameters.h"
 
 #ifdef ENABLE_OMP
 #include "omp.h"

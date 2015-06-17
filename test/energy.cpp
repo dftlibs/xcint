@@ -1,11 +1,8 @@
-#include <cmath>
+#include <fstream>
 
 #include "gtest/gtest.h"
 
-#include "XCint.h"
 #include "xcint.h"
-#include "xcint_c_parameters.h"
-#include "MemAllocator.h"
 #include "numgrid.h"
 
 TEST(xcint, energy)
@@ -13,34 +10,30 @@ TEST(xcint, energy)
     int ierr;
     double dot;
 
-    int num_centers;
-    int num_shells;
+    int num_centers = 2;
+
     double *center_coordinates = NULL;
+    center_coordinates = new double[3*num_centers];
+    center_coordinates[0] = 1.700000000000e+00;
+    center_coordinates[1] = 0.000000000000e+00;
+    center_coordinates[2] = 0.000000000000e+00;
+    center_coordinates[3] = 0.000000000000e+00;
+    center_coordinates[4] = 0.000000000000e+00;
+    center_coordinates[5] = 0.000000000000e+00;
+
     int *center_elements = NULL;
-    int *shell_centers = NULL;
-    int *shell_l_quantum_numbers = NULL;
-    int *shell_num_primitives = NULL;
-    double *primitive_exponents = NULL;
-    double *contraction_coefficients = NULL;
-    size_t block_size;
-    num_centers = 2;
-    num_shells = 9;
-    block_size = 3*num_centers*sizeof(double);
-    center_coordinates = (double*) MemAllocator::allocate(block_size);
-    center_coordinates[0] =   1.700000000000e+00;
-    center_coordinates[1] =   0.000000000000e+00;
-    center_coordinates[2] =   0.000000000000e+00;
-    center_coordinates[3] =   0.000000000000e+00;
-    center_coordinates[4] =   0.000000000000e+00;
-    center_coordinates[5] =   0.000000000000e+00;
-    block_size = num_centers*sizeof(int);
-    center_elements = (int*) MemAllocator::allocate(block_size);
+    center_elements = new int[num_centers];
     center_elements[0] = 9;
     center_elements[1] = 1;
-    block_size = num_shells*sizeof(int);
-    shell_centers = (int*) MemAllocator::allocate(block_size);
-    shell_l_quantum_numbers = (int*) MemAllocator::allocate(block_size);
-    shell_num_primitives = (int*) MemAllocator::allocate(block_size);
+
+    int num_shells = 9;
+
+    int *shell_centers = NULL;
+    shell_centers = new int[num_shells];
+    int *shell_l_quantum_numbers = NULL;
+    shell_l_quantum_numbers = new int[num_shells];
+    int *shell_num_primitives = NULL;
+    shell_num_primitives = new int[num_shells];
     shell_centers[0] = 1;
     shell_l_quantum_numbers[0] = 0;
     shell_num_primitives[0] = 9;
@@ -68,9 +61,17 @@ TEST(xcint, energy)
     shell_centers[8] = 2;
     shell_l_quantum_numbers[8] = 1;
     shell_num_primitives[8] = 1;
-    block_size = 31*sizeof(double);
-    primitive_exponents = (double*) MemAllocator::allocate(block_size);
-    contraction_coefficients = (double*) MemAllocator::allocate(block_size);
+
+    int num_exponents = 0;
+    for (int i = 0; i < num_shells; i++)
+    {
+        num_exponents += shell_num_primitives[i];
+    }
+
+    double *primitive_exponents = NULL;
+    primitive_exponents = new double[num_exponents];
+    double *contraction_coefficients = NULL;
+    contraction_coefficients = new double[num_exponents];
     primitive_exponents[0] =   1.471000000000e+04;
     contraction_coefficients[0] =   6.863650000000e-01;
     primitive_exponents[1] =   2.207000000000e+03;
@@ -134,164 +135,6 @@ TEST(xcint, energy)
     primitive_exponents[30] =   7.270000000000e-01;
     contraction_coefficients[30] =   9.568810000000e-01;
 
-    xcint_context_t *xcint_context = xcint_new();
-
-    ierr = xcint_set_basis(xcint_context,
-                           XCINT_BASIS_SPHERICAL,
-                           num_centers,
-                           center_coordinates,
-                           center_elements,
-                           num_shells,
-                           shell_centers,
-                           shell_l_quantum_numbers,
-                           shell_num_primitives,
-                           primitive_exponents,
-                           contraction_coefficients);
-
-    int mat_dim = 19;
-    double *dmat = NULL;
-    double *xc_mat = NULL;
-    block_size = mat_dim*mat_dim*sizeof(double);
-    dmat = (double*) MemAllocator::allocate(block_size);
-    std::fill(&dmat[0], &dmat[mat_dim*mat_dim], 0.0);
-    xc_mat = (double*) MemAllocator::allocate(block_size);
-    dmat[0] =   1.007006744703e+00;
-    dmat[1] =   8.524020246319e-03;
-    dmat[2] =  -1.913517463803e-02;
-    dmat[3] =  -8.640040075696e-03;
-    dmat[6] =   2.016135048780e-03;
-    dmat[11] =  -1.373086358909e-04;
-    dmat[13] =   2.378255336812e-04;
-    dmat[14] =   3.313510584148e-03;
-    dmat[15] =   3.582318408589e-04;
-    dmat[16] =  -9.808679472161e-04;
-    dmat[19] =   8.524020246319e-03;
-    dmat[20] =   8.864234480930e-01;
-    dmat[21] =  -4.073012026704e-03;
-    dmat[22] =   7.024766747215e-02;
-    dmat[25] =   4.742225668967e-02;
-    dmat[30] =  -1.820026289381e-03;
-    dmat[32] =   3.152378004318e-03;
-    dmat[33] =   1.513601817934e-01;
-    dmat[34] =  -7.276087881061e-02;
-    dmat[35] =   3.476210852707e-02;
-    dmat[38] =  -1.913517463803e-02;
-    dmat[39] =  -4.073012026704e-03;
-    dmat[40] =   3.808645776634e-02;
-    dmat[41] =   1.599421660580e-01;
-    dmat[44] =  -2.061395923696e-02;
-    dmat[49] =   1.679385562496e-03;
-    dmat[51] =  -2.908781119740e-03;
-    dmat[52] =  -1.408831586336e-01;
-    dmat[53] =   6.131376191995e-02;
-    dmat[54] =  -9.198561533752e-03;
-    dmat[57] =  -8.640040075696e-03;
-    dmat[58] =   7.024766747215e-02;
-    dmat[59] =   1.599421660580e-01;
-    dmat[60] =   6.853469832411e-01;
-    dmat[63] =  -8.272711349281e-02;
-    dmat[68] =   6.941961531658e-03;
-    dmat[70] =  -1.202383007702e-02;
-    dmat[71] =  -5.830734532642e-01;
-    dmat[72] =   2.532122504427e-01;
-    dmat[73] =  -3.571545507150e-02;
-    dmat[80] =   9.225234222380e-01;
-    dmat[83] =   3.022090769501e-02;
-    dmat[85] =  -1.311210715170e-02;
-    dmat[93] =   3.850540048750e-02;
-    dmat[100] =   9.225234222380e-01;
-    dmat[103] =   3.022090769502e-02;
-    dmat[107] =  -1.311210715170e-02;
-    dmat[113] =   3.850540048750e-02;
-    dmat[114] =   2.016135048780e-03;
-    dmat[115] =   4.742225668967e-02;
-    dmat[116] =  -2.061395923696e-02;
-    dmat[117] =  -8.272711349281e-02;
-    dmat[120] =   1.354027328425e-02;
-    dmat[125] =  -9.989208178770e-04;
-    dmat[127] =   1.730181609301e-03;
-    dmat[128] =   8.380299335376e-02;
-    dmat[129] =  -3.683950216674e-02;
-    dmat[130] =   6.753429473392e-03;
-    dmat[137] =   3.022090769501e-02;
-    dmat[140] =   9.900055000170e-04;
-    dmat[142] =  -4.295389909529e-04;
-    dmat[150] =   1.261396866292e-03;
-    dmat[157] =   3.022090769502e-02;
-    dmat[160] =   9.900055000176e-04;
-    dmat[164] =  -4.295389909531e-04;
-    dmat[170] =   1.261396866293e-03;
-    dmat[175] =  -1.311210715170e-02;
-    dmat[178] =  -4.295389909529e-04;
-    dmat[180] =   1.863663835663e-04;
-    dmat[188] =  -5.472890172115e-04;
-    dmat[209] =  -1.373086358909e-04;
-    dmat[210] =  -1.820026289381e-03;
-    dmat[211] =   1.679385562496e-03;
-    dmat[212] =   6.941961531658e-03;
-    dmat[215] =  -9.989208178770e-04;
-    dmat[220] =   7.760570466053e-05;
-    dmat[222] =  -1.344170234292e-04;
-    dmat[223] =  -6.513776896370e-03;
-    dmat[224] =   2.848946299205e-03;
-    dmat[225] =  -4.723568425938e-04;
-    dmat[233] =  -1.311210715170e-02;
-    dmat[236] =  -4.295389909531e-04;
-    dmat[240] =   1.863663835662e-04;
-    dmat[246] =  -5.472890172115e-04;
-    dmat[247] =   2.378255336812e-04;
-    dmat[248] =   3.152378004318e-03;
-    dmat[249] =  -2.908781119740e-03;
-    dmat[250] =  -1.202383007702e-02;
-    dmat[253] =   1.730181609301e-03;
-    dmat[258] =  -1.344170234292e-04;
-    dmat[260] =   2.328171139816e-04;
-    dmat[261] =   1.128219253368e-02;
-    dmat[262] =  -4.934519738259e-03;
-    dmat[263] =   8.181460506753e-04;
-    dmat[266] =   3.313510584148e-03;
-    dmat[267] =   1.513601817934e-01;
-    dmat[268] =  -1.408831586336e-01;
-    dmat[269] =  -5.830734532642e-01;
-    dmat[272] =   8.380299335376e-02;
-    dmat[277] =  -6.513776896370e-03;
-    dmat[279] =   1.128219253368e-02;
-    dmat[280] =   5.467981651861e-01;
-    dmat[281] =  -2.391585905977e-01;
-    dmat[282] =   3.962356807742e-02;
-    dmat[285] =   3.582318408589e-04;
-    dmat[286] =  -7.276087881061e-02;
-    dmat[287] =   6.131376191995e-02;
-    dmat[288] =   2.532122504427e-01;
-    dmat[291] =  -3.683950216674e-02;
-    dmat[296] =   2.848946299205e-03;
-    dmat[298] =  -4.934519738259e-03;
-    dmat[299] =  -2.391585905977e-01;
-    dmat[300] =   1.046575883118e-01;
-    dmat[301] =  -1.751801112317e-02;
-    dmat[304] =  -9.808679472161e-04;
-    dmat[305] =   3.476210852707e-02;
-    dmat[306] =  -9.198561533752e-03;
-    dmat[307] =  -3.571545507150e-02;
-    dmat[310] =   6.753429473392e-03;
-    dmat[315] =  -4.723568425938e-04;
-    dmat[317] =   8.181460506753e-04;
-    dmat[318] =   3.962356807742e-02;
-    dmat[319] =  -1.751801112317e-02;
-    dmat[320] =   3.543728922920e-03;
-    dmat[327] =   3.850540048750e-02;
-    dmat[330] =   1.261396866292e-03;
-    dmat[332] =  -5.472890172115e-04;
-    dmat[340] =   1.607185065400e-03;
-    dmat[347] =   3.850540048750e-02;
-    dmat[350] =   1.261396866293e-03;
-    dmat[354] =  -5.472890172115e-04;
-    dmat[360] =   1.607185065400e-03;
-    double xc_energy = 0.0;
-    double num_electrons = 0.0;
-    int dmat_to_pert[1]  = {0};
-    int dmat_to_comp[1]  = {0};
-
     // generate grid
     numgrid_context_t *numgrid_context = numgrid_new();
     double radial_precision = 1.0e-12;
@@ -318,9 +161,60 @@ TEST(xcint, energy)
     int num_points = numgrid_get_num_points(numgrid_context);
     double *grid = (double*) numgrid_get_grid(numgrid_context);
 
-    // test idempotency
+    xcint_context_t *xcint_context = xcint_new();
+
+    ierr = xcint_set_basis(xcint_context,
+                           XCINT_BASIS_SPHERICAL,
+                           num_centers,
+                           center_coordinates,
+                           center_elements,
+                           num_shells,
+                           shell_centers,
+                           shell_l_quantum_numbers,
+                           shell_num_primitives,
+                           primitive_exponents,
+                           contraction_coefficients);
+
+    delete[] center_coordinates;
+    center_coordinates = NULL;
+    delete[] center_elements;
+    center_elements = NULL;
+    delete[] shell_centers;
+    shell_centers = NULL;
+    delete[] shell_l_quantum_numbers;
+    shell_l_quantum_numbers = NULL;
+    delete[] shell_num_primitives;
+    shell_num_primitives = NULL;
+    delete[] primitive_exponents;
+    primitive_exponents = NULL;
+    delete[] contraction_coefficients;
+    contraction_coefficients = NULL;
+
+    int mat_dim = 19;
+
+    double *dmat = NULL;
+    dmat = new double[mat_dim*mat_dim];
+    std::fill(&dmat[0], &dmat[mat_dim*mat_dim], 0.0);
+
+    std::ifstream infile("../test/dmat.txt");
+    int i;
+    double d;
+    while (infile >> i >> d)
+    {
+        dmat[i] = d;
+    }
+
+    double *xc_mat = NULL;
+    xc_mat = new double[mat_dim*mat_dim];
+
+    // we call it twice to test idempotency
     ierr = xcint_set_functional(xcint_context, "lda");
     ierr = xcint_set_functional(xcint_context, "lda");
+
+    double xc_energy = 0.0;
+    double num_electrons = 0.0;
+    int dmat_to_pert[1]  = {0};
+    int dmat_to_comp[1]  = {0};
 
     xcint_integrate(xcint_context,
                     XCINT_MODE_RKS,
@@ -378,15 +272,10 @@ TEST(xcint, energy)
     }
     ASSERT_NEAR(dot, -5.6105711653099748, 1.0e-11);
 
-    MemAllocator::deallocate(dmat);
-    MemAllocator::deallocate(xc_mat);
-    MemAllocator::deallocate(center_coordinates);
-    MemAllocator::deallocate(center_elements);
-    MemAllocator::deallocate(shell_centers);
-    MemAllocator::deallocate(shell_l_quantum_numbers);
-    MemAllocator::deallocate(shell_num_primitives);
-    MemAllocator::deallocate(primitive_exponents);
-    MemAllocator::deallocate(contraction_coefficients);
+    delete[] dmat;
+    dmat = NULL;
+    delete[] xc_mat;
+    xc_mat = NULL;
 
     numgrid_free(numgrid_context);
     xcint_free(xcint_context);

@@ -1,6 +1,8 @@
 #ifndef XCINT_H_INCLUDED
 #define XCINT_H_INCLUDED
 
+#include "xcint_c_parameters.h"
+
 #ifndef XCINT_API
 #  ifdef _WIN32
 #     if defined(XCINT_BUILD_SHARED) /* build dll */
@@ -30,7 +32,7 @@ XCINT_API xcint_context_t *xcint_new();
 XCINT_API void xcint_free(xcint_context_t *context);
 
 XCINT_API int xcint_set_functional(xcint_context_t *context,
-                                   const char   *line);
+                                   const char *line);
 
 XCINT_API int xcint_set_basis(xcint_context_t *context,
                               const int    basis_type,

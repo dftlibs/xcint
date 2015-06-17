@@ -74,7 +74,7 @@ def get_cs_trans(max_l_value):
 
         legendre_coef = zero_array(l + 1)
         cossin_coef = zero_array((l + 1)*(l + 1))
-        tmat = zero_array(nc*ns)
+        tmat = zero_array(int(nc*ns))
 
         k = 0
         while k <= l/2:
@@ -112,15 +112,15 @@ def get_cs_trans(max_l_value):
                                ilm = 1 + l - m
                             else:
                                ilm = 1 + l + m
-                            tmat[(ilm - 1)*nc + ix - 1] += cmkij*cossin_coef[n*(l+1) + m]
+                            tmat[int((ilm - 1)*nc + ix - 1)] += cmkij*cossin_coef[n*(l+1) + m]
                     i += 1
                 k += 2
 
         tc = []
-        for i in range(nc):
+        for i in range(int(nc)):
             ts = []
             for j in range(ns):
-                ts.append(tmat[j*nc + i])
+                ts.append(tmat[int(j*nc + i)])
             tc.append(ts)
         cs_trans.append(tc)
 

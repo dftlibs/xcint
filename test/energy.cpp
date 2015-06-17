@@ -333,13 +333,14 @@ TEST(xcint, energy)
                     dmat_to_pert,
                     dmat_to_comp,
                     dmat,
-                    false,
+                    true,
                     xc_energy,
                     true,
                     xc_mat,
                     num_electrons);
 
-    ASSERT_NEAR(num_electrons, 9.999992074832e+00, 1.0e-11);
+    ASSERT_NEAR(num_electrons, 9.999992074832, 1.0e-11);
+    ASSERT_NEAR(xc_energy, -20.421064966255539, 1.0e-11);
 
     dot = 0.0;
     for (int i = 0; i < mat_dim*mat_dim; i++)
@@ -361,13 +362,14 @@ TEST(xcint, energy)
                     dmat_to_pert,
                     dmat_to_comp,
                     dmat,
-                    false,
+                    true,
                     xc_energy,
                     true,
                     xc_mat,
                     num_electrons);
 
-    ASSERT_NEAR(num_electrons, 9.999992074832e+00, 1.0e-11);
+    ASSERT_NEAR(num_electrons, 9.999992074832, 1.0e-11);
+    ASSERT_NEAR(xc_energy, -17.475254754458547, 1.0e-11);
 
     dot = 0.0;
     for (int i = 0; i < mat_dim*mat_dim; i++)

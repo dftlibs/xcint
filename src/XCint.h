@@ -27,21 +27,21 @@ class XCint
 
         int set_functional(const char *line);
 
-        int integrate(const int    mode,
-                      const int    num_points,
-                      const double grid_pw[],
-                      const int    num_pert,
-                      const int    pert[],
-                      const int    comp[],
-                      const int    num_dmat,
-                      const int    dmat_to_pert[],
-                      const int    dmat_to_comp[],
-                      const double dmat[],
-                      const int    get_xc_energy,
-                            double *xc_energy,
-                      const int    get_xc_mat,
-                            double xc_mat[],
-                            double *num_electrons) const;
+        int integrate(const xcint_mode_t         mode,
+                      const int                  num_points,
+                      const double               grid[],
+                      const int                  num_pert,
+                      const xcint_perturbation_t pert[],
+                      const int                  comp[],
+                      const int                  num_dmat,
+                      const int                  dmat_to_pert[],
+                      const int                  dmat_to_comp[],
+                      const double               dmat[],
+                      const int                  get_xc_energy,
+                            double               *xc_energy,
+                      const int                  get_xc_mat,
+                            double               xc_mat[],
+                            double               *num_electrons) const;
 
     private:
 

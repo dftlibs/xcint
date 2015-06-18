@@ -139,7 +139,7 @@ def test_energy():
                                 9.56881e-01]
 
     ierr = xcint.lib.xcint_set_basis(xcint_context,
-                                     0, # FIXME
+                                     xcint.lib.XCINT_BASIS_SPHERICAL,
                                      num_centers,
                                      center_coordinates,
                                      center_elements,
@@ -171,7 +171,7 @@ def test_energy():
     xc_mat = xcint.ffi.new("double[]", mat_dim*mat_dim)
 
     ierr = xcint.lib.xcint_integrate(xcint_context,
-                                     2, # FIXME
+                                     xcint.lib.XCINT_MODE_RKS,
                                      num_points,
                                      grid,
                                      0,

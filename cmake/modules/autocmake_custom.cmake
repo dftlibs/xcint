@@ -112,29 +112,8 @@ target_link_libraries(
     "-Wl,--no-whole-archive"
     )
 
-# generate interface headers
-add_custom_command(
-    OUTPUT
-        ${PROJECT_BINARY_DIR}/generated/xcint_c_parameters.h
-        ${PROJECT_BINARY_DIR}/generated/xcint_fortran_parameters.h
-    COMMAND
-        ${PYTHON_EXECUTABLE} ${PROJECT_SOURCE_DIR}/api/generate.py ${PROJECT_BINARY_DIR}/generated/xcint_c_parameters.h ${PROJECT_BINARY_DIR}/generated/xcint_fortran_parameters.h
-    WORKING_DIRECTORY
-        ${PROJECT_SOURCE_DIR}
-    DEPENDS
-        ${PROJECT_SOURCE_DIR}/api/generate.py
-    )
-add_custom_target(
-    generate_interface_parameters
-    ALL
-    DEPENDS
-        ${PROJECT_BINARY_DIR}/generated/xcint_c_parameters.h
-        ${PROJECT_BINARY_DIR}/generated/xcint_fortran_parameters.h
-    )
-
 add_dependencies(xcint xcfun)
 add_dependencies(xcint numgrid)
-add_dependencies(xcint generate_interface_parameters)
 
 if(ENABLE_FORTRAN_INTERFACE)
     add_library(

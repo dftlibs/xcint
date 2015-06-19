@@ -9,8 +9,8 @@ Contents:
    :maxdepth: 2
 
    purpose
-   libraries
-   compilation
+   requirements
+   building
    interfaces
    grid
    basis_functions

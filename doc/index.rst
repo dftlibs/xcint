@@ -3,16 +3,13 @@
 XCint
 =====
 
-Contents:
-
 .. toctree::
    :maxdepth: 2
 
    purpose
    requirements
    building
-   interfaces
-   grid
+   api
    basis_functions
    xcfun
    status

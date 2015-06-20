@@ -1,7 +1,7 @@
 
 
-XCint
-=====
+XCint - Integrate your exciting ideas
+=====================================
 
 .. toctree::
    :maxdepth: 2

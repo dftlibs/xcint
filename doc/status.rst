@@ -30,12 +30,6 @@ introduced by the caller in very few lines.  Not having MPI parallelization
 inside XCint simplifies the code and testing.
 
 
-Python interface
-----------------
-
-An optional Python interface is under construction.
-
-
 Fortran interface
 -----------------
 

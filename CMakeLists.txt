@@ -17,6 +17,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
     ${PROJECT_SOURCE_DIR}/cmake/modules)
 
 # included cmake modules
+include(autocmake_python)
 include(autocmake_cxx)
 include(autocmake_GNU.CXX)
 include(autocmake_Intel.CXX)

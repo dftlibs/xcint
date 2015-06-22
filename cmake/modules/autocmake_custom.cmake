@@ -31,7 +31,6 @@ include_directories(
     ${PROJECT_SOURCE_DIR}/src
     ${PROJECT_SOURCE_DIR}/src/density
     ${PROJECT_BINARY_DIR}/external/include
-    ${PROJECT_SOURCE_DIR}/external/lebedev
     ${PROJECT_SOURCE_DIR}/external/googletest
     ${PROJECT_SOURCE_DIR}/external/googletest/include
     ${PROJECT_SOURCE_DIR}/api

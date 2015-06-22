@@ -118,84 +118,6 @@ int XCint::set_basis(const int    basis_type,
                primitive_exponents,
                contraction_coefficients);
 
-//#define CREATE_UNIT_TEST
-#ifdef CREATE_UNIT_TEST
-    printf("-------------------->8\n");
-
-    printf("#include \"gtest/gtest.h\"\n");
-    printf("#include \"XCint.h\"\n");
-    printf("#include \"MemAllocator.h\"\n");
-    printf("#include \"xcint_c_api.h\"\n");
-
-    printf("\n");
-
-    printf("TEST(testname, subtestname)\n");
-    printf("{\n");
-
-    printf("    XCint xc;\n");
-    printf("    xc.set_verbosity(0);\n");
-
-    printf("    int num_centers;\n");
-    printf("    int num_shells;\n");
-
-    printf("    double *center_coordinates = NULL;\n");
-    printf("    int *center_elements = NULL;\n");
-    printf("    int *shell_centers = NULL;\n");
-    printf("    int *shell_l_quantum_numbers = NULL;\n");
-    printf("    int *shell_num_primitives = NULL;\n");
-    printf("    double *primitive_exponents = NULL;\n");
-    printf("    double *contraction_coefficients = NULL;\n");
-    printf("    size_t block_size;\n");
-
-    printf("    num_centers = %i;\n", num_centers);
-    printf("    num_shells = %i;\n", num_shells);
-
-    printf("    block_size = 3*num_centers*sizeof(double);\n");
-    printf("    center_coordinates = (double*) MemAllocator::allocate(block_size);\n");
-    for (int i = 0; i < 3*num_centers; i++)
-    {
-        printf("    center_coordinates[%i] = %20.12e;\n", i, center_coordinates[i]);
-    }
-
-    printf("    block_size = num_centers*sizeof(int);\n");
-    printf("    center_elements = (int*) MemAllocator::allocate(block_size);\n");
-    for (int i = 0; i < num_centers; i++)
-    {
-        printf("    center_elements[%i] = %i;\n", i, center_elements[i]);
-    }
-
-    printf("    block_size = num_shells*sizeof(int);\n");
-    printf("    shell_centers = (int*) MemAllocator::allocate(block_size);\n");
-    printf("    shell_l_quantum_numbers = (int*) MemAllocator::allocate(block_size);\n");
-    printf("    shell_num_primitives = (int*) MemAllocator::allocate(block_size);\n");
-    for (int i = 0; i < num_shells; i++)
-    {
-        printf("    shell_centers[%i] = %i;\n", i, shell_centers[i]);
-        printf("    shell_l_quantum_numbers[%i] = %i;\n", i, shell_l_quantum_numbers[i]);
-        printf("    shell_num_primitives[%i] = %i;\n", i, shell_num_primitives[i]);
-    }
-
-    int n = 0;
-    for (int i = 0; i < num_shells; i++)
-    {
-        n += shell_num_primitives[i];
-    }
-
-    printf("    block_size = %i*sizeof(double);\n", n);
-    printf("    primitive_exponents = (double*) MemAllocator::allocate(block_size);\n");
-    printf("    contraction_coefficients = (double*) MemAllocator::allocate(block_size);\n");
-
-    n = 0;
-    for (int i = 0; i < num_shells; i++)
-    {
-        for (int j = 0; j < shell_num_primitives[i]; j++)
-        {
-            printf("    primitive_exponents[%i] = %20.12e;\n", n, primitive_exponents[n]);
-            printf("    contraction_coefficients[%i] = %20.12e;\n", n, contraction_coefficients[n]);
-            n++;
-        }
-    }
-#endif // CREATE_UNIT_TEST
     return 0;
 }
 
@@ -926,13 +848,6 @@ int XCint::integrate(const xcint_mode_t         mode,
         std::fill(&xc_mat_buffer[0], &xc_mat_buffer[num_threads*mat_dim*mat_dim], 0.0);
     }
 
-#ifdef CREATE_UNIT_TEST
-    for (int i = 0; i < mat_dim*mat_dim; i++)
-    {
-        if (fabs(dmat[i]) < 1.0e-10) dmat[i] = 0.0;
-    }
-#endif // CREATE_UNIT_TEST
-
     #pragma omp parallel
     {
         int ithread = omp_get_thread_num();
@@ -1024,92 +939,6 @@ int XCint::integrate(const xcint_mode_t         mode,
                 }
             }
         }
-#ifdef CREATE_UNIT_TEST
-    printf("    double hfx, mu, beta; // we don't care about it here\n");
-
-    printf("    xc.set_functional(\"lda\", hfx, mu, beta);\n"); // FIXME
-    printf("    xc.set_basis(XCINT_BASIS_SPHERICAL,\n");
-    printf("                 num_centers,\n");
-    printf("                 center_coordinates,\n");
-    printf("                 center_elements,\n");
-    printf("                 num_shells,\n");
-    printf("                 shell_centers,\n");
-    printf("                 shell_l_quantum_numbers,\n");
-    printf("                 shell_num_primitives,\n");
-    printf("                 primitive_exponents,\n");
-    printf("                 contraction_coefficients);\n");
-    printf("    xc.generate_grid(1.0e-12,\n");
-    printf("                     86,\n");
-    printf("                     302,\n");
-    printf("                     num_centers,\n");
-    printf("                     center_coordinates,\n");
-    printf("                     center_elements,\n");
-    printf("                     num_shells,\n");
-    printf("                     shell_centers,\n");
-    printf("                     shell_l_quantum_numbers,\n");
-    printf("                     shell_num_primitives,\n");
-    printf("                     primitive_exponents);\n");
-
-    printf("    int mat_dim = %i;\n", mat_dim);
-
-    printf("    double *dmat = NULL;\n");
-    printf("    double *xc_mat = NULL;\n");
-    printf("    block_size = mat_dim*mat_dim*sizeof(double);\n");
-    printf("    dmat = (double*) MemAllocator::allocate(block_size);\n");
-    printf("    std::fill(&dmat[0], &dmat[mat_dim*mat_dim], 0.0);\n");
-    printf("    xc_mat = (double*) MemAllocator::allocate(block_size);\n");
-
-    for (int i = 0; i < mat_dim*mat_dim; i++)
-    {
-        if (fabs(dmat[i]) > 1.0e-10) printf("    dmat[%i] = %20.12e;\n", i, dmat[i]);
-    }
-
-    printf("    double xc_energy = 0.0;\n");
-    printf("    double num_electrons = 0.0;\n");
-    printf("    int dmat_to_pert[1]  = {0};\n");
-    printf("    int dmat_to_comp[1]  = {0};\n");
-    printf("    xc.integrate(XCINT_MODE_RKS,\n");
-    printf("                 0,\n");
-    printf("                 0,\n");
-    printf("                 0,\n");
-    printf("                 1,\n");
-    printf("                 dmat_to_pert,\n");
-    printf("                 dmat_to_comp,\n");
-    printf("                 dmat,\n");
-    printf("                 false,\n");
-    printf("                 xc_energy,\n");
-    printf("                 true,\n");
-    printf("                 xc_mat,\n");
-    printf("                 num_electrons);\n");
-
-    printf("    ASSERT_NEAR(num_electrons, %20.12e, 1.0e-11);\n", num_electrons);
-
-    double dot = 0.0;
-    for (int i = 0; i < mat_dim*mat_dim; i++)
-    {
-        dot += xc_mat[i]*dmat[i];
-    }
-    printf("    double dot = 0.0;\n");
-    printf("    for (int i = 0; i < mat_dim*mat_dim; i++)\n");
-    printf("    {\n");
-    printf("        dot += xc_mat[i]*dmat[i];\n");
-    printf("    }\n");
-    printf("    ASSERT_NEAR(dot, %20.12e, 1.0e-11);\n", dot);
-
-    printf("    MemAllocator::deallocate(dmat);\n");
-    printf("    MemAllocator::deallocate(xc_mat);\n");
-    printf("    MemAllocator::deallocate(center_coordinates);\n");
-    printf("    MemAllocator::deallocate(center_elements);\n");
-    printf("    MemAllocator::deallocate(shell_centers);\n");
-    printf("    MemAllocator::deallocate(shell_l_quantum_numbers);\n");
-    printf("    MemAllocator::deallocate(shell_num_primitives);\n");
-    printf("    MemAllocator::deallocate(primitive_exponents);\n");
-    printf("    MemAllocator::deallocate(contraction_coefficients);\n");
-
-    printf("}\n");
-
-    printf("-------------------->8\n");
-#endif // CREATE_UNIT_TEST
     }
 
 //  time_total += rolex::stop_global();

@@ -1,6 +1,6 @@
 [submodule "external/xcfun"]
 	path = external/xcfun
-	url = git://repo.ctcc.no/xcfun.git
+	url = https://gitlab.com/uekstrom/xcfun.git
 [submodule "external/googletest"]
 	path = external/googletest
 	url = https://github.com/svn2github/googletest.git

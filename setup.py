@@ -26,6 +26,7 @@ Options:
   --lapack=<LAPACK>                   Detect and link LAPACK library (auto or off) [default: auto].
   --mkl=<MKL>                         Pass MKL flag to the Intel compiler and linker and skip BLAS/LAPACK detection (sequential, parallel, cluster, or off) [default: off].
   --type=<TYPE>                       Set the CMake build type (debug, release, or relwithdeb) [default: release].
+  --generator=<STRING>                Set the CMake build system generator [default: Unix Makefiles].
   --show                              Show CMake command and exit.
   <builddir>                          Build directory.
   -h --help                           Show this screen.
@@ -49,6 +50,7 @@ def gen_cmake_command(options, arguments):
     command.append('-DBLAS_LANG=Fortran')
     command.append('-DLAPACK_LANG=Fortran')
     command.append('-DCMAKE_BUILD_TYPE=%s' % arguments['--type'])
+    command.append('-G "%s"' % arguments['--generator'])
 
     return ' '.join(command)
 

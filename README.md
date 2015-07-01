@@ -1,5 +1,7 @@
+[![Build Status](https://travis-ci.org/bast/xcint.svg?branch=master)](https://travis-ci.org/bast/xcint/builds)
+[![Coverage Status](https://coveralls.io/repos/bast/xcint/badge.png?branch=master)](https://coveralls.io/r/bast/xcint?branch=master)
+[![Documentation Status](https://readthedocs.org/projects/xcint/badge/?version=latest)](http://xcint.readthedocs.org)
 
-[![Build Status](https://travis-ci.org/bast/xcint.svg?branch=master)](https://travis-ci.org/bast/xcint/builds) [![Coverage Status](https://coveralls.io/repos/bast/xcint/badge.png?branch=master)](https://coveralls.io/r/bast/xcint?branch=master) [![Documentation Status](https://readthedocs.org/projects/xcint/badge/?version=latest)](http://xcint.readthedocs.org)
 
 XCint
 =====

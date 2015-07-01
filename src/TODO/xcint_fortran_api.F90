@@ -105,7 +105,7 @@ contains
                               perturbations,          &
                               components,          &
                               num_dmat,      &
-                              dmat_to_perturbations,  &
+                              perturbation_indices,  &
                               dmat,          &
                               get_exc, &
                               exc,     &

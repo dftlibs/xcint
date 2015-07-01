@@ -140,7 +140,7 @@ The workhorse of XCint: integrate XC energies and matrix elements.
                               perturbations,          &
                               components,          &
                               num_dmat,      &
-                              dmat_to_perturbations,  &
+                              perturbation_indices,  &
                               dmat,          &
                               get_exc, &
                               exc,     &

@@ -667,7 +667,7 @@ XCINT_API int xcint_integrate(const xcint_context_t      *context,
                               const xcint_perturbation_t perturbations[],
                               const int                  components[],
                               const int                  num_dmat,
-                              const int                  dmat_to_perturbations[],
+                              const int                  perturbation_indices[],
                               const double               dmat[],
                               const bool                 get_exc,
                                     double               *exc,
@@ -682,7 +682,7 @@ XCINT_API int xcint_integrate(const xcint_context_t      *context,
                                                perturbations,
                                                components,
                                                num_dmat,
-                                               dmat_to_perturbations,
+                                               perturbation_indices,
                                                dmat,
                                                get_exc,
                                                exc,
@@ -697,7 +697,7 @@ int XCint::integrate(const xcint_mode_t         mode,
                      const xcint_perturbation_t perturbations[],
                      const int                  components[],
                      const int                  num_dmat,
-                     const int                  dmat_to_perturbations[],
+                     const int                  perturbation_indices[],
                      const double               dmat[],
                      const bool                 get_exc,
                            double               *exc,
@@ -817,8 +817,8 @@ int XCint::integrate(const xcint_mode_t         mode,
 
     for (int k = 0; k < num_dmat; k++)
     {
-        use_dmat[dmat_to_perturbations[k]] = true;
-        dmat_index[dmat_to_perturbations[k]] = k*mat_dim*mat_dim;
+        use_dmat[perturbation_indices[k]] = true;
+        dmat_index[perturbation_indices[k]] = k*mat_dim*mat_dim;
     }
 
     assert(num_perturbations < 7);

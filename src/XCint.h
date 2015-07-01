@@ -34,7 +34,7 @@ class XCint
                       const xcint_perturbation_t perturbations[],
                       const int                  components[],
                       const int                  num_dmat,
-                      const int                  dmat_to_perturbations[],
+                      const int                  perturbation_indices[],
                       const double               dmat[],
                       const bool                 get_exc,
                             double               *exc,

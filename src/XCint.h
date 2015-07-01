@@ -36,9 +36,9 @@ class XCint
                       const int                  num_dmat,
                       const int                  dmat_to_perturbations[],
                       const double               dmat[],
-                      const int                  get_exc,
+                      const bool                 get_exc,
                             double               *exc,
-                      const int                  get_vxc,
+                      const bool                 get_vxc,
                             double               vxc[],
                             double               *num_electrons) const;
 
@@ -68,9 +68,9 @@ class XCint
                                const double           grid_pw[]) const;
 
         void integrate_batch(const double dmat[],
-                             const int    get_exc,
+                             const bool   get_exc,
                                    double &exc,
-                             const int    get_vxc,
+                             const bool   get_vxc,
                                    double vxc[],
                                    double &num_electrons,
                              const int    geo_coor[],

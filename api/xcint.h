@@ -74,9 +74,9 @@ XCINT_API int xcint_integrate(const xcint_context_t      *context,
                               const int                  num_dmat,
                               const int                  dmat_to_perturbations[],
                               const double               dmat[],
-                              const int                  get_exc,
+                              const bool                 get_exc,
                                     double               *exc,
-                              const int                  get_vxc,
+                              const bool                 get_vxc,
                                     double               vxc[],
                                     double               *num_electrons);
 

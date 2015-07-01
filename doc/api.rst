@@ -136,32 +136,32 @@ The workhorse of XCint: integrate XC energies and matrix elements.
 .. code-block:: fortran
 
    subroutine xcint_integrate(mode,          &
-                              num_pert,      &
-                              pert,          &
-                              comp,          &
+                              num_perturbations,      &
+                              perturbations,          &
+                              components,          &
                               num_dmat,      &
-                              dmat_to_pert,  &
-                              dmat_to_comp,  &
+                              dmat_to_perturbations,  &
+                              dmat_to_components,  &
                               dmat,          &
-                              get_xc_energy, &
-                              xc_energy,     &
-                              get_xc_mat,    &
-                              xc_mat,        &
+                              get_exc, &
+                              exc,     &
+                              get_vxc,    &
+                              vxc,        &
                               num_electrons) &
               bind(c)
 
       integer(c_int), intent(in), value :: mode
-      integer(c_int), intent(in), value :: num_pert
+      integer(c_int), intent(in), value :: num_perturbations
       integer(c_int), intent(in)        :: pert(*)
       integer(c_int), intent(in)        :: comp(*)
       integer(c_int), intent(in), value :: num_dmat
       integer(c_int), intent(in)        :: dmat_to_pert(*)
       integer(c_int), intent(in)        :: dmat_to_comp(*)
       real(c_double), intent(in)        :: dmat(*)
-      integer(c_int), intent(in), value :: get_xc_energy
-      real(c_double), intent(out)       :: xc_energy(*)
-      integer(c_int), intent(in), value :: get_xc_mat
-      real(c_double), intent(out)       :: xc_mat(*)
+      integer(c_int), intent(in), value :: get_exc
+      real(c_double), intent(out)       :: exc(*)
+      integer(c_int), intent(in), value :: get_vxc
+      real(c_double), intent(out)       :: vxc(*)
       real(c_double), intent(out)       :: num_electrons
    end subroutine
 
@@ -177,16 +177,16 @@ Possible entries:
 - XCINT_MODE_UKS -- Unrestricted Kohn-Sham (currently not supported).
 
 
-**num_pert** (input)
+**num_perturbations** (input)
 
 Number of perturbations. Has to be 0 or positive integer.
 
 
 **pert** (input)
 
-Dimension is num_pert.
+Dimension is num_perturbations.
 
-Not used if num_pert is 0.
+Not used if num_perturbations is 0.
 
 Possible perturbation types:
 
@@ -198,9 +198,9 @@ Possible perturbation types:
 
 **comp** (input)
 
-Dimension is 2*num_pert.
+Dimension is 2*num_perturbations.
 
-Not used if num_pert is 0.
+Not used if num_perturbations is 0.
 
 For each perturbation we expect 2 integers:
 start component and end component.
@@ -226,30 +226,30 @@ Mapping of density matrices to perturbation components.
 Array that holds the density matrix or matrices.
 
 
-**get_xc_energy** (input)
+**get_exc** (input)
 
 - 0 -- Do not integrate the XC energy (derivatives).
 - 1 -- Integrate the XC energy (derivatives).
 
 
-**xc_energy** (output)
+**exc** (output)
 
 Array that holds the integrated XC energy (derivative or derivatives).
 
-Not touched if get_xc_energy is 0.
+Not touched if get_exc is 0.
 
 
-**get_xc_mat** (input)
+**get_vxc** (input)
 
 - 0 -- Do not integrate the XC potential matrix (derivatives).
 - 1 -- Integrate the XC potential matrix (derivatives).
 
 
-**xc_mat** (output)
+**vxc** (output)
 
 Array that holds the integrated XC potential matrix (derivative or derivatives).
 
-Not touched if get_xc_mat is 0.
+Not touched if get_vxc is 0.
 
 
 **num_electrons** (output)

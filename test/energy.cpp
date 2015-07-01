@@ -206,17 +206,17 @@ TEST(xcint, energy)
         dmat[i] = d;
     }
 
-    double *xc_mat = NULL;
-    xc_mat = new double[mat_dim*mat_dim];
+    double *vxc = NULL;
+    vxc = new double[mat_dim*mat_dim];
 
     // we call it twice to test idempotency
     ierr = xcint_set_functional(xcint_context, "lda");
     ierr = xcint_set_functional(xcint_context, "lda");
 
-    double xc_energy = 0.0;
+    double exc = 0.0;
     double num_electrons = 0.0;
-    int dmat_to_pert[1]  = {0};
-    int dmat_to_comp[1]  = {0};
+    int dmat_to_perturbations[1]  = {0};
+    int dmat_to_components[1]  = {0};
 
     ierr = xcint_integrate(xcint_context,
                            XCINT_MODE_RKS,
@@ -226,22 +226,22 @@ TEST(xcint, energy)
                            0,
                            0,
                            1,
-                           dmat_to_pert,
-                           dmat_to_comp,
+                           dmat_to_perturbations,
+                           dmat_to_components,
                            dmat,
                            true,
-                           &xc_energy,
+                           &exc,
                            true,
-                           xc_mat,
+                           vxc,
                            &num_electrons);
 
     ASSERT_NEAR(num_electrons, 9.999992074832, 1.0e-11);
-    ASSERT_NEAR(xc_energy, -20.421064966255539, 1.0e-11);
+    ASSERT_NEAR(exc, -20.421064966255539, 1.0e-11);
 
     dot = 0.0;
     for (int i = 0; i < mat_dim*mat_dim; i++)
     {
-        dot += xc_mat[i]*dmat[i];
+        dot += vxc[i]*dmat[i];
     }
     ASSERT_NEAR(dot, -6.729996811122, 1.0e-11);
 
@@ -255,29 +255,29 @@ TEST(xcint, energy)
                            0,
                            0,
                            1,
-                           dmat_to_pert,
-                           dmat_to_comp,
+                           dmat_to_perturbations,
+                           dmat_to_components,
                            dmat,
                            true,
-                           &xc_energy,
+                           &exc,
                            true,
-                           xc_mat,
+                           vxc,
                            &num_electrons);
 
     ASSERT_NEAR(num_electrons, 9.999992074832, 1.0e-11);
-    ASSERT_NEAR(xc_energy, -17.475254754458547, 1.0e-11);
+    ASSERT_NEAR(exc, -17.475254754458547, 1.0e-11);
 
     dot = 0.0;
     for (int i = 0; i < mat_dim*mat_dim; i++)
     {
-        dot += xc_mat[i]*dmat[i];
+        dot += vxc[i]*dmat[i];
     }
     ASSERT_NEAR(dot, -5.6105711653099748, 1.0e-11);
 
     delete[] dmat;
     dmat = NULL;
-    delete[] xc_mat;
-    xc_mat = NULL;
+    delete[] vxc;
+    vxc = NULL;
 
     numgrid_free(numgrid_context);
     xcint_free(xcint_context);

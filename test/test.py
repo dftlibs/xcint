@@ -3,25 +3,25 @@ Unit tests.
 """
 import os
 import sys
+import pytest
 
 BUILD_DIR = sys.argv[-1]
 
-# location of xcint module
-sys.path.append(BUILD_DIR)
-import xcint
+# ------------------------------------------------------------------------------
 
-# location of numgrid module
-sys.path.append(os.path.join(BUILD_DIR, 'external', 'numgrid-build'))
-import numgrid
-
-import pytest
-
-#-------------------------------------------------------------------------------
 
 def test_energy():
     """
     Test energy.
     """
+    # location of xcint module
+    sys.path.append(BUILD_DIR)
+    import xcint
+
+    # location of numgrid module
+    sys.path.append(os.path.join(BUILD_DIR, 'external', 'numgrid-build'))
+    import numgrid
+
     radial_precision = 1.0e-12
     min_num_angular_points = 86
     max_num_angular_points = 302
@@ -78,23 +78,21 @@ def test_energy():
 
     numgrid_context = numgrid.lib.numgrid_new()
 
-    ierr = numgrid.lib.numgrid_generate(
-               numgrid_context,
-               radial_precision,
-               min_num_angular_points,
-               max_num_angular_points,
-               num_centers,
-               center_coordinates,
-               center_elements,
-               num_outer_centers,
-               outer_center_coordinates,
-               outer_center_elements,
-               num_shells,
-               shell_centers,
-               shell_l_quantum_numbers,
-               shell_num_primitives,
-               primitive_exponents
-           )
+    ierr = numgrid.lib.numgrid_generate(numgrid_context,
+                                        radial_precision,
+                                        min_num_angular_points,
+                                        max_num_angular_points,
+                                        num_centers,
+                                        center_coordinates,
+                                        center_elements,
+                                        num_outer_centers,
+                                        outer_center_coordinates,
+                                        outer_center_elements,
+                                        num_shells,
+                                        shell_centers,
+                                        shell_l_quantum_numbers,
+                                        shell_num_primitives,
+                                        primitive_exponents)
 
     num_points = numgrid.lib.numgrid_get_num_points(numgrid_context)
 
@@ -114,14 +112,14 @@ def test_energy():
                                 2.64148e+00,
                                 7.55357e-01,
                                 1.34270e-02,
-                               -8.19760e-04,
-                               -1.57074e-01,
-                               -3.00172e-01,
-                               -4.91514e-01,
-                               -7.84991e-01,
-                               -9.34756e-01,
-                               -1.00548e+00,
-                               -3.20466e-01,
+                                -8.19760e-04,
+                                -1.57074e-01,
+                                -3.00172e-01,
+                                -4.91514e-01,
+                                -7.84991e-01,
+                                -9.34756e-01,
+                                -1.00548e+00,
+                                -3.20466e-01,
                                 4.92853e-01,
                                 1.99941e-01,
                                 3.51526e-01,
@@ -152,7 +150,7 @@ def test_energy():
 
     mat_dim = 19
     dmat = []
-    for i in range(mat_dim*mat_dim):
+    for i in range(mat_dim * mat_dim):
         dmat.append(0.0)
 
     here = os.path.abspath(os.path.dirname(__file__))
@@ -163,12 +161,12 @@ def test_energy():
 
     ierr = xcint.lib.xcint_set_functional(xcint_context, "lda")
 
-    dmat_to_pert = [0]
-    dmat_to_comp = [0]
+    dmat_to_perturbations = [0]
+    dmat_to_components = [0]
 
-    xc_energy = xcint.ffi.new("double *")
+    exc = xcint.ffi.new("double *")
     num_electrons = xcint.ffi.new("double *")
-    xc_mat = xcint.ffi.new("double[]", mat_dim*mat_dim)
+    vxc = xcint.ffi.new("double[]", mat_dim * mat_dim)
 
     ierr = xcint.lib.xcint_integrate(xcint_context,
                                      xcint.lib.XCINT_MODE_RKS,
@@ -178,21 +176,21 @@ def test_energy():
                                      [0],
                                      [0],
                                      1,
-                                     dmat_to_pert,
-                                     dmat_to_comp,
+                                     dmat_to_perturbations,
+                                     dmat_to_components,
                                      dmat,
                                      True,
-                                     xc_energy,
+                                     exc,
                                      True,
-                                     xc_mat,
+                                     vxc,
                                      num_electrons)
 
     assert abs(num_electrons[0] - 9.999992074832) < 1.0e-11
-    assert abs(xc_energy[0] - -20.421064966255539) < 1.0e-11
+    assert abs(exc[0] - -20.421064966255539) < 1.0e-11
 
     dot = 0.0
-    for i in range(mat_dim*mat_dim):
-        dot += xc_mat[i]*dmat[i]
+    for i in range(mat_dim * mat_dim):
+        dot += vxc[i] * dmat[i]
     assert abs(dot - -6.729996811122) < 1.0e-11
 
     xcint.lib.xcint_free(xcint_context)

@@ -101,32 +101,32 @@ contains
    end subroutine
 
    subroutine xcint_integrate(mode,          &
-                              num_pert,      &
-                              pert,          &
-                              comp,          &
+                              num_perturbations,      &
+                              perturbations,          &
+                              components,          &
                               num_dmat,      &
-                              dmat_to_pert,  &
-                              dmat_to_comp,  &
+                              dmat_to_perturbations,  &
+                              dmat_to_components,  &
                               dmat,          &
-                              get_xc_energy, &
-                              xc_energy,     &
-                              get_xc_mat,    &
-                              xc_mat,        &
+                              get_exc, &
+                              exc,     &
+                              get_vxc,    &
+                              vxc,        &
                               num_electrons) &
               bind(c)
 
       integer(c_int), intent(in), value :: mode
-      integer(c_int), intent(in), value :: num_pert
+      integer(c_int), intent(in), value :: num_perturbations
       integer(c_int), intent(in)        :: pert(*)
       integer(c_int), intent(in)        :: comp(*)
       integer(c_int), intent(in), value :: num_dmat
       integer(c_int), intent(in)        :: dmat_to_pert(*)
       integer(c_int), intent(in)        :: dmat_to_comp(*)
       real(c_double), intent(in)        :: dmat(*)
-      integer(c_int), intent(in), value :: get_xc_energy
-      real(c_double), intent(out)       :: xc_energy(*)
-      integer(c_int), intent(in), value :: get_xc_mat
-      real(c_double), intent(out)       :: xc_mat(*)
+      integer(c_int), intent(in), value :: get_exc
+      real(c_double), intent(out)       :: exc(*)
+      integer(c_int), intent(in), value :: get_vxc
+      real(c_double), intent(out)       :: vxc(*)
       real(c_double), intent(out)       :: num_electrons
    end subroutine
 

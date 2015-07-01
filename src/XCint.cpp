@@ -123,10 +123,10 @@ int XCint::set_basis(const int    basis_type,
 
 
 void XCint::integrate_batch(const double dmat[],
-                            const int    get_xc_energy,
-                                  double &xc_energy,
-                            const int    get_xc_mat,
-                                  double xc_mat[],
+                            const int    get_exc,
+                                  double &exc,
+                            const int    get_vxc,
+                                  double vxc[],
                                   double &num_electrons,
                             const int    geo_coor[],
                             const bool   use_dmat[],
@@ -135,7 +135,7 @@ void XCint::integrate_batch(const double dmat[],
                             const int    max_ao_order_g,
                             const int    block_length,
                             const int    num_variables,
-                            const int    num_pert,
+                            const int    num_perturbations,
                             const int    num_fields,
                             const int    mat_dim,
                             const bool   get_gradient,
@@ -190,7 +190,7 @@ void XCint::integrate_batch(const double dmat[],
 //  time_densities += rolex::stop_partial();
 
     // expectation value contribution
-    if (get_xc_energy)
+    if (get_exc)
     {
 
         double *xcin = NULL;
@@ -250,7 +250,7 @@ void XCint::integrate_batch(const double dmat[],
 
 //      time_densities += rolex::stop_partial();
 
-        dens_offset = fun.set_order(num_pert, xcfun);
+        dens_offset = fun.set_order(num_perturbations, xcfun);
 
         size_t block_size = num_variables*dens_offset*block_length*sizeof(double);
         xcin = (double*) MemAllocator::allocate(block_size);
@@ -284,7 +284,7 @@ void XCint::integrate_batch(const double dmat[],
                 sum += xcout[ib*dens_offset + dens_offset - 1]*grid[(ipoint + ib)*4 + 3];
             }
         }
-        xc_energy += sum;
+        exc += sum;
 
 //      time_fun_derv += rolex::stop_partial();
 
@@ -294,7 +294,7 @@ void XCint::integrate_batch(const double dmat[],
 
 
     // matrix contribution
-    if (get_xc_mat)
+    if (get_vxc)
     {
         int k;
 
@@ -328,15 +328,15 @@ void XCint::integrate_batch(const double dmat[],
 
             distribute_matrix(block_length,
                               num_variables,
-                              num_pert,
+                              num_perturbations,
                               mat_dim,
                               prefactors,
                               ipoint,
                               n_is_used,
                               n,
                               u,
-                              xc_mat,
-                              xc_energy,
+                              vxc,
+                              exc,
                               coor,
                               batch,
                               grid);
@@ -373,8 +373,8 @@ void XCint::integrate_batch(const double dmat[],
                                   n_is_used,
                                   n,
                                   u,
-                                  xc_mat,
-                                  xc_energy,
+                                  vxc,
+                                  exc,
                                   coor,
                                   batch,
                                   grid);
@@ -391,8 +391,8 @@ void XCint::integrate_batch(const double dmat[],
                                   n_is_used,
                                   n,
                                   u,
-                                  xc_mat,
-                                  xc_energy,
+                                  vxc,
+                                  exc,
                                   coor,
                                   batch,
                                   grid);
@@ -415,8 +415,8 @@ void XCint::integrate_batch(const double dmat[],
                                   n_is_used,
                                   n,
                                   u,
-                                  xc_mat,
-                                  xc_energy,
+                                  vxc,
+                                  exc,
                                   coor,
                                   batch,
                                   grid);
@@ -449,8 +449,8 @@ void XCint::integrate_batch(const double dmat[],
                                   n_is_used,
                                   n,
                                   u,
-                                  xc_mat,
-                                  xc_energy,
+                                  vxc,
+                                  exc,
                                   coor,
                                   batch,
                                   grid);
@@ -483,8 +483,8 @@ void XCint::integrate_batch(const double dmat[],
                                   n_is_used,
                                   n,
                                   u,
-                                  xc_mat,
-                                  xc_energy,
+                                  vxc,
+                                  exc,
                                   coor,
                                   batch,
                                   grid);
@@ -549,8 +549,8 @@ void XCint::integrate_batch(const double dmat[],
                                   n_is_used,
                                   n,
                                   u,
-                                  xc_mat,
-                                  xc_energy,
+                                  vxc,
+                                  exc,
                                   coor,
                                   batch,
                                   grid);
@@ -588,8 +588,8 @@ void XCint::integrate_batch(const double dmat[],
                                   n_is_used,
                                   n,
                                   u,
-                                  xc_mat,
-                                  xc_energy,
+                                  vxc,
+                                  exc,
                                   coor,
                                   batch,
                                   grid);
@@ -636,8 +636,8 @@ void XCint::integrate_batch(const double dmat[],
                                   n_is_used,
                                   n,
                                   u,
-                                  xc_mat,
-                                  xc_energy,
+                                  vxc,
+                                  exc,
                                   coor,
                                   batch,
                                   grid);
@@ -663,49 +663,49 @@ XCINT_API int xcint_integrate(const xcint_context_t      *context,
                               const xcint_mode_t         mode,
                               const int                  num_points,
                               const double               grid[],
-                              const int                  num_pert,
-                              const xcint_perturbation_t pert[],
-                              const int                  comp[],
+                              const int                  num_perturbations,
+                              const xcint_perturbation_t perturbations[],
+                              const int                  components[],
                               const int                  num_dmat,
-                              const int                  dmat_to_pert[],
-                              const int                  dmat_to_comp[],
+                              const int                  dmat_to_perturbations[],
+                              const int                  dmat_to_components[],
                               const double               dmat[],
-                              const int                  get_xc_energy,
-                                    double               *xc_energy,
-                              const int                  get_xc_mat,
-                                    double               xc_mat[],
+                              const int                  get_exc,
+                                    double               *exc,
+                              const int                  get_vxc,
+                                    double               vxc[],
                                     double               *num_electrons)
 {
     return AS_CTYPE(XCint, context)->integrate(mode,
                                                num_points,
                                                grid,
-                                               num_pert,
-                                               pert,
-                                               comp,
+                                               num_perturbations,
+                                               perturbations,
+                                               components,
                                                num_dmat,
-                                               dmat_to_pert,
-                                               dmat_to_comp,
+                                               dmat_to_perturbations,
+                                               dmat_to_components,
                                                dmat,
-                                               get_xc_energy,
-                                               xc_energy,
-                                               get_xc_mat,
-                                               xc_mat,
+                                               get_exc,
+                                               exc,
+                                               get_vxc,
+                                               vxc,
                                                num_electrons);
 }
 int XCint::integrate(const xcint_mode_t         mode,
                      const int                  num_points,
                      const double               grid[],
-                     const int                  num_pert,
-                     const xcint_perturbation_t pert[],
-                     const int                  comp[],
+                     const int                  num_perturbations,
+                     const xcint_perturbation_t perturbations[],
+                     const int                  components[],
                      const int                  num_dmat,
-                     const int                  dmat_to_pert[],
-                     const int                  dmat_to_comp[],
+                     const int                  dmat_to_perturbations[],
+                     const int                  dmat_to_components[],
                      const double               dmat[],
-                     const int                  get_xc_energy,
-                           double               *xc_energy,
-                     const int                  get_xc_mat,
-                           double               xc_mat[],
+                     const int                  get_exc,
+                           double               *exc,
+                     const int                  get_vxc,
+                           double               vxc[],
                            double               *num_electrons) const
 {
     xcfun = xc_new_functional();
@@ -743,10 +743,10 @@ int XCint::integrate(const xcint_mode_t         mode,
 
     int geo_derv_order = 0;
     int num_fields = 0;
-    for (int i = 0; i < num_pert; i++)
+    for (int i = 0; i < num_perturbations; i++)
     {
-        if (pert[i] == XCINT_PERT_GEO) geo_derv_order++;
-        if (pert[i] == XCINT_PERT_EL)  num_fields++;
+        if (perturbations[i] == XCINT_PERT_GEO) geo_derv_order++;
+        if (perturbations[i] == XCINT_PERT_EL)  num_fields++;
     }
 
     int *geo_coor = NULL;
@@ -754,18 +754,18 @@ int XCint::integrate(const xcint_mode_t         mode,
     {
         block_size = geo_derv_order*sizeof(int);
         geo_coor = (int*) MemAllocator::allocate(block_size);
-        for (int i = 0; i < num_pert; i++)
+        for (int i = 0; i < num_perturbations; i++)
         {
-            if (pert[i] == XCINT_PERT_GEO) geo_coor[i] = comp[2*i]; // FIXME
+            if (perturbations[i] == XCINT_PERT_GEO) geo_coor[i] = components[2*i]; // FIXME
         }
     }
 
     assert(mode == XCINT_MODE_RKS);
 
-    *xc_energy = 0.0;
+    *exc = 0.0;
     *num_electrons = 0.0;
 
-    if (get_xc_mat) std::fill(&xc_mat[0], &xc_mat[mat_dim*mat_dim], 0.0);
+    if (get_vxc) std::fill(&vxc[0], &vxc[mat_dim*mat_dim], 0.0);
 
     bool get_gradient;
     bool get_tau;
@@ -820,11 +820,11 @@ int XCint::integrate(const xcint_mode_t         mode,
 
     for (int k = 0; k < num_dmat; k++)
     {
-        use_dmat[dmat_to_pert[k]] = true;
-        dmat_index[dmat_to_pert[k]] = k*mat_dim*mat_dim;
+        use_dmat[dmat_to_perturbations[k]] = true;
+        dmat_index[dmat_to_perturbations[k]] = k*mat_dim*mat_dim;
     }
 
-    assert(num_pert < 7);
+    assert(num_perturbations < 7);
 
     int block_length;
 
@@ -836,34 +836,34 @@ int XCint::integrate(const xcint_mode_t         mode,
         if (omp_get_thread_num() == 0) num_threads = omp_get_num_threads();
     }
 
-    double *xc_energy_buffer = NULL;
-    if (get_xc_energy) xc_energy_buffer = (double*) MemAllocator::allocate(num_threads*sizeof(double));
+    double *exc_buffer = NULL;
+    if (get_exc) exc_buffer = (double*) MemAllocator::allocate(num_threads*sizeof(double));
 
     double *num_electrons_buffer = (double*) MemAllocator::allocate(num_threads*sizeof(double));
 
-    double *xc_mat_buffer = NULL;
-    if (get_xc_mat)
+    double *vxc_buffer = NULL;
+    if (get_vxc)
     {
-        xc_mat_buffer = (double*) MemAllocator::allocate(num_threads*mat_dim*mat_dim*sizeof(double));
-        std::fill(&xc_mat_buffer[0], &xc_mat_buffer[num_threads*mat_dim*mat_dim], 0.0);
+        vxc_buffer = (double*) MemAllocator::allocate(num_threads*mat_dim*mat_dim*sizeof(double));
+        std::fill(&vxc_buffer[0], &vxc_buffer[num_threads*mat_dim*mat_dim], 0.0);
     }
 
     #pragma omp parallel
     {
         int ithread = omp_get_thread_num();
 
-        double xc_energy_local = 0.0;
+        double exc_local = 0.0;
         double num_electrons_local = 0.0;
 
-        double *xc_mat_local = NULL;
-        if (get_xc_mat) xc_mat_local = &xc_mat_buffer[ithread*mat_dim*mat_dim];
+        double *vxc_local = NULL;
+        if (get_vxc) vxc_local = &vxc_buffer[ithread*mat_dim*mat_dim];
 
         #pragma omp for schedule(dynamic)
 #else
-        double xc_energy_local = *xc_energy;
+        double exc_local = *exc;
         double num_electrons_local = *num_electrons;
-        double *xc_mat_local = NULL;
-        if (get_xc_mat) xc_mat_local = &xc_mat[0];
+        double *vxc_local = NULL;
+        if (get_vxc) vxc_local = &vxc[0];
 #endif
         for (int ibatch = 0; ibatch < num_points/AO_BLOCK_LENGTH; ibatch++)
         {
@@ -872,10 +872,10 @@ int XCint::integrate(const xcint_mode_t         mode,
             block_length = AO_BLOCK_LENGTH;
 
             integrate_batch(dmat,
-                            get_xc_energy,
-                            xc_energy_local,
-                            get_xc_mat,
-                            xc_mat_local,
+                            get_exc,
+                            exc_local,
+                            get_vxc,
+                            vxc_local,
                             num_electrons_local,
                             geo_coor,
                             use_dmat,
@@ -884,7 +884,7 @@ int XCint::integrate(const xcint_mode_t         mode,
                             max_ao_order_g,
                             block_length,
                             num_variables,
-                            num_pert,
+                            num_perturbations,
                             num_fields,
                             mat_dim,
                             get_gradient,
@@ -894,29 +894,29 @@ int XCint::integrate(const xcint_mode_t         mode,
         }
 
 #ifdef ENABLE_OMP
-        if (get_xc_energy) xc_energy_buffer[ithread] = xc_energy_local;
+        if (get_exc) exc_buffer[ithread] = exc_local;
         num_electrons_buffer[ithread] = num_electrons_local;
     }
 
     for (size_t ithread = 0; ithread < num_threads; ithread++)
     {
         num_electrons += num_electrons_buffer[ithread];
-        if (get_xc_energy) xc_energy += xc_energy_buffer[ithread];
-        if (get_xc_mat)
+        if (get_exc) exc += exc_buffer[ithread];
+        if (get_vxc)
         {
             // FIXME consider using blas daxpy for this
             for (int i = 0; i < mat_dim*mat_dim; i++)
             {
-                xc_mat[i] += xc_mat_buffer[ithread*mat_dim*mat_dim + i];
+                vxc[i] += vxc_buffer[ithread*mat_dim*mat_dim + i];
             }
         }
     }
 
     MemAllocator::deallocate(num_electrons_buffer);
-    MemAllocator::deallocate(xc_energy_buffer);
-    MemAllocator::deallocate(xc_mat_buffer);
+    MemAllocator::deallocate(exc_buffer);
+    MemAllocator::deallocate(vxc_buffer);
 #else
-    *xc_energy = xc_energy_local;
+    *exc = exc_local;
     *num_electrons = num_electrons_local;
 #endif
 
@@ -924,7 +924,7 @@ int XCint::integrate(const xcint_mode_t         mode,
     MemAllocator::deallocate(dmat_index);
     MemAllocator::deallocate(geo_coor);
 
-    if (get_xc_mat)
+    if (get_vxc)
     {
         // symmetrize result matrix
         if (rank == 0)
@@ -933,9 +933,9 @@ int XCint::integrate(const xcint_mode_t         mode,
             {
                 for (int l = 0; l < k; l++)
                 {
-                    a = xc_mat[k*mat_dim + l] + xc_mat[l*mat_dim + k];
-                    xc_mat[k*mat_dim + l] = 0.5*a;
-                    xc_mat[l*mat_dim + k] = 0.5*a;
+                    a = vxc[k*mat_dim + l] + vxc[l*mat_dim + k];
+                    vxc[k*mat_dim + l] = 0.5*a;
+                    vxc[l*mat_dim + k] = 0.5*a;
                 }
             }
         }
@@ -949,15 +949,15 @@ int XCint::integrate(const xcint_mode_t         mode,
 
 void XCint::distribute_matrix(const int              block_length,
                               const int              num_variables,
-                              const int              num_pert,
+                              const int              num_perturbations,
                               const int              mat_dim,
                               const double           prefactors[],
                               const int              w_off,
                               const bool             n_is_used[],
                               const double           n[],
                                     double           u[],
-                                    double           xc_mat[],
-                                    double           &xc_energy,
+                                    double           vxc[],
+                                    double           &exc,
                               const std::vector<int> coor,
                                     AOBatch     &batch,
                               const double           grid[]) const
@@ -970,7 +970,7 @@ void XCint::distribute_matrix(const int              block_length,
     double *xcout = NULL;
     size_t block_size;
 
-    dens_offset = fun.set_order(num_pert + 1, xcfun);
+    dens_offset = fun.set_order(num_perturbations + 1, xcfun);
 
     block_size = num_variables*dens_offset*block_length*sizeof(double);
     xcin = (double*) MemAllocator::allocate(block_size);
@@ -999,7 +999,7 @@ void XCint::distribute_matrix(const int              block_length,
     {
         for (int jvar = 0; jvar < num_variables; jvar++)
         {
-            off = jvar*dens_offset + (int)pow(2, num_pert);
+            off = jvar*dens_offset + (int)pow(2, num_perturbations);
             if (ivar == jvar)
             {
                 for (int ib = 0; ib < block_length; ib++)
@@ -1058,7 +1058,7 @@ void XCint::distribute_matrix(const int              block_length,
                                        distribute_tau,
                                        prefactors,
                                        u,
-                                       xc_mat);
+                                       vxc);
     }
     else
     {
@@ -1068,12 +1068,12 @@ void XCint::distribute_matrix(const int              block_length,
                                distribute_tau,
                                coor,
                                u,
-                               xc_mat);
+                               vxc);
     }
 
     for (int ib = 0; ib < block_length; ib++)
     {
-        xc_energy += xcout[ib*dens_offset]*grid[(w_off + ib)*4 + 3];
+        exc += xcout[ib*dens_offset]*grid[(w_off + ib)*4 + 3];
     }
 
     MemAllocator::deallocate(xcin);

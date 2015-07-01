@@ -215,23 +215,15 @@ TEST(xcint, energy)
 
     double exc = 0.0;
     double num_electrons = 0.0;
-    int perturbation_indices[1] = {0};
 
-    ierr = xcint_integrate(xcint_context,
-                           XCINT_MODE_RKS,
-                           num_points,
-                           grid,
-                           0,
-                           0,
-                           0,
-                           1,
-                           perturbation_indices,
-                           dmat,
-                           true,
-                           &exc,
-                           true,
-                           vxc,
-                           &num_electrons);
+    ierr = xcint_integrate_scf(xcint_context,
+                               XCINT_MODE_RKS,
+                               num_points,
+                               grid,
+                               dmat,
+                               &exc,
+                               vxc,
+                               &num_electrons);
 
     ASSERT_NEAR(num_electrons, 9.999992074832, 1.0e-11);
     ASSERT_NEAR(exc, -20.421064966255539, 1.0e-11);
@@ -245,21 +237,14 @@ TEST(xcint, energy)
 
     ierr = xcint_set_functional(xcint_context, "b3lyp");
 
-    ierr = xcint_integrate(xcint_context,
-                           XCINT_MODE_RKS,
-                           num_points,
-                           grid,
-                           0,
-                           0,
-                           0,
-                           1,
-                           perturbation_indices,
-                           dmat,
-                           true,
-                           &exc,
-                           true,
-                           vxc,
-                           &num_electrons);
+    ierr = xcint_integrate_scf(xcint_context,
+                               XCINT_MODE_RKS,
+                               num_points,
+                               grid,
+                               dmat,
+                               &exc,
+                               vxc,
+                               &num_electrons);
 
     ASSERT_NEAR(num_electrons, 9.999992074832, 1.0e-11);
     ASSERT_NEAR(exc, -17.475254754458547, 1.0e-11);

@@ -161,27 +161,18 @@ def test_energy():
 
     ierr = xcint.lib.xcint_set_functional(xcint_context, "lda")
 
-    perturbation_indices = [0]
-
     exc = xcint.ffi.new("double *")
     num_electrons = xcint.ffi.new("double *")
     vxc = xcint.ffi.new("double[]", mat_dim * mat_dim)
 
-    ierr = xcint.lib.xcint_integrate(xcint_context,
-                                     xcint.lib.XCINT_MODE_RKS,
-                                     num_points,
-                                     grid,
-                                     0,
-                                     [0],
-                                     [0],
-                                     1,
-                                     perturbation_indices,
-                                     dmat,
-                                     True,
-                                     exc,
-                                     True,
-                                     vxc,
-                                     num_electrons)
+    ierr = xcint.lib.xcint_integrate_scf(xcint_context,
+                                         xcint.lib.XCINT_MODE_RKS,
+                                         num_points,
+                                         grid,
+                                         dmat,
+                                         exc,
+                                         vxc,
+                                         num_electrons)
 
     assert abs(num_electrons[0] - 9.999992074832) < 1.0e-11
     assert abs(exc[0] - -20.421064966255539) < 1.0e-11

@@ -64,6 +64,17 @@ typedef enum
     XCINT_PERT_MAG_LAO
 } xcint_perturbation_t;
 
+/* convenience shortcut function for SCF contributions */
+XCINT_API int xcint_integrate_scf(const xcint_context_t *context,
+                                  const xcint_mode_t    mode,
+                                  const int             num_points,
+                                  const double          grid[],
+                                  const double          dmat[],
+                                        double          *exc,
+                                        double          vxc[],
+                                        double          *num_electrons);
+
+/* general swiss army knife function */
 XCINT_API int xcint_integrate(const xcint_context_t      *context,
                               const xcint_mode_t         mode,
                               const int                  num_points,

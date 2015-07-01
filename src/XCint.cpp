@@ -659,6 +659,39 @@ void XCint::integrate_batch(const double dmat[],
 }
 
 
+XCINT_API int xcint_integrate_scf(const xcint_context_t *context,
+                                  const xcint_mode_t    mode,
+                                  const int             num_points,
+                                  const double          grid[],
+                                  const double          dmat[],
+                                        double          *exc,
+                                        double          vxc[],
+                                        double          *num_electrons)
+{
+    int num_perturbations = 0;
+    xcint_perturbation_t *perturbations = NULL;
+    int *components = NULL;
+    int num_dmat = 1;
+    int *perturbation_indices = NULL;
+    bool get_exc = true;
+    bool get_vxc = true;
+    return AS_CTYPE(XCint, context)->integrate(mode,
+                                               num_points,
+                                               grid,
+                                               num_perturbations,
+                                               perturbations,
+                                               components,
+                                               num_dmat,
+                                               perturbation_indices,
+                                               dmat,
+                                               get_exc,
+                                               exc,
+                                               get_vxc,
+                                               vxc,
+                                               num_electrons);
+}
+
+
 XCINT_API int xcint_integrate(const xcint_context_t      *context,
                               const xcint_mode_t         mode,
                               const int                  num_points,
@@ -815,7 +848,9 @@ int XCint::integrate(const xcint_mode_t         mode,
 
     assert(num_dmat <= MAX_NUM_DENSITIES);
 
-    for (int k = 0; k < num_dmat; k++)
+    use_dmat[0] = true;
+    dmat_index[0] = 0;
+    for (int k = 1; k < num_dmat; k++)
     {
         use_dmat[perturbation_indices[k]] = true;
         dmat_index[perturbation_indices[k]] = k*mat_dim*mat_dim;

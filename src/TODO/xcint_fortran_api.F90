@@ -106,7 +106,6 @@ contains
                               components,          &
                               num_dmat,      &
                               dmat_to_perturbations,  &
-                              dmat_to_components,  &
                               dmat,          &
                               get_exc, &
                               exc,     &

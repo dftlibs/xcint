@@ -162,7 +162,6 @@ def test_energy():
     ierr = xcint.lib.xcint_set_functional(xcint_context, "lda")
 
     dmat_to_perturbations = [0]
-    dmat_to_components = [0]
 
     exc = xcint.ffi.new("double *")
     num_electrons = xcint.ffi.new("double *")
@@ -177,7 +176,6 @@ def test_energy():
                                      [0],
                                      1,
                                      dmat_to_perturbations,
-                                     dmat_to_components,
                                      dmat,
                                      True,
                                      exc,

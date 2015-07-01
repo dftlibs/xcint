@@ -35,7 +35,6 @@ class XCint
                       const int                  components[],
                       const int                  num_dmat,
                       const int                  dmat_to_perturbations[],
-                      const int                  dmat_to_components[],
                       const double               dmat[],
                       const int                  get_exc,
                             double               *exc,

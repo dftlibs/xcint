@@ -215,8 +215,7 @@ TEST(xcint, energy)
 
     double exc = 0.0;
     double num_electrons = 0.0;
-    int dmat_to_perturbations[1]  = {0};
-    int dmat_to_components[1]  = {0};
+    int dmat_to_perturbations[1] = {0};
 
     ierr = xcint_integrate(xcint_context,
                            XCINT_MODE_RKS,
@@ -227,7 +226,6 @@ TEST(xcint, energy)
                            0,
                            1,
                            dmat_to_perturbations,
-                           dmat_to_components,
                            dmat,
                            true,
                            &exc,
@@ -256,7 +254,6 @@ TEST(xcint, energy)
                            0,
                            1,
                            dmat_to_perturbations,
-                           dmat_to_components,
                            dmat,
                            true,
                            &exc,

@@ -83,7 +83,7 @@ add_library(
     xcint
     src/rolex.cpp
     src/Functional.cpp
-    src/XCint.cpp
+    src/integrator.cpp
     src/MemAllocator.cpp
     src/density/ao_vector.cpp
     src/density/Basis.cpp

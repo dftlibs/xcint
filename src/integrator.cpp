@@ -10,7 +10,7 @@
 #include <algorithm>
 
 #include "rolex.h"
-#include "XCint.h"
+#include "integrator.h"
 #include "AOBatch.h"
 #include "MemAllocator.h"
 

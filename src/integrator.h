@@ -1,5 +1,5 @@
-#ifndef XCint_h_
-#define XCint_h_
+#ifndef INTEGRATOR_H_INCLUDED
+#define INTEGRATOR_H_INCLUDED
 
 #include "Basis.h"
 #include "AOBatch.h"
@@ -97,4 +97,4 @@ class XCint
         void reset_time();
 };
 
-#endif // XCint_h_
+#endif // INTEGRATOR_H_INCLUDED

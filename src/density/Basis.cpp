@@ -27,29 +27,29 @@ Basis::~Basis()
 
 void Basis::nullify()
 {
-    num_centers                  = -1;
-    num_shells                   = -1;
-    shell_l_quantum_numbers                = NULL;
-    center_coordinates                   = NULL;
-    center_elements               = NULL;
-    shell_centers                 = NULL;
-    shell_centers_coordinates             = NULL;
-    shell_extent_squared         = NULL;
-    cartesian_deg                = NULL;
-    shell_off                    = NULL;
-    spherical_deg                = NULL;
-    is_spherical                 = false;
-    num_ao                       = -1;
-    num_ao_cartesian             = -1;
-    num_ao_spherical             = -1;
-    num_ao_slices                = -1;
-    ao_center                    = NULL;
-    shell_num_primitives     = NULL;
-    geo_diff_order               = -1;
-    geo_off                      = NULL;
-    primitive_exponents                = NULL;
-    contraction_coefficients             = NULL;
-    is_initialized               = 0;
+    num_centers               = -1;
+    num_shells                = -1;
+    shell_l_quantum_numbers   = NULL;
+    center_coordinates        = NULL;
+    center_elements           = NULL;
+    shell_centers             = NULL;
+    shell_centers_coordinates = NULL;
+    shell_extent_squared      = NULL;
+    cartesian_deg             = NULL;
+    shell_off                 = NULL;
+    spherical_deg             = NULL;
+    is_spherical              = false;
+    num_ao                    = -1;
+    num_ao_cartesian          = -1;
+    num_ao_spherical          = -1;
+    num_ao_slices             = -1;
+    ao_center                 = NULL;
+    shell_num_primitives      = NULL;
+    geo_diff_order            = -1;
+    geo_off                   = NULL;
+    primitive_exponents       = NULL;
+    contraction_coefficients  = NULL;
+    is_initialized            = 0;
 }
 
 

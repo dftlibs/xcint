@@ -28,7 +28,6 @@ class Basis
         int  get_geo_off(const int i,
                          const int j,
                          const int k) const;
-        void report();
         void set_geo_off(const int geo_diff_order);
 
         int     num_centers; // FIXME
@@ -46,6 +45,7 @@ class Basis
         Basis &operator=(const Basis &rhs); // not implemented
 
         void    nullify();
+        void    deallocate();
 
         double *shell_centers_coordinates;
         double *shell_extent_squared;
@@ -61,8 +61,7 @@ class Basis
         int     geo_diff_order;
         int    *geo_off;
         double *contraction_coefficients;
-        bool    is_initialized;
-        bool    is_synced;
+        int     is_initialized;
 };
 
 #endif // Basis_h_

@@ -20,21 +20,7 @@ Basis::Basis()
 
 Basis::~Basis()
 {
-    MemAllocator::deallocate(shell_l_quantum_numbers);
-    MemAllocator::deallocate(center_coordinates);
-    MemAllocator::deallocate(center_elements);
-    MemAllocator::deallocate(shell_centers);
-    MemAllocator::deallocate(shell_centers_coordinates);
-    MemAllocator::deallocate(shell_extent_squared);
-    MemAllocator::deallocate(cartesian_deg);
-    MemAllocator::deallocate(shell_off);
-    MemAllocator::deallocate(spherical_deg);
-    MemAllocator::deallocate(ao_center);
-    MemAllocator::deallocate(shell_num_primitives);
-    MemAllocator::deallocate(geo_off);
-    MemAllocator::deallocate(primitive_exponents);
-    MemAllocator::deallocate(contraction_coefficients);
-
+    deallocate();
     nullify();
 }
 
@@ -63,8 +49,26 @@ void Basis::nullify()
     geo_off                      = NULL;
     primitive_exponents                = NULL;
     contraction_coefficients             = NULL;
-    is_initialized               = false;
-    is_synced                    = false;
+    is_initialized               = 0;
+}
+
+
+void Basis::deallocate()
+{
+    MemAllocator::deallocate(shell_l_quantum_numbers);
+    MemAllocator::deallocate(center_coordinates);
+    MemAllocator::deallocate(center_elements);
+    MemAllocator::deallocate(shell_centers);
+    MemAllocator::deallocate(shell_centers_coordinates);
+    MemAllocator::deallocate(shell_extent_squared);
+    MemAllocator::deallocate(cartesian_deg);
+    MemAllocator::deallocate(shell_off);
+    MemAllocator::deallocate(spherical_deg);
+    MemAllocator::deallocate(ao_center);
+    MemAllocator::deallocate(shell_num_primitives);
+    MemAllocator::deallocate(geo_off);
+    MemAllocator::deallocate(primitive_exponents);
+    MemAllocator::deallocate(contraction_coefficients);
 }
 
 
@@ -82,7 +86,9 @@ void Basis::init(const int    in_basis_type,
     int i, l, deg, kc, ks;
     size_t block_size;
 
-    if (is_initialized) return;
+    // FIXME ugly hack to make basis set initialization idempotent
+    if (is_initialized == 12345678) deallocate();
+    nullify();
 
     num_centers = in_num_centers;
 
@@ -248,7 +254,7 @@ void Basis::init(const int    in_basis_type,
 
     set_geo_off(MAX_GEO_DIFF_ORDER); // FIXME
 
-    is_initialized = true;
+    is_initialized = 12345678;
 }
 
 
@@ -261,7 +267,6 @@ void Basis::set_geo_off(const int g)
 
     size_t block_size = array_length*sizeof(int);
 
-    if (geo_off != NULL) MemAllocator::deallocate(geo_off);
     geo_off = (int*) MemAllocator::allocate(block_size);
 
     m = 0;

@@ -165,6 +165,19 @@ TEST(xcint, energy)
 
     xcint_context_t *xcint_context = xcint_new();
 
+    // we do this twice to test idempotent xcint_set_basis
+    ierr = xcint_set_basis(xcint_context,
+                           XCINT_BASIS_SPHERICAL,
+                           num_centers,
+                           center_coordinates,
+                           center_elements,
+                           num_shells - 1, // wrong on purpose
+                           shell_centers,
+                           shell_l_quantum_numbers,
+                           shell_num_primitives,
+                           primitive_exponents,
+                           contraction_coefficients);
+
     ierr = xcint_set_basis(xcint_context,
                            XCINT_BASIS_SPHERICAL,
                            num_centers,

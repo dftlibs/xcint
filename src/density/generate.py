@@ -114,6 +114,7 @@ def write_routine(_maxg, file_name):
 
     s = '''void get_ao_g%i(const int    shell_l_quantum_numbers,
                const int    num_primitives,
+               const bool   is_spherical,
                const double primitive_exponents[],
                const double contraction_coefficients[],
                      double s[],
@@ -211,22 +212,44 @@ def write_routine(_maxg, file_name):
     for l in range(0, MAX_L_VALUE+1):
         sfoo += '\n        if (shell_l_quantum_numbers == ' + '%i)\n' % l
         sfoo += '        {\n'
-        c = 0
-        for exp in get_ijk_list(l):
-            for s in range(len(cs[l][c])):
-                f = cs[l][c][s]
-                if abs(f) > 0.0:
-                    for g in range(0, _maxg+1):
-                        for geo in get_ijk_list(g):
-                            s_geo = '%i%i%i' % (geo[0], geo[1], geo[2])
-                            if l < 2:
+        if l < 2:
+            c = 0
+            for exp in get_ijk_list(l):
+                for s in range(len(cs[l][c])):
+                    f = cs[l][c][s]
+                    if abs(f) > 0.0:
+                        for g in range(0, _maxg+1):
+                            for geo in get_ijk_list(g):
+                                s_geo = '%i%i%i' % (geo[0], geo[1], geo[2])
                                 sfoo += '            memcpy(&%s[%i*%i + koff], &buffer[OFFSET_%02d_%02d_%02d_%s], %i*sizeof(double));\n' % (get_ao_pointer_prefix(geo), s, AO_BLOCK_LENGTH, exp[0], exp[1], exp[2], s_geo, AO_CHUNK_LENGTH)
-                            else:
-                                sfoo += '            vec_daxpy(%20.16e, &buffer[OFFSET_%02d_%02d_%02d_%s], &%s[%i*%i + koff]);\n' % (f,
-                                                                                                                             exp[0], exp[1], exp[2], s_geo,
-                                                                                                                             get_ao_pointer_prefix(geo),
-                                                                                                                             s, AO_BLOCK_LENGTH)
-            c += 1
+                c += 1
+        else:
+            sfoo += '            if (is_spherical)\n'
+            sfoo += '            {\n'
+            c = 0
+            for exp in get_ijk_list(l):
+                for s in range(len(cs[l][c])):
+                    f = cs[l][c][s]
+                    if abs(f) > 0.0:
+                        for g in range(0, _maxg+1):
+                            for geo in get_ijk_list(g):
+                                s_geo = '%i%i%i' % (geo[0], geo[1], geo[2])
+                                sfoo += '                vec_daxpy(%20.16e, &buffer[OFFSET_%02d_%02d_%02d_%s], &%s[%i*%i + koff]);\n' % (f,
+                                                                                                                                 exp[0], exp[1], exp[2], s_geo,
+                                                                                                                                 get_ao_pointer_prefix(geo),
+                                                                                                                                 s, AO_BLOCK_LENGTH)
+                c += 1
+            sfoo += '            }\n'
+            sfoo += '            else\n'
+            sfoo += '            {\n'
+            s = 0
+            for exp in get_ijk_list(l):
+                for g in range(0, _maxg+1):
+                    for geo in get_ijk_list(g):
+                        s_geo = '%i%i%i' % (geo[0], geo[1], geo[2])
+                        sfoo += '                memcpy(&%s[%i*%i + koff], &buffer[OFFSET_%02d_%02d_%02d_%s], %i*sizeof(double));\n' % (get_ao_pointer_prefix(geo), s, AO_BLOCK_LENGTH, exp[0], exp[1], exp[2], s_geo, AO_CHUNK_LENGTH)
+                s += 1
+            sfoo += '            }\n'
         sfoo += '            continue;\n'
         sfoo += '        }\n'
         sfoo += '        else\n'
@@ -262,6 +285,7 @@ def write_aocalls(file_name):
 
     s1 = '''              basis.shell_l_quantum_numbers[ishell],
               basis.shell_num_primitives[ishell],
+              basis.is_spherical,
               &basis.primitive_exponents[n],
               &basis.contraction_coefficients[n],
               s,
@@ -310,6 +334,7 @@ def write_header(file_name):
     for g in range(0, MAX_GEO_DIFF_ORDER+1):
         f.write('    void get_ao_g%i(const int    shell_l_quantum_numbers,\n' % g)
         f.write('                   const int    num_primitives,\n')
+        f.write('                   const bool   is_spherical,\n')
         f.write('                   const double primitive_exponents[],\n')
         f.write('                   const double contraction_coefficients[],\n')
         f.write('                         double s[],\n')

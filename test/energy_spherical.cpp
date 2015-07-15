@@ -5,7 +5,7 @@
 #include "xcint.h"
 #include "numgrid.h"
 
-TEST(xcint, energy)
+TEST(xcint, energy_spherical)
 {
     int ierr;
     double dot;

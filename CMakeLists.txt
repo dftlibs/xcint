@@ -12,9 +12,9 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Debug")
 endif()
 
-# directory which holds enabled cmake modules
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
-    ${PROJECT_SOURCE_DIR}/cmake/modules)
+# directories which hold enabled cmake modules
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake/downloaded)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake/custom)
 
 # included cmake modules
 include(autocmake_cxx)
@@ -26,8 +26,8 @@ include(autocmake_math_libs)
 include(autocmake_safeguards)
 include(autocmake_default_build_paths)
 include(autocmake_python)
-include(autocmake_ConfigExternal)
-include(autocmake_api)
-include(autocmake_custom)
-include(autocmake_gtest)
-include(autocmake_test)
+include(ConfigExternal)
+include(api)
+include(custom)
+include(gtest)
+include(test)

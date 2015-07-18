@@ -13,8 +13,8 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 # directories which hold enabled cmake modules
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake/custom)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake/downloaded)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake/custom)
 
 # included cmake modules
 include(autocmake_cxx)
@@ -27,7 +27,6 @@ include(autocmake_safeguards)
 include(autocmake_default_build_paths)
 include(autocmake_python)
 include(autocmake_googletest)
-include(ConfigExternal)
 include(api)
 include(custom)
 include(test)

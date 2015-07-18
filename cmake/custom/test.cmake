@@ -11,9 +11,9 @@ add_executable(
 # workaround:
 # different dynamic lib suffix on mac
 if(APPLE)
-    set(_numgrid_lib ${PROJECT_BINARY_DIR}/external/numgrid-build/lib/libnumgrid.dylib)
+    set(_dyn_lib_suffix dylib)
 else()
-    set(_numgrid_lib ${PROJECT_BINARY_DIR}/external/numgrid-build/lib/libnumgrid.so)
+    set(_dyn_lib_suffix so)
 endif()
 
 target_link_libraries(
@@ -22,6 +22,7 @@ target_link_libraries(
     xcint
     ${PROJECT_BINARY_DIR}/external/xcfun-build/libxcfun.a
     ${_numgrid_lib}
+    ${PROJECT_BINARY_DIR}/external/numgrid-build/lib/libnumgrid.${_dyn_lib_suffix}
     ${MATH_LIBS}
     pthread
     )

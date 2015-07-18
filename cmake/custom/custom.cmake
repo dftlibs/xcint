@@ -1,14 +1,6 @@
 include(ExternalProject)
 
 
-# FIXME
-option(ENABLE_FORTRAN_INTERFACE "Build Fortran interface" OFF)
-if(ENABLE_FORTRAN_INTERFACE)
-    enable_language(C CXX Fortran)
-else()
-    enable_language(C CXX)
-endif()
-
 # XCFun code
 set(ExternalProjectCMakeArgs
     -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}

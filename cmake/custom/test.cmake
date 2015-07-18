@@ -18,7 +18,7 @@ endif()
 
 target_link_libraries(
     unit_tests
-    gtest
+    googletest
     xcint
     ${PROJECT_BINARY_DIR}/external/xcfun-build/libxcfun.a
     ${_numgrid_lib}

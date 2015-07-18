@@ -49,6 +49,7 @@ def gen_cmake_command(options, arguments):
     command.append('-DMATH_LIB_SEARCH_ORDER="MKL;ESSL;ATLAS;ACML;SYSTEM_NATIVE"')
     command.append('-DBLAS_LANG=Fortran')
     command.append('-DLAPACK_LANG=Fortran')
+    command.append('-DGOOGLETEST_ROOT=external/googletest')
     command.append('-DCMAKE_BUILD_TYPE=%s' % arguments['--type'])
     command.append('-G "%s"' % arguments['--generator'])
 

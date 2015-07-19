@@ -286,8 +286,8 @@ void AOBatch::distribute_matrix(const int    mat_dim,
 
     // we compute F(k, l) += W(k, b) AO_l(l, b)^T
     // we transpose W instead of AO_l because we call fortran blas
-    char ta = 'T';
-    char tb = 'N';
+    char ta = 't';
+    char tb = 'n';
     int im = k_aoc_num;
     int in = l_aoc_num;
     int ik = AO_BLOCK_LENGTH;

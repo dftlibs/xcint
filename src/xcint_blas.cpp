@@ -1,6 +1,11 @@
+#ifdef ENABLE_CBLAS
+#include "cblas.h"
+#endif
+
 #include "xcint_blas.h"
 
 
+#ifndef ENABLE_CBLAS
 extern "C" {
     extern void dgemm_(char         *ta,
                        char         *tb,
@@ -28,6 +33,7 @@ extern "C" {
                        double       *c,
                        int          *ldc);
 };
+#endif
 
 
 void xcint_dgemm(char         *ta,
@@ -44,6 +50,24 @@ void xcint_dgemm(char         *ta,
                  double       *c,
                  int          *ldc)
 {
+#ifdef ENABLE_CBLAS
+    CBLAS_TRANSPOSE cta = (*ta == 't') ? CblasNoTrans : CblasTrans;
+    CBLAS_TRANSPOSE ctb = (*tb == 't') ? CblasNoTrans : CblasTrans;
+    cblas_dgemm(CblasRowMajor,
+                cta,
+                ctb,
+                *m,
+                *n,
+                *k,
+                *alpha,
+                a,
+                *lda,
+                b,
+                *ldb,
+                *beta,
+                c,
+                *ldc);
+#else
     dgemm_(ta,
            tb,
            m,
@@ -57,6 +81,7 @@ void xcint_dgemm(char         *ta,
            beta,
            c,
            ldc);
+#endif
 }
 
 
@@ -73,6 +98,23 @@ void xcint_dsymm(char         *si,
                  double       *c,
                  int          *ldc)
 {
+#ifdef ENABLE_CBLAS
+    CBLAS_SIDE cs = (*si == 'r') ? CblasLeft : CblasRight;
+    CBLAS_UPLO cu = (*up == 'u') ? CblasLower : CblasUpper;
+    cblas_dsymm(CblasRowMajor,
+                cs,
+                cu,
+                *n,
+                *m,
+                *alpha,
+                a,
+                *lda,
+                b,
+                *ldb,
+                *beta,
+                c,
+                *ldc);
+#else
     dsymm_(si,
            up,
            m,
@@ -85,4 +127,5 @@ void xcint_dsymm(char         *si,
            beta,
            c,
            ldc);
+#endif
 }

@@ -5,6 +5,7 @@ set(numgrid_args
     -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
     -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
     -DCMAKE_INSTALL_PREFIX=${PROJECT_BINARY_DIR}/external
+    -DENABLE_FC_SUPPORT=OFF
     )
 
 ExternalProject_Add(numgrid

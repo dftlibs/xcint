@@ -8,6 +8,7 @@ include_directories(
 add_library(
     xcint
     src/rolex.cpp
+    src/xcint_blas.cpp
     src/Functional.cpp
     src/integrator.cpp
     src/MemAllocator.cpp

@@ -1,11 +1,11 @@
-#ifdef ENABLE_CBLAS
-#include "cblas.h"
+#ifdef HAVE_MKL_BLAS
+#include "mkl.h"
 #endif
 
 #include "xcint_blas.h"
 
 
-#ifndef ENABLE_CBLAS
+#ifndef HAVE_MKL_BLAS
 extern "C" {
     extern void dgemm_(char         *ta,
                        char         *tb,
@@ -50,7 +50,7 @@ void xcint_dgemm(char         *ta,
                  double       *c,
                  int          *ldc)
 {
-#ifdef ENABLE_CBLAS
+#ifdef HAVE_MKL_BLAS
     CBLAS_TRANSPOSE cta = (*ta == 't') ? CblasNoTrans : CblasTrans;
     CBLAS_TRANSPOSE ctb = (*tb == 't') ? CblasNoTrans : CblasTrans;
     cblas_dgemm(CblasRowMajor,
@@ -98,7 +98,7 @@ void xcint_dsymm(char         *si,
                  double       *c,
                  int          *ldc)
 {
-#ifdef ENABLE_CBLAS
+#ifdef HAVE_MKL_BLAS
     CBLAS_SIDE cs = (*si == 'r') ? CblasLeft : CblasRight;
     CBLAS_UPLO cu = (*up == 'u') ? CblasLower : CblasUpper;
     cblas_dsymm(CblasRowMajor,

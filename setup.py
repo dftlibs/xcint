@@ -22,7 +22,6 @@ Options:
   --extra-cxx-flags=<EXTRA_CXXFLAGS>  Extra C++ compiler flags [default: ''].
   --coverage                          Enable code coverage [default: False].
   --omp                               Enable OpenMP parallelization [default: False].
-  --cblas=<CBLAS>                     Enable CBLAS interface instead of the regular Fortran BLAS (ON/OFF) [default: OFF].
   --blas=<BLAS>                       Detect and link BLAS library (auto or off) [default: auto].
   --lapack=<LAPACK>                   Detect and link LAPACK library (auto or off) [default: auto].
   --mkl=<MKL>                         Pass MKL flag to the Intel compiler and linker and skip BLAS/LAPACK detection (sequential, parallel, cluster, or off) [default: off].
@@ -44,7 +43,6 @@ def gen_cmake_command(options, arguments):
     command.append('-DEXTRA_CXXFLAGS="%s"' % arguments['--extra-cxx-flags'])
     command.append('-DENABLE_CODE_COVERAGE=%s' % arguments['--coverage'])
     command.append('-DENABLE_OPENMP=%s' % arguments['--omp'])
-    command.append('-DENABLE_CBLAS="%s"' % arguments['--cblas'])
     command.append('-DENABLE_BLAS=%s' % arguments['--blas'])
     command.append('-DENABLE_LAPACK=%s' % arguments['--lapack'])
     command.append('-DMKL_FLAG=%s' % arguments['--mkl'])

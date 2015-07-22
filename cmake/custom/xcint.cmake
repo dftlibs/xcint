@@ -31,14 +31,24 @@ add_library(
     src/empty.cpp
     )
 
-target_link_libraries(
-    xcint_shared
-    ${MATH_LIBS}
-    "-Wl,--whole-archive"
-    xcint
-    ${PROJECT_BINARY_DIR}/external/lib/libxcfun.a
-    "-Wl,--no-whole-archive"
-    )
+if(APPLE)
+    target_link_libraries(
+        xcint_shared
+        ${MATH_LIBS}
+        "-Wl, -force_load"
+        xcint
+        ${PROJECT_BINARY_DIR}/external/lib/libxcfun.a
+        )
+else()
+    target_link_libraries(
+        xcint_shared
+        ${MATH_LIBS}
+        "-Wl,--whole-archive"
+        xcint
+        ${PROJECT_BINARY_DIR}/external/lib/libxcfun.a
+        "-Wl,--no-whole-archive"
+        )
+endif()
 
 add_dependencies(xcint xcfun)
 add_dependencies(xcint numgrid)

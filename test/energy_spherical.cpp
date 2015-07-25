@@ -1,4 +1,5 @@
 #include <fstream>
+#include <stdlib.h>  /* getenv */
 
 #include "gtest/gtest.h"
 
@@ -211,7 +212,14 @@ TEST(xcint, energy_spherical)
     dmat = new double[mat_dim*mat_dim];
     std::fill(&dmat[0], &dmat[mat_dim*mat_dim], 0.0);
 
-    std::ifstream infile("../test/dmat.txt");
+    char* test_directory = getenv("XCINT_TEST_DIRECTORY");
+    if (test_directory == NULL)
+    {
+        fputs("ERROR: env variable XCINT_TEST_DIRECTORY not set!\n", stderr);
+        abort();
+    }
+    std::string dmat_file_name = test_directory + std::string("/dmat.txt");
+    std::ifstream infile(dmat_file_name.c_str());
     int i;
     double d;
     while (infile >> i >> d)

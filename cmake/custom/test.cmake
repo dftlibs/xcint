@@ -27,4 +27,4 @@ target_link_libraries(
     pthread
     )
 
-add_test(unit_tests ${PROJECT_BINARY_DIR}/bin/unit_tests)
+add_test(unit_tests ${PROJECT_BINARY_DIR}/bin/unit_tests ${PROJECT_SOURCE_DIR}/test)

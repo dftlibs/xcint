@@ -102,6 +102,8 @@ def gen_cmake_command(config):
 
     s.append("    command.append('-DCMAKE_BUILD_TYPE=%s' % arguments['--type'])")
     s.append("    command.append('-G \"%s\"' % arguments['--generator'])")
+    s.append("    if(arguments['--cmake-options']):")
+    s.append("        command.append('%s' % arguments['--cmake-options'])")
 
     s.append("\n    return ' '.join(command)")
 
@@ -151,6 +153,7 @@ def gen_setup(config, relative_path):
     options.append(['--type=<TYPE>', 'Set the CMake build type (debug, release, or relwithdeb) [default: release].'])
     options.append(['--generator=<STRING>', 'Set the CMake build system generator [default: Unix Makefiles].'])
     options.append(['--show', 'Show CMake command and exit.'])
+    options.append(['--cmake-options=<OPTIONS>', 'Define options to CMake [default: None].'])
     options.append(['<builddir>', 'Build directory.'])
     options.append(['-h --help', 'Show this screen.'])
 
@@ -204,14 +207,16 @@ def gen_cmakelists(config, relative_path, modules):
     s.append('    set(CMAKE_BUILD_TYPE "Debug")')
     s.append('endif()')
 
-    s.append('\n# directories which hold included cmake modules')
+    if len(modules) > 0:
+        s.append('\n# directories which hold included cmake modules')
     for directory in set([module.path for module in modules]):
         rel_cmake_module_path = os.path.join(relative_path, directory)
         # on windows cmake corrects this so we have to make it wrong again
         rel_cmake_module_path = rel_cmake_module_path.replace('\\', '/')
         s.append('set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/%s)' % rel_cmake_module_path)
 
-    s.append('\n# included cmake modules')
+    if len(modules) > 0:
+        s.append('\n# included cmake modules')
     for module in modules:
         s.append('include(%s)' % os.path.splitext(module.name)[0])
 
@@ -267,13 +272,15 @@ def fetch_modules(config, relative_path):
                             parse_doc = False
                     if parse_doc:
                         with open(file_name, 'r') as f:
-                            config_docopt, config_define, config_export = parse_cmake_module(f.read())
+                            config_docopt, config_define, config_export, config_fetch = parse_cmake_module(f.read())
                             if config_docopt:
                                 config.set(section, 'docopt', config_docopt)
                             if config_define:
                                 config.set(section, 'define', config_define)
                             if config_export:
                                 config.set(section, 'export', config_export)
+                            if config_fetch:
+                                config.set(section, 'fetch', config_fetch)
                     modules.append(Module(path=path, name=name))
                 i += 1
                 print_progress_bar(
@@ -282,6 +289,10 @@ def fetch_modules(config, relative_path):
                     total=n,
                     width=30
                 )
+            if config.has_option(section, 'fetch'):
+                for src in config.get(section, 'fetch').split('\n'):
+                    dst = os.path.join(download_directory, os.path.basename(src))
+                    fetch_url(src, dst)
         print('')
 
     return modules
@@ -354,8 +365,20 @@ def main(argv):
     # create setup.py
     print('- generating setup.py')
     s = gen_setup(config, relative_path)
-    with open(os.path.join(project_root, 'setup.py'), 'w') as f:
+    file_path = os.path.join(project_root, 'setup.py')
+    with open(file_path, 'w') as f:
         f.write('%s\n' % '\n'.join(s))
+    if sys.platform != 'win32':
+        make_executable(file_path)
+
+# ------------------------------------------------------------------------------
+
+
+# http://stackoverflow.com/a/30463972
+def make_executable(path):
+    mode = os.stat(path).st_mode
+    mode |= (mode & 0o444) >> 2    # copy R bits to X
+    os.chmod(path, mode)
 
 # ------------------------------------------------------------------------------
 
@@ -365,9 +388,10 @@ def parse_cmake_module(s_in):
     config_docopt = None
     config_define = None
     config_export = None
+    config_fetch = None
 
     if 'autocmake.cfg configuration::' not in s_in:
-        return config_docopt, config_define, config_export
+        return config_docopt, config_define, config_export, config_fetch
 
     s_out = []
     is_rst_line = False
@@ -400,8 +424,10 @@ def parse_cmake_module(s_in):
             config_define = config.get(section, 'define')
         if config.has_option(section, 'export'):
             config_export = config.get(section, 'export')
+        if config.has_option(section, 'fetch'):
+            config_fetch = config.get(section, 'fetch')
 
-    return config_docopt, config_define, config_export
+    return config_docopt, config_define, config_export, config_fetch
 
 # ------------------------------------------------------------------------------
 
@@ -425,7 +451,7 @@ if(NOT DEFINED CMAKE_C_COMPILER_ID)
     message(FATAL_ERROR "CMAKE_C_COMPILER_ID variable is not defined!")
 endif()'''
 
-    config_docopt, config_define, config_export = parse_cmake_module(s)
+    config_docopt, config_define, config_export, config_fetch = parse_cmake_module(s)
 
     assert config_docopt == "--cxx=<CXX> C++ compiler [default: g++].\n--extra-cxx-flags=<EXTRA_CXXFLAGS> Extra C++ compiler flags [default: '']."
 
@@ -441,7 +467,7 @@ if(NOT DEFINED CMAKE_C_COMPILER_ID)
     message(FATAL_ERROR "CMAKE_C_COMPILER_ID variable is not defined!")
 endif()'''
 
-    config_docopt, config_define, config_export = parse_cmake_module(s)
+    config_docopt, config_define, config_export, config_fetch = parse_cmake_module(s)
 
     assert config_docopt is None
 

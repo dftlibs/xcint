@@ -38,3 +38,5 @@ add_custom_target(
     DEPENDS
         ${PROJECT_BINARY_DIR}/generated/ave_contributions.h
     )
+
+add_dependencies(xcint generate_ave)

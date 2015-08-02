@@ -2,7 +2,7 @@ include(CTest)
 enable_testing()
 
 add_executable(
-    unit_tests
+    cpp_test
     test/main.cpp
     test/energy_spherical.cpp
 #   test/energy_cartesian.cpp
@@ -17,14 +17,29 @@ else()
 endif()
 
 target_link_libraries(
-    unit_tests
+    cpp_test
     googletest
     xcint
     ${PROJECT_BINARY_DIR}/external/xcfun-build/libxcfun.a
-    ${_numgrid_lib}
     ${PROJECT_BINARY_DIR}/external/numgrid-build/lib/libnumgrid.${_dyn_lib_suffix}
     ${MATH_LIBS}
     pthread
     )
 
-add_test(unit_tests ${PROJECT_BINARY_DIR}/bin/unit_tests ${PROJECT_SOURCE_DIR}/test)
+add_test(cpp_test ${PROJECT_BINARY_DIR}/bin/cpp_test ${PROJECT_SOURCE_DIR}/test)
+
+if(ENABLE_FC_SUPPORT)
+    add_executable(
+        fortran_test
+        test/test.F90
+        )
+
+    target_link_libraries(
+        fortran_test
+        xcint_fortran
+        ${PROJECT_BINARY_DIR}/external/lib/libnumgrid.so
+        ${PROJECT_BINARY_DIR}/external/numgrid-build/src/libnumgrid_fortran.a
+        )
+
+    add_test(fortran_test ${PROJECT_BINARY_DIR}/bin/fortran_test ${PROJECT_SOURCE_DIR}/test)
+endif()

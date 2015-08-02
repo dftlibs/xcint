@@ -53,10 +53,15 @@ endif()
 add_dependencies(xcint xcfun)
 add_dependencies(xcint numgrid)
 
-if(ENABLE_FORTRAN_INTERFACE)
+if(ENABLE_FC_SUPPORT)
     add_library(
-        xcint_fortran_api
-        api/xcint_fortran_api.F90
+        xcint_fortran
+        ${CMAKE_CURRENT_LIST_DIR}/../../api/xcint.F90
+        )
+
+    target_link_libraries(
+        xcint_fortran
+        xcint_shared
         )
 endif()
 

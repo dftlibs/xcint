@@ -18,6 +18,9 @@ Usage:
   ./setup.py (-h | --help)
 
 Options:
+  --fc=<FC>                           Fortran compiler [default: gfortran].
+  --extra-fc-flags=<EXTRA_FCFLAGS>    Extra Fortran compiler flags [default: ''].
+  --fc-support=<FC_SUPPORT>           Toggle Fortran language support (ON/OFF) [default: ON].
   --cxx=<CXX>                         C++ compiler [default: g++].
   --extra-cxx-flags=<EXTRA_CXXFLAGS>  Extra C++ compiler flags [default: ''].
   --coverage                          Enable code coverage [default: False].
@@ -39,8 +42,11 @@ def gen_cmake_command(options, arguments):
     Generate CMake command based on options and arguments.
     """
     command = []
+    command.append('FC=%s' % arguments['--fc'])
     command.append('CXX=%s' % arguments['--cxx'])
     command.append('cmake')
+    command.append('-DEXTRA_FCFLAGS="%s"' % arguments['--extra-fc-flags'])
+    command.append('-DENABLE_FC_SUPPORT="%s"' % arguments['--fc-support'])
     command.append('-DEXTRA_CXXFLAGS="%s"' % arguments['--extra-cxx-flags'])
     command.append('-DENABLE_CODE_COVERAGE=%s' % arguments['--coverage'])
     command.append('-DENABLE_OPENMP=%s' % arguments['--omp'])

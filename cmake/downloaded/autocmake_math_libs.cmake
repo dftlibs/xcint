@@ -5,6 +5,7 @@
 # Variables used::
 #
 #   MATH_LIB_SEARCH_ORDER, example: set(MATH_LIB_SEARCH_ORDER MKL ESSL ATLAS ACML SYSTEM_NATIVE)
+#   ENABLE_STATIC_LINKING
 #   ENABLE_BLAS
 #   ENABLE_LAPACK
 #   BLAS_FOUND
@@ -47,6 +48,13 @@
 #           '-DMATH_LIB_SEARCH_ORDER="MKL;ESSL;ATLAS;ACML;SYSTEM_NATIVE"'
 #           '-DBLAS_LANG=Fortran'
 #           '-DLAPACK_LANG=Fortran'
+
+#-------------------------------------------------------------------------------
+# ENABLE_STATIC_LINKING
+
+if(ENABLE_STATIC_LINKING)
+   set(CMAKE_FIND_LIBRARY_SUFFIXES .a)
+endif()
 
 #-------------------------------------------------------------------------------
 # SYSTEM_NATIVE
@@ -114,15 +122,19 @@ set(ATLAS_BLAS_LIBS   f77blas cblas atlas)
 set(ATLAS_LAPACK_LIBS atlas lapack)
 
 #-------------------------------------------------------------------------------
-# OPENBLAS (no LAPACK in OPENBLAS)
+# OPENBLAS (contains also LAPACK)
 
 set(OPENBLAS_BLAS_INCLUDE_PATH_SUFFIXES)
+set(OPENBLAS_LAPACK_INCLUDE_PATH_SUFFIXES)
 
-set(OPENBLAS_BLAS_HEADERS cblas_openblas.h)
+set(OPENBLAS_BLAS_HEADERS cblas_openblas.h openblas_config.h cblas.h f77blas.h)
+set(OPENBLAS_LAPACK_HEADERS lapacke.h lapacke_config.h lapacke_mangling.h lapacke_utils.h)
 
-set(OPENBLAS_BLAS_LIBRARY_PATH_SUFFIXES)
+set(OPENBLAS_BLAS_LIBRARY_PATH_SUFFIXES openblas openblas-base)
+set(OPENBLAS_LAPACK_LIBRARY_PATH_SUFFIXES openblas openblas-base)
 
 set(OPENBLAS_BLAS_LIBS openblas)
+set(OPENBLAS_LAPACK_LIBS openblas)
 
 #-------------------------------------------------------------------------------
 # MKL
@@ -298,6 +310,7 @@ macro(cache_math_result _service MATH_TYPE)
         mark_as_advanced(${_SERVICE}_TYPE)
 
         add_definitions(-DHAVE_${MATH_TYPE}_${_SERVICE})
+        message(STATUS "Setting -DHAVE_${MATH_TYPE}_${_SERVICE}")
         set(HAVE_${_SERVICE} ON CACHE INTERNAL
             "Defined if ${_SERVICE} is available"
             )
@@ -355,7 +368,8 @@ macro(config_math_service _SERVICE)
             if(MKL_COMPILER_BINDINGS MATCHES GNU)
                 set(_omp_flag -fopenmp)
             endif()
-            if(MKL_COMPILER_BINDINGS MATCHES PGI)
+            # do not add -mp flag for PGI+MKL+STATIC_LINKING
+            if(MKL_COMPILER_BINDINGS MATCHES PGI AND NOT ENABLE_STATIC_LINKING)
                 set(_omp_flag -mp)
             endif()
         endif()
@@ -470,9 +484,32 @@ if("${MATH_LIBS}" STREQUAL "" AND "${MKL_FLAG}" STREQUAL "off")
     endforeach()
 endif()
 
+foreach(_service BLAS LAPACK)
+    set(${_service}_FOUND ${${_service}_FOUND} CACHE BOOL "${_service} found")
+endforeach()
+
+# first lapack, then blas as lapack might need blas routine
 set(MATH_LIBS
     ${MATH_LIBS}
-    ${BLAS_LIBRARIES}
     ${LAPACK_LIBRARIES}
+    ${BLAS_LIBRARIES}
     CACHE STRING "Math libraries"
     )
+
+# further adaptation for the static linking
+if (ENABLE_STATIC_LINKING)
+    if (LAPACK_TYPE MATCHES ATLAS OR
+        LAPACK_TYPE MATCHES SYSTEM_NATIVE OR
+        LAPACK_TYPE MATCHES OPENBLAS OR
+        BLAS_TYPE MATCHES ATLAS OR
+        BLAS_TYPE MATCHES SYSTEM_NATIVE OR
+        BLAS_TYPE MATCHES OPENBLAS)
+        #cc_blas_static with ATLAS on travis-ci needs -lm
+        set(MATH_LIBS ${MATH_LIBS} -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -lm)
+    endif()
+    if (LAPACK_TYPE MATCHES MKL OR
+        BLAS_TYPE MATCHES MKL)
+        # fix for MKL static linking 
+        set(MATH_LIBS ${MATH_LIBS} -ldl)
+    endif()
+endif()

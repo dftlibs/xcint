@@ -1,17 +1,38 @@
+sudo: false
 language: cpp
-install:
-  - sudo pip install cpp-coveralls
-  - sudo pip install pytest
-  - sudo pip install cffi
-  - sudo pip install pep8
-  - sudo apt-add-repository --yes ppa:ubuntu-toolchain-r/test
-  - sudo apt-get update
-  - sudo apt-get install gcc-4.9 g++-4.9 gfortran-4.9 valgrind
-  - sudo apt-get install libblas3gf libblas-dev
+env:
+  global:
+    - PYTHON_PACKAGES="pip setuptools pytest cffi pep8 cpp-coveralls"
+os:
+  - linux
+  - osx
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - gcc-4.9
+      - gfortran-4.9
+      - valgrind
+      - cmake
+      - libblas-dev
+      - libblas3gf
+before_install:
+  - if test ${TRAVIS_OS_NAME} = osx; then brew update; fi
+  - if test ${TRAVIS_OS_NAME} = osx; then brew outdated xctool || brew upgrade xctool; fi
+  - if test ${TRAVIS_OS_NAME} = osx; then brew unlink gcc; fi
+  - if test ${TRAVIS_OS_NAME} = osx; then brew install python valgrind gcc; fi
+  - if test ${TRAVIS_OS_NAME} = osx; then brew linkapps python; fi
+before_script:
+  - export PATH=$HOME/.local/bin:/usr/local/bin:/usr/bin:$PATH
+  - if test ${TRAVIS_OS_NAME} = linux;
+    then pip install --upgrade ${PYTHON_PACKAGES} --user `whoami`;
+    else sudo pip install --upgrade ${PYTHON_PACKAGES}; fi
 script:
   - git submodule init
   - git submodule update --init --recursive
-  - python setup.py --cxx=g++ --fc=gfortran-4.9 --coverage --type=debug
+  - if test ${TRAVIS_OS_NAME} = linux; then python setup.py --cxx=g++ --fc=gfortran-4.9 --coverage --type=debug;
+                                       else python setup.py --cxx=g++ --fc=gfortran --coverage --type=debug; fi
   - cd build
   - make
   - make test
@@ -20,3 +41,6 @@ script:
 # - py.test -vv test/test.py build
 after_success:
   - coveralls -E ".*external.*" -E ".*CMakeFiles.*" -E ".*generated.*" -E ".*test_.*"
+
+    #  - if test ${TRAVIS_OS_NAME} = linux; then python setup.py --cxx=g++ --fc=gfortran-4.9 --coverage --type=debug;
+    #                                   else python setup.py --cxx=g++-4.9 --fc=gfortran-4.9 --coverage --type=debug; fi

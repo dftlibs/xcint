@@ -24,6 +24,7 @@ Options:
   --fc-support=<FC_SUPPORT>              Toggle Fortran language support (ON/OFF) [default: ON].
   --cxx=<CXX>                            C++ compiler [default: g++].
   --extra-cxx-flags=<EXTRA_CXXFLAGS>     Extra C++ compiler flags [default: ''].
+  --ccache=<USE_CCACHE>                  Toggle use of ccache <ON/OFF> [default: ON].
   --coverage                             Enable code coverage [default: False].
   --omp                                  Enable OpenMP parallelization [default: False].
   --blas=<BLAS>                          Detect and link BLAS library (auto or off) [default: auto].
@@ -45,12 +46,13 @@ def gen_cmake_command(options, arguments):
     Generate CMake command based on options and arguments.
     """
     command = []
-    command.append('FC=%s' % arguments['--fc'])
-    command.append('CXX=%s' % arguments['--cxx'])
+    command.append('FC="{0}"'.format(arguments['--fc']))
+    command.append('CXX="{0}"'.format(arguments['--cxx']))
     command.append('%s' % arguments['--cmake-executable'])
-    command.append('-DEXTRA_FCFLAGS="%s"' % arguments['--extra-fc-flags'])
-    command.append('-DENABLE_FC_SUPPORT="%s"' % arguments['--fc-support'])
-    command.append('-DEXTRA_CXXFLAGS="%s"' % arguments['--extra-cxx-flags'])
+    command.append('-DEXTRA_FCFLAGS="{0}"'.format(arguments['--extra-fc-flags']))
+    command.append('-DENABLE_FC_SUPPORT="{0}"'.format(arguments['--fc-support']))
+    command.append('-DEXTRA_CXXFLAGS="{0}"'.format(arguments['--extra-cxx-flags']))
+    command.append('-DUSE_CCACHE="{0}"'.format(arguments['--ccache']))
     command.append('-DENABLE_CODE_COVERAGE=%s' % arguments['--coverage'])
     command.append('-DENABLE_OPENMP=%s' % arguments['--omp'])
     command.append('-DENABLE_BLAS=%s' % arguments['--blas'])

@@ -40,7 +40,7 @@ if(ENABLE_TESTS)
         target_link_libraries(
             fortran_test
             xcint_fortran
-            ${PROJECT_BINARY_DIR}/external/lib/libnumgrid.so
+            ${PROJECT_BINARY_DIR}/external/lib/libnumgrid.${_dyn_lib_suffix}
             ${PROJECT_BINARY_DIR}/external/numgrid-build/src/libnumgrid_fortran.a
             )
 

@@ -32,7 +32,7 @@ script:
   - git submodule init
   - git submodule update --init --recursive
   - if test ${TRAVIS_OS_NAME} = linux; then python setup.py --cxx=g++ --fc=gfortran-4.9 --coverage --type=debug;
-                                       else python setup.py --cxx=g++ --fc=gfortran --coverage --type=debug; fi
+                                       else python setup.py --cxx=g++ --fc=gfortran                --type=debug; fi
   - cd build
   - make
   - make test
@@ -40,7 +40,4 @@ script:
   - pep8 --ignore=E501 test/test.py
 # - py.test -vv test/test.py build
 after_success:
-  - coveralls -E ".*external.*" -E ".*CMakeFiles.*" -E ".*generated.*" -E ".*test_.*"
-
-    #  - if test ${TRAVIS_OS_NAME} = linux; then python setup.py --cxx=g++ --fc=gfortran-4.9 --coverage --type=debug;
-    #                                   else python setup.py --cxx=g++-4.9 --fc=gfortran-4.9 --coverage --type=debug; fi
+  - if test ${TRAVIS_OS_NAME} = linux; then coveralls -E ".*external.*" -E ".*CMakeFiles.*" -E ".*generated.*" -E ".*test_.*"; fi

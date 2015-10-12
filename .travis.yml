@@ -206,7 +206,7 @@ install:
       mkdir cmake && travis_retry wget --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
       export PATH=${DEPS_DIR}/cmake/bin:${PATH}
     elif [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then
-      brew install cmake boost python gcc
+      brew install cmake boost python gcc valgrind
     fi
     pip install --upgrade ${PYTHON_PACKAGES} --user `whoami`
 

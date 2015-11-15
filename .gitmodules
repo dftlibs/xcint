@@ -1,9 +1,9 @@
 [submodule "external/xcfun"]
 	path = external/xcfun
-	url = https://github.com/bast/xcfun.git
+	url = https://github.com/dftlibs/xcfun.git
 [submodule "external/googletest"]
 	path = external/googletest
 	url = https://github.com/svn2github/googletest.git
 [submodule "external/numgrid"]
 	path = external/numgrid
-	url = https://github.com/bast/numgrid.git
+	url = https://github.com/dftlibs/numgrid.git

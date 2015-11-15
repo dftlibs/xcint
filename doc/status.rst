@@ -14,7 +14,7 @@ Grid generation
 ---------------
 
 The grid generation has been moved outside XCint
-(the tests employ https://github.com/bast/numgrid).
+(the tests employ https://github.com/dftlibs/numgrid).
 This has the following advantages:
 
 - Gives the caller the possibility to use other grid generators.

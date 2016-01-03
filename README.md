@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/dftlibs/xcint.svg?branch=master)](https://travis-ci.org/dftlibs/xcint/builds)
 [![Coverage Status](https://coveralls.io/repos/dftlibs/xcint/badge.png?branch=master)](https://coveralls.io/r/dftlibs/xcint?branch=master)
 [![Documentation Status](https://readthedocs.org/projects/xcint/badge/?version=latest)](http://xcint.readthedocs.org)
+[![License](https://img.shields.io/github/license/dftlibs/xcint.svg)](../master/LICENSE)
 
 
 XCint

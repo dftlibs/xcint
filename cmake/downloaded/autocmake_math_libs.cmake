@@ -4,7 +4,7 @@
 #
 # Variables used::
 #
-#   MATH_LIB_SEARCH_ORDER, example: set(MATH_LIB_SEARCH_ORDER MKL ESSL ATLAS ACML SYSTEM_NATIVE)
+#   MATH_LIB_SEARCH_ORDER, example: set(MATH_LIB_SEARCH_ORDER MKL ESSL OPENBLAS ATLAS ACML SYSTEM_NATIVE)
 #   ENABLE_STATIC_LINKING
 #   ENABLE_BLAS
 #   ENABLE_LAPACK
@@ -45,15 +45,10 @@
 #   define: '-DENABLE_BLAS=%s' % arguments['--blas']
 #           '-DENABLE_LAPACK=%s' % arguments['--lapack']
 #           '-DMKL_FLAG=%s' % arguments['--mkl']
-#           '-DMATH_LIB_SEARCH_ORDER="MKL;ESSL;ATLAS;ACML;SYSTEM_NATIVE"'
+#           '-DMATH_LIB_SEARCH_ORDER="MKL;ESSL;OPENBLAS;ATLAS;ACML;SYSTEM_NATIVE"'
 #           '-DBLAS_LANG=Fortran'
 #           '-DLAPACK_LANG=Fortran'
-
-message(STATUS "********************************************************************************************")
-message(STATUS "*                                                                                          *")
-message(STATUS "* WARNING: math_libs.cmake is depracted and will be removed for the next Autocmake version *")
-message(STATUS "*                                                                                          *")
-message(STATUS "********************************************************************************************")
+#   warning: 'This module is deprecated and will be removed in future versions'
 
 #-------------------------------------------------------------------------------
 # ENABLE_STATIC_LINKING
@@ -93,8 +88,8 @@ if(ENABLE_64BIT_INTEGERS)
    set(ESSL_BLAS_LIBS   esslsmp6464)
    set(ESSL_LAPACK_LIBS esslsmp6464)
 else()
-   set(ESSL_BLAS_LIBS   essl)
-   set(ESSL_LAPACK_LIBS essl)
+   set(ESSL_BLAS_LIBS   esslsmp)
+   set(ESSL_LAPACK_LIBS esslsmp)
 endif()
 
 #-------------------------------------------------------------------------------

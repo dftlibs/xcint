@@ -240,6 +240,7 @@ add_custom_target(
 
 add_dependencies(xcint xcfun)
 add_dependencies(xcint numgrid)
+add_dependencies(xcint generate_interface_parameters)
 
 if(ENABLE_FORTRAN_INTERFACE)
     add_library(

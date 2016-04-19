@@ -6,7 +6,9 @@ set(ExternalProjectCMakeArgs
     -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
     -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
     -DENABLE_FORTRAN_INTERFACE=OFF
+    -DENABLE_TESTALL=OFF
     -DENABLE_STATIC_LINKING=ON # we need the -fPIC
+    -DXC_MAX_ORDER=6
     )
 
 ExternalProject_Add(xcfun

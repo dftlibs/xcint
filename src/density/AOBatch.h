@@ -14,9 +14,10 @@ class AOBatch
         ~AOBatch();
 
         void get_ao(const Basis &basis,
-                    const bool       use_gradient,
-                    const int        max_ao_geo_order,
-                    const double     p[]);
+                    const bool   use_gradient,
+                    const int    max_ao_geo_order,
+                    const int    block_length,
+                    const double p[]);
 
         void get_ao_shell(const int        ishell,
                           const Basis &basis,

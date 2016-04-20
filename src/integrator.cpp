@@ -161,6 +161,7 @@ void XCint::integrate_batch(const double dmat[],
     batch.get_ao(basis,
                  get_gradient,
                  max_ao_order_g,
+                 block_length,
                  &grid[ipoint*4]);
 
 //  time_ao += rolex::stop_partial();
@@ -859,6 +860,9 @@ int XCint::integrate(const xcint_mode_t         mode,
     assert(num_perturbations < 7);
 
     int block_length;
+    int num_points_left = num_points;
+    int num_batches = num_points/AO_BLOCK_LENGTH;
+    if (num_points%AO_BLOCK_LENGTH != 0) num_batches++;
 
 #ifdef ENABLE_OMP
     int num_threads = 0;
@@ -897,11 +901,18 @@ int XCint::integrate(const xcint_mode_t         mode,
         double *vxc_local = NULL;
         if (get_vxc) vxc_local = &vxc[0];
 #endif
-        for (int ibatch = 0; ibatch < num_points/AO_BLOCK_LENGTH; ibatch++)
+        for (int ibatch = 0; ibatch < num_batches; ibatch++)
         {
             int ipoint = ibatch*AO_BLOCK_LENGTH;
 
-            block_length = AO_BLOCK_LENGTH;
+            if (num_points_left < AO_BLOCK_LENGTH)
+            {
+                block_length = num_points_left;
+            }
+            else
+            {
+                block_length = AO_BLOCK_LENGTH;
+            }
 
             integrate_batch(dmat,
                             get_exc,
@@ -923,6 +934,8 @@ int XCint::integrate(const xcint_mode_t         mode,
                             get_tau,
                             dmat_index,
                             grid);
+
+            num_points_left -= block_length;
         }
 
 #ifdef ENABLE_OMP

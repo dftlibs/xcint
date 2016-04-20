@@ -58,9 +58,10 @@ void AOBatch::nullify()
 
 
 void AOBatch::get_ao(const Basis &basis,
-                          const bool       use_gradient,
-                          const int        max_ao_geo_order,
-                          const double     p[])
+                     const bool   use_gradient,
+                     const int    max_ao_geo_order,
+                     const int    block_length,
+                     const double p[])
 {
     assert(max_ao_geo_order <= MAX_GEO_DIFF_ORDER);
 
@@ -97,13 +98,20 @@ void AOBatch::get_ao(const Basis &basis,
 
     std::fill(&ao[0], &ao[ao_length], 0.0);
 
+    // FIXME can be optimized
+    // we do this because p can be shorter than 4*AO_BLOCK_LENGTH
+    // we pad it by very large numbers to let the code screen them away
+    double p_block[4*AO_BLOCK_LENGTH];
+    std::fill(&p_block[0], &p_block[4*AO_BLOCK_LENGTH], 1.0e50);
+    std::copy(&p[0], &p[4*block_length], &p_block[0]);
+
     for (int ishell = 0; ishell < basis.num_shells; ishell++)
     {
         get_ao_shell(ishell,
                      basis,
                      ao,
                      max_ao_geo_order,
-                     p);
+                     p_block);
     }
 
     compress(basis,

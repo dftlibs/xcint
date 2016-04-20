@@ -119,12 +119,8 @@ void Functional::parse(const char *line)
 
         if (key == "camb3lyp")
         {
-            keys.push_back("beckesrx");
-            weights.push_back(w);
-            keys.push_back("vwn5c");
-            weights.push_back(w*0.19);
-            keys.push_back("lypc");
-            weights.push_back(w*0.81);
+            keys.push_back("camb3lyp");
+            weights.push_back(w*1.0);
             is_gga = true;
         }
 

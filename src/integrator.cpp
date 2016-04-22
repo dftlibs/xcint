@@ -1024,7 +1024,8 @@ void XCint::distribute_matrix(const int              block_length,
     block_size = dens_offset*block_length*sizeof(double);
     xcout = (double*) MemAllocator::allocate(block_size);
 
-    std::fill(&u[0], &u[block_length*num_variables], 0.0);
+    // has to be AO_BLOCK_LENGTH otherwise u can be too short
+    std::fill(&u[0], &u[AO_BLOCK_LENGTH*num_variables], 0.0);
 
     for (int k = 0; k < MAX_NUM_DENSITIES; k++)
     {

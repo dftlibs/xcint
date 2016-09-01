@@ -65,6 +65,21 @@ void AOBatch::get_ao(const Basis &basis,
 {
     assert(max_ao_geo_order <= MAX_GEO_DIFF_ORDER);
 
+//  debug
+//  if (max_ao_geo_order == 1)
+//  {
+//      printf("use_gradient = %i\n", use_gradient);
+//      printf("max_ao_geo_order = %i\n", max_ao_geo_order);
+//      printf("block_length = %i\n", block_length);
+//      for (int ib = 0; ib < block_length; ib++)
+//      {
+//          printf("grid = %e %e %e %e\n", p[ib*4 + 0],
+//                                         p[ib*4 + 1],
+//                                         p[ib*4 + 2],
+//                                         p[ib*4 + 3]);
+//      }
+//  }
+
     int l = AO_BLOCK_LENGTH*basis.num_ao_slices*basis.num_ao_cartesian;
     if (l != ao_length) // FIXME
     {
@@ -113,6 +128,22 @@ void AOBatch::get_ao(const Basis &basis,
                      max_ao_geo_order,
                      p_block);
     }
+
+//  debug
+//  if (max_ao_geo_order == 1)
+//  {
+//      for (int islice = 0; islice < 4; islice++)
+//      {
+//          for (int iao = 0; iao < basis.num_ao_cartesian; iao++)
+//          {
+//              for (int ib = 0; ib < AO_BLOCK_LENGTH; ib++)
+//              {
+//                  printf("%i %i %i %e\n", islice, iao, ib, ao[islice*AO_BLOCK_LENGTH*basis.num_ao_cartesian + iao*AO_BLOCK_LENGTH + ib]);
+//              }
+//          }
+//      }
+//      exit(1);
+//  }
 
     compress(basis,
              use_gradient,

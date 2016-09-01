@@ -51,7 +51,6 @@ Generate the integration grid.
                                                max_num_angular_points,          &
                                                num_centers,          &
                                                center_coordinates,           &
-                                               center_elements,       &
                                                num_shells,           &
                                                shell_centers,         &
                                                shell_l_quantum_numbers,        &
@@ -69,8 +68,6 @@ Generate the integration grid.
       integer(c_int), value :: num_centers
       ! center coordinates, dimension is 3*num_centers
       real(c_double)        :: center_coordinates(*)
-      ! center element (1 for H, 2 for He, ...), dimension is num_centers
-      integer(c_int)        :: center_elements(*)
       ! number of shells
       integer(c_int), value :: num_shells
       ! shell center, dimension is num_shells
@@ -96,7 +93,6 @@ Set the basis set.
    subroutine xcint_set_basis(basis_type,           &
                               num_centers,          &
                               center_coordinates,           &
-                              center_elements,       &
                               num_shells,           &
                               shell_centers,         &
                               shell_l_quantum_numbers,        &
@@ -111,8 +107,6 @@ Set the basis set.
       integer(c_int), value :: num_centers
       ! center coordinates, dimension is 3*num_centers
       real(c_double)        :: center_coordinates(*)
-      ! center element (1 for H, 2 for He, ...), dimension is num_centers
-      integer(c_int)        :: center_elements(*)
       ! number of shells
       integer(c_int), value :: num_shells
       ! shell center, dimension is num_shells

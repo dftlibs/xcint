@@ -17,7 +17,6 @@ class XCint
         int set_basis(const int    basis_type,
                       const int    num_centers,
                       const double center_coordinates[],
-                      const int    center_elements[],
                       const int    num_shells,
                       const int    shell_centers[],
                       const int    shell_l_quantum_numbers[],

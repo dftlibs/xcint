@@ -13,7 +13,6 @@ class Basis
         void init(const int    in_basis_type,
                   const int    in_num_centers,
                   const double in_center_coordinates[],
-                  const int    in_center_elements[],
                   const int    in_num_shells,
                   const int    in_shell_centers[],
                   const int    in_shell_l_quantum_numbers[],
@@ -36,7 +35,6 @@ class Basis
         int    *shell_num_primitives; // FIXME
         double *primitive_exponents; // FIXME
         double *center_coordinates; // FIXME
-        int    *center_elements; // FIXME
         int    *shell_centers; // FIXME
 
     private:

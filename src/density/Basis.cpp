@@ -31,7 +31,6 @@ void Basis::nullify()
     num_shells                = -1;
     shell_l_quantum_numbers   = NULL;
     center_coordinates        = NULL;
-    center_elements           = NULL;
     shell_centers             = NULL;
     shell_centers_coordinates = NULL;
     shell_extent_squared      = NULL;
@@ -57,7 +56,6 @@ void Basis::deallocate()
 {
     MemAllocator::deallocate(shell_l_quantum_numbers);
     MemAllocator::deallocate(center_coordinates);
-    MemAllocator::deallocate(center_elements);
     MemAllocator::deallocate(shell_centers);
     MemAllocator::deallocate(shell_centers_coordinates);
     MemAllocator::deallocate(shell_extent_squared);
@@ -75,7 +73,6 @@ void Basis::deallocate()
 void Basis::init(const int    in_basis_type,
                       const int    in_num_centers,
                       const double in_center_coordinates[],
-                      const int    in_center_elements[],
                       const int    in_num_shells,
                       const int    in_shell_centers[],
                       const int    in_shell_l_quantum_numbers[],
@@ -113,10 +110,6 @@ void Basis::init(const int    in_basis_type,
     block_size = 3*num_centers*sizeof(double);
     center_coordinates = (double*) MemAllocator::allocate(block_size);
     std::copy(&in_center_coordinates[0], &in_center_coordinates[3*num_centers], &center_coordinates[0]);
-
-    block_size = num_centers*sizeof(int);
-    center_elements = (int*) MemAllocator::allocate(block_size);
-    std::copy(&in_center_elements[0], &in_center_elements[num_centers], &center_elements[0]);
 
     block_size = num_shells*sizeof(int);
     shell_centers = (int*) MemAllocator::allocate(block_size);

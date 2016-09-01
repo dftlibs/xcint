@@ -203,7 +203,6 @@ program test
 !                         XCINT_BASIS_SPHERICAL,   &  FIXME
                           num_centers,             &
                           center_coordinates,      &
-                          center_elements,         &
                           num_shells,              &
                           shell_centers,           &
                           shell_l_quantum_numbers, &

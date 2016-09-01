@@ -171,7 +171,6 @@ TEST(xcint, energy_spherical)
                            XCINT_BASIS_SPHERICAL,
                            num_centers,
                            center_coordinates,
-                           center_elements,
                            num_shells - 1, // wrong on purpose
                            shell_centers,
                            shell_l_quantum_numbers,
@@ -183,7 +182,6 @@ TEST(xcint, energy_spherical)
                            XCINT_BASIS_SPHERICAL,
                            num_centers,
                            center_coordinates,
-                           center_elements,
                            num_shells,
                            shell_centers,
                            shell_l_quantum_numbers,

@@ -140,7 +140,6 @@ def test_energy():
                                      xcint.lib.XCINT_BASIS_SPHERICAL,
                                      num_centers,
                                      center_coordinates,
-                                     center_elements,
                                      num_shells,
                                      shell_centers,
                                      shell_l_quantum_numbers,

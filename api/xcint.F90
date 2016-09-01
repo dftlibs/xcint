@@ -42,7 +42,6 @@ module xcint
                                basis_type,              &
                                num_centers,             &
                                center_coordinates,      &
-                               center_elements,         &
                                num_shells,              &
                                shell_centers,           &
                                shell_l_quantum_numbers, &
@@ -54,7 +53,6 @@ module xcint
          integer(c_int), intent(in), value :: basis_type
          integer(c_int), intent(in), value :: num_centers
          real(c_double), intent(in)        :: center_coordinates(*)
-         integer(c_int), intent(in)        :: center_elements(*)
          integer(c_int), intent(in), value :: num_shells
          integer(c_int), intent(in)        :: shell_centers(*)
          integer(c_int), intent(in)        :: shell_l_quantum_numbers(*)

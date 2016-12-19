@@ -22,7 +22,7 @@ addons:
       - libblas-dev
       - libblas3gf
 
-before_install:
+install:
   - if test ${TRAVIS_OS_NAME} = osx; then brew update; fi
   - if test ${TRAVIS_OS_NAME} = osx; then brew outdated xctool || brew upgrade xctool; fi
   - if test ${TRAVIS_OS_NAME} = osx; then brew unlink gcc; fi

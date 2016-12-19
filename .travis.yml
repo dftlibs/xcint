@@ -2,10 +2,6 @@ language: cpp
 
 sudo: false
 
-env:
-  global:
-    - PYTHON_PACKAGES="pip setuptools pytest cffi pep8 cpp-coveralls"
-
 os:
   - linux
 # - osx
@@ -21,6 +17,7 @@ addons:
       - cmake
       - libblas-dev
       - libblas3gf
+      - python-virtualenv
 
 install:
   - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"

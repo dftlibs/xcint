@@ -23,23 +23,30 @@ addons:
       - libblas3gf
 
 install:
-  - if test ${TRAVIS_OS_NAME} = osx; then brew update; fi
-  - if test ${TRAVIS_OS_NAME} = osx; then brew outdated xctool || brew upgrade xctool; fi
-  - if test ${TRAVIS_OS_NAME} = osx; then brew unlink gcc; fi
-  - if test ${TRAVIS_OS_NAME} = osx; then brew install python valgrind gcc; fi
-  - if test ${TRAVIS_OS_NAME} = osx; then brew linkapps python; fi
+  - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
+  - mkdir -p ${DEPS_DIR} && cd ${DEPS_DIR}
+  - |
+    if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
+      cd ${TRAVIS_BUILD_DIR}
+      virtualenv venv
+      source venv/bin/activate
+    elif [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then
+      brew install cmake python valgrind gcc
+    fi
 
 before_script:
+  - cd ${TRAVIS_BUILD_DIR}
+  - pip install -r requirements.txt
   - export PATH=$HOME/.local/bin:/usr/local/bin:/usr/bin:$PATH
-  - if test ${TRAVIS_OS_NAME} = linux;
-    then pip install --upgrade ${PYTHON_PACKAGES} --user `whoami`;
-    else sudo pip install --upgrade ${PYTHON_PACKAGES}; fi
 
 script:
-  - git submodule init
   - git submodule update --init --recursive
-  - if test ${TRAVIS_OS_NAME} = linux; then ./setup --cxx=g++ --fc=gfortran-4.9 --coverage --type=debug;
-                                       else ./setup --cxx=g++ --fc=gfortran                --type=debug; fi
+  - if test ${TRAVIS_OS_NAME} = linux
+    then
+      ./setup --cxx=g++ --fc=gfortran-4.9 --coverage --type=debug
+    else
+      ./setup --cxx=g++ --fc=gfortran                --type=debug
+    fi
   - cd build
   - make
   - make test

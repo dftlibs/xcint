@@ -38,12 +38,8 @@ before_script:
 
 script:
   - git submodule update --init --recursive
-  - if test ${TRAVIS_OS_NAME} = linux
-    then
-      ./setup --cxx=g++ --fc=gfortran-4.9 --coverage --type=debug
-    else
-      ./setup --cxx=g++ --fc=gfortran                --type=debug
-    fi
+  - if test ${TRAVIS_OS_NAME} = linux; then ./setup --cxx=g++ --fc=gfortran-4.9 --coverage --type=debug;
+                                       else ./setup --cxx=g++ --fc=gfortran                --type=debug; fi
   - cd build
   - make
   - make test

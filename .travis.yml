@@ -1,11 +1,15 @@
-sudo: false
 language: cpp
+
+sudo: false
+
 env:
   global:
     - PYTHON_PACKAGES="pip setuptools pytest cffi pep8 cpp-coveralls"
+
 os:
   - linux
 # - osx
+
 addons:
   apt:
     sources:
@@ -17,17 +21,20 @@ addons:
       - cmake
       - libblas-dev
       - libblas3gf
+
 before_install:
   - if test ${TRAVIS_OS_NAME} = osx; then brew update; fi
   - if test ${TRAVIS_OS_NAME} = osx; then brew outdated xctool || brew upgrade xctool; fi
   - if test ${TRAVIS_OS_NAME} = osx; then brew unlink gcc; fi
   - if test ${TRAVIS_OS_NAME} = osx; then brew install python valgrind gcc; fi
   - if test ${TRAVIS_OS_NAME} = osx; then brew linkapps python; fi
+
 before_script:
   - export PATH=$HOME/.local/bin:/usr/local/bin:/usr/bin:$PATH
   - if test ${TRAVIS_OS_NAME} = linux;
     then pip install --upgrade ${PYTHON_PACKAGES} --user `whoami`;
     else sudo pip install --upgrade ${PYTHON_PACKAGES}; fi
+
 script:
   - git submodule init
   - git submodule update --init --recursive
@@ -39,9 +46,9 @@ script:
   - cd ..
   - pep8 --ignore=E501 test/test.py
 # - py.test -vv test/test.py build
+
 after_success:
   - if test ${TRAVIS_OS_NAME} = linux; then coveralls -E ".*external.*" -E ".*CMakeFiles.*" -E ".*generated.*" -E ".*test_.*"; fi
-
 
 notifications:
   email: false

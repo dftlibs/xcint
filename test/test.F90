@@ -5,7 +5,9 @@ program test
                     xcint_set_basis,      &
                     xcint_set_functional, &
                     xcint_integrate_scf,  &
-                    xcint_integrate
+                    xcint_integrate,      &
+                    XCINT_MODE_RKS,       &
+                    XCINT_BASIS_SPHERICAL
    use numgrid, only: numgrid_new,            &
                       numgrid_free,           &
                       numgrid_generate,       &
@@ -199,8 +201,7 @@ program test
    xcint_context = xcint_new()
 
    ierr = xcint_set_basis(xcint_context,           &
-                          0,                       &
-!                         XCINT_BASIS_SPHERICAL,   &  FIXME
+                          XCINT_BASIS_SPHERICAL,   &
                           num_centers,             &
                           center_coordinates,      &
                           num_shells,              &
@@ -237,8 +238,7 @@ program test
    num_electrons = 0.0
 
    ierr = xcint_integrate_scf(xcint_context,  &
-                              0,              &
-!                             XCINT_MODE_RKS, &  FIXME
+                              XCINT_MODE_RKS, &
                               num_points,     &
                               grid,           &
                               dmat,           &
@@ -252,8 +252,7 @@ program test
    ierr = xcint_set_functional(xcint_context, "b3lyp"//c_null_char)
 
    ierr = xcint_integrate(xcint_context,  &
-                          0,              &
-!                         XCINT_MODE_RKS, &  FIXME
+                          XCINT_MODE_RKS, &
                           num_points,     &
                           grid,           &
                           0,              &

@@ -4,14 +4,40 @@ module xcint
 
    implicit none
 
-   private
-
    public xcint_new
    public xcint_free
    public xcint_set_functional
    public xcint_set_basis
    public xcint_integrate_scf
    public xcint_integrate
+
+   public XCINT_MODE_RKS
+   public XCINT_MODE_UKS
+   public XCINT_BASIS_SPHERICAL
+   public XCINT_BASIS_CARTESIAN
+   public XCINT_PERT_EL
+   public XCINT_PERT_GEO
+   public XCINT_PERT_MAG_CGO
+   public XCINT_PERT_MAG_LAO
+
+   private
+
+   enum, bind(c)
+      enumerator :: XCINT_MODE_RKS
+      enumerator :: XCINT_MODE_UKS
+   end enum
+
+   enum, bind(c)
+      enumerator :: XCINT_BASIS_SPHERICAL
+      enumerator :: XCINT_BASIS_CARTESIAN
+   end enum
+
+   enum, bind(c)
+      enumerator :: XCINT_PERT_EL
+      enumerator :: XCINT_PERT_GEO
+      enumerator :: XCINT_PERT_MAG_CGO
+      enumerator :: XCINT_PERT_MAG_LAO
+   end enum
 
    interface xcint_new
       function xcint_new() result(context) bind (C)

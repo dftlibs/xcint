@@ -41,3 +41,7 @@ script:
 # - py.test -vv test/test.py build
 after_success:
   - if test ${TRAVIS_OS_NAME} = linux; then coveralls -E ".*external.*" -E ".*CMakeFiles.*" -E ".*generated.*" -E ".*test_.*"; fi
+
+
+notifications:
+  email: false

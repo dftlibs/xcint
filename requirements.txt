@@ -1,0 +1,4 @@
+pytest
+cffi
+pep8
+cpp-coveralls

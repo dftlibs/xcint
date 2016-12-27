@@ -60,7 +60,6 @@ def gen_cmake_command(options, arguments):
     command.append('-DBLAS_LANG=Fortran')
     command.append('-DLAPACK_LANG=Fortran')
     command.append('-DPYTHON_INTERPRETER="{0}"'.format(arguments['--python']))
-    command.append('-DGOOGLETEST_ROOT=external/googletest/googletest')
     command.append('-DCMAKE_BUILD_TYPE={0}'.format(arguments['--type']))
     command.append('-G "{0}"'.format(arguments['--generator']))
     if arguments['--cmake-options'] != "''":

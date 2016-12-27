@@ -45,7 +45,7 @@ script:
   - make test
   - cd ..
   - pep8 --ignore=E501 test/test.py
-  - PYTHONPATH="build:build/external/numgrid-build" pytest -vv test/test.py
+  - PYTHONPATH="build:build/numgrid/src/numgrid-build" pytest -vv test/test.py
 
 after_success:
   - if test ${TRAVIS_OS_NAME} = linux; then coveralls -E ".*external.*" -E ".*CMakeFiles.*" -E ".*generated.*" -E ".*test_.*"; fi

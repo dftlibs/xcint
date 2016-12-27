@@ -1,6 +1,3 @@
 [submodule "external/xcfun"]
 	path = external/xcfun
 	url = https://github.com/dftlibs/xcfun.git
-[submodule "external/numgrid"]
-	path = external/numgrid
-	url = https://github.com/dftlibs/numgrid.git

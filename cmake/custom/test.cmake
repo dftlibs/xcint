@@ -42,7 +42,7 @@ if(ENABLE_UNIT_TESTS)
         libgtest.a
         xcint
         ${PROJECT_BINARY_DIR}/external/xcfun-build/libxcfun.a
-        ${PROJECT_BINARY_DIR}/external/numgrid-build/lib/libnumgrid.${_dyn_lib_suffix}
+        ${NUMGRID_LIBS}
         ${MATH_LIBS}
         pthread
         )
@@ -58,9 +58,7 @@ if(ENABLE_UNIT_TESTS)
         target_link_libraries(
             fortran_test
             xcint_fortran
-            ${PROJECT_BINARY_DIR}/external/lib/libnumgrid.${_dyn_lib_suffix}
-            ${PROJECT_BINARY_DIR}/external/numgrid-build/lib/liblebedev.${_dyn_lib_suffix}
-            ${PROJECT_BINARY_DIR}/external/numgrid-build/src/libnumgrid_fortran.a
+            ${NUMGRID_LIBS}
             )
 
         add_test(fortran_test ${PROJECT_BINARY_DIR}/bin/fortran_test ${PROJECT_SOURCE_DIR}/test)

@@ -1,25 +1,12 @@
-"""
-Unit tests.
-"""
-import os
-import sys
 import pytest
-
-BUILD_DIR = sys.argv[-1]
-
-# ------------------------------------------------------------------------------
 
 
 def test_energy():
     """
     Test energy.
     """
-    # location of xcint module
-    sys.path.append(BUILD_DIR)
+    import os
     import xcint
-
-    # location of numgrid module
-    sys.path.append(os.path.join(BUILD_DIR, 'external', 'numgrid-build'))
     import numgrid
 
     radial_precision = 1.0e-12

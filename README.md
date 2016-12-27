@@ -1,11 +1,10 @@
 [![Build Status](https://travis-ci.org/dftlibs/xcint.svg?branch=master)](https://travis-ci.org/dftlibs/xcint/builds)
 [![Coverage Status](https://coveralls.io/repos/dftlibs/xcint/badge.png?branch=master)](https://coveralls.io/r/dftlibs/xcint?branch=master)
 [![Documentation Status](https://readthedocs.org/projects/xcint/badge/?version=latest)](http://xcint.readthedocs.org)
-[![License](https://img.shields.io/badge/license-%20BSD--3-blue.svg)](../master/LICENSE)
+[![License](https://img.shields.io/badge/license-%20MPL--v2.0-blue.svg)](../master/LICENSE)
 
 
-XCint
-=====
+# XCint
 
 Exchange-correlation integrator.
 
@@ -14,4 +13,4 @@ Exchange-correlation integrator.
 - [Code coverage](https://coveralls.io/r/dftlibs/xcint)
 - Built with [Autocmake](https://github.com/coderefinery/autocmake)
 - Status: pre-alpha
-- Licensed under [BSD-3](../master/LICENSE)
+- Licensed under [Mozilla Public License Version 2.0](../master/LICENSE)

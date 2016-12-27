@@ -52,7 +52,7 @@ if(ENABLE_UNIT_TESTS)
     if(ENABLE_FC_SUPPORT)
         add_executable(
             fortran_test
-            test/test.F90
+            test/test.f90
             )
 
         target_link_libraries(

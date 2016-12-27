@@ -56,7 +56,7 @@ add_dependencies(xcint numgrid)
 if(ENABLE_FC_SUPPORT)
     add_library(
         xcint_fortran
-        ${CMAKE_CURRENT_LIST_DIR}/../../api/xcint.F90
+        ${CMAKE_CURRENT_LIST_DIR}/../../api/xcint.f90
         )
 
     target_link_libraries(

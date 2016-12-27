@@ -59,6 +59,7 @@ if(ENABLE_UNIT_TESTS)
             fortran_test
             xcint_fortran
             ${PROJECT_BINARY_DIR}/external/lib/libnumgrid.${_dyn_lib_suffix}
+            ${PROJECT_BINARY_DIR}/external/numgrid-build/lib/liblebedev.${_dyn_lib_suffix}
             ${PROJECT_BINARY_DIR}/external/numgrid-build/src/libnumgrid_fortran.a
             )
 

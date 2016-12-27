@@ -137,32 +137,32 @@ TEST(xcint, energy_spherical)
     contraction_coefficients[30] =   9.568810000000e-01;
 
     // generate grid
-    numgrid_context_t *numgrid_context = numgrid_new();
+    context_t *numgrid_context = new_context();
     double radial_precision = 1.0e-12;
     int min_num_angular_points = 86;
     int max_num_angular_points = 302;
     int num_outer_centers = 0;
     double *outer_center_coordinates = NULL;
     int *outer_center_elements = NULL;
-    ierr = numgrid_generate(numgrid_context,
-                            radial_precision,
-                            min_num_angular_points,
-                            max_num_angular_points,
-                            num_centers,
-                            center_coordinates,
-                            center_elements,
-                            num_outer_centers,
-                            outer_center_coordinates,
-                            outer_center_elements,
-                            num_shells,
-                            shell_centers,
-                            shell_l_quantum_numbers,
-                            shell_num_primitives,
-                            primitive_exponents);
-    int num_points = numgrid_get_num_points(numgrid_context);
+    ierr = generate_grid(numgrid_context,
+                         radial_precision,
+                         min_num_angular_points,
+                         max_num_angular_points,
+                         num_centers,
+                         center_coordinates,
+                         center_elements,
+                         num_outer_centers,
+                         outer_center_coordinates,
+                         outer_center_elements,
+                         num_shells,
+                         shell_centers,
+                         shell_l_quantum_numbers,
+                         shell_num_primitives,
+                         primitive_exponents);
+    int num_points = get_num_points(numgrid_context);
     ASSERT_EQ(num_points, 31424);
 
-    double *grid = (double*) numgrid_get_grid(numgrid_context);
+    double *grid = (double*) get_grid(numgrid_context);
 
     xcint_context_t *xcint_context = xcint_new();
 
@@ -280,6 +280,6 @@ TEST(xcint, energy_spherical)
     delete[] vxc;
     vxc = NULL;
 
-    numgrid_free(numgrid_context);
+    free_context(numgrid_context);
     xcint_free(xcint_context);
 }

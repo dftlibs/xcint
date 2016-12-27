@@ -63,31 +63,31 @@ def test_energy():
                            1.220e-01,
                            7.270e-01]
 
-    numgrid_context = numgrid.lib.numgrid_new()
+    numgrid_context = numgrid.new_context()
 
-    ierr = numgrid.lib.numgrid_generate(numgrid_context,
-                                        radial_precision,
-                                        min_num_angular_points,
-                                        max_num_angular_points,
-                                        num_centers,
-                                        center_coordinates,
-                                        center_elements,
-                                        num_outer_centers,
-                                        outer_center_coordinates,
-                                        outer_center_elements,
-                                        num_shells,
-                                        shell_centers,
-                                        shell_l_quantum_numbers,
-                                        shell_num_primitives,
-                                        primitive_exponents)
+    ierr = numgrid.generate_grid(numgrid_context,
+                                 radial_precision,
+                                 min_num_angular_points,
+                                 max_num_angular_points,
+                                 num_centers,
+                                 center_coordinates,
+                                 center_elements,
+                                 num_outer_centers,
+                                 outer_center_coordinates,
+                                 outer_center_elements,
+                                 num_shells,
+                                 shell_centers,
+                                 shell_l_quantum_numbers,
+                                 shell_num_primitives,
+                                 primitive_exponents)
 
-    num_points = numgrid.lib.numgrid_get_num_points(numgrid_context)
+    num_points = numgrid.get_num_points(numgrid_context)
 
     assert num_points == 31424
 
-    grid = numgrid.lib.numgrid_get_grid(numgrid_context)
+    grid = numgrid.get_grid(numgrid_context)
 
-    numgrid.lib.numgrid_free(numgrid_context)
+    numgrid.free_context(numgrid_context)
 
     xcint_context = xcint.lib.xcint_new()
 

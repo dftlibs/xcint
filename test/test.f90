@@ -8,11 +8,13 @@ program test
                     xcint_integrate,      &
                     XCINT_MODE_RKS,       &
                     XCINT_BASIS_SPHERICAL
-   use numgrid, only: numgrid_new,            &
-                      numgrid_free,           &
-                      numgrid_generate,       &
-                      numgrid_get_num_points, &
-                      numgrid_get_grid
+
+   use numgrid, only: numgrid_new_context => new_context, &
+                      numgrid_free_context => free_context, &
+                      numgrid_generate_grid => generate_grid, &
+                      numgrid_get_num_points => get_num_points, &
+                      numgrid_get_grid => get_grid
+
    use, intrinsic :: iso_c_binding, only: c_ptr, c_null_char
 
    implicit none
@@ -177,23 +179,23 @@ program test
    contraction_coefficients(30) =  1.47123d-1
    contraction_coefficients(31) =  9.56881d-1
 
-   numgrid_context = numgrid_new()
+   numgrid_context = numgrid_new_context()
 
-   call numgrid_generate(numgrid_context,          &
-                         radial_precision,         &
-                         min_num_angular_points,   &
-                         max_num_angular_points,   &
-                         num_centers,              &
-                         center_coordinates,       &
-                         center_elements,          &
-                         num_outer_centers,        &
-                         outer_center_coordinates, &
-                         outer_center_elements,    &
-                         num_shells,               &
-                         shell_centers,            &
-                         shell_l_quantum_numbers,  &
-                         shell_num_primitives,     &
-                         primitive_exponents)
+   call numgrid_generate_grid(numgrid_context,          &
+                              radial_precision,         &
+                              min_num_angular_points,   &
+                              max_num_angular_points,   &
+                              num_centers,              &
+                              center_coordinates,       &
+                              center_elements,          &
+                              num_outer_centers,        &
+                              outer_center_coordinates, &
+                              outer_center_elements,    &
+                              num_shells,               &
+                              shell_centers,            &
+                              shell_l_quantum_numbers,  &
+                              shell_num_primitives,     &
+                              primitive_exponents)
 
    num_points = numgrid_get_num_points(numgrid_context)
    grid => numgrid_get_grid(numgrid_context)
@@ -274,6 +276,6 @@ program test
    deallocate(vxc)
 
    call xcint_free(xcint_context)
-   call numgrid_free(numgrid_context)
+   call numgrid_free_context(numgrid_context)
 
 end program

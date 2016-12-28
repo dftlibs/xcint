@@ -11,9 +11,17 @@ ExternalProject_Add(
 link_directories(${PROJECT_BINARY_DIR}/numgrid/src/numgrid-build/src)
 link_directories(${PROJECT_BINARY_DIR}/numgrid/src/numgrid-build/lib)
 
+# workaround:
+# different dynamic lib suffix on mac
+if(APPLE)
+    set(_dyn_lib_suffix dylib)
+else()
+    set(_dyn_lib_suffix so)
+endif()
+
 set(NUMGRID_LIBS
-    libnumgrid.so
-    liblebedev.so
+    libnumgrid.${_dyn_lib_suffix}
+    liblebedev.${_dyn_lib_suffix}
     libnumgrid_fortran.a
     )
 

@@ -8,7 +8,6 @@ ExternalProject_Add(
     INSTALL_COMMAND true  # currently no install command
     )
 
-link_directories(${PROJECT_BINARY_DIR}/balboa/src/balboa-build/src)
 link_directories(${PROJECT_BINARY_DIR}/balboa/src/balboa-build/lib)
 
 # workaround:
@@ -24,6 +23,3 @@ set(BALBOA_LIBS
     )
 
 include_directories(${PROJECT_BINARY_DIR}/balboa/src/balboa/api)
-
-# consider renaming to include instead of modules
-include_directories(${PROJECT_BINARY_DIR}/balboa/src/balboa-build/modules)

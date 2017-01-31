@@ -63,6 +63,8 @@ if(ENABLE_UNIT_TESTS)
             ${BALBOA_LIBS}
             )
 
+        set_target_properties(fortran_test PROPERTIES LINKER_LANGUAGE Fortran)
+
         add_test(fortran_test ${PROJECT_BINARY_DIR}/bin/fortran_test ${PROJECT_SOURCE_DIR}/test)
     endif()
 endif()

@@ -4,6 +4,7 @@
 #include "Basis.h"
 #include "AOBatch.h"
 #include "Functional.h"
+#include "balboa.h"
 
 typedef int (*print_function)(const char* line);
 
@@ -48,6 +49,7 @@ class XCint
 
         Functional fun;
         Basis basis;
+        balboa_context_t *balboa_context;
 
         void nullify();
 

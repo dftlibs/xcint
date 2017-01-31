@@ -89,7 +89,7 @@ def test_energy():
 
     numgrid.free_context(numgrid_context)
 
-    xcint_context = xcint.lib.xcint_new()
+    xcint_context = xcint.lib.xcint_new_context()
 
     contraction_coefficients = [6.86365e-01,
                                 1.27435e+00,
@@ -168,4 +168,4 @@ def test_energy():
         dot += vxc[i] * dmat[i]
     assert abs(dot - -6.729996811122) < 1.0e-11
 
-    xcint.lib.xcint_free(xcint_context)
+    xcint.lib.xcint_free_context(xcint_context)

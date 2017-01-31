@@ -164,7 +164,7 @@ TEST(xcint, energy_spherical)
 
     double *grid = (double*) get_grid(numgrid_context);
 
-    xcint_context_t *xcint_context = xcint_new();
+    xcint_context_t *xcint_context = xcint_new_context();
 
     // we do this twice to test idempotent xcint_set_basis
     ierr = xcint_set_basis(xcint_context,
@@ -281,5 +281,5 @@ TEST(xcint, energy_spherical)
     vxc = NULL;
 
     free_context(numgrid_context);
-    xcint_free(xcint_context);
+    xcint_free_context(xcint_context);
 }

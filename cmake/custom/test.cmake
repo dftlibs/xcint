@@ -43,6 +43,7 @@ if(ENABLE_UNIT_TESTS)
         xcint
         ${PROJECT_BINARY_DIR}/external/xcfun-build/libxcfun.a
         ${NUMGRID_LIBS}
+        ${BALBOA_LIBS}
         ${MATH_LIBS}
         pthread
         )
@@ -59,6 +60,7 @@ if(ENABLE_UNIT_TESTS)
             fortran_test
             xcint_fortran
             ${NUMGRID_LIBS}
+            ${BALBOA_LIBS}
             )
 
         add_test(fortran_test ${PROJECT_BINARY_DIR}/bin/fortran_test ${PROJECT_SOURCE_DIR}/test)

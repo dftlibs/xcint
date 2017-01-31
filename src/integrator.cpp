@@ -30,44 +30,59 @@ xc_functional xcfun;
 int dens_offset;
 
 
-xcint_context_t *xcint_new()
+XCINT_API
+xcint_context_t *xcint_new_context()
 {
     return AS_TYPE(xcint_context_t, new XCint());
 }
 XCint::XCint()
 {
     nullify();
+    balboa_context = balboa_new_context();
 }
 
 
-void xcint_free(xcint_context_t *context)
+XCINT_API
+void xcint_free_context(xcint_context_t *xcint_context)
 {
-    if (!context) return;
-    delete AS_TYPE(XCint, context);
+    if (!xcint_context) return;
+    delete AS_TYPE(XCint, xcint_context);
 }
 XCint::~XCint()
 {
     nullify();
+    balboa_free_context(balboa_context);
 }
 
 
-XCINT_API int xcint_set_functional(xcint_context_t *context,
-                                   const char      *line)
+XCINT_API
+int xcint_set_functional(
+    xcint_context_t *context,
+    const char *line
+    )
 {
     return AS_TYPE(XCint, context)->set_functional(line);
 }
+int XCint::set_functional(const char *line)
+{
+    fun.set_functional(line);
+    return 0;
+}
 
 
-XCINT_API int xcint_set_basis(xcint_context_t     *context,
-                              const xcint_basis_t basis_type,
-                              const int           num_centers,
-                              const double        center_coordinates[],
-                              const int           num_shells,
-                              const int           shell_centers[],
-                              const int           shell_l_quantum_numbers[],
-                              const int           shell_num_primitives[],
-                              const double        primitive_exponents[],
-                              const double        contraction_coefficients[])
+XCINT_API
+int xcint_set_basis(
+    xcint_context_t *context,
+    const xcint_basis_t basis_type,
+    const int    num_centers,
+    const double center_coordinates[],
+    const int    num_shells,
+    const int    shell_centers[],
+    const int    shell_l_quantum_numbers[],
+    const int    shell_num_primitives[],
+    const double primitive_exponents[],
+    const double contraction_coefficients[]
+    )
 {
     return AS_TYPE(XCint, context)->set_basis(basis_type,
                                               num_centers,
@@ -79,21 +94,6 @@ XCINT_API int xcint_set_basis(xcint_context_t     *context,
                                               primitive_exponents,
                                               contraction_coefficients);
 }
-
-
-void XCint::nullify()
-{
-    reset_time();
-}
-
-
-int XCint::set_functional(const char *line)
-{
-    fun.set_functional(line);
-    return 0;
-}
-
-
 int XCint::set_basis(const int    basis_type,
                      const int    num_centers,
                      const double center_coordinates[],
@@ -115,6 +115,12 @@ int XCint::set_basis(const int    basis_type,
                contraction_coefficients);
 
     return 0;
+}
+
+
+void XCint::nullify()
+{
+    reset_time();
 }
 
 
@@ -656,14 +662,16 @@ void XCint::integrate_batch(const double dmat[],
 }
 
 
-XCINT_API int xcint_integrate_scf(const xcint_context_t *context,
-                                  const xcint_mode_t    mode,
-                                  const int             num_points,
-                                  const double          grid[],
-                                  const double          dmat[],
-                                        double          *exc,
-                                        double          vxc[],
-                                        double          *num_electrons)
+XCINT_API
+int xcint_integrate_scf(
+    const xcint_context_t *context,
+    const xcint_mode_t mode,
+    const int    num_points,
+    const double grid[],
+    const double dmat[],
+          double *exc,
+          double vxc[],
+          double *num_electrons)
 {
     int num_perturbations = 0;
     xcint_perturbation_t *perturbations = NULL;
@@ -689,21 +697,23 @@ XCINT_API int xcint_integrate_scf(const xcint_context_t *context,
 }
 
 
-XCINT_API int xcint_integrate(const xcint_context_t      *context,
-                              const xcint_mode_t         mode,
-                              const int                  num_points,
-                              const double               grid[],
-                              const int                  num_perturbations,
-                              const xcint_perturbation_t perturbations[],
-                              const int                  components[],
-                              const int                  num_dmat,
-                              const int                  perturbation_indices[],
-                              const double               dmat[],
-                              const bool                 get_exc,
-                                    double               *exc,
-                              const bool                 get_vxc,
-                                    double               vxc[],
-                                    double               *num_electrons)
+XCINT_API
+int xcint_integrate(
+    const xcint_context_t *context,
+    const xcint_mode_t mode,
+    const int    num_points,
+    const double grid[],
+    const int    num_perturbations,
+    const xcint_perturbation_t perturbations[],
+    const int    components[],
+    const int    num_dmat,
+    const int    perturbation_indices[],
+    const double dmat[],
+    const bool   get_exc,
+          double *exc,
+    const bool   get_vxc,
+          double vxc[],
+          double *num_electrons)
 {
     return AS_CTYPE(XCint, context)->integrate(mode,
                                                num_points,

@@ -4,8 +4,8 @@ module xcint
 
    implicit none
 
-   public xcint_new
-   public xcint_free
+   public xcint_new_context
+   public xcint_free_context
    public xcint_set_functional
    public xcint_set_basis
    public xcint_integrate_scf
@@ -39,15 +39,15 @@ module xcint
       enumerator :: XCINT_PERT_MAG_LAO
    end enum
 
-   interface xcint_new
-      function xcint_new() result(context) bind (C)
+   interface xcint_new_context
+      function xcint_new_context() result(context) bind (C)
          import :: c_ptr
          type(c_ptr) :: context
       end function
    end interface
 
-   interface xcint_free
-      subroutine xcint_free(context) bind (C)
+   interface xcint_free_context
+      subroutine xcint_free_context(context) bind (C)
          import :: c_ptr
          type(c_ptr), value :: context
       end subroutine

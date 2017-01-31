@@ -1,7 +1,7 @@
 program test
 
-   use xcint, only: xcint_new,            &
-                    xcint_free,           &
+   use xcint, only: xcint_new_context,    &
+                    xcint_free_context,   &
                     xcint_set_basis,      &
                     xcint_set_functional, &
                     xcint_integrate_scf,  &
@@ -200,7 +200,7 @@ program test
    num_points = numgrid_get_num_points(numgrid_context)
    grid => numgrid_get_grid(numgrid_context)
 
-   xcint_context = xcint_new()
+   xcint_context = xcint_new_context()
 
    ierr = xcint_set_basis(xcint_context,           &
                           XCINT_BASIS_SPHERICAL,   &
@@ -275,7 +275,7 @@ program test
    deallocate(dmat)
    deallocate(vxc)
 
-   call xcint_free(xcint_context)
+   call xcint_free_context(xcint_context)
    call numgrid_free_context(numgrid_context)
 
 end program

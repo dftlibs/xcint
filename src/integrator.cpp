@@ -38,7 +38,7 @@ xcint_context_t *xcint_new_context()
 XCint::XCint()
 {
     nullify();
-    balboa_context = balboa_new_context();
+//  balboa_context = balboa_new_context();
 }
 
 
@@ -51,7 +51,7 @@ void xcint_free_context(xcint_context_t *xcint_context)
 XCint::~XCint()
 {
     nullify();
-    balboa_free_context(balboa_context);
+//  balboa_free_context(balboa_context);
 }
 
 

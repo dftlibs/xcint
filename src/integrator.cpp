@@ -38,7 +38,7 @@ xcint_context_t *xcint_new_context()
 XCint::XCint()
 {
     nullify();
-//  balboa_context = balboa_new_context();
+    balboa_context = balboa_new_context();
 }
 
 
@@ -51,7 +51,7 @@ void xcint_free_context(xcint_context_t *xcint_context)
 XCint::~XCint()
 {
     nullify();
-//  balboa_free_context(balboa_context);
+    balboa_free_context(balboa_context);
 }
 
 
@@ -114,6 +114,20 @@ int XCint::set_basis(const int    basis_type,
                primitive_exponents,
                contraction_coefficients);
 
+    int ierr;
+    ierr = balboa_set_basis(
+        balboa_context,
+        basis_type,
+        num_centers,
+        center_coordinates,
+        num_shells,
+        shell_centers,
+        shell_l_quantum_numbers,
+        shell_num_primitives,
+        primitive_exponents,
+        contraction_coefficients
+    );
+
     return 0;
 }
 
@@ -161,6 +175,7 @@ void XCint::integrate_batch(const double dmat[],
     rolex::start_partial();
 
     batch.get_ao(basis,
+                 balboa_context,
                  get_gradient,
                  max_ao_order_g,
                  block_length,

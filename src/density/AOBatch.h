@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "Basis.h"
+#include "balboa.h"
 
 class AOBatch
 {
@@ -14,6 +15,7 @@ class AOBatch
         ~AOBatch();
 
         void get_ao(const Basis &basis,
+                    const balboa_context_t *balboa_context,
                     const bool   use_gradient,
                     const int    max_ao_geo_order,
                     const int    block_length,

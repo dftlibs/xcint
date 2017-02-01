@@ -11,8 +11,8 @@ add_library(
     src/xcint_blas.cpp
     src/Functional.cpp
     src/integrator.cpp
-    src/density/Basis.cpp
-    src/density/AOBatch.cpp
+    src/Basis.cpp
+    src/AOBatch.cpp
     )
 
 set_target_properties(xcint PROPERTIES COMPILE_FLAGS "-fPIC")

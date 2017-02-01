@@ -12,7 +12,6 @@
 #include "rolex.h"
 #include "integrator.h"
 #include "AOBatch.h"
-#include "MemAllocator.h"
 
 #include "xcint_parameters.h"
 #include "parameters.h"
@@ -161,10 +160,8 @@ void XCint::integrate_batch(const double dmat[],
 {
     AOBatch batch;
 
-    size_t block_size = AO_BLOCK_LENGTH*num_variables*MAX_NUM_DENSITIES*sizeof(double);
-    double *n = (double*) MemAllocator::allocate(block_size);
-    block_size = AO_BLOCK_LENGTH*num_variables*sizeof(double);
-    double *u = (double*) MemAllocator::allocate(block_size);
+    double *n = new double[AO_BLOCK_LENGTH*num_variables*MAX_NUM_DENSITIES];
+    double *u = new double[AO_BLOCK_LENGTH*num_variables];
 
     std::vector<int> coor;
     double prefactors[5] = {1.0, 2.0, 2.0, 2.0, 0.5};
@@ -270,12 +267,10 @@ void XCint::integrate_batch(const double dmat[],
 
         dens_offset = fun.set_order(num_perturbations, xcfun);
 
-        size_t block_size = num_variables*dens_offset*block_length*sizeof(double);
-        xcin = (double*) MemAllocator::allocate(block_size);
+        xcin = new double[num_variables*dens_offset*block_length];
         std::fill(&xcin[0], &xcin[num_variables*dens_offset*block_length], 0.0);
 
-        block_size = dens_offset*block_length*sizeof(double);
-        xcout = (double*) MemAllocator::allocate(block_size);
+        xcout = new double[dens_offset*block_length];
 
         for (int k = 0; k < MAX_NUM_DENSITIES; k++)
         {
@@ -306,8 +301,8 @@ void XCint::integrate_batch(const double dmat[],
 
 //      time_fun_derv += rolex::stop_partial();
 
-        MemAllocator::deallocate(xcin);
-        MemAllocator::deallocate(xcout);
+        delete[] xcin;
+        delete[] xcout;
     }
 
 
@@ -672,8 +667,8 @@ void XCint::integrate_batch(const double dmat[],
         }
     }
 
-    MemAllocator::deallocate(n);
-    MemAllocator::deallocate(u);
+    delete[] n;
+    delete[] u;
 }
 
 
@@ -773,7 +768,6 @@ int XCint::integrate(const xcint_mode_t         mode,
 
     int num_variables;
     int max_ao_order_g;
-    size_t block_size;
 
     double a;
     double prefactors[5] = {1.0, 2.0, 2.0, 2.0, 0.5};
@@ -804,8 +798,7 @@ int XCint::integrate(const xcint_mode_t         mode,
     int *geo_coor = NULL;
     if (geo_derv_order > 0)
     {
-        block_size = geo_derv_order*sizeof(int);
-        geo_coor = (int*) MemAllocator::allocate(block_size);
+        geo_coor = new int[geo_derv_order];
         for (int i = 0; i < num_perturbations; i++)
         {
             if (perturbations[i] == XCINT_PERT_GEO) geo_coor[i] = components[2*i]; // FIXME
@@ -857,15 +850,10 @@ int XCint::integrate(const xcint_mode_t         mode,
 
     rolex::start_partial();
 
-    bool *use_dmat = NULL;
-    int  *dmat_index = NULL;
-
-    block_size = MAX_NUM_DENSITIES*sizeof(int);
-
-    dmat_index = (int*) MemAllocator::allocate(block_size);
+    int *dmat_index = new int[MAX_NUM_DENSITIES];
     std::fill(&dmat_index[0], &dmat_index[MAX_NUM_DENSITIES], 0);
 
-    use_dmat = (bool*) MemAllocator::allocate(block_size);
+    bool *use_dmat = new bool[MAX_NUM_DENSITIES];
     std::fill(&use_dmat[0], &use_dmat[MAX_NUM_DENSITIES], false);
 
     assert(num_dmat <= MAX_NUM_DENSITIES);
@@ -894,14 +882,14 @@ int XCint::integrate(const xcint_mode_t         mode,
     }
 
     double *exc_buffer = NULL;
-    if (get_exc) exc_buffer = (double*) MemAllocator::allocate(num_threads*sizeof(double));
+    if (get_exc) exc_buffer = new double[num_threads];
 
-    double *num_electrons_buffer = (double*) MemAllocator::allocate(num_threads*sizeof(double));
+    double *num_electrons_buffer = new double[num_threads];
 
     double *vxc_buffer = NULL;
     if (get_vxc)
     {
-        vxc_buffer = (double*) MemAllocator::allocate(num_threads*mat_dim*mat_dim*sizeof(double));
+        vxc_buffer = new double[num_threads*mat_dim*mat_dim];
         std::fill(&vxc_buffer[0], &vxc_buffer[num_threads*mat_dim*mat_dim], 0.0);
     }
 
@@ -978,17 +966,17 @@ int XCint::integrate(const xcint_mode_t         mode,
         }
     }
 
-    MemAllocator::deallocate(num_electrons_buffer);
-    MemAllocator::deallocate(exc_buffer);
-    MemAllocator::deallocate(vxc_buffer);
+    delete[] num_electrons_buffer;
+    delete[] exc_buffer;
+    delete[] vxc_buffer;
 #else
     *exc = exc_local;
     *num_electrons = num_electrons_local;
 #endif
 
-    MemAllocator::deallocate(use_dmat);
-    MemAllocator::deallocate(dmat_index);
-    MemAllocator::deallocate(geo_coor);
+    delete[] use_dmat;
+    delete[] dmat_index;
+    delete[] geo_coor;
 
     if (get_vxc)
     {
@@ -1032,18 +1020,12 @@ void XCint::distribute_matrix(const int              block_length,
 
     int off;
 
-    double *xcin = NULL;
-    double *xcout = NULL;
-    size_t block_size;
-
     dens_offset = fun.set_order(num_perturbations + 1, xcfun);
 
-    block_size = num_variables*dens_offset*block_length*sizeof(double);
-    xcin = (double*) MemAllocator::allocate(block_size);
+    double *xcin = new double[num_variables*dens_offset*block_length];
     std::fill(&xcin[0], &xcin[num_variables*dens_offset*block_length], 0.0);
 
-    block_size = dens_offset*block_length*sizeof(double);
-    xcout = (double*) MemAllocator::allocate(block_size);
+    double *xcout = new double[dens_offset*block_length];
 
     // has to be AO_BLOCK_LENGTH otherwise u can be too short
     std::fill(&u[0], &u[AO_BLOCK_LENGTH*num_variables], 0.0);
@@ -1143,8 +1125,8 @@ void XCint::distribute_matrix(const int              block_length,
         exc += xcout[ib*dens_offset]*grid[(w_off + ib)*4 + 3];
     }
 
-    MemAllocator::deallocate(xcin);
-    MemAllocator::deallocate(xcout);
+    delete[] xcin;
+    delete[] xcout;
 
 //  time_matrix_distribution += rolex::stop_partial();
 }

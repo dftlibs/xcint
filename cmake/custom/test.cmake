@@ -58,9 +58,9 @@ if(ENABLE_UNIT_TESTS)
 
         target_link_libraries(
             fortran_test
+            ${BALBOA_LIBS}
             xcint_fortran
             ${NUMGRID_LIBS}
-            ${BALBOA_LIBS}
             )
 
         set_target_properties(fortran_test PROPERTIES LINKER_LANGUAGE Fortran)

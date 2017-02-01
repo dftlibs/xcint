@@ -21,17 +21,6 @@ class AOBatch
                     const int    block_length,
                     const double p[]);
 
-        void get_ao_shell(const int        ishell,
-                          const Basis &basis,
-                                double     ao_local[],
-                          const int        max_ao_geo_order,
-                          const double     p[]);
-
-        void get_ao_shell(const int        ishell,
-                          const Basis &basis,
-                          const int        max_ao_geo_order,
-                          const double     p[]);
-
         void distribute_matrix_undiff(const int    mat_dim,
                                       const bool   use_gradient,
                                       const bool   use_tau,

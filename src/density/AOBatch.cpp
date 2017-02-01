@@ -114,27 +114,7 @@ void AOBatch::get_ao(const Basis &basis,
 
     std::fill(&ao[0], &ao[ao_length], 0.0);
 
-//  // FIXME can be optimized
-//  // we do this because p can be shorter than 4*AO_BLOCK_LENGTH
-//  // we pad it by very large numbers to let the code screen them away
-//  double p_block[4*AO_BLOCK_LENGTH];
-//  std::fill(&p_block[0], &p_block[4*AO_BLOCK_LENGTH], 1.0e50);
-//  std::copy(&p[0], &p[4*block_length], &p_block[0]);
-
-//  for (int ishell = 0; ishell < basis.num_shells; ishell++)
-//  {
-//      get_ao_shell(ishell,
-//                   basis,
-//                   ao,
-//                   max_ao_geo_order,
-//                   p_block);
-//  }
-
     int buffer_len = balboa_get_buffer_len(balboa_context, max_ao_geo_order, block_length);
-
-//  printf("raboof ao_length=%i AO_BLOCK_LENGTH=%i num_ao_slices=%i num_ao_cartesian=%i\n", ao_length, AO_BLOCK_LENGTH, basis.num_ao_slices, basis.num_ao_cartesian);
-
-//  printf("raboof buffer_len=%i block_length=%i\n", buffer_len, block_length);
 
     double *buffer = new double[buffer_len];
     std::fill(&buffer[0], &buffer[buffer_len], 0.0);
@@ -162,35 +142,10 @@ void AOBatch::get_ao(const Basis &basis,
 
     std::copy(&buffer[0], &buffer[buffer_len], &ao[0]);
 
-//  for (int i = 0; i < buffer_len; i++)
-//  {
-//      if (fabs(buffer[i] - ao[i]) > 1.0e-4)
-//      {
-//           printf("raboof i=%i own=%f ref=%f\n", i, buffer[i], ao[i]);
-//      }
-//  }
-
     delete[] buffer;
     delete[] x_coordinates_bohr;
     delete[] y_coordinates_bohr;
     delete[] z_coordinates_bohr;
-
-
-//  debug
-//  if (max_ao_geo_order == 1)
-//  {
-//      for (int islice = 0; islice < 4; islice++)
-//      {
-//          for (int iao = 0; iao < basis.num_ao_cartesian; iao++)
-//          {
-//              for (int ib = 0; ib < AO_BLOCK_LENGTH; ib++)
-//              {
-//                  printf("%i %i %i %e\n", islice, iao, ib, ao[islice*AO_BLOCK_LENGTH*basis.num_ao_cartesian + iao*AO_BLOCK_LENGTH + ib]);
-//              }
-//          }
-//      }
-//      exit(1);
-//  }
 
     compress(basis,
              use_gradient,
@@ -198,36 +153,6 @@ void AOBatch::get_ao(const Basis &basis,
              ao_compressed_index,
              ao_compressed,
              std::vector<int>());
-}
-
-
-void AOBatch::get_ao_shell(const int        ishell,
-                                const Basis &basis,
-                                      double     ao_local[],
-                                const int        max_ao_geo_order,
-                                const double     p[])
-{
-    double px[AO_CHUNK_LENGTH];
-    double py[AO_CHUNK_LENGTH];
-    double pz[AO_CHUNK_LENGTH];
-    double p2[AO_CHUNK_LENGTH];
-    double s[AO_CHUNK_LENGTH];
-    double buffer[BUFFER_LENGTH];
-
-    int n = 0;
-    for (int jshell = 0; jshell < ishell; jshell++)
-    {
-        n += basis.shell_num_primitives[jshell];
-    }
-
-    switch (max_ao_geo_order)
-    {
-        #include "aocalls.h"
-        default:
-            std::cout << "ERROR: get_ao order too high\n";
-            exit(1);
-            break;
-    }
 }
 
 

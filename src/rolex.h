@@ -3,13 +3,13 @@
 
 namespace rolex
 {
-    void start_global();
+void start_global();
 
-    double stop_global();
+double stop_global();
 
-    void start_partial();
+void start_partial();
 
-    double stop_partial();
+double stop_partial();
 }
 
 #endif // rolex_h_

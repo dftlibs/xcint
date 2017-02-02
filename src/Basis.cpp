@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include <math.h>
+#include <stdio.h>
 
 #include <algorithm>
 #include <iostream>
@@ -9,12 +9,7 @@
 
 #include "parameters.h"
 
-
-Basis::Basis()
-{
-    nullify();
-}
-
+Basis::Basis() { nullify(); }
 
 Basis::~Basis()
 {
@@ -22,33 +17,31 @@ Basis::~Basis()
     nullify();
 }
 
-
 void Basis::nullify()
 {
-    num_centers               = -1;
-    num_shells                = -1;
-    shell_l_quantum_numbers   = NULL;
-    center_coordinates        = NULL;
-    shell_centers             = NULL;
+    num_centers = -1;
+    num_shells = -1;
+    shell_l_quantum_numbers = NULL;
+    center_coordinates = NULL;
+    shell_centers = NULL;
     shell_centers_coordinates = NULL;
-    shell_extent_squared      = NULL;
-    cartesian_deg             = NULL;
-    shell_off                 = NULL;
-    spherical_deg             = NULL;
-    is_spherical              = false;
-    num_ao                    = -1;
-    num_ao_cartesian          = -1;
-    num_ao_spherical          = -1;
-    num_ao_slices             = -1;
-    ao_center                 = NULL;
-    shell_num_primitives      = NULL;
-    geo_diff_order            = -1;
-    geo_off                   = NULL;
-    primitive_exponents       = NULL;
-    contraction_coefficients  = NULL;
-    is_initialized            = 0;
+    shell_extent_squared = NULL;
+    cartesian_deg = NULL;
+    shell_off = NULL;
+    spherical_deg = NULL;
+    is_spherical = false;
+    num_ao = -1;
+    num_ao_cartesian = -1;
+    num_ao_spherical = -1;
+    num_ao_slices = -1;
+    ao_center = NULL;
+    shell_num_primitives = NULL;
+    geo_diff_order = -1;
+    geo_off = NULL;
+    primitive_exponents = NULL;
+    contraction_coefficients = NULL;
+    is_initialized = 0;
 }
-
 
 void Basis::deallocate()
 {
@@ -67,61 +60,65 @@ void Basis::deallocate()
     delete[] contraction_coefficients;
 }
 
-
-void Basis::init(const int    in_basis_type,
-                      const int    in_num_centers,
-                      const double in_center_coordinates[],
-                      const int    in_num_shells,
-                      const int    in_shell_centers[],
-                      const int    in_shell_l_quantum_numbers[],
-                      const int    in_shell_num_primitives[],
-                      const double in_primitive_exponents[],
-                      const double in_contraction_coefficients[])
+void Basis::init(const int in_basis_type, const int in_num_centers,
+                 const double in_center_coordinates[], const int in_num_shells,
+                 const int in_shell_centers[],
+                 const int in_shell_l_quantum_numbers[],
+                 const int in_shell_num_primitives[],
+                 const double in_primitive_exponents[],
+                 const double in_contraction_coefficients[])
 {
     int i, l, deg, kc, ks;
 
     // FIXME ugly hack to make basis set initialization idempotent
-    if (is_initialized == 12345678) deallocate();
+    if (is_initialized == 12345678)
+        deallocate();
     nullify();
 
     num_centers = in_num_centers;
 
     switch (in_basis_type)
     {
-        case XCINT_BASIS_SPHERICAL:
-            is_spherical = true;
-            break;
-        case XCINT_BASIS_CARTESIAN:
-            is_spherical = false;
-            fprintf(stderr, "ERROR: XCINT_BASIS_CARTESIAN not tested.\n");
-            exit(-1);
-            break;
-        default:
-            fprintf(stderr, "ERROR: basis_type not recognized.\n");
-            exit(-1);
-            break;
+    case XCINT_BASIS_SPHERICAL:
+        is_spherical = true;
+        break;
+    case XCINT_BASIS_CARTESIAN:
+        is_spherical = false;
+        fprintf(stderr, "ERROR: XCINT_BASIS_CARTESIAN not tested.\n");
+        exit(-1);
+        break;
+    default:
+        fprintf(stderr, "ERROR: basis_type not recognized.\n");
+        exit(-1);
+        break;
     }
 
     num_shells = in_num_shells;
 
-    center_coordinates = new double[3*num_centers];
-    std::copy(&in_center_coordinates[0], &in_center_coordinates[3*num_centers], &center_coordinates[0]);
+    center_coordinates = new double[3 * num_centers];
+    std::copy(&in_center_coordinates[0],
+              &in_center_coordinates[3 * num_centers], &center_coordinates[0]);
 
     shell_centers = new int[num_shells];
-    std::copy(&in_shell_centers[0], &in_shell_centers[num_shells], &shell_centers[0]);
+    std::copy(&in_shell_centers[0], &in_shell_centers[num_shells],
+              &shell_centers[0]);
 
-    shell_centers_coordinates = new double[3*num_shells];
+    shell_centers_coordinates = new double[3 * num_shells];
 
     for (int ishell = 0; ishell < num_shells; ishell++)
     {
         for (int ixyz = 0; ixyz < 3; ixyz++)
         {
-            shell_centers_coordinates[3*ishell + ixyz] = in_center_coordinates[3*(in_shell_centers[ishell]-1) + ixyz];
+            shell_centers_coordinates[3 * ishell + ixyz] =
+                in_center_coordinates[3 * (in_shell_centers[ishell] - 1) +
+                                      ixyz];
         }
     }
 
     shell_l_quantum_numbers = new int[num_shells];
-    std::copy(&in_shell_l_quantum_numbers[0], &in_shell_l_quantum_numbers[num_shells], &shell_l_quantum_numbers[0]);
+    std::copy(&in_shell_l_quantum_numbers[0],
+              &in_shell_l_quantum_numbers[num_shells],
+              &shell_l_quantum_numbers[0]);
 
     for (int ishell = 0; ishell < num_shells; ishell++)
     {
@@ -133,7 +130,8 @@ void Basis::init(const int    in_basis_type,
     }
 
     shell_num_primitives = new int[num_shells];
-    std::copy(&in_shell_num_primitives[0], &in_shell_num_primitives[num_shells], &shell_num_primitives[0]);
+    std::copy(&in_shell_num_primitives[0], &in_shell_num_primitives[num_shells],
+              &shell_num_primitives[0]);
 
     int n = 0;
     for (int ishell = 0; ishell < num_shells; ishell++)
@@ -143,8 +141,10 @@ void Basis::init(const int    in_basis_type,
 
     primitive_exponents = new double[n];
     contraction_coefficients = new double[n];
-    std::copy(&in_primitive_exponents[0], &in_primitive_exponents[n], &primitive_exponents[0]);
-    std::copy(&in_contraction_coefficients[0], &in_contraction_coefficients[n], &contraction_coefficients[0]);
+    std::copy(&in_primitive_exponents[0], &in_primitive_exponents[n],
+              &primitive_exponents[0]);
+    std::copy(&in_contraction_coefficients[0], &in_contraction_coefficients[n],
+              &contraction_coefficients[0]);
 
     // get approximate spacial shell extent
     double SHELL_SCREENING_THRESHOLD = 2.0e-12;
@@ -161,18 +161,19 @@ void Basis::init(const int    in_basis_type,
             e = primitive_exponents[n];
             c = contraction_coefficients[n];
             n++;
-            r_temp = (log(fabs(c)) - log(SHELL_SCREENING_THRESHOLD))/e;
-            if (r_temp > r) r = r_temp;
+            r_temp = (log(fabs(c)) - log(SHELL_SCREENING_THRESHOLD)) / e;
+            if (r_temp > r)
+                r = r_temp;
         }
         if (shell_l_quantum_numbers[ishell] < 10)
         {
-            r = pow(r, 0.5)*f[shell_l_quantum_numbers[ishell]];
+            r = pow(r, 0.5) * f[shell_l_quantum_numbers[ishell]];
         }
         else
         {
             r = 1.0e10;
         }
-        shell_extent_squared[ishell] = r*r;
+        shell_extent_squared[ishell] = r * r;
     }
 
     cartesian_deg = new int[num_shells];
@@ -184,8 +185,8 @@ void Basis::init(const int    in_basis_type,
     for (int ishell = 0; ishell < num_shells; ishell++)
     {
         l = shell_l_quantum_numbers[ishell];
-        kc = (l+1)*(l+2)/2;
-        ks = 2*l + 1;
+        kc = (l + 1) * (l + 2) / 2;
+        ks = 2 * l + 1;
         cartesian_deg[ishell] = kc;
         spherical_deg[ishell] = ks;
 
@@ -208,7 +209,9 @@ void Basis::init(const int    in_basis_type,
     }
     else
     {
-        fprintf(stderr, "ERROR: XCint probably broken for cart basis, needs testing.\n");
+        fprintf(
+            stderr,
+            "ERROR: XCint probably broken for cart basis, needs testing.\n");
         exit(-1);
         num_ao = num_ao_cartesian;
     }
@@ -217,27 +220,26 @@ void Basis::init(const int    in_basis_type,
     i = 0;
     for (int ishell = 0; ishell < num_shells; ishell++)
     {
-       if (is_spherical)
-       {
-           deg = spherical_deg[ishell];
-       }
-       else
-       {
-           deg = cartesian_deg[ishell];
-       }
-       for (int j = i; j < (i + deg); j++)
-       {
-           ao_center[j] = in_shell_centers[ishell] - 1;
-       }
+        if (is_spherical)
+        {
+            deg = spherical_deg[ishell];
+        }
+        else
+        {
+            deg = cartesian_deg[ishell];
+        }
+        for (int j = i; j < (i + deg); j++)
+        {
+            ao_center[j] = in_shell_centers[ishell] - 1;
+        }
 
-       i += deg;
+        i += deg;
     }
 
     set_geo_off(MAX_GEO_DIFF_ORDER); // FIXME
 
     is_initialized = 12345678;
 }
-
 
 void Basis::set_geo_off(const int g)
 {
@@ -259,10 +261,10 @@ void Basis::set_geo_off(const int g)
                 j = a - b;
                 k = b - 1;
 
-                id  = (g + 1)*(g + 1)*k;
-                id += (g + 1)*j;
+                id = (g + 1) * (g + 1) * k;
+                id += (g + 1) * j;
                 id += i;
-                geo_off[id] = m*num_ao;
+                geo_off[id] = m * num_ao;
 
                 m++;
             }
@@ -271,43 +273,22 @@ void Basis::set_geo_off(const int g)
     num_ao_slices = m;
 }
 
-
 int Basis::get_geo_off(const int i, const int j, const int k) const
 {
     int id;
     // FIXME add guard against going past the array
-    id  = (geo_diff_order + 1)*(geo_diff_order + 1)*k;
-    id += (geo_diff_order + 1)*j;
+    id = (geo_diff_order + 1) * (geo_diff_order + 1) * k;
+    id += (geo_diff_order + 1) * j;
     id += i;
     return geo_off[id];
 }
 
+int Basis::get_num_centers() const { return num_centers; }
 
-int Basis::get_num_centers() const
-{
-    return num_centers;
-}
+int Basis::get_num_ao_slices() const { return num_ao_slices; }
 
+int Basis::get_num_ao() const { return num_ao; }
 
-int Basis::get_num_ao_slices() const
-{
-    return num_ao_slices;
-}
+int Basis::get_num_ao_cartesian() const { return num_ao_cartesian; }
 
-
-int Basis::get_num_ao() const
-{
-    return num_ao;
-}
-
-
-int Basis::get_num_ao_cartesian() const
-{
-    return num_ao_cartesian;
-}
-
-
-int Basis::get_ao_center(const int i) const
-{
-    return ao_center[i];
-}
+int Basis::get_ao_center(const int i) const { return ao_center[i]; }

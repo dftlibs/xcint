@@ -1,19 +1,19 @@
-#include "xcint.h"
 #include "xcfun.h"
+#include "xcint.h"
 
+#include <assert.h>
 #include <math.h>
 #include <time.h>
-#include <assert.h>
 
+#include <algorithm>
 #include <cstdlib>
 #include <fstream>
-#include <algorithm>
 
-#include "rolex.h"
 #include "integrator.h"
+#include "rolex.h"
 
-#include "xcint_parameters.h"
 #include "parameters.h"
+#include "xcint_parameters.h"
 
 #ifdef ENABLE_OMP
 #include "omp.h"
@@ -22,11 +22,9 @@
 #define AS_TYPE(Type, Obj) reinterpret_cast<Type *>(Obj)
 #define AS_CTYPE(Type, Obj) reinterpret_cast<const Type *>(Obj)
 
-
 // FIXME ugly global
 xc_functional xcfun;
 int dens_offset;
-
 
 XCINT_API
 xcint_context_t *xcint_new_context()
@@ -39,11 +37,11 @@ XCint::XCint()
     batch = new AOBatch();
 }
 
-
 XCINT_API
 void xcint_free_context(xcint_context_t *xcint_context)
 {
-    if (!xcint_context) return;
+    if (!xcint_context)
+        return;
     delete AS_TYPE(XCint, xcint_context);
 }
 XCint::~XCint()
@@ -52,12 +50,8 @@ XCint::~XCint()
     delete batch;
 }
 
-
 XCINT_API
-int xcint_set_functional(
-    xcint_context_t *context,
-    const char *line
-    )
+int xcint_set_functional(xcint_context_t *context, const char *line)
 {
     return AS_TYPE(XCint, context)->set_functional(line);
 }
@@ -67,98 +61,56 @@ int XCint::set_functional(const char *line)
     return 0;
 }
 
-
 XCINT_API
-int xcint_set_basis(
-    xcint_context_t *context,
-    const xcint_basis_t basis_type,
-    const int    num_centers,
-    const double center_coordinates[],
-    const int    num_shells,
-    const int    shell_centers[],
-    const int    shell_l_quantum_numbers[],
-    const int    shell_num_primitives[],
-    const double primitive_exponents[],
-    const double contraction_coefficients[]
-    )
+int xcint_set_basis(xcint_context_t *context, const xcint_basis_t basis_type,
+                    const int num_centers, const double center_coordinates[],
+                    const int num_shells, const int shell_centers[],
+                    const int shell_l_quantum_numbers[],
+                    const int shell_num_primitives[],
+                    const double primitive_exponents[],
+                    const double contraction_coefficients[])
 {
-    return AS_TYPE(XCint, context)->set_basis(basis_type,
-                                              num_centers,
-                                              center_coordinates,
-                                              num_shells,
-                                              shell_centers,
-                                              shell_l_quantum_numbers,
-                                              shell_num_primitives,
-                                              primitive_exponents,
-                                              contraction_coefficients);
+    return AS_TYPE(XCint, context)
+        ->set_basis(basis_type, num_centers, center_coordinates, num_shells,
+                    shell_centers, shell_l_quantum_numbers,
+                    shell_num_primitives, primitive_exponents,
+                    contraction_coefficients);
 }
-int XCint::set_basis(
-    const int    basis_type,
-    const int    num_centers,
-    const double center_coordinates_bohr[],
-    const int    num_shells,
-    const int    shell_centers[],
-    const int    shell_l_quantum_numbers[],
-    const int    shell_num_primitives[],
-    const double primitive_exponents[],
-    const double contraction_coefficients[]
-    )
+int XCint::set_basis(const int basis_type, const int num_centers,
+                     const double center_coordinates_bohr[],
+                     const int num_shells, const int shell_centers[],
+                     const int shell_l_quantum_numbers[],
+                     const int shell_num_primitives[],
+                     const double primitive_exponents[],
+                     const double contraction_coefficients[])
 {
-    basis.init(basis_type,
-               num_centers,
-               center_coordinates_bohr,
-               num_shells,
-               shell_centers,
-               shell_l_quantum_numbers,
-               shell_num_primitives,
-               primitive_exponents,
-               contraction_coefficients);
+    basis.init(basis_type, num_centers, center_coordinates_bohr, num_shells,
+               shell_centers, shell_l_quantum_numbers, shell_num_primitives,
+               primitive_exponents, contraction_coefficients);
 
     int ierr = batch->set_basis(
-                   basis_type,
-                   num_centers,
-                   center_coordinates_bohr,
-                   num_shells,
-                   shell_centers,
-                   shell_l_quantum_numbers,
-                   shell_num_primitives,
-                   primitive_exponents,
-                   contraction_coefficients
-                   );
+        basis_type, num_centers, center_coordinates_bohr, num_shells,
+        shell_centers, shell_l_quantum_numbers, shell_num_primitives,
+        primitive_exponents, contraction_coefficients);
 
     return ierr;
 }
 
+void XCint::nullify() { reset_time(); }
 
-void XCint::nullify()
-{
-    reset_time();
-}
-
-
-void XCint::integrate_batch(const double dmat[],
-                            const bool   get_exc,
-                                  double &exc,
-                            const bool   get_vxc,
-                                  double vxc[],
-                                  double &num_electrons,
-                            const int    geo_coor[],
-                            const bool   use_dmat[],
-                            const int    ipoint,
-                            const int    geo_derv_order,
-                            const int    max_ao_order_g,
-                            const int    block_length,
-                            const int    num_variables,
-                            const int    num_perturbations,
-                            const int    num_fields,
-                            const int    mat_dim,
-                            const bool   get_gradient,
-                            const bool   get_tau,
-                            const int    dmat_index[],
+void XCint::integrate_batch(const double dmat[], const bool get_exc,
+                            double &exc, const bool get_vxc, double vxc[],
+                            double &num_electrons, const int geo_coor[],
+                            const bool use_dmat[], const int ipoint,
+                            const int geo_derv_order, const int max_ao_order_g,
+                            const int block_length, const int num_variables,
+                            const int num_perturbations, const int num_fields,
+                            const int mat_dim, const bool get_gradient,
+                            const bool get_tau, const int dmat_index[],
                             const double grid[]) const
 {
-    double *n = new double[AO_BLOCK_LENGTH*num_variables*MAX_NUM_DENSITIES];
-    double *u = new double[AO_BLOCK_LENGTH*num_variables];
+    double *n = new double[AO_BLOCK_LENGTH * num_variables * MAX_NUM_DENSITIES];
+    double *u = new double[AO_BLOCK_LENGTH * num_variables];
 
     std::vector<int> coor;
     double prefactors[5] = {1.0, 2.0, 2.0, 2.0, 0.5};
@@ -168,37 +120,28 @@ void XCint::integrate_batch(const double dmat[],
 
     rolex::start_partial();
 
-    batch->get_ao(basis,
-                 get_gradient,
-                 max_ao_order_g,
-                 block_length,
-                 &grid[ipoint*4]);
+    batch->get_ao(basis, get_gradient, max_ao_order_g, block_length,
+                  &grid[ipoint * 4]);
 
-//  time_ao += rolex::stop_partial();
+    //  time_ao += rolex::stop_partial();
 
     rolex::start_partial();
 
     if (!n_is_used[0])
     {
-        std::fill(&n[0], &n[block_length*num_variables], 0.0);
+        std::fill(&n[0], &n[block_length * num_variables], 0.0);
         n_is_used[0] = true;
     }
 
-    batch->get_density_undiff(mat_dim,
-                             get_gradient,
-                             get_tau,
-                             prefactors,
-                             n,
-                             dmat,
-                             true,
-                             true);
+    batch->get_density_undiff(mat_dim, get_gradient, get_tau, prefactors, n,
+                              dmat, true, true);
 
     for (int ib = 0; ib < block_length; ib++)
     {
-        num_electrons += grid[(ipoint + ib)*4 + 3]*n[ib];
+        num_electrons += grid[(ipoint + ib) * 4 + 3] * n[ib];
     }
 
-//  time_densities += rolex::stop_partial();
+    //  time_densities += rolex::stop_partial();
 
     // expectation value contribution
     if (get_exc)
@@ -208,7 +151,6 @@ void XCint::integrate_batch(const double dmat[],
         double *xcout = NULL;
 
         assert(geo_derv_order < 5);
-
 
         //                       *
         //                       *  *
@@ -241,17 +183,15 @@ void XCint::integrate_batch(const double dmat[],
             {
                 if (!n_is_used[k])
                 {
-                    std::fill(&n[k*block_length*num_variables], &n[(k+1)*block_length*num_variables], 0.0);
+                    std::fill(&n[k * block_length * num_variables],
+                              &n[(k + 1) * block_length * num_variables], 0.0);
                     n_is_used[k] = true;
                 }
-                batch->get_density_undiff(mat_dim,
-                                         get_gradient,
-                                         get_tau,
-                                         prefactors,
-                                         &n[k*block_length*num_variables],
-                                         &dmat[dmat_index[k]],
-                                         false,
-                                         false); // FIXME can be true based on dmat, saving possible
+                batch->get_density_undiff(
+                    mat_dim, get_gradient, get_tau, prefactors,
+                    &n[k * block_length * num_variables], &dmat[dmat_index[k]],
+                    false,
+                    false); // FIXME can be true based on dmat, saving possible
             }
         }
 
@@ -259,14 +199,15 @@ void XCint::integrate_batch(const double dmat[],
 
 #include "ave_contributions.h"
 
-//      time_densities += rolex::stop_partial();
+        //      time_densities += rolex::stop_partial();
 
         dens_offset = fun.set_order(num_perturbations, xcfun);
 
-        xcin = new double[num_variables*dens_offset*block_length];
-        std::fill(&xcin[0], &xcin[num_variables*dens_offset*block_length], 0.0);
+        xcin = new double[num_variables * dens_offset * block_length];
+        std::fill(&xcin[0], &xcin[num_variables * dens_offset * block_length],
+                  0.0);
 
-        xcout = new double[dens_offset*block_length];
+        xcout = new double[dens_offset * block_length];
 
         for (int k = 0; k < MAX_NUM_DENSITIES; k++)
         {
@@ -276,7 +217,10 @@ void XCint::integrate_batch(const double dmat[],
                 {
                     for (int ib = 0; ib < block_length; ib++)
                     {
-                        xcin[ib*num_variables*dens_offset + ivar*dens_offset + k] = n[k*block_length*num_variables + ivar*block_length + ib];
+                        xcin[ib * num_variables * dens_offset +
+                             ivar * dens_offset + k] =
+                            n[k * block_length * num_variables +
+                              ivar * block_length + ib];
                     }
                 }
             }
@@ -287,20 +231,21 @@ void XCint::integrate_batch(const double dmat[],
         double sum = 0.0;
         for (int ib = 0; ib < block_length; ib++)
         {
-            if (n[ib] > 1.0e-14 and fabs(grid[(ipoint + ib)*4 + 3]) > 1.0e-30)
+            if (n[ib] > 1.0e-14 and fabs(grid[(ipoint + ib) * 4 + 3]) > 1.0e-30)
             {
-                xc_eval(xcfun, &xcin[ib*num_variables*dens_offset], &xcout[ib*dens_offset]);
-                sum += xcout[ib*dens_offset + dens_offset - 1]*grid[(ipoint + ib)*4 + 3];
+                xc_eval(xcfun, &xcin[ib * num_variables * dens_offset],
+                        &xcout[ib * dens_offset]);
+                sum += xcout[ib * dens_offset + dens_offset - 1] *
+                       grid[(ipoint + ib) * 4 + 3];
             }
         }
         exc += sum;
 
-//      time_fun_derv += rolex::stop_partial();
+        //      time_fun_derv += rolex::stop_partial();
 
         delete[] xcin;
         delete[] xcout;
     }
-
 
     // matrix contribution
     if (get_vxc)
@@ -320,34 +265,23 @@ void XCint::integrate_batch(const double dmat[],
                 k = (int)pow(2, ifield); // FIXME double check this
                 if (!n_is_used[k])
                 {
-                    std::fill(&n[k*block_length*num_variables], &n[(k+1)*block_length*num_variables], 0.0);
+                    std::fill(&n[k * block_length * num_variables],
+                              &n[(k + 1) * block_length * num_variables], 0.0);
                     n_is_used[k] = true;
                 }
-                batch->get_density_undiff(mat_dim,
-                                         get_gradient,
-                                         get_tau,
-                                         prefactors,
-                                         &n[k*block_length*num_variables],
-                                         &dmat[(ifield+1)*mat_dim*mat_dim],
-                                         false,
-                                         false); // FIXME can be true depending on perturbation (savings possible)
+                batch->get_density_undiff(
+                    mat_dim, get_gradient, get_tau, prefactors,
+                    &n[k * block_length * num_variables],
+                    &dmat[(ifield + 1) * mat_dim * mat_dim], false,
+                    false); // FIXME can be true depending on perturbation
+                            // (savings possible)
             }
 
-//          time_densities += rolex::stop_partial();
+            //          time_densities += rolex::stop_partial();
 
-            distribute_matrix(block_length,
-                              num_variables,
-                              num_perturbations,
-                              mat_dim,
-                              prefactors,
-                              ipoint,
-                              n_is_used,
-                              n,
-                              u,
-                              vxc,
-                              exc,
-                              coor,
-                              grid);
+            distribute_matrix(block_length, num_variables, num_perturbations,
+                              mat_dim, prefactors, ipoint, n_is_used, n, u, vxc,
+                              exc, coor, grid);
         }
 
         if (geo_derv_order > 0) // we have geo dervs
@@ -360,48 +294,25 @@ void XCint::integrate_batch(const double dmat[],
                 k = 1;
                 if (!n_is_used[k])
                 {
-                    std::fill(&n[k*block_length*num_variables], &n[(k+1)*block_length*num_variables], 0.0);
+                    std::fill(&n[k * block_length * num_variables],
+                              &n[(k + 1) * block_length * num_variables], 0.0);
                     n_is_used[k] = true;
                 }
                 coor.push_back(geo_coor[0]);
-                batch->get_dens_geo_derv(basis,
-                                        mat_dim,
-                                        get_gradient,
-                                        get_tau,
-                                        coor,
-                                        &n[k*block_length*num_variables],
-                                        &dmat[0]);
+                batch->get_dens_geo_derv(
+                    basis, mat_dim, get_gradient, get_tau, coor,
+                    &n[k * block_length * num_variables], &dmat[0]);
                 coor.clear();
-                distribute_matrix(block_length,
-                                  num_variables,
-                                  1,
-                                  mat_dim,
-                                  prefactors,
-                                  ipoint,
-                                  n_is_used,
-                                  n,
-                                  u,
-                                  vxc,
-                                  exc,
-                                  coor,
-                                  grid);
+                distribute_matrix(block_length, num_variables, 1, mat_dim,
+                                  prefactors, ipoint, n_is_used, n, u, vxc, exc,
+                                  coor, grid);
                 n_is_used[1] = false;
 
                 // M_i  d_n
                 coor.push_back(geo_coor[0]);
-                distribute_matrix(block_length,
-                                  num_variables,
-                                  0,
-                                  mat_dim,
-                                  prefactors,
-                                  ipoint,
-                                  n_is_used,
-                                  n,
-                                  u,
-                                  vxc,
-                                  exc,
-                                  coor,
-                                  grid);
+                distribute_matrix(block_length, num_variables, 0, mat_dim,
+                                  prefactors, ipoint, n_is_used, n, u, vxc, exc,
+                                  coor, grid);
                 coor.clear();
             }
 
@@ -412,19 +323,9 @@ void XCint::integrate_batch(const double dmat[],
                 // M_ij d_n
                 coor.push_back(geo_coor[0]);
                 coor.push_back(geo_coor[1]);
-                distribute_matrix(block_length,
-                                  num_variables,
-                                  0,
-                                  mat_dim,
-                                  prefactors,
-                                  ipoint,
-                                  n_is_used,
-                                  n,
-                                  u,
-                                  vxc,
-                                  exc,
-                                  coor,
-                                  grid);
+                distribute_matrix(block_length, num_variables, 0, mat_dim,
+                                  prefactors, ipoint, n_is_used, n, u, vxc, exc,
+                                  coor, grid);
                 coor.clear();
 
                 // FIXME add shortcut if i == j
@@ -432,32 +333,19 @@ void XCint::integrate_batch(const double dmat[],
                 k = 1;
                 if (!n_is_used[k])
                 {
-                    std::fill(&n[k*block_length*num_variables], &n[(k+1)*block_length*num_variables], 0.0);
+                    std::fill(&n[k * block_length * num_variables],
+                              &n[(k + 1) * block_length * num_variables], 0.0);
                     n_is_used[k] = true;
                 }
                 coor.push_back(geo_coor[1]);
-                batch->get_dens_geo_derv(basis,
-                                        mat_dim,
-                                        get_gradient,
-                                        get_tau,
-                                        coor,
-                                        &n[k*block_length*num_variables],
-                                        &dmat[0]);
+                batch->get_dens_geo_derv(
+                    basis, mat_dim, get_gradient, get_tau, coor,
+                    &n[k * block_length * num_variables], &dmat[0]);
                 coor.clear();
                 coor.push_back(geo_coor[0]);
-                distribute_matrix(block_length,
-                                  num_variables,
-                                  1,
-                                  mat_dim,
-                                  prefactors,
-                                  ipoint,
-                                  n_is_used,
-                                  n,
-                                  u,
-                                  vxc,
-                                  exc,
-                                  coor,
-                                  grid);
+                distribute_matrix(block_length, num_variables, 1, mat_dim,
+                                  prefactors, ipoint, n_is_used, n, u, vxc, exc,
+                                  coor, grid);
                 coor.clear();
                 n_is_used[1] = false;
 
@@ -465,32 +353,19 @@ void XCint::integrate_batch(const double dmat[],
                 k = 1;
                 if (!n_is_used[k])
                 {
-                    std::fill(&n[k*block_length*num_variables], &n[(k+1)*block_length*num_variables], 0.0);
+                    std::fill(&n[k * block_length * num_variables],
+                              &n[(k + 1) * block_length * num_variables], 0.0);
                     n_is_used[k] = true;
                 }
                 coor.push_back(geo_coor[0]);
-                batch->get_dens_geo_derv(basis,
-                                        mat_dim,
-                                        get_gradient,
-                                        get_tau,
-                                        coor,
-                                        &n[k*block_length*num_variables],
-                                        &dmat[0]);
+                batch->get_dens_geo_derv(
+                    basis, mat_dim, get_gradient, get_tau, coor,
+                    &n[k * block_length * num_variables], &dmat[0]);
                 coor.clear();
                 coor.push_back(geo_coor[1]);
-                distribute_matrix(block_length,
-                                  num_variables,
-                                  1,
-                                  mat_dim,
-                                  prefactors,
-                                  ipoint,
-                                  n_is_used,
-                                  n,
-                                  u,
-                                  vxc,
-                                  exc,
-                                  coor,
-                                  grid);
+                distribute_matrix(block_length, num_variables, 1, mat_dim,
+                                  prefactors, ipoint, n_is_used, n, u, vxc, exc,
+                                  coor, grid);
                 coor.clear();
                 n_is_used[1] = false;
 
@@ -500,62 +375,43 @@ void XCint::integrate_batch(const double dmat[],
                 k = 1;
                 if (!n_is_used[k])
                 {
-                    std::fill(&n[k*block_length*num_variables], &n[(k+1)*block_length*num_variables], 0.0);
+                    std::fill(&n[k * block_length * num_variables],
+                              &n[(k + 1) * block_length * num_variables], 0.0);
                     n_is_used[k] = true;
                 }
                 coor.push_back(geo_coor[0]);
-                batch->get_dens_geo_derv(basis,
-                                        mat_dim,
-                                        get_gradient,
-                                        get_tau,
-                                        coor,
-                                        &n[k*block_length*num_variables],
-                                        &dmat[0]);
+                batch->get_dens_geo_derv(
+                    basis, mat_dim, get_gradient, get_tau, coor,
+                    &n[k * block_length * num_variables], &dmat[0]);
                 coor.clear();
                 k = 2;
                 if (!n_is_used[k])
                 {
-                    std::fill(&n[k*block_length*num_variables], &n[(k+1)*block_length*num_variables], 0.0);
+                    std::fill(&n[k * block_length * num_variables],
+                              &n[(k + 1) * block_length * num_variables], 0.0);
                     n_is_used[k] = true;
                 }
                 coor.push_back(geo_coor[1]);
-                batch->get_dens_geo_derv(basis,
-                                        mat_dim,
-                                        get_gradient,
-                                        get_tau,
-                                        coor,
-                                        &n[k*block_length*num_variables],
-                                        &dmat[0]);
+                batch->get_dens_geo_derv(
+                    basis, mat_dim, get_gradient, get_tau, coor,
+                    &n[k * block_length * num_variables], &dmat[0]);
                 coor.clear();
                 k = 3;
                 if (!n_is_used[k])
                 {
-                    std::fill(&n[k*block_length*num_variables], &n[(k+1)*block_length*num_variables], 0.0);
+                    std::fill(&n[k * block_length * num_variables],
+                              &n[(k + 1) * block_length * num_variables], 0.0);
                     n_is_used[k] = true;
                 }
                 coor.push_back(geo_coor[0]);
                 coor.push_back(geo_coor[1]);
-                batch->get_dens_geo_derv(basis,
-                                        mat_dim,
-                                        get_gradient,
-                                        get_tau,
-                                        coor,
-                                        &n[k*block_length*num_variables],
-                                        &dmat[0]);
+                batch->get_dens_geo_derv(
+                    basis, mat_dim, get_gradient, get_tau, coor,
+                    &n[k * block_length * num_variables], &dmat[0]);
                 coor.clear();
-                distribute_matrix(block_length,
-                                  num_variables,
-                                  2,
-                                  mat_dim,
-                                  prefactors,
-                                  ipoint,
-                                  n_is_used,
-                                  n,
-                                  u,
-                                  vxc,
-                                  exc,
-                                  coor,
-                                  grid);
+                distribute_matrix(block_length, num_variables, 2, mat_dim,
+                                  prefactors, ipoint, n_is_used, n, u, vxc, exc,
+                                  coor, grid);
                 n_is_used[1] = false;
                 n_is_used[2] = false;
                 n_is_used[3] = false;
@@ -569,31 +425,21 @@ void XCint::integrate_batch(const double dmat[],
                 k = 1;
                 if (!n_is_used[k])
                 {
-                    std::fill(&n[k*block_length*num_variables], &n[(k+1)*block_length*num_variables], 0.0);
+                    std::fill(&n[k * block_length * num_variables],
+                              &n[(k + 1) * block_length * num_variables], 0.0);
                     n_is_used[k] = true;
                 }
-                batch->get_density_undiff(mat_dim,
-                                         get_gradient,
-                                         get_tau,
-                                         prefactors,
-                                         &n[k*block_length*num_variables],
-                                         &dmat[1*mat_dim*mat_dim],
-                                         false,
-                                         false); // FIXME can be true depending on perturbation (savings possible)
+                batch->get_density_undiff(mat_dim, get_gradient, get_tau,
+                                          prefactors,
+                                          &n[k * block_length * num_variables],
+                                          &dmat[1 * mat_dim * mat_dim], false,
+                                          false); // FIXME can be true depending
+                                                  // on perturbation (savings
+                                                  // possible)
                 coor.push_back(geo_coor[0]);
-                distribute_matrix(block_length,
-                                  num_variables,
-                                  1,
-                                  mat_dim,
-                                  prefactors,
-                                  ipoint,
-                                  n_is_used,
-                                  n,
-                                  u,
-                                  vxc,
-                                  exc,
-                                  coor,
-                                  grid);
+                distribute_matrix(block_length, num_variables, 1, mat_dim,
+                                  prefactors, ipoint, n_is_used, n, u, vxc, exc,
+                                  coor, grid);
                 coor.clear();
 
                 // M    d_nnn n_i n_a
@@ -601,46 +447,31 @@ void XCint::integrate_batch(const double dmat[],
                 k = 2;
                 if (!n_is_used[k])
                 {
-                    std::fill(&n[k*block_length*num_variables], &n[(k+1)*block_length*num_variables], 0.0);
+                    std::fill(&n[k * block_length * num_variables],
+                              &n[(k + 1) * block_length * num_variables], 0.0);
                     n_is_used[k] = true;
                 }
                 coor.push_back(geo_coor[0]);
-                batch->get_dens_geo_derv(basis,
-                                        mat_dim,
-                                        get_gradient,
-                                        get_tau,
-                                        coor,
-                                        &n[k*block_length*num_variables],
-                                        &dmat[0]);
+                batch->get_dens_geo_derv(
+                    basis, mat_dim, get_gradient, get_tau, coor,
+                    &n[k * block_length * num_variables], &dmat[0]);
                 coor.clear();
                 k = 3;
                 if (!n_is_used[k])
                 {
-                    std::fill(&n[k*block_length*num_variables], &n[(k+1)*block_length*num_variables], 0.0);
+                    std::fill(&n[k * block_length * num_variables],
+                              &n[(k + 1) * block_length * num_variables], 0.0);
                     n_is_used[k] = true;
                 }
                 coor.push_back(geo_coor[0]);
-                batch->get_dens_geo_derv(basis,
-                                        mat_dim,
-                                        get_gradient,
-                                        get_tau,
-                                        coor,
-                                        &n[k*block_length*num_variables],
-                                        &dmat[1*mat_dim*mat_dim]);
+                batch->get_dens_geo_derv(basis, mat_dim, get_gradient, get_tau,
+                                         coor,
+                                         &n[k * block_length * num_variables],
+                                         &dmat[1 * mat_dim * mat_dim]);
                 coor.clear();
-                distribute_matrix(block_length,
-                                  num_variables,
-                                  2,
-                                  mat_dim,
-                                  prefactors,
-                                  ipoint,
-                                  n_is_used,
-                                  n,
-                                  u,
-                                  vxc,
-                                  exc,
-                                  coor,
-                                  grid);
+                distribute_matrix(block_length, num_variables, 2, mat_dim,
+                                  prefactors, ipoint, n_is_used, n, u, vxc, exc,
+                                  coor, grid);
                 n_is_used[1] = false;
                 n_is_used[2] = false;
                 n_is_used[3] = false;
@@ -649,7 +480,10 @@ void XCint::integrate_batch(const double dmat[],
 
         if (!contribution_is_implemented)
         {
-            fprintf(stderr, "ERROR: XCint matrix contribution for geo_derv_order=%i and num_fields=%i not implemented\n", geo_derv_order, num_fields);
+            fprintf(stderr, "ERROR: XCint matrix contribution for "
+                            "geo_derv_order=%i and num_fields=%i not "
+                            "implemented\n",
+                    geo_derv_order, num_fields);
             exit(-1);
         }
     }
@@ -658,17 +492,11 @@ void XCint::integrate_batch(const double dmat[],
     delete[] u;
 }
 
-
 XCINT_API
-int xcint_integrate_scf(
-    const xcint_context_t *context,
-    const xcint_mode_t mode,
-    const int    num_points,
-    const double grid[],
-    const double dmat[],
-          double *exc,
-          double vxc[],
-          double *num_electrons)
+int xcint_integrate_scf(const xcint_context_t *context, const xcint_mode_t mode,
+                        const int num_points, const double grid[],
+                        const double dmat[], double *exc, double vxc[],
+                        double *num_electrons)
 {
     int num_perturbations = 0;
     xcint_perturbation_t *perturbations = NULL;
@@ -677,70 +505,34 @@ int xcint_integrate_scf(
     int *perturbation_indices = NULL;
     bool get_exc = true;
     bool get_vxc = true;
-    return AS_CTYPE(XCint, context)->integrate(mode,
-                                               num_points,
-                                               grid,
-                                               num_perturbations,
-                                               perturbations,
-                                               components,
-                                               num_dmat,
-                                               perturbation_indices,
-                                               dmat,
-                                               get_exc,
-                                               exc,
-                                               get_vxc,
-                                               vxc,
-                                               num_electrons);
+    return AS_CTYPE(XCint, context)
+        ->integrate(mode, num_points, grid, num_perturbations, perturbations,
+                    components, num_dmat, perturbation_indices, dmat, get_exc,
+                    exc, get_vxc, vxc, num_electrons);
 }
-
 
 XCINT_API
-int xcint_integrate(
-    const xcint_context_t *context,
-    const xcint_mode_t mode,
-    const int    num_points,
-    const double grid[],
-    const int    num_perturbations,
-    const xcint_perturbation_t perturbations[],
-    const int    components[],
-    const int    num_dmat,
-    const int    perturbation_indices[],
-    const double dmat[],
-    const bool   get_exc,
-          double *exc,
-    const bool   get_vxc,
-          double vxc[],
-          double *num_electrons)
+int xcint_integrate(const xcint_context_t *context, const xcint_mode_t mode,
+                    const int num_points, const double grid[],
+                    const int num_perturbations,
+                    const xcint_perturbation_t perturbations[],
+                    const int components[], const int num_dmat,
+                    const int perturbation_indices[], const double dmat[],
+                    const bool get_exc, double *exc, const bool get_vxc,
+                    double vxc[], double *num_electrons)
 {
-    return AS_CTYPE(XCint, context)->integrate(mode,
-                                               num_points,
-                                               grid,
-                                               num_perturbations,
-                                               perturbations,
-                                               components,
-                                               num_dmat,
-                                               perturbation_indices,
-                                               dmat,
-                                               get_exc,
-                                               exc,
-                                               get_vxc,
-                                               vxc,
-                                               num_electrons);
+    return AS_CTYPE(XCint, context)
+        ->integrate(mode, num_points, grid, num_perturbations, perturbations,
+                    components, num_dmat, perturbation_indices, dmat, get_exc,
+                    exc, get_vxc, vxc, num_electrons);
 }
-int XCint::integrate(const xcint_mode_t         mode,
-                     const int                  num_points,
-                     const double               grid[],
-                     const int                  num_perturbations,
+int XCint::integrate(const xcint_mode_t mode, const int num_points,
+                     const double grid[], const int num_perturbations,
                      const xcint_perturbation_t perturbations[],
-                     const int                  components[],
-                     const int                  num_dmat,
-                     const int                  perturbation_indices[],
-                     const double               dmat[],
-                     const bool                 get_exc,
-                           double               *exc,
-                     const bool                 get_vxc,
-                           double               vxc[],
-                           double               *num_electrons) const
+                     const int components[], const int num_dmat,
+                     const int perturbation_indices[], const double dmat[],
+                     const bool get_exc, double *exc, const bool get_vxc,
+                     double vxc[], double *num_electrons) const
 {
     xcfun = xc_new_functional();
     for (int i = 0; i < fun.keys.size(); i++)
@@ -748,7 +540,9 @@ int XCint::integrate(const xcint_mode_t         mode,
         int ierr = xc_set(xcfun, fun.keys[i].c_str(), fun.weights[i]);
         if (ierr != 0)
         {
-            fprintf(stderr, "ERROR in fun init: \"%s\" not recognized, quitting.\n", fun.keys[i].c_str());
+            fprintf(stderr,
+                    "ERROR in fun init: \"%s\" not recognized, quitting.\n",
+                    fun.keys[i].c_str());
             exit(-1);
         }
     }
@@ -772,14 +566,17 @@ int XCint::integrate(const xcint_mode_t         mode,
     int num_proc = 1;
 
     int mat_dim;
-    if (rank == 0) mat_dim = batch->get_num_aos();
+    if (rank == 0)
+        mat_dim = batch->get_num_aos();
 
     int geo_derv_order = 0;
     int num_fields = 0;
     for (int i = 0; i < num_perturbations; i++)
     {
-        if (perturbations[i] == XCINT_PERT_GEO) geo_derv_order++;
-        if (perturbations[i] == XCINT_PERT_EL)  num_fields++;
+        if (perturbations[i] == XCINT_PERT_GEO)
+            geo_derv_order++;
+        if (perturbations[i] == XCINT_PERT_EL)
+            num_fields++;
     }
 
     int *geo_coor = NULL;
@@ -788,7 +585,8 @@ int XCint::integrate(const xcint_mode_t         mode,
         geo_coor = new int[geo_derv_order];
         for (int i = 0; i < num_perturbations; i++)
         {
-            if (perturbations[i] == XCINT_PERT_GEO) geo_coor[i] = components[2*i]; // FIXME
+            if (perturbations[i] == XCINT_PERT_GEO)
+                geo_coor[i] = components[2 * i]; // FIXME
         }
     }
 
@@ -797,7 +595,8 @@ int XCint::integrate(const xcint_mode_t         mode,
     *exc = 0.0;
     *num_electrons = 0.0;
 
-    if (get_vxc) std::fill(&vxc[0], &vxc[mat_dim*mat_dim], 0.0);
+    if (get_vxc)
+        std::fill(&vxc[0], &vxc[mat_dim * mat_dim], 0.0);
 
     bool get_gradient;
     bool get_tau;
@@ -845,37 +644,41 @@ int XCint::integrate(const xcint_mode_t         mode,
     for (int k = 1; k < num_dmat; k++)
     {
         use_dmat[perturbation_indices[k]] = true;
-        dmat_index[perturbation_indices[k]] = k*mat_dim*mat_dim;
+        dmat_index[perturbation_indices[k]] = k * mat_dim * mat_dim;
     }
 
     assert(num_perturbations < 7);
 
     int block_length;
     int num_points_left = num_points;
-    int num_batches = num_points/AO_BLOCK_LENGTH;
-    if (num_points%AO_BLOCK_LENGTH != 0) num_batches++;
+    int num_batches = num_points / AO_BLOCK_LENGTH;
+    if (num_points % AO_BLOCK_LENGTH != 0)
+        num_batches++;
 
 #ifdef ENABLE_OMP
     int num_threads = 0;
 
-    #pragma omp parallel
+#pragma omp parallel
     {
-        if (omp_get_thread_num() == 0) num_threads = omp_get_num_threads();
+        if (omp_get_thread_num() == 0)
+            num_threads = omp_get_num_threads();
     }
 
     double *exc_buffer = NULL;
-    if (get_exc) exc_buffer = new double[num_threads];
+    if (get_exc)
+        exc_buffer = new double[num_threads];
 
     double *num_electrons_buffer = new double[num_threads];
 
     double *vxc_buffer = NULL;
     if (get_vxc)
     {
-        vxc_buffer = new double[num_threads*mat_dim*mat_dim];
-        std::fill(&vxc_buffer[0], &vxc_buffer[num_threads*mat_dim*mat_dim], 0.0);
+        vxc_buffer = new double[num_threads * mat_dim * mat_dim];
+        std::fill(&vxc_buffer[0], &vxc_buffer[num_threads * mat_dim * mat_dim],
+                  0.0);
     }
 
-    #pragma omp parallel
+#pragma omp parallel
     {
         int ithread = omp_get_thread_num();
 
@@ -883,18 +686,20 @@ int XCint::integrate(const xcint_mode_t         mode,
         double num_electrons_local = 0.0;
 
         double *vxc_local = NULL;
-        if (get_vxc) vxc_local = &vxc_buffer[ithread*mat_dim*mat_dim];
+        if (get_vxc)
+            vxc_local = &vxc_buffer[ithread * mat_dim * mat_dim];
 
-        #pragma omp for schedule(dynamic)
+#pragma omp for schedule(dynamic)
 #else
-        double exc_local = *exc;
-        double num_electrons_local = *num_electrons;
-        double *vxc_local = NULL;
-        if (get_vxc) vxc_local = &vxc[0];
+    double exc_local = *exc;
+    double num_electrons_local = *num_electrons;
+    double *vxc_local = NULL;
+    if (get_vxc)
+        vxc_local = &vxc[0];
 #endif
         for (int ibatch = 0; ibatch < num_batches; ibatch++)
         {
-            int ipoint = ibatch*AO_BLOCK_LENGTH;
+            int ipoint = ibatch * AO_BLOCK_LENGTH;
 
             if (num_points_left < AO_BLOCK_LENGTH)
             {
@@ -905,45 +710,32 @@ int XCint::integrate(const xcint_mode_t         mode,
                 block_length = AO_BLOCK_LENGTH;
             }
 
-            integrate_batch(dmat,
-                            get_exc,
-                            exc_local,
-                            get_vxc,
-                            vxc_local,
-                            num_electrons_local,
-                            geo_coor,
-                            use_dmat,
-                            ipoint,
-                            geo_derv_order,
-                            max_ao_order_g,
-                            block_length,
-                            num_variables,
-                            num_perturbations,
-                            num_fields,
-                            mat_dim,
-                            get_gradient,
-                            get_tau,
-                            dmat_index,
-                            grid);
+            integrate_batch(dmat, get_exc, exc_local, get_vxc, vxc_local,
+                            num_electrons_local, geo_coor, use_dmat, ipoint,
+                            geo_derv_order, max_ao_order_g, block_length,
+                            num_variables, num_perturbations, num_fields,
+                            mat_dim, get_gradient, get_tau, dmat_index, grid);
 
             num_points_left -= block_length;
         }
 
 #ifdef ENABLE_OMP
-        if (get_exc) exc_buffer[ithread] = exc_local;
+        if (get_exc)
+            exc_buffer[ithread] = exc_local;
         num_electrons_buffer[ithread] = num_electrons_local;
     }
 
     for (size_t ithread = 0; ithread < num_threads; ithread++)
     {
         num_electrons += num_electrons_buffer[ithread];
-        if (get_exc) exc += exc_buffer[ithread];
+        if (get_exc)
+            exc += exc_buffer[ithread];
         if (get_vxc)
         {
             // FIXME consider using blas daxpy for this
-            for (int i = 0; i < mat_dim*mat_dim; i++)
+            for (int i = 0; i < mat_dim * mat_dim; i++)
             {
-                vxc[i] += vxc_buffer[ithread*mat_dim*mat_dim + i];
+                vxc[i] += vxc_buffer[ithread * mat_dim * mat_dim + i];
             }
         }
     }
@@ -969,33 +761,26 @@ int XCint::integrate(const xcint_mode_t         mode,
             {
                 for (int l = 0; l < k; l++)
                 {
-                    a = vxc[k*mat_dim + l] + vxc[l*mat_dim + k];
-                    vxc[k*mat_dim + l] = 0.5*a;
-                    vxc[l*mat_dim + k] = 0.5*a;
+                    a = vxc[k * mat_dim + l] + vxc[l * mat_dim + k];
+                    vxc[k * mat_dim + l] = 0.5 * a;
+                    vxc[l * mat_dim + k] = 0.5 * a;
                 }
             }
         }
     }
 
-//  time_total += rolex::stop_global();
+    //  time_total += rolex::stop_global();
     xc_free_functional(xcfun);
     return 0;
 }
 
-
-void XCint::distribute_matrix(const int              block_length,
-                              const int              num_variables,
-                              const int              num_perturbations,
-                              const int              mat_dim,
-                              const double           prefactors[],
-                              const int              w_off,
-                              const bool             n_is_used[],
-                              const double           n[],
-                                    double           u[],
-                                    double           vxc[],
-                                    double           &exc,
+void XCint::distribute_matrix(const int block_length, const int num_variables,
+                              const int num_perturbations, const int mat_dim,
+                              const double prefactors[], const int w_off,
+                              const bool n_is_used[], const double n[],
+                              double u[], double vxc[], double &exc,
                               const std::vector<int> coor,
-                              const double           grid[]) const
+                              const double grid[]) const
 {
     rolex::start_partial();
 
@@ -1003,13 +788,13 @@ void XCint::distribute_matrix(const int              block_length,
 
     dens_offset = fun.set_order(num_perturbations + 1, xcfun);
 
-    double *xcin = new double[num_variables*dens_offset*block_length];
-    std::fill(&xcin[0], &xcin[num_variables*dens_offset*block_length], 0.0);
+    double *xcin = new double[num_variables * dens_offset * block_length];
+    std::fill(&xcin[0], &xcin[num_variables * dens_offset * block_length], 0.0);
 
-    double *xcout = new double[dens_offset*block_length];
+    double *xcout = new double[dens_offset * block_length];
 
     // has to be AO_BLOCK_LENGTH otherwise u can be too short
-    std::fill(&u[0], &u[AO_BLOCK_LENGTH*num_variables], 0.0);
+    std::fill(&u[0], &u[AO_BLOCK_LENGTH * num_variables], 0.0);
 
     for (int k = 0; k < MAX_NUM_DENSITIES; k++)
     {
@@ -1019,7 +804,9 @@ void XCint::distribute_matrix(const int              block_length,
             {
                 for (int ib = 0; ib < block_length; ib++)
                 {
-                    xcin[ib*num_variables*dens_offset + ivar*dens_offset + k] = n[k*block_length*num_variables + ivar*block_length + ib];
+                    xcin[ib * num_variables * dens_offset + ivar * dens_offset +
+                         k] = n[k * block_length * num_variables +
+                                ivar * block_length + ib];
                 }
             }
         }
@@ -1029,36 +816,38 @@ void XCint::distribute_matrix(const int              block_length,
     {
         for (int jvar = 0; jvar < num_variables; jvar++)
         {
-            off = jvar*dens_offset + (int)pow(2, num_perturbations);
+            off = jvar * dens_offset + (int)pow(2, num_perturbations);
             if (ivar == jvar)
             {
                 for (int ib = 0; ib < block_length; ib++)
                 {
-                    xcin[off + ib*num_variables*dens_offset] = 1.0;
+                    xcin[off + ib * num_variables * dens_offset] = 1.0;
                 }
             }
             else
             {
                 for (int ib = 0; ib < block_length; ib++)
                 {
-                    xcin[off + ib*num_variables*dens_offset] = 0.0;
+                    xcin[off + ib * num_variables * dens_offset] = 0.0;
                 }
             }
         }
 
-        off = ivar*block_length;
-        std::fill(&xcout[0], &xcout[dens_offset*block_length], 0.0);
+        off = ivar * block_length;
+        std::fill(&xcout[0], &xcout[dens_offset * block_length], 0.0);
         for (int ib = 0; ib < block_length; ib++)
         {
-            if (n[ib] > 1.0e-14 and fabs(grid[(w_off + ib)*4 + 3]) > 1.0e-30)
+            if (n[ib] > 1.0e-14 and fabs(grid[(w_off + ib) * 4 + 3]) > 1.0e-30)
             {
-                xc_eval(xcfun, &xcin[ib*num_variables*dens_offset], &xcout[ib*dens_offset]);
-                u[off + ib] += xcout[(ib+1)*dens_offset - 1]*grid[(w_off + ib)*4 + 3];
+                xc_eval(xcfun, &xcin[ib * num_variables * dens_offset],
+                        &xcout[ib * dens_offset]);
+                u[off + ib] += xcout[(ib + 1) * dens_offset - 1] *
+                               grid[(w_off + ib) * 4 + 3];
             }
         }
     }
 
-//  time_fun_derv += rolex::stop_partial();
+    //  time_fun_derv += rolex::stop_partial();
 
     rolex::start_partial();
 
@@ -1083,41 +872,31 @@ void XCint::distribute_matrix(const int              block_length,
 
     if (coor.size() == 0)
     {
-        batch->distribute_matrix_undiff(mat_dim,
-                                       distribute_gradient,
-                                       distribute_tau,
-                                       prefactors,
-                                       u,
-                                       vxc);
+        batch->distribute_matrix_undiff(mat_dim, distribute_gradient,
+                                        distribute_tau, prefactors, u, vxc);
     }
     else
     {
-        batch->get_mat_geo_derv(basis,
-                               mat_dim,
-                               distribute_gradient,
-                               distribute_tau,
-                               coor,
-                               u,
-                               vxc);
+        batch->get_mat_geo_derv(basis, mat_dim, distribute_gradient,
+                                distribute_tau, coor, u, vxc);
     }
 
     for (int ib = 0; ib < block_length; ib++)
     {
-        exc += xcout[ib*dens_offset]*grid[(w_off + ib)*4 + 3];
+        exc += xcout[ib * dens_offset] * grid[(w_off + ib) * 4 + 3];
     }
 
     delete[] xcin;
     delete[] xcout;
 
-//  time_matrix_distribution += rolex::stop_partial();
+    //  time_matrix_distribution += rolex::stop_partial();
 }
-
 
 void XCint::reset_time()
 {
-//  time_total = 0.0;
-//  time_ao = 0.0;
-//  time_fun_derv = 0.0;
-//  time_densities = 0.0;
-//  time_matrix_distribution = 0.0;
+    //  time_total = 0.0;
+    //  time_ao = 0.0;
+    //  time_fun_derv = 0.0;
+    //  time_densities = 0.0;
+    //  time_matrix_distribution = 0.0;
 }

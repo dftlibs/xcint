@@ -14,3 +14,10 @@ Exchange-correlation integrator.
 - Built with [Autocmake](https://github.com/coderefinery/autocmake)
 - Status: pre-alpha
 - Licensed under [Mozilla Public License Version 2.0](../master/LICENSE)
+
+
+## How to auto-format code
+
+```
+$ clang-format -i src/*
+```

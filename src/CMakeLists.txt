@@ -1,17 +1,23 @@
 include_directories(
-    ${PROJECT_SOURCE_DIR}/src
-    ${PROJECT_SOURCE_DIR}/src/density
     ${PROJECT_BINARY_DIR}/external/include
     ${PROJECT_SOURCE_DIR}/api
+    ${PROJECT_BINARY_DIR}/generated
     )
 
 add_library(
     xcint
-    src/rolex.cpp
-    src/xcint_blas.cpp
-    src/Functional.cpp
-    src/integrator.cpp
-    src/AOBatch.cpp
+    AOBatch.cpp
+    AOBatch.h
+    CMakeLists.txt
+    Functional.cpp
+    Functional.h
+    integrator.cpp
+    integrator.h
+    rolex.cpp
+    rolex.h
+    xcint_blas.cpp
+    xcint_blas.h
+    xcint_parameters.h
     )
 
 set_target_properties(xcint PROPERTIES COMPILE_FLAGS "-fPIC")
@@ -19,7 +25,7 @@ set_target_properties(xcint PROPERTIES COMPILE_FLAGS "-fPIC")
 add_library(
     xcint_shared
     SHARED
-    src/empty.cpp
+    empty.cpp
     )
 
 if(APPLE)
@@ -48,7 +54,7 @@ add_dependencies(xcint balboa)
 if(ENABLE_FC_SUPPORT)
     add_library(
         xcint_fortran
-        ${CMAKE_CURRENT_LIST_DIR}/../../api/xcint.f90
+        ${PROJECT_SOURCE_DIR}/api/xcint.f90
         )
 
     target_link_libraries(

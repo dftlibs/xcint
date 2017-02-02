@@ -14,8 +14,19 @@ class AOBatch
         AOBatch();
         ~AOBatch();
 
+        int set_basis(
+            const int    basis_type,
+            const int    num_centers,
+            const double center_coordinates_bohr[],
+            const int    num_shells,
+            const int    shell_centers[],
+            const int    shell_l_quantum_numbers[],
+            const int    shell_num_primitives[],
+            const double primitive_exponents[],
+            const double contraction_coefficients[]
+            );
+
         void get_ao(const Basis &basis,
-                    const balboa_context_t *balboa_context,
                     const bool   use_gradient,
                     const int    max_ao_geo_order,
                     const int    block_length,
@@ -86,8 +97,10 @@ class AOBatch
         AOBatch(const AOBatch &rhs);            // not implemented
         AOBatch &operator=(const AOBatch &rhs); // not implemented
 
+        balboa_context_t *balboa_context;
+
         bool is_same_center(const int c,
-                            const std::vector<int> &carray) const;
+                            const std::vector<int> &carray);
 
         void diff_M_wrt_center_tuple(const Basis            &basis,
                                      const int              mat_dim,
@@ -116,7 +129,7 @@ class AOBatch
                             double           *(&aoc),
                       const std::vector<int> &coor);
 
-        void transform_basis(const Basis &basis) const;
+        void transform_basis(const Basis &basis);
 
         void nullify();
 

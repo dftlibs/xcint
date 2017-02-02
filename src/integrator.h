@@ -49,7 +49,7 @@ class XCint
 
         Functional fun;
         Basis basis;
-        balboa_context_t *balboa_context;
+        AOBatch *batch;
 
         void nullify();
 
@@ -65,7 +65,6 @@ class XCint
                                      double           vxc[],
                                      double           &exc,
                                const std::vector<int> coor,
-                                     AOBatch     &batch,
                                const double           grid_pw[]) const;
 
         void integrate_batch(const double dmat[],

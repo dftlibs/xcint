@@ -11,7 +11,6 @@
 
 #include "rolex.h"
 #include "integrator.h"
-#include "AOBatch.h"
 
 #include "xcint_parameters.h"
 #include "parameters.h"
@@ -37,7 +36,7 @@ xcint_context_t *xcint_new_context()
 XCint::XCint()
 {
     nullify();
-    balboa_context = balboa_new_context();
+    batch = new AOBatch();
 }
 
 
@@ -50,7 +49,7 @@ void xcint_free_context(xcint_context_t *xcint_context)
 XCint::~XCint()
 {
     nullify();
-    balboa_free_context(balboa_context);
+    delete batch;
 }
 
 
@@ -93,19 +92,21 @@ int xcint_set_basis(
                                               primitive_exponents,
                                               contraction_coefficients);
 }
-int XCint::set_basis(const int    basis_type,
-                     const int    num_centers,
-                     const double center_coordinates[],
-                     const int    num_shells,
-                     const int    shell_centers[],
-                     const int    shell_l_quantum_numbers[],
-                     const int    shell_num_primitives[],
-                     const double primitive_exponents[],
-                     const double contraction_coefficients[])
+int XCint::set_basis(
+    const int    basis_type,
+    const int    num_centers,
+    const double center_coordinates_bohr[],
+    const int    num_shells,
+    const int    shell_centers[],
+    const int    shell_l_quantum_numbers[],
+    const int    shell_num_primitives[],
+    const double primitive_exponents[],
+    const double contraction_coefficients[]
+    )
 {
     basis.init(basis_type,
                num_centers,
-               center_coordinates,
+               center_coordinates_bohr,
                num_shells,
                shell_centers,
                shell_l_quantum_numbers,
@@ -113,21 +114,19 @@ int XCint::set_basis(const int    basis_type,
                primitive_exponents,
                contraction_coefficients);
 
-    int ierr;
-    ierr = balboa_set_basis(
-        balboa_context,
-        basis_type,
-        num_centers,
-        center_coordinates,
-        num_shells,
-        shell_centers,
-        shell_l_quantum_numbers,
-        shell_num_primitives,
-        primitive_exponents,
-        contraction_coefficients
-    );
+    int ierr = batch->set_basis(
+                   basis_type,
+                   num_centers,
+                   center_coordinates_bohr,
+                   num_shells,
+                   shell_centers,
+                   shell_l_quantum_numbers,
+                   shell_num_primitives,
+                   primitive_exponents,
+                   contraction_coefficients
+                   );
 
-    return 0;
+    return ierr;
 }
 
 
@@ -158,8 +157,6 @@ void XCint::integrate_batch(const double dmat[],
                             const int    dmat_index[],
                             const double grid[]) const
 {
-    AOBatch batch;
-
     double *n = new double[AO_BLOCK_LENGTH*num_variables*MAX_NUM_DENSITIES];
     double *u = new double[AO_BLOCK_LENGTH*num_variables];
 
@@ -171,8 +168,7 @@ void XCint::integrate_batch(const double dmat[],
 
     rolex::start_partial();
 
-    batch.get_ao(basis,
-                 balboa_context,
+    batch->get_ao(basis,
                  get_gradient,
                  max_ao_order_g,
                  block_length,
@@ -188,7 +184,7 @@ void XCint::integrate_batch(const double dmat[],
         n_is_used[0] = true;
     }
 
-    batch.get_density_undiff(mat_dim,
+    batch->get_density_undiff(mat_dim,
                              get_gradient,
                              get_tau,
                              prefactors,
@@ -248,7 +244,7 @@ void XCint::integrate_batch(const double dmat[],
                     std::fill(&n[k*block_length*num_variables], &n[(k+1)*block_length*num_variables], 0.0);
                     n_is_used[k] = true;
                 }
-                batch.get_density_undiff(mat_dim,
+                batch->get_density_undiff(mat_dim,
                                          get_gradient,
                                          get_tau,
                                          prefactors,
@@ -327,7 +323,7 @@ void XCint::integrate_batch(const double dmat[],
                     std::fill(&n[k*block_length*num_variables], &n[(k+1)*block_length*num_variables], 0.0);
                     n_is_used[k] = true;
                 }
-                batch.get_density_undiff(mat_dim,
+                batch->get_density_undiff(mat_dim,
                                          get_gradient,
                                          get_tau,
                                          prefactors,
@@ -351,7 +347,6 @@ void XCint::integrate_batch(const double dmat[],
                               vxc,
                               exc,
                               coor,
-                              batch,
                               grid);
         }
 
@@ -369,7 +364,7 @@ void XCint::integrate_batch(const double dmat[],
                     n_is_used[k] = true;
                 }
                 coor.push_back(geo_coor[0]);
-                batch.get_dens_geo_derv(basis,
+                batch->get_dens_geo_derv(basis,
                                         mat_dim,
                                         get_gradient,
                                         get_tau,
@@ -389,7 +384,6 @@ void XCint::integrate_batch(const double dmat[],
                                   vxc,
                                   exc,
                                   coor,
-                                  batch,
                                   grid);
                 n_is_used[1] = false;
 
@@ -407,7 +401,6 @@ void XCint::integrate_batch(const double dmat[],
                                   vxc,
                                   exc,
                                   coor,
-                                  batch,
                                   grid);
                 coor.clear();
             }
@@ -431,7 +424,6 @@ void XCint::integrate_batch(const double dmat[],
                                   vxc,
                                   exc,
                                   coor,
-                                  batch,
                                   grid);
                 coor.clear();
 
@@ -444,7 +436,7 @@ void XCint::integrate_batch(const double dmat[],
                     n_is_used[k] = true;
                 }
                 coor.push_back(geo_coor[1]);
-                batch.get_dens_geo_derv(basis,
+                batch->get_dens_geo_derv(basis,
                                         mat_dim,
                                         get_gradient,
                                         get_tau,
@@ -465,7 +457,6 @@ void XCint::integrate_batch(const double dmat[],
                                   vxc,
                                   exc,
                                   coor,
-                                  batch,
                                   grid);
                 coor.clear();
                 n_is_used[1] = false;
@@ -478,7 +469,7 @@ void XCint::integrate_batch(const double dmat[],
                     n_is_used[k] = true;
                 }
                 coor.push_back(geo_coor[0]);
-                batch.get_dens_geo_derv(basis,
+                batch->get_dens_geo_derv(basis,
                                         mat_dim,
                                         get_gradient,
                                         get_tau,
@@ -499,7 +490,6 @@ void XCint::integrate_batch(const double dmat[],
                                   vxc,
                                   exc,
                                   coor,
-                                  batch,
                                   grid);
                 coor.clear();
                 n_is_used[1] = false;
@@ -514,7 +504,7 @@ void XCint::integrate_batch(const double dmat[],
                     n_is_used[k] = true;
                 }
                 coor.push_back(geo_coor[0]);
-                batch.get_dens_geo_derv(basis,
+                batch->get_dens_geo_derv(basis,
                                         mat_dim,
                                         get_gradient,
                                         get_tau,
@@ -529,7 +519,7 @@ void XCint::integrate_batch(const double dmat[],
                     n_is_used[k] = true;
                 }
                 coor.push_back(geo_coor[1]);
-                batch.get_dens_geo_derv(basis,
+                batch->get_dens_geo_derv(basis,
                                         mat_dim,
                                         get_gradient,
                                         get_tau,
@@ -545,7 +535,7 @@ void XCint::integrate_batch(const double dmat[],
                 }
                 coor.push_back(geo_coor[0]);
                 coor.push_back(geo_coor[1]);
-                batch.get_dens_geo_derv(basis,
+                batch->get_dens_geo_derv(basis,
                                         mat_dim,
                                         get_gradient,
                                         get_tau,
@@ -565,7 +555,6 @@ void XCint::integrate_batch(const double dmat[],
                                   vxc,
                                   exc,
                                   coor,
-                                  batch,
                                   grid);
                 n_is_used[1] = false;
                 n_is_used[2] = false;
@@ -583,7 +572,7 @@ void XCint::integrate_batch(const double dmat[],
                     std::fill(&n[k*block_length*num_variables], &n[(k+1)*block_length*num_variables], 0.0);
                     n_is_used[k] = true;
                 }
-                batch.get_density_undiff(mat_dim,
+                batch->get_density_undiff(mat_dim,
                                          get_gradient,
                                          get_tau,
                                          prefactors,
@@ -604,7 +593,6 @@ void XCint::integrate_batch(const double dmat[],
                                   vxc,
                                   exc,
                                   coor,
-                                  batch,
                                   grid);
                 coor.clear();
 
@@ -617,7 +605,7 @@ void XCint::integrate_batch(const double dmat[],
                     n_is_used[k] = true;
                 }
                 coor.push_back(geo_coor[0]);
-                batch.get_dens_geo_derv(basis,
+                batch->get_dens_geo_derv(basis,
                                         mat_dim,
                                         get_gradient,
                                         get_tau,
@@ -632,7 +620,7 @@ void XCint::integrate_batch(const double dmat[],
                     n_is_used[k] = true;
                 }
                 coor.push_back(geo_coor[0]);
-                batch.get_dens_geo_derv(basis,
+                batch->get_dens_geo_derv(basis,
                                         mat_dim,
                                         get_gradient,
                                         get_tau,
@@ -652,7 +640,6 @@ void XCint::integrate_batch(const double dmat[],
                                   vxc,
                                   exc,
                                   coor,
-                                  batch,
                                   grid);
                 n_is_used[1] = false;
                 n_is_used[2] = false;
@@ -1013,7 +1000,6 @@ void XCint::distribute_matrix(const int              block_length,
                                     double           vxc[],
                                     double           &exc,
                               const std::vector<int> coor,
-                                    AOBatch     &batch,
                               const double           grid[]) const
 {
     rolex::start_partial();
@@ -1102,7 +1088,7 @@ void XCint::distribute_matrix(const int              block_length,
 
     if (coor.size() == 0)
     {
-        batch.distribute_matrix_undiff(mat_dim,
+        batch->distribute_matrix_undiff(mat_dim,
                                        distribute_gradient,
                                        distribute_tau,
                                        prefactors,
@@ -1111,7 +1097,7 @@ void XCint::distribute_matrix(const int              block_length,
     }
     else
     {
-        batch.get_mat_geo_derv(basis,
+        batch->get_mat_geo_derv(basis,
                                mat_dim,
                                distribute_gradient,
                                distribute_tau,

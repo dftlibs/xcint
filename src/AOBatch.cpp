@@ -15,8 +15,8 @@
 AOBatch::AOBatch()
 {
     nullify();
-
     assert(AO_BLOCK_LENGTH%AO_CHUNK_LENGTH == 0);
+    balboa_context = balboa_new_context();
 }
 
 
@@ -34,6 +34,7 @@ AOBatch::~AOBatch()
     delete[] l_ao_compressed_index;
 
     nullify();
+    balboa_free_context(balboa_context);
 }
 
 
@@ -55,7 +56,6 @@ void AOBatch::nullify()
 
 
 void AOBatch::get_ao(const Basis &basis,
-                     const balboa_context_t *balboa_context,
                      const bool   use_gradient,
                      const int    max_ao_geo_order,
                      const int    block_length,
@@ -1035,7 +1035,7 @@ void AOBatch::diff_M_wrt_center_tuple(const Basis            &basis,
 
 
 bool AOBatch::is_same_center(const int              c,
-                                  const std::vector<int> &carray) const
+                                  const std::vector<int> &carray)
 // returns true if carray is empty (no derivatives)
 {
     for (unsigned int i = 0; i < carray.size(); i++)
@@ -1043,4 +1043,33 @@ bool AOBatch::is_same_center(const int              c,
         if (c != carray[i]) return false;
     }
     return true;
+}
+
+
+int AOBatch::set_basis(
+    const int    basis_type,
+    const int    num_centers,
+    const double center_coordinates_bohr[],
+    const int    num_shells,
+    const int    shell_centers[],
+    const int    shell_l_quantum_numbers[],
+    const int    shell_num_primitives[],
+    const double primitive_exponents[],
+    const double contraction_coefficients[]
+    )
+{
+    int ierr = balboa_set_basis(
+                   balboa_context,
+                   basis_type,
+                   num_centers,
+                   center_coordinates_bohr,
+                   num_shells,
+                   shell_centers,
+                   shell_l_quantum_numbers,
+                   shell_num_primitives,
+                   primitive_exponents,
+                   contraction_coefficients
+                   );
+
+    return ierr;
 }

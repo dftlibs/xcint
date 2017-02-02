@@ -11,7 +11,6 @@ add_library(
     src/xcint_blas.cpp
     src/Functional.cpp
     src/integrator.cpp
-    src/Basis.cpp
     src/AOBatch.cpp
     )
 

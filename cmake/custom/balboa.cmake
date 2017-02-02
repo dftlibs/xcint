@@ -4,7 +4,7 @@ ExternalProject_Add(
     balboa
     PREFIX "${PROJECT_BINARY_DIR}/balboa"
     GIT_REPOSITORY https://github.com/bast/balboa.git
-    GIT_TAG master
+    GIT_TAG 1b27595a32c8bbbd22b5a380056cce578ea3299a
     INSTALL_COMMAND true  # currently no install command
     )
 

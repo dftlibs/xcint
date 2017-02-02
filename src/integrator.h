@@ -2,7 +2,6 @@
 #define INTEGRATOR_H_INCLUDED
 
 #include "AOBatch.h"
-#include "Basis.h"
 #include "Functional.h"
 #include "balboa.h"
 
@@ -46,7 +45,6 @@ class XCint
     XCint &operator=(const XCint &rhs); // not implemented
 
     Functional fun;
-    Basis basis;
     AOBatch *batch;
 
     void nullify();

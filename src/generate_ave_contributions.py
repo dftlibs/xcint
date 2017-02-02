@@ -42,8 +42,7 @@ def get_fortran_code(j, density_index, dmat_index_rest):
     s += '        }\n'
     for i in j:
         s += '        coor.push_back(geo_coor[%i]);\n' % int(i-1)
-    s += '        batch->get_dens_geo_derv(basis,\n'
-    s += '                                mat_dim,\n'
+    s += '        batch->get_dens_geo_derv(mat_dim,\n'
     s += '                                get_gradient,\n'
     s += '                                get_tau,\n'
     s += '                                coor,\n'

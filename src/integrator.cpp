@@ -94,16 +94,6 @@ int XCint::set_basis(const int basis_type,
                      const double primitive_exponents[],
                      const double contraction_coefficients[])
 {
-    basis.init(basis_type,
-               num_centers,
-               center_coordinates_bohr,
-               num_shells,
-               shell_centers,
-               shell_l_quantum_numbers,
-               shell_num_primitives,
-               primitive_exponents,
-               contraction_coefficients);
-
     int ierr = batch->set_basis(basis_type,
                                 num_centers,
                                 center_coordinates_bohr,
@@ -152,7 +142,7 @@ void XCint::integrate_batch(const double dmat[],
     rolex::start_partial();
 
     batch->get_ao(
-        basis, get_gradient, max_ao_order_g, block_length, &grid[ipoint * 4]);
+        get_gradient, max_ao_order_g, block_length, &grid[ipoint * 4]);
 
     //  time_ao += rolex::stop_partial();
 
@@ -352,8 +342,7 @@ void XCint::integrate_batch(const double dmat[],
                     n_is_used[k] = true;
                 }
                 coor.push_back(geo_coor[0]);
-                batch->get_dens_geo_derv(basis,
-                                         mat_dim,
+                batch->get_dens_geo_derv(mat_dim,
                                          get_gradient,
                                          get_tau,
                                          coor,
@@ -426,8 +415,7 @@ void XCint::integrate_batch(const double dmat[],
                     n_is_used[k] = true;
                 }
                 coor.push_back(geo_coor[1]);
-                batch->get_dens_geo_derv(basis,
-                                         mat_dim,
+                batch->get_dens_geo_derv(mat_dim,
                                          get_gradient,
                                          get_tau,
                                          coor,
@@ -461,8 +449,7 @@ void XCint::integrate_batch(const double dmat[],
                     n_is_used[k] = true;
                 }
                 coor.push_back(geo_coor[0]);
-                batch->get_dens_geo_derv(basis,
-                                         mat_dim,
+                batch->get_dens_geo_derv(mat_dim,
                                          get_gradient,
                                          get_tau,
                                          coor,
@@ -498,8 +485,7 @@ void XCint::integrate_batch(const double dmat[],
                     n_is_used[k] = true;
                 }
                 coor.push_back(geo_coor[0]);
-                batch->get_dens_geo_derv(basis,
-                                         mat_dim,
+                batch->get_dens_geo_derv(mat_dim,
                                          get_gradient,
                                          get_tau,
                                          coor,
@@ -515,8 +501,7 @@ void XCint::integrate_batch(const double dmat[],
                     n_is_used[k] = true;
                 }
                 coor.push_back(geo_coor[1]);
-                batch->get_dens_geo_derv(basis,
-                                         mat_dim,
+                batch->get_dens_geo_derv(mat_dim,
                                          get_gradient,
                                          get_tau,
                                          coor,
@@ -533,8 +518,7 @@ void XCint::integrate_batch(const double dmat[],
                 }
                 coor.push_back(geo_coor[0]);
                 coor.push_back(geo_coor[1]);
-                batch->get_dens_geo_derv(basis,
-                                         mat_dim,
+                batch->get_dens_geo_derv(mat_dim,
                                          get_gradient,
                                          get_tau,
                                          coor,
@@ -609,8 +593,7 @@ void XCint::integrate_batch(const double dmat[],
                     n_is_used[k] = true;
                 }
                 coor.push_back(geo_coor[0]);
-                batch->get_dens_geo_derv(basis,
-                                         mat_dim,
+                batch->get_dens_geo_derv(mat_dim,
                                          get_gradient,
                                          get_tau,
                                          coor,
@@ -626,8 +609,7 @@ void XCint::integrate_batch(const double dmat[],
                     n_is_used[k] = true;
                 }
                 coor.push_back(geo_coor[0]);
-                batch->get_dens_geo_derv(basis,
-                                         mat_dim,
+                batch->get_dens_geo_derv(mat_dim,
                                          get_gradient,
                                          get_tau,
                                          coor,
@@ -1117,7 +1099,7 @@ void XCint::distribute_matrix(const int block_length,
     else
     {
         batch->get_mat_geo_derv(
-            basis, mat_dim, distribute_gradient, distribute_tau, coor, u, vxc);
+            mat_dim, distribute_gradient, distribute_tau, coor, u, vxc);
     }
 
     for (int ib = 0; ib < block_length; ib++)

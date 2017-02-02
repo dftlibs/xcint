@@ -78,36 +78,37 @@ void AOBatch::get_ao(const Basis &basis,
 //      }
 //  }
 
-    int l = AO_BLOCK_LENGTH*basis.num_ao_slices*basis.num_ao_cartesian;
-    if (l != ao_length) // FIXME
+    int buffer_len = balboa_get_buffer_len(balboa_context, max_ao_geo_order, AO_BLOCK_LENGTH);
+//  FIXME should be:
+//  int buffer_len = balboa_get_buffer_len(balboa_context, max_ao_geo_order, block_length);
+
+    if (buffer_len != ao_length) // FIXME
     {
-        ao_length = l;
+        ao_length = buffer_len;
 
         delete[] ao;
-        ao = new double[l];
+        ao = new double[buffer_len];
 
         delete[] ao_compressed;
-        ao_compressed = new double[l];
+        ao_compressed = new double[buffer_len];
 
         delete[] k_ao_compressed;
-        k_ao_compressed = new double[l];
+        k_ao_compressed = new double[buffer_len];
 
         delete[] l_ao_compressed;
-        l_ao_compressed = new double[l];
+        l_ao_compressed = new double[buffer_len];
 
         delete[] ao_compressed_index;
-        ao_compressed_index = new int[l];
+        ao_compressed_index = new int[buffer_len];
 
         delete[] k_ao_compressed_index;
-        k_ao_compressed_index = new int[l];
+        k_ao_compressed_index = new int[buffer_len];
 
         delete[] l_ao_compressed_index;
-        l_ao_compressed_index = new int[l];
+        l_ao_compressed_index = new int[buffer_len];
     }
 
-    std::fill(&ao[0], &ao[ao_length], 0.0);
-
-    int buffer_len = balboa_get_buffer_len(balboa_context, max_ao_geo_order, block_length);
+    std::fill(&ao[0], &ao[buffer_len], 0.0);
 
     double *buffer = new double[buffer_len];
     std::fill(&buffer[0], &buffer[buffer_len], 0.0);
@@ -166,7 +167,7 @@ void AOBatch::compress(const Basis       &basis,
     (use_gradient) ? (num_slices = 4) : (num_slices = 1);
 
     int n = 0;
-    for (int i = 0; i < basis.num_ao; i++)
+    for (int i = 0; i < balboa_get_num_aos(balboa_context); i++)
     {
         if (is_same_center(basis.get_ao_center(i), cent))
         {
@@ -204,7 +205,7 @@ void AOBatch::compress(const Basis       &basis,
         for (int islice = 0; islice < num_slices; islice++)
         {
             int iuoff = off[islice];
-            int icoff = islice*basis.num_ao;
+            int icoff = islice*balboa_get_num_aos(balboa_context);
 
             int iu = AO_BLOCK_LENGTH*(iuoff + aoc_index[i]);
             int ic = AO_BLOCK_LENGTH*(icoff + i);
@@ -1072,4 +1073,10 @@ int AOBatch::set_basis(
                    );
 
     return ierr;
+}
+
+
+int AOBatch::get_num_aos()
+{
+    return balboa_get_num_aos(balboa_context);
 }

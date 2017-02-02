@@ -772,7 +772,7 @@ int XCint::integrate(const xcint_mode_t         mode,
     int num_proc = 1;
 
     int mat_dim;
-    if (rank == 0) mat_dim = basis.get_num_ao();
+    if (rank == 0) mat_dim = batch->get_num_aos();
 
     int geo_derv_order = 0;
     int num_fields = 0;
@@ -829,11 +829,6 @@ int XCint::integrate(const xcint_mode_t         mode,
     {
         max_ao_order_g++;
     }
-
-//  FIXME
-//  this causes the geo_off array to become
-//  too small and leads to out of bounds access
-//  basis.set_geo_off(max_ao_order_g);
 
     rolex::start_partial();
 

@@ -32,6 +32,8 @@ class AOBatch
                     const int    block_length,
                     const double p[]);
 
+        int get_num_aos();
+
         void distribute_matrix_undiff(const int    mat_dim,
                                       const bool   use_gradient,
                                       const bool   use_tau,

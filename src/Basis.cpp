@@ -60,8 +60,10 @@ void Basis::deallocate()
     delete[] contraction_coefficients;
 }
 
-void Basis::init(const int in_basis_type, const int in_num_centers,
-                 const double in_center_coordinates[], const int in_num_shells,
+void Basis::init(const int in_basis_type,
+                 const int in_num_centers,
+                 const double in_center_coordinates[],
+                 const int in_num_shells,
                  const int in_shell_centers[],
                  const int in_shell_l_quantum_numbers[],
                  const int in_shell_num_primitives[],
@@ -97,11 +99,12 @@ void Basis::init(const int in_basis_type, const int in_num_centers,
 
     center_coordinates = new double[3 * num_centers];
     std::copy(&in_center_coordinates[0],
-              &in_center_coordinates[3 * num_centers], &center_coordinates[0]);
+              &in_center_coordinates[3 * num_centers],
+              &center_coordinates[0]);
 
     shell_centers = new int[num_shells];
-    std::copy(&in_shell_centers[0], &in_shell_centers[num_shells],
-              &shell_centers[0]);
+    std::copy(
+        &in_shell_centers[0], &in_shell_centers[num_shells], &shell_centers[0]);
 
     shell_centers_coordinates = new double[3 * num_shells];
 
@@ -130,7 +133,8 @@ void Basis::init(const int in_basis_type, const int in_num_centers,
     }
 
     shell_num_primitives = new int[num_shells];
-    std::copy(&in_shell_num_primitives[0], &in_shell_num_primitives[num_shells],
+    std::copy(&in_shell_num_primitives[0],
+              &in_shell_num_primitives[num_shells],
               &shell_num_primitives[0]);
 
     int n = 0;
@@ -141,9 +145,11 @@ void Basis::init(const int in_basis_type, const int in_num_centers,
 
     primitive_exponents = new double[n];
     contraction_coefficients = new double[n];
-    std::copy(&in_primitive_exponents[0], &in_primitive_exponents[n],
+    std::copy(&in_primitive_exponents[0],
+              &in_primitive_exponents[n],
               &primitive_exponents[0]);
-    std::copy(&in_contraction_coefficients[0], &in_contraction_coefficients[n],
+    std::copy(&in_contraction_coefficients[0],
+              &in_contraction_coefficients[n],
               &contraction_coefficients[0]);
 
     // get approximate spacial shell extent

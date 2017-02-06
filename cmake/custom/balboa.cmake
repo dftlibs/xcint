@@ -4,7 +4,7 @@ ExternalProject_Add(
     balboa
     PREFIX "${PROJECT_BINARY_DIR}/balboa"
     GIT_REPOSITORY https://github.com/bast/balboa.git
-    GIT_TAG 1b27595a32c8bbbd22b5a380056cce578ea3299a
+    GIT_TAG a4cbe0cf7d7f9e0c6e0c22644ea8a8010a33701a
     INSTALL_COMMAND true  # currently no install command
     )
 
@@ -23,3 +23,4 @@ set(BALBOA_LIBS
     )
 
 include_directories(${PROJECT_BINARY_DIR}/balboa/src/balboa/api)
+include_directories(${PROJECT_BINARY_DIR}/balboa/src/balboa-build/include)

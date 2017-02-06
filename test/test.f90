@@ -9,11 +9,11 @@ program test
                     XCINT_MODE_RKS,       &
                     XCINT_BASIS_SPHERICAL
 
-   use numgrid, only: numgrid_new_context => new_context, &
-                      numgrid_free_context => free_context, &
-                      numgrid_generate_grid => generate_grid, &
-                      numgrid_get_num_points => get_num_points, &
-                      numgrid_get_grid => get_grid
+   use numgrid, only: numgrid_new_context, &
+                      numgrid_free_context, &
+                      numgrid_generate_grid, &
+                      numgrid_get_num_points, &
+                      numgrid_get_grid
 
    use, intrinsic :: iso_c_binding, only: c_ptr, c_null_char
 

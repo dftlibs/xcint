@@ -73,7 +73,7 @@ void Functional::parse(const char *line)
     std::vector<std::string> tokens;
     std::copy(std::istream_iterator<std::string>(iss),
               std::istream_iterator<std::string>(),
-              std::back_inserter<std::vector<std::string>>(tokens));
+              std::back_inserter<std::vector<std::string> >(tokens));
 
     is_gga = false;
     is_tau_mgga = false;

@@ -8,6 +8,7 @@ XCint - Integrate your exciting ideas
 
    purpose
    requirements
+   interfacing
    building
    api
    basis_functions

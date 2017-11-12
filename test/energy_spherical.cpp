@@ -22,10 +22,22 @@ TEST(xcint, energy_spherical)
     center_coordinates[4] = 0.0;
     center_coordinates[5] = 0.0;
 
-    int *center_elements = NULL;
-    center_elements = new int[num_centers];
-    center_elements[0] = 9;
-    center_elements[1] = 1;
+    double x_coordinates_au[2];
+    x_coordinates_au[0] = 1.7;
+    x_coordinates_au[1] = 0.0;
+
+    double y_coordinates_au[2];
+    y_coordinates_au[0] = 0.0;
+    y_coordinates_au[1] = 0.0;
+
+    double z_coordinates_au[2];
+    z_coordinates_au[0] = 0.0;
+    z_coordinates_au[1] = 0.0;
+
+    int *proton_charges = NULL;
+    proton_charges = new int[num_centers];
+    proton_charges[0] = 9;
+    proton_charges[1] = 1;
 
     int num_shells = 9;
 
@@ -69,6 +81,7 @@ TEST(xcint, energy_spherical)
         num_exponents += shell_num_primitives[i];
     }
 
+    // FH molecule in cc-pVDZ basis
     double *primitive_exponents = NULL;
     primitive_exponents = new double[num_exponents];
     double *contraction_coefficients = NULL;
@@ -136,33 +149,79 @@ TEST(xcint, energy_spherical)
     primitive_exponents[30] =   7.270000000000e-01;
     contraction_coefficients[30] =   9.568810000000e-01;
 
+    double alpha_max[2];
+    alpha_max[0] = 14710.0;
+    alpha_max[1] = 13.01;
+
+    double alpha_min[2][3];
+    alpha_min[0][0] = 0.3897;
+    alpha_min[0][1] = 0.3471;
+    alpha_min[0][2] = 1.64;
+    alpha_min[1][0] = 0.122;
+    alpha_min[1][1] = 0.727;
+    alpha_min[1][2] = 0.0; // not used
+
     // generate grid
-    context_t *numgrid_context = numgrid_new_context();
     double radial_precision = 1.0e-12;
     int min_num_angular_points = 86;
     int max_num_angular_points = 302;
-    int num_outer_centers = 0;
-    double *outer_center_coordinates = NULL;
-    int *outer_center_elements = NULL;
-    ierr = numgrid_generate_grid(numgrid_context,
-                                 radial_precision,
-                                 min_num_angular_points,
-                                 max_num_angular_points,
-                                 num_centers,
-                                 center_coordinates,
-                                 center_elements,
-                                 num_outer_centers,
-                                 outer_center_coordinates,
-                                 outer_center_elements,
-                                 num_shells,
-                                 shell_centers,
-                                 shell_l_quantum_numbers,
-                                 shell_num_primitives,
-                                 primitive_exponents);
-    int num_points = numgrid_get_num_points(numgrid_context);
-    ASSERT_EQ(num_points, 31424);
 
-    double *grid = (double*) numgrid_get_grid(numgrid_context);
+    int max_l_quantum_numbers[2];
+    max_l_quantum_numbers[0] = 2;
+    max_l_quantum_numbers[1] = 1;
+
+    int num_points = 0;
+    double *grid = NULL;
+    grid = new double[4*31424];
+
+    for (int center_index = 0; center_index < num_centers; center_index++)
+    {
+        context_t *context =
+            numgrid_new_atom_grid(radial_precision,
+                                  min_num_angular_points,
+                                  max_num_angular_points,
+                                  proton_charges[center_index],
+                                  alpha_max[center_index],
+                                  max_l_quantum_numbers[center_index],
+                                  alpha_min[center_index]);
+
+        int num_points_center = numgrid_get_num_grid_points(context);
+
+        double *grid_x_au = new double[num_points_center];
+        double *grid_y_au = new double[num_points_center];
+        double *grid_z_au = new double[num_points_center];
+        double *grid_w = new double[num_points_center];
+
+        numgrid_get_grid(context,
+                         num_centers,
+                         center_index,
+                         x_coordinates_au,
+                         y_coordinates_au,
+                         z_coordinates_au,
+                         proton_charges,
+                         grid_x_au,
+                         grid_y_au,
+                         grid_z_au,
+                         grid_w);
+
+        for (int i = 0; i < num_points_center; i++)
+        {
+            grid[4*num_points + 4*i + 0] = grid_x_au[i];
+            grid[4*num_points + 4*i + 1] = grid_y_au[i];
+            grid[4*num_points + 4*i + 2] = grid_z_au[i];
+            grid[4*num_points + 4*i + 3] = grid_w[i];
+        }
+        num_points += num_points_center;
+
+        delete[] grid_x_au;
+        delete[] grid_y_au;
+        delete[] grid_z_au;
+        delete[] grid_w;
+
+        numgrid_free_atom_grid(context);
+    }
+
+    ASSERT_EQ(num_points, 31424);
 
     xcint_context_t *xcint_context = xcint_new_context();
 
@@ -191,8 +250,8 @@ TEST(xcint, energy_spherical)
 
     delete[] center_coordinates;
     center_coordinates = NULL;
-    delete[] center_elements;
-    center_elements = NULL;
+    delete[] proton_charges;
+    proton_charges = NULL;
     delete[] shell_centers;
     shell_centers = NULL;
     delete[] shell_l_quantum_numbers;
@@ -244,15 +303,15 @@ TEST(xcint, energy_spherical)
                                vxc,
                                &num_electrons);
 
-    ASSERT_NEAR(num_electrons, 9.999992074832, 1.0e-11);
-    ASSERT_NEAR(exc, -20.421064966255539, 1.0e-11);
+    ASSERT_NEAR(num_electrons, 9.999992072209077, 1.0e-12);
+    ASSERT_NEAR(exc, -20.421064966253642, 1.0e-12);
 
     dot = 0.0;
     for (int i = 0; i < mat_dim*mat_dim; i++)
     {
         dot += vxc[i]*dmat[i];
     }
-    ASSERT_NEAR(dot, -6.729996811122, 1.0e-11);
+    ASSERT_NEAR(dot, -6.729996811121003, 1.0e-12);
 
     ierr = xcint_set_functional(xcint_context, "b3lyp");
 
@@ -265,21 +324,20 @@ TEST(xcint, energy_spherical)
                                vxc,
                                &num_electrons);
 
-    ASSERT_NEAR(num_electrons, 9.999992074832, 1.0e-11);
-    ASSERT_NEAR(exc, -17.475254754458547, 1.0e-11);
+    ASSERT_NEAR(num_electrons, 9.999992072209077, 1.0e-12);
+    ASSERT_NEAR(exc, -17.475254754225027, 1.0e-12);
 
     dot = 0.0;
     for (int i = 0; i < mat_dim*mat_dim; i++)
     {
         dot += vxc[i]*dmat[i];
     }
-    ASSERT_NEAR(dot, -5.6105711653099748, 1.0e-11);
+    ASSERT_NEAR(dot, -5.610571165249672, 1.0e-12);
 
     delete[] dmat;
     dmat = NULL;
     delete[] vxc;
     vxc = NULL;
 
-    numgrid_free_context(numgrid_context);
     xcint_free_context(xcint_context);
 }

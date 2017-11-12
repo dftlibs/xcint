@@ -9,11 +9,7 @@ program test
                     XCINT_MODE_RKS,       &
                     XCINT_BASIS_SPHERICAL
 
-   use numgrid, only: numgrid_new_context, &
-                      numgrid_free_context, &
-                      numgrid_generate_grid, &
-                      numgrid_get_num_points, &
-                      numgrid_get_grid
+   use numgrid
 
    use, intrinsic :: iso_c_binding, only: c_ptr, c_null_char
 
@@ -27,10 +23,7 @@ program test
    integer              :: max_num_angular_points
    integer              :: num_centers
    real(8), allocatable :: center_coordinates(:)
-   integer, allocatable :: center_elements(:)
-   integer              :: num_outer_centers
-   real(8), allocatable :: outer_center_coordinates(:)
-   integer, allocatable :: outer_center_elements(:)
+   integer, allocatable :: proton_charges(:)
    integer              :: num_shells
    integer, allocatable :: shell_centers(:)
    integer, allocatable :: shell_l_quantum_numbers(:)
@@ -38,11 +31,14 @@ program test
    real(8), allocatable :: primitive_exponents(:)
    real(8), allocatable :: contraction_coefficients(:)
    integer              :: num_points
+   integer              :: num_points_center
    integer, parameter   :: io_unit = 13
    real(8)              :: ref(4)
    integer              :: i, j, k
+   integer              :: center_index
+   integer              :: ipoint
    real(8)              :: error
-   real(8), pointer     :: grid(:)
+   real(8), allocatable :: grid(:)
    integer              :: ierr
    real(8), allocatable :: dmat(:)
    real(8), allocatable :: vxc(:)
@@ -50,6 +46,16 @@ program test
    real(8)              :: exc
    real(8)              :: num_electrons
    real(8)              :: f
+   real(8)              :: alpha_max
+   integer              :: max_l_quantum_number
+   real(8)              :: alpha_min(3)
+   real(8), allocatable :: grid_x_au(:)
+   real(8), allocatable :: grid_y_au(:)
+   real(8), allocatable :: grid_z_au(:)
+   real(8), allocatable :: grid_w(:)
+   real(8)              :: x_coordinates_au(2)
+   real(8)              :: y_coordinates_au(2)
+   real(8)              :: z_coordinates_au(2)
 
    radial_precision = 1.0d-12
    min_num_angular_points = 86
@@ -66,12 +72,19 @@ program test
    center_coordinates(5) = 0.0d0
    center_coordinates(6) = 0.0d0
 
-   allocate(center_elements(num_centers))
+   x_coordinates_au(1) = 1.7d0
+   x_coordinates_au(2) = 0.0d0
 
-   center_elements(1) = 9
-   center_elements(2) = 1
+   y_coordinates_au(1) = 0.0d0
+   y_coordinates_au(2) = 0.0d0
 
-   num_outer_centers = 0
+   z_coordinates_au(1) = 0.0d0
+   z_coordinates_au(2) = 0.0d0
+
+   allocate(proton_charges(num_centers))
+
+   proton_charges(1) = 9
+   proton_charges(2) = 1
 
    num_shells = 9
 
@@ -179,26 +192,68 @@ program test
    contraction_coefficients(30) =  1.47123d-1
    contraction_coefficients(31) =  9.56881d-1
 
-   numgrid_context = numgrid_new_context()
+   allocate(grid(4*31424))
 
-   call numgrid_generate_grid(numgrid_context,          &
-                              radial_precision,         &
-                              min_num_angular_points,   &
-                              max_num_angular_points,   &
-                              num_centers,              &
-                              center_coordinates,       &
-                              center_elements,          &
-                              num_outer_centers,        &
-                              outer_center_coordinates, &
-                              outer_center_elements,    &
-                              num_shells,               &
-                              shell_centers,            &
-                              shell_l_quantum_numbers,  &
-                              shell_num_primitives,     &
-                              primitive_exponents)
+   num_points = 0
+   do center_index = 1, num_centers
 
-   num_points = numgrid_get_num_points(numgrid_context)
-   grid => numgrid_get_grid(numgrid_context)
+      ! ugly hack
+      if (center_index == 1) then
+         alpha_max = 14710.0d0
+         max_l_quantum_number = 2
+         alpha_min(1) = 0.3897d0
+         alpha_min(2) = 0.3471d0
+         alpha_min(3) = 1.64d0
+      else
+         alpha_max = 13.01d0
+         max_l_quantum_number = 1
+         alpha_min(1) = 0.122d0
+         alpha_min(2) = 0.727d0
+         alpha_min(3) = 0.0d0  ! not used
+      end if
+
+      numgrid_context = numgrid_new_atom_grid(radial_precision,             &
+                                              min_num_angular_points,       &
+                                              max_num_angular_points,       &
+                                              proton_charges(center_index), &
+                                              alpha_max,                    &
+                                              max_l_quantum_number,         &
+                                              alpha_min)
+
+      num_points_center = numgrid_get_num_grid_points(numgrid_context)
+
+      allocate(grid_x_au(num_points_center))
+      allocate(grid_y_au(num_points_center))
+      allocate(grid_z_au(num_points_center))
+      allocate(grid_w(num_points_center))
+
+      call numgrid_get_grid(numgrid_context,  &
+                            num_centers,      &
+                            center_index - 1, &
+                            x_coordinates_au, &
+                            y_coordinates_au, &
+                            z_coordinates_au, &
+                            proton_charges,   &
+                            grid_x_au,        &
+                            grid_y_au,        &
+                            grid_z_au,        &
+                            grid_w)
+
+      do ipoint = 1, num_points_center
+          grid(4*num_points + 4*(ipoint - 1) + 1) = grid_x_au(ipoint)
+          grid(4*num_points + 4*(ipoint - 1) + 2) = grid_y_au(ipoint)
+          grid(4*num_points + 4*(ipoint - 1) + 3) = grid_z_au(ipoint)
+          grid(4*num_points + 4*(ipoint - 1) + 4) = grid_w(ipoint)
+      end do
+      num_points = num_points + num_points_center
+
+      deallocate(grid_x_au)
+      deallocate(grid_y_au)
+      deallocate(grid_z_au)
+      deallocate(grid_w)
+
+      call numgrid_free_atom_grid(numgrid_context)
+   end do
 
    xcint_context = xcint_new_context()
 
@@ -214,7 +269,7 @@ program test
                           contraction_coefficients)
 
    deallocate(center_coordinates)
-   deallocate(center_elements)
+   deallocate(proton_charges)
    deallocate(shell_centers)
    deallocate(shell_l_quantum_numbers)
    deallocate(shell_num_primitives)
@@ -248,8 +303,8 @@ program test
                               vxc,            &
                               num_electrons)
 
-   if (dabs(num_electrons - 9.999992074832d0) > 1.0e-11) stop 1
-   if (dabs(exc + 20.421064966255539d0) > 1.0e-11) stop 1
+   if (dabs(num_electrons - 9.999992072209077d0) > 1.0e-12) stop 1
+   if (dabs(exc + 20.421064966253642d0) > 1.0e-12) stop 1
 
    ierr = xcint_set_functional(xcint_context, "b3lyp"//c_null_char)
 
@@ -269,13 +324,12 @@ program test
                           vxc,            &
                           num_electrons)
 
-   if (dabs(num_electrons - 9.999992074832d0) > 1.0e-11) stop 1
-   if (dabs(exc + 17.475254754458547d0) > 1.0e-11) stop 1
+   if (dabs(num_electrons - 9.999992072209077d0) > 1.0e-12) stop 1
+   if (dabs(exc + 17.475254754225027d0) > 1.0e-12) stop 1
 
    deallocate(dmat)
    deallocate(vxc)
 
    call xcint_free_context(xcint_context)
-   call numgrid_free_context(numgrid_context)
 
 end program

@@ -5,14 +5,14 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
 # project name
-project(xcint)
+project(xcint C CXX Fortran)
 
 # do not rebuild if rules (compiler flags) change
 set(CMAKE_SKIP_RULE_DEPENDENCY TRUE)
 
-# if CMAKE_BUILD_TYPE undefined, we set it to Debug
+# if CMAKE_BUILD_TYPE undefined, we set it to Release
 if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE "Debug")
+    set(CMAKE_BUILD_TYPE "Release")
 endif()
 
 # directories which hold included cmake modules

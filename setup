@@ -5,7 +5,7 @@
 
 import os
 import sys
-assert sys.version_info >= (2, 6), 'Python >= 2.6 is required' 
+assert sys.version_info >= (2, 6), 'Python >= 2.6 is required'
 
 sys.path.insert(0, 'cmake')
 from autocmake import configure
@@ -29,7 +29,7 @@ Options:
   --lapack=<LAPACK>                      Detect and link LAPACK library (auto or off) [default: auto].
   --mkl=<MKL>                            Pass MKL flag to the Intel compiler and linker and skip BLAS/LAPACK detection (sequential, parallel, cluster, or off) [default: off].
   --python=<PYTHON_INTERPRETER>          The Python interpreter (development version) to use. [default: ''].
-  --type=<TYPE>                          Set the CMake build type (debug, release, or relwithdeb) [default: release].
+  --type=<TYPE>                          Set the CMake build type (debug, release, relwithdebinfo, minsizerel) [default: release].
   --generator=<STRING>                   Set the CMake build system generator [default: Unix Makefiles].
   --show                                 Show CMake command and exit.
   --cmake-executable=<CMAKE_EXECUTABLE>  Set the CMake executable [default: cmake].

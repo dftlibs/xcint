@@ -12,7 +12,7 @@
 #include "integrator.h"
 #include "rolex.h"
 
-#include "parameters.h"
+#include "generated_parameters.h"
 #include "xcint_parameters.h"
 
 #ifdef ENABLE_OMP

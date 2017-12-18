@@ -5,6 +5,6 @@ set(MAX_L_VALUE "5" CACHE STRING "Maximum L value")
 
 configure_file(
     ${PROJECT_SOURCE_DIR}/src/parameters.h.in
-    ${PROJECT_BINARY_DIR}/generated/parameters.h
+    ${PROJECT_BINARY_DIR}/generated/generated_parameters.h
     @ONLY
     )

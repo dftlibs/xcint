@@ -6,7 +6,7 @@
 #include <iostream>
 
 #include "AOBatch.h"
-#include "parameters.h"
+#include "generated_parameters.h"
 #include "xcint_blas.h"
 
 AOBatch::AOBatch()

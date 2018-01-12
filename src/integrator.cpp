@@ -30,10 +30,7 @@ xcint_context_t *xcint_new_context()
 {
     return AS_TYPE(xcint_context_t, new XCint());
 }
-XCint::XCint()
-{
-    batch = new AOBatch();
-}
+XCint::XCint() { batch = new AOBatch(); }
 
 XCINT_API
 void xcint_free_context(xcint_context_t *xcint_context)
@@ -42,10 +39,7 @@ void xcint_free_context(xcint_context_t *xcint_context)
         return;
     delete AS_TYPE(XCint, xcint_context);
 }
-XCint::~XCint()
-{
-    delete batch;
-}
+XCint::~XCint() { delete batch; }
 
 XCINT_API
 int xcint_set_functional(xcint_context_t *context, const char *line)

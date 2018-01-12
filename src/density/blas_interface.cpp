@@ -35,18 +35,18 @@ extern void dsymm_(char *si,
 #endif
 
 void wrap_dgemm(char *ta,
-                 char *tb,
-                 int *m,
-                 int *n,
-                 int *k,
-                 double *alpha,
-                 const double *a,
-                 int *lda,
-                 const double *b,
-                 int *ldb,
-                 double *beta,
-                 double *c,
-                 int *ldc)
+                char *tb,
+                int *m,
+                int *n,
+                int *k,
+                double *alpha,
+                const double *a,
+                int *lda,
+                const double *b,
+                int *ldb,
+                double *beta,
+                double *c,
+                int *ldc)
 {
 #ifdef HAVE_MKL_BLAS
     CBLAS_TRANSPOSE cta = (*ta == 't') ? CblasNoTrans : CblasTrans;
@@ -71,17 +71,17 @@ void wrap_dgemm(char *ta,
 }
 
 void wrap_dsymm(char *si,
-                 char *up,
-                 int *m,
-                 int *n,
-                 double *alpha,
-                 const double *a,
-                 int *lda,
-                 const double *b,
-                 int *ldb,
-                 double *beta,
-                 double *c,
-                 int *ldc)
+                char *up,
+                int *m,
+                int *n,
+                double *alpha,
+                const double *a,
+                int *lda,
+                const double *b,
+                int *ldb,
+                double *beta,
+                double *c,
+                int *ldc)
 {
 #ifdef HAVE_MKL_BLAS
     CBLAS_SIDE cs = (*si == 'r') ? CblasLeft : CblasRight;

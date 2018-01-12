@@ -6,8 +6,8 @@
 #include <iostream>
 
 #include "AOBatch.h"
-#include "density_parameters.h"
 #include "blas_interface.h"
+#include "density_parameters.h"
 
 AOBatch::AOBatch()
 {
@@ -319,18 +319,18 @@ void AOBatch::distribute_matrix(const int mat_dim,
                 alpha = prefactors[4];
                 beta = 1.0;
                 wrap_dgemm(&ta,
-                            &tb,
-                            &im,
-                            &in,
-                            &ik,
-                            &alpha,
-                            W,
-                            &lda,
-                            &l_aoc[(ixyz + 1) * AO_BLOCK_LENGTH * mat_dim],
-                            &ldb,
-                            &beta,
-                            F,
-                            &ldc);
+                           &tb,
+                           &im,
+                           &in,
+                           &ik,
+                           &alpha,
+                           W,
+                           &lda,
+                           &l_aoc[(ixyz + 1) * AO_BLOCK_LENGTH * mat_dim],
+                           &ldb,
+                           &beta,
+                           F,
+                           &ldc);
             }
         }
     }
@@ -493,18 +493,18 @@ void AOBatch::get_density(const int mat_dim,
         double alpha = 1.0;
         double beta = 0.0;
         wrap_dgemm(&ta,
-                    &tb,
-                    &im,
-                    &in,
-                    &ik,
-                    &alpha,
-                    l_aoc,
-                    &lda,
-                    D,
-                    &ldb,
-                    &beta,
-                    X,
-                    &ldc);
+                   &tb,
+                   &im,
+                   &in,
+                   &ik,
+                   &alpha,
+                   l_aoc,
+                   &lda,
+                   D,
+                   &ldb,
+                   &beta,
+                   X,
+                   &ldc);
     }
 
     int num_slices;
@@ -548,17 +548,17 @@ void AOBatch::get_density(const int mat_dim,
                     double alpha = 1.0;
                     double beta = 0.0;
                     wrap_dsymm(&si,
-                                &up,
-                                &im,
-                                &in,
-                                &alpha,
-                                D,
-                                &lda,
-                                &l_aoc[(ixyz + 1) * AO_BLOCK_LENGTH * mat_dim],
-                                &ldb,
-                                &beta,
-                                X,
-                                &ldc);
+                               &up,
+                               &im,
+                               &in,
+                               &alpha,
+                               D,
+                               &lda,
+                               &l_aoc[(ixyz + 1) * AO_BLOCK_LENGTH * mat_dim],
+                               &ldb,
+                               &beta,
+                               X,
+                               &ldc);
                 }
                 else
                 {
@@ -573,18 +573,18 @@ void AOBatch::get_density(const int mat_dim,
                     double alpha = 1.0;
                     double beta = 0.0;
                     wrap_dgemm(&ta,
-                                &tb,
-                                &im,
-                                &in,
-                                &ik,
-                                &alpha,
-                                &l_aoc[(ixyz + 1) * AO_BLOCK_LENGTH * mat_dim],
-                                &lda,
-                                D,
-                                &ldb,
-                                &beta,
-                                X,
-                                &ldc);
+                               &tb,
+                               &im,
+                               &in,
+                               &ik,
+                               &alpha,
+                               &l_aoc[(ixyz + 1) * AO_BLOCK_LENGTH * mat_dim],
+                               &lda,
+                               D,
+                               &ldb,
+                               &beta,
+                               X,
+                               &ldc);
                 }
 
                 for (int k = 0; k < k_aoc_num; k++)

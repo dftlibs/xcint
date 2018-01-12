@@ -61,6 +61,7 @@ if(ENABLE_UNIT_TESTS)
             fortran_test
             ${BALBOA_LIBS}
             xcint_fortran
+            ${BALBOA_LIBS}
             ${NUMGRID_LIBS}
             )
 

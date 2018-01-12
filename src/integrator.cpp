@@ -32,7 +32,6 @@ xcint_context_t *xcint_new_context()
 }
 XCint::XCint()
 {
-    nullify();
     batch = new AOBatch();
 }
 
@@ -45,7 +44,6 @@ void xcint_free_context(xcint_context_t *xcint_context)
 }
 XCint::~XCint()
 {
-    nullify();
     delete batch;
 }
 
@@ -105,8 +103,6 @@ int XCint::set_basis(const int basis_type,
 
     return ierr;
 }
-
-void XCint::nullify() { }
 
 void XCint::integrate_batch(const double dmat[],
                             const bool get_exc,

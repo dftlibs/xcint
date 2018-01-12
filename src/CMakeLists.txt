@@ -1,22 +1,19 @@
+add_subdirectory(density)
+
 include_directories(
     ${PROJECT_BINARY_DIR}/external/include
     ${PROJECT_SOURCE_DIR}/api
+    ${PROJECT_SOURCE_DIR}/src/density
     ${PROJECT_BINARY_DIR}/generated
     )
 
 add_library(
     xcint
-    AOBatch.cpp
-    AOBatch.h
     CMakeLists.txt
     Functional.cpp
     Functional.h
     integrator.cpp
     integrator.h
-    rolex.cpp
-    rolex.h
-    xcint_blas.cpp
-    xcint_blas.h
     xcint_parameters.h
     )
 

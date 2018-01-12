@@ -10,7 +10,6 @@
 #include <fstream>
 
 #include "integrator.h"
-#include "rolex.h"
 
 #include "generated_parameters.h"
 #include "xcint_parameters.h"
@@ -107,7 +106,7 @@ int XCint::set_basis(const int basis_type,
     return ierr;
 }
 
-void XCint::nullify() { reset_time(); }
+void XCint::nullify() { }
 
 void XCint::integrate_batch(const double dmat[],
                             const bool get_exc,
@@ -139,14 +138,8 @@ void XCint::integrate_batch(const double dmat[],
     bool n_is_used[MAX_NUM_DENSITIES];
     std::fill(&n_is_used[0], &n_is_used[MAX_NUM_DENSITIES], false);
 
-    rolex::start_partial();
-
     batch->get_ao(
         get_gradient, max_ao_order_g, block_length, &grid[ipoint * 4]);
-
-    //  time_ao += rolex::stop_partial();
-
-    rolex::start_partial();
 
     if (!n_is_used[0])
     {
@@ -161,8 +154,6 @@ void XCint::integrate_batch(const double dmat[],
     {
         num_electrons += grid[(ipoint + ib) * 4 + 3] * n[ib];
     }
-
-    //  time_densities += rolex::stop_partial();
 
     // expectation value contribution
     if (get_exc)
@@ -221,11 +212,7 @@ void XCint::integrate_batch(const double dmat[],
             }
         }
 
-        rolex::start_partial();
-
 #include "ave_contributions.h"
-
-        //      time_densities += rolex::stop_partial();
 
         dens_offset = fun.set_order(num_perturbations, xcfun);
 
@@ -252,8 +239,6 @@ void XCint::integrate_batch(const double dmat[],
             }
         }
 
-        rolex::start_partial();
-
         double sum = 0.0;
         for (int ib = 0; ib < block_length; ib++)
         {
@@ -267,8 +252,6 @@ void XCint::integrate_batch(const double dmat[],
             }
         }
         exc += sum;
-
-        //      time_fun_derv += rolex::stop_partial();
 
         delete[] xcin;
         delete[] xcout;
@@ -284,8 +267,6 @@ void XCint::integrate_batch(const double dmat[],
         if (geo_derv_order == 0) // no geo dervs
         {
             contribution_is_implemented = true;
-
-            rolex::start_partial();
 
             for (int ifield = 0; ifield < num_fields; ifield++)
             {
@@ -308,8 +289,6 @@ void XCint::integrate_batch(const double dmat[],
                     false); // FIXME can be true depending on perturbation
                             // (savings possible)
             }
-
-            //          time_densities += rolex::stop_partial();
 
             distribute_matrix(block_length,
                               num_variables,
@@ -759,8 +738,6 @@ int XCint::integrate(const xcint_mode_t mode,
 
     std::vector<int> coor;
 
-    rolex::start_global();
-
     int rank = 0;
     int num_proc = 1;
 
@@ -827,8 +804,6 @@ int XCint::integrate(const xcint_mode_t mode,
     {
         max_ao_order_g++;
     }
-
-    rolex::start_partial();
 
     int *dmat_index = new int[MAX_NUM_DENSITIES];
     std::fill(&dmat_index[0], &dmat_index[MAX_NUM_DENSITIES], 0);
@@ -983,7 +958,6 @@ int XCint::integrate(const xcint_mode_t mode,
         }
     }
 
-    //  time_total += rolex::stop_global();
     xc_free_functional(xcfun);
     return 0;
 }
@@ -1002,8 +976,6 @@ void XCint::distribute_matrix(const int block_length,
                               const std::vector<int> coor,
                               const double grid[]) const
 {
-    rolex::start_partial();
-
     int off;
 
     dens_offset = fun.set_order(num_perturbations + 1, xcfun);
@@ -1068,10 +1040,6 @@ void XCint::distribute_matrix(const int block_length,
         }
     }
 
-    //  time_fun_derv += rolex::stop_partial();
-
-    rolex::start_partial();
-
     bool distribute_gradient;
     bool distribute_tau;
 
@@ -1109,15 +1077,4 @@ void XCint::distribute_matrix(const int block_length,
 
     delete[] xcin;
     delete[] xcout;
-
-    //  time_matrix_distribution += rolex::stop_partial();
-}
-
-void XCint::reset_time()
-{
-    //  time_total = 0.0;
-    //  time_ao = 0.0;
-    //  time_fun_derv = 0.0;
-    //  time_densities = 0.0;
-    //  time_matrix_distribution = 0.0;
 }

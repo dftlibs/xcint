@@ -1,8 +1,7 @@
-
-
 #ifdef ENABLE_OMP
 #include <omp.h>
 #endif
+
 #include <time.h>
 
 #include "rolex.h"

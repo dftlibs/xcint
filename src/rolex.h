@@ -1,5 +1,4 @@
-#ifndef rolex_h_
-#define rolex_h_
+#pragma once
 
 namespace rolex
 {
@@ -11,5 +10,3 @@ void start_partial();
 
 double stop_partial();
 }
-
-#endif // rolex_h_

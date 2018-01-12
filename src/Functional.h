@@ -1,5 +1,4 @@
-#ifndef Functional_h_
-#define Functional_h_
+#pragma once
 
 #include <string>
 #include <vector>
@@ -31,5 +30,3 @@ class Functional
 
     bool is_synced;
 };
-
-#endif // Functional_h_

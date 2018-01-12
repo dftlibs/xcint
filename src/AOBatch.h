@@ -1,5 +1,4 @@
-#ifndef AOBatch_h_
-#define AOBatch_h_
+#pragma once
 
 #include <stdlib.h>
 #include <vector>
@@ -136,5 +135,3 @@ class AOBatch
     int l_ao_compressed_num;
     int *l_ao_compressed_index;
 };
-
-#endif // AOBatch_h_

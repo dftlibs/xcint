@@ -1,5 +1,4 @@
-#ifndef XCINT_BLAS_H_INCLUDED
-#define XCINT_BLAS_H_INCLUDED
+#pragma once
 
 void xcint_dgemm(char *ta,
                  char *tb,
@@ -27,5 +26,3 @@ void xcint_dsymm(char *si,
                  double *beta,
                  double *c,
                  int *ldc);
-
-#endif /* XCINT_BLAS_H_INCLUDED */

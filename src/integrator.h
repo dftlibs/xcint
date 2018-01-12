@@ -1,5 +1,4 @@
-#ifndef INTEGRATOR_H_INCLUDED
-#define INTEGRATOR_H_INCLUDED
+#pragma once
 
 #include "AOBatch.h"
 #include "Functional.h"
@@ -92,5 +91,3 @@ class XCint
 
     void reset_time();
 };
-
-#endif // INTEGRATOR_H_INCLUDED

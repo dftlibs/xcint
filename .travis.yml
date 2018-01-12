@@ -41,7 +41,7 @@ script:
   - if test ${TRAVIS_OS_NAME} = linux; then ./setup --cxx=g++ --fc=gfortran --coverage --type=debug;
                                        else ./setup --cxx=g++ --fc=gfortran            --type=debug; fi
   - cd build
-  - make -j2
+  - make
   - make test
   - cd ..
   - pep8 --ignore=E501 test/test.py

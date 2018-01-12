@@ -22,6 +22,7 @@ target_include_directories(
     density
     PRIVATE
     ${PROJECT_BINARY_DIR}/generated
+    ${PROJECT_BINARY_DIR}/balboa/src/balboa/api
     )
 
 set_target_properties(density PROPERTIES COMPILE_FLAGS "-fPIC")

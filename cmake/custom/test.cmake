@@ -11,7 +11,7 @@ if(ENABLE_UNIT_TESTS)
         gtest
         PREFIX "${PROJECT_BINARY_DIR}/gtest"
         GIT_REPOSITORY https://github.com/google/googletest.git
-        GIT_TAG master
+        GIT_TAG release-1.8.0
         INSTALL_COMMAND true  # currently no install command
         )
 

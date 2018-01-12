@@ -82,12 +82,4 @@ class XCint
                          const bool get_tau,
                          const int dmat_index[],
                          const double grid_pw[]) const;
-
-    //      double time_total;
-    //      double time_ao;
-    //      double time_fun_derv;
-    //      double time_densities;
-    //      double time_matrix_distribution;
-
-    void reset_time();
 };

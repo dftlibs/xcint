@@ -44,7 +44,7 @@ script:
   - make
   - make test
   - cd ..
-  - pep8 --ignore=E501 test/test.py
+  - pycodestyle --ignore=E501 test/test.py
 # deactivated until xcint is refactored
 # then there will be no need for BLAS which currently does not link
 # - PYTHONPATH="build:build/numgrid/src/numgrid-build" pytest -vv test/test.py

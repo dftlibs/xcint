@@ -1,5 +1,5 @@
 pytest
 cffi
-pep8
+pycodestyle
 cpp-coveralls
 pyyaml

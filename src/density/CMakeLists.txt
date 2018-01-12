@@ -18,6 +18,8 @@ add_library(
     AOBatch.h
     )
 
+add_dependencies(density balboa)
+
 target_include_directories(
     density
     PRIVATE

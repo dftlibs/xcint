@@ -55,7 +55,6 @@ endif()
 
 add_dependencies(xcint xcfun)
 add_dependencies(xcint numgrid)
-add_dependencies(xcint balboa)
 
 if(ENABLE_FC_SUPPORT)
     add_library(

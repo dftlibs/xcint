@@ -1,3 +1,10 @@
+set(AO_BLOCK_LENGTH "128" CACHE STRING "AO block length")
+configure_file(
+    ${PROJECT_SOURCE_DIR}/src/parameters.h.in
+    ${PROJECT_BINARY_DIR}/generated/generated_parameters.h
+    @ONLY
+    )
+
 add_subdirectory(density)
 
 include_directories(
@@ -31,6 +38,7 @@ if(APPLE)
         ${MATH_LIBS}
         "-Wl, -force_load"
         xcint
+        density
         ${PROJECT_BINARY_DIR}/external/lib/libxcfun.a
         )
 else()
@@ -39,6 +47,7 @@ else()
         ${MATH_LIBS}
         "-Wl,--whole-archive"
         xcint
+        density
         ${PROJECT_BINARY_DIR}/external/lib/libxcfun.a
         "-Wl,--no-whole-archive"
         )

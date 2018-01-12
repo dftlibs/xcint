@@ -6,8 +6,8 @@
 #include <iostream>
 
 #include "AOBatch.h"
-#include "generated_parameters.h"
-#include "xcint_blas.h"
+#include "density_parameters.h"
+#include "blas_interface.h"
 
 AOBatch::AOBatch()
 {
@@ -293,7 +293,7 @@ void AOBatch::distribute_matrix(const int mat_dim,
     int ldc = im;
     double alpha = 1.0;
     double beta = 0.0;
-    xcint_dgemm(
+    wrap_dgemm(
         &ta, &tb, &im, &in, &ik, &alpha, W, &lda, l_aoc, &ldb, &beta, F, &ldc);
 
     if (use_tau)
@@ -318,7 +318,7 @@ void AOBatch::distribute_matrix(const int mat_dim,
 
                 alpha = prefactors[4];
                 beta = 1.0;
-                xcint_dgemm(&ta,
+                wrap_dgemm(&ta,
                             &tb,
                             &im,
                             &in,
@@ -477,7 +477,7 @@ void AOBatch::get_density(const int mat_dim,
         int ldc = im;
         double alpha = 1.0;
         double beta = 0.0;
-        xcint_dsymm(
+        wrap_dsymm(
             &si, &up, &im, &in, &alpha, D, &lda, l_aoc, &ldb, &beta, X, &ldc);
     }
     else
@@ -492,7 +492,7 @@ void AOBatch::get_density(const int mat_dim,
         int ldc = im;
         double alpha = 1.0;
         double beta = 0.0;
-        xcint_dgemm(&ta,
+        wrap_dgemm(&ta,
                     &tb,
                     &im,
                     &in,
@@ -547,7 +547,7 @@ void AOBatch::get_density(const int mat_dim,
                     int ldc = im;
                     double alpha = 1.0;
                     double beta = 0.0;
-                    xcint_dsymm(&si,
+                    wrap_dsymm(&si,
                                 &up,
                                 &im,
                                 &in,
@@ -572,7 +572,7 @@ void AOBatch::get_density(const int mat_dim,
                     int ldc = im;
                     double alpha = 1.0;
                     double beta = 0.0;
-                    xcint_dgemm(&ta,
+                    wrap_dgemm(&ta,
                                 &tb,
                                 &im,
                                 &in,

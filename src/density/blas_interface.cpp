@@ -2,7 +2,7 @@
 #include "mkl.h"
 #endif
 
-#include "xcint_blas.h"
+#include "blas_interface.h"
 
 #ifndef HAVE_MKL_BLAS
 extern "C" {
@@ -34,7 +34,7 @@ extern void dsymm_(char *si,
 };
 #endif
 
-void xcint_dgemm(char *ta,
+void wrap_dgemm(char *ta,
                  char *tb,
                  int *m,
                  int *n,
@@ -70,7 +70,7 @@ void xcint_dgemm(char *ta,
 #endif
 }
 
-void xcint_dsymm(char *si,
+void wrap_dsymm(char *si,
                  char *up,
                  int *m,
                  int *n,

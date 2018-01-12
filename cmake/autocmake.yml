@@ -22,7 +22,6 @@ modules:
     - '%(url_root)compilers/Intel.CXX.cmake'
 - plugins:
   - source:
-    - 'custom/parameters.cmake'
     - 'custom/rpath.cmake'
     - '%(url_root)modules/code_coverage.cmake'
     - '%(url_root)modules/omp.cmake'

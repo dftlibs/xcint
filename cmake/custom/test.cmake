@@ -41,6 +41,7 @@ if(ENABLE_UNIT_TESTS)
         cpp_test
         libgtest.a
         xcint
+        density
         ${PROJECT_BINARY_DIR}/external/xcfun-build/libxcfun.a
         ${NUMGRID_LIBS}
         ${BALBOA_LIBS}

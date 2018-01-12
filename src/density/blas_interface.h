@@ -1,6 +1,6 @@
 #pragma once
 
-void xcint_dgemm(char *ta,
+void wrap_dgemm(char *ta,
                  char *tb,
                  int *m,
                  int *n,
@@ -14,7 +14,7 @@ void xcint_dgemm(char *ta,
                  double *c,
                  int *ldc);
 
-void xcint_dsymm(char *si,
+void wrap_dsymm(char *si,
                  char *up,
                  int *m,
                  int *n,

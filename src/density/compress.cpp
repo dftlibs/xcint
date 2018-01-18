@@ -1,7 +1,6 @@
 #include <math.h> // fabs
 
 #include "compress.h"
-#include "density_parameters.h" // FIXME
 
 bool is_same_center(const int c, const std::vector<int> &carray)
 {
@@ -15,6 +14,7 @@ bool is_same_center(const int c, const std::vector<int> &carray)
 }
 
 void compress(const bool use_gradient,
+              const int block_length,
               int &num_compressed_aos,
               int compressed_aos_indices[],
               double compressed_aos[],
@@ -39,9 +39,9 @@ void compress(const bool use_gradient,
         if (is_same_center(ao_centers[i], cent))
         {
             double tmax = 0.0;
-            for (int ib = 0; ib < AO_BLOCK_LENGTH; ib++)
+            for (int ib = 0; ib < block_length; ib++)
             {
-                double t = fabs(aos[i * AO_BLOCK_LENGTH + ib]);
+                double t = fabs(aos[i * block_length + ib]);
                 if (t > tmax)
                     tmax = t;
             }
@@ -64,11 +64,10 @@ void compress(const bool use_gradient,
             int iuoff = slice_offsets[islice];
             int icoff = islice * num_aos;
 
-            int iu = AO_BLOCK_LENGTH * (iuoff + compressed_aos_indices[i]);
-            int ic = AO_BLOCK_LENGTH * (icoff + i);
+            int iu = block_length * (iuoff + compressed_aos_indices[i]);
+            int ic = block_length * (icoff + i);
 
-            std::copy(
-                &aos[iu], &aos[iu + AO_BLOCK_LENGTH], &compressed_aos[ic]);
+            std::copy(&aos[iu], &aos[iu + block_length], &compressed_aos[ic]);
         }
     }
 }

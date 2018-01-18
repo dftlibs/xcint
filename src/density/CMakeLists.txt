@@ -1,11 +1,3 @@
-set(AO_BLOCK_LENGTH "128" CACHE STRING "AO block length")
-
-configure_file(
-    parameters.h.in
-    ${PROJECT_BINARY_DIR}/generated/density_parameters.h
-    @ONLY
-    )
-
 add_library(
     density
     SHARED

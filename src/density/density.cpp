@@ -8,9 +8,9 @@
 #include "blas_interface.h"
 #include "compress.h"
 #include "density.h"
-#include "density_parameters.h"
 
 void distribute_matrix(const int mat_dim,
+                       const int block_length,
                        const bool use_gradient,
                        const bool use_tau,
                        const double prefactors[],
@@ -33,9 +33,9 @@ void distribute_matrix(const int mat_dim,
     if (l_aoc_num == 0)
         return;
 
-    double *W = new double[k_aoc_num * AO_BLOCK_LENGTH];
+    double *W = new double[k_aoc_num * block_length];
 
-    std::fill(&W[0], &W[AO_BLOCK_LENGTH * k_aoc_num], 0.0);
+    std::fill(&W[0], &W[block_length * k_aoc_num], 0.0);
 
     int kc, lc, iboff;
 
@@ -48,12 +48,12 @@ void distribute_matrix(const int mat_dim,
         {
             for (int k = 0; k < k_aoc_num; k++)
             {
-                iboff = k * AO_BLOCK_LENGTH;
-                for (int ib = 0; ib < AO_BLOCK_LENGTH; ib++)
+                iboff = k * block_length;
+                for (int ib = 0; ib < block_length; ib++)
                 {
                     W[iboff + ib] +=
-                        prefactors[islice] * u[islice * AO_BLOCK_LENGTH + ib] *
-                        k_aoc[islice * AO_BLOCK_LENGTH * mat_dim + iboff + ib];
+                        prefactors[islice] * u[islice * block_length + ib] *
+                        k_aoc[islice * block_length * mat_dim + iboff + ib];
                 }
             }
         }
@@ -67,7 +67,7 @@ void distribute_matrix(const int mat_dim,
     char tb = 'n';
     int im = k_aoc_num;
     int in = l_aoc_num;
-    int ik = AO_BLOCK_LENGTH;
+    int ik = block_length;
     int lda = ik;
     int ldb = ik;
     int ldc = im;
@@ -84,13 +84,13 @@ void distribute_matrix(const int mat_dim,
             {
                 for (int k = 0; k < k_aoc_num; k++)
                 {
-                    iboff = k * AO_BLOCK_LENGTH;
-                    for (int ib = 0; ib < AO_BLOCK_LENGTH; ib++)
+                    iboff = k * block_length;
+                    for (int ib = 0; ib < block_length; ib++)
                     {
                         W[iboff + ib] =
-                            u[4 * AO_BLOCK_LENGTH + ib] *
-                            k_aoc[(ixyz + 1) * AO_BLOCK_LENGTH * mat_dim +
-                                  iboff + ib];
+                            u[4 * block_length + ib] *
+                            k_aoc[(ixyz + 1) * block_length * mat_dim + iboff +
+                                  ib];
                     }
                 }
 
@@ -104,7 +104,7 @@ void distribute_matrix(const int mat_dim,
                            &alpha,
                            W,
                            &lda,
-                           &l_aoc[(ixyz + 1) * AO_BLOCK_LENGTH * mat_dim],
+                           &l_aoc[(ixyz + 1) * block_length * mat_dim],
                            &ldb,
                            &beta,
                            F,
@@ -132,6 +132,7 @@ void distribute_matrix(const int mat_dim,
 }
 
 void get_density(const int mat_dim,
+                 const int block_length,
                  const bool use_gradient,
                  const bool use_tau,
                  const double prefactors[],
@@ -159,7 +160,7 @@ void get_density(const int mat_dim,
     int kc, lc, iboff;
 
     double *D = new double[k_aoc_num * l_aoc_num];
-    double *X = new double[k_aoc_num * AO_BLOCK_LENGTH];
+    double *X = new double[k_aoc_num * block_length];
 
     // compress dmat
     if (kl_match)
@@ -223,7 +224,7 @@ void get_density(const int mat_dim,
     {
         char si = 'r';
         char up = 'u';
-        int im = AO_BLOCK_LENGTH;
+        int im = block_length;
         int in = k_aoc_num;
         int lda = in;
         int ldb = im;
@@ -237,7 +238,7 @@ void get_density(const int mat_dim,
     {
         char ta = 'n';
         char tb = 'n';
-        int im = AO_BLOCK_LENGTH;
+        int im = block_length;
         int in = k_aoc_num;
         int ik = l_aoc_num;
         int lda = im;
@@ -263,7 +264,7 @@ void get_density(const int mat_dim,
     int num_slices;
     (use_gradient) ? (num_slices = 4) : (num_slices = 1);
 
-    std::fill(&density[0], &density[num_slices * AO_BLOCK_LENGTH], 0.0);
+    std::fill(&density[0], &density[num_slices * block_length], 0.0);
 
     // assemble density and possibly gradient
     for (int islice = 0; islice < num_slices; islice++)
@@ -272,12 +273,12 @@ void get_density(const int mat_dim,
         {
             for (int k = 0; k < k_aoc_num; k++)
             {
-                iboff = k * AO_BLOCK_LENGTH;
-                for (int ib = 0; ib < AO_BLOCK_LENGTH; ib++)
+                iboff = k * block_length;
+                for (int ib = 0; ib < block_length; ib++)
                 {
-                    density[islice * AO_BLOCK_LENGTH + ib] +=
+                    density[islice * block_length + ib] +=
                         prefactors[islice] * X[iboff + ib] *
-                        k_aoc[islice * AO_BLOCK_LENGTH * mat_dim + iboff + ib];
+                        k_aoc[islice * block_length * mat_dim + iboff + ib];
                 }
             }
         }
@@ -293,7 +294,7 @@ void get_density(const int mat_dim,
                 {
                     char si = 'r';
                     char up = 'u';
-                    int im = AO_BLOCK_LENGTH;
+                    int im = block_length;
                     int in = k_aoc_num;
                     int lda = in;
                     int ldb = im;
@@ -307,7 +308,7 @@ void get_density(const int mat_dim,
                                &alpha,
                                D,
                                &lda,
-                               &l_aoc[(ixyz + 1) * AO_BLOCK_LENGTH * mat_dim],
+                               &l_aoc[(ixyz + 1) * block_length * mat_dim],
                                &ldb,
                                &beta,
                                X,
@@ -317,7 +318,7 @@ void get_density(const int mat_dim,
                 {
                     char ta = 'n';
                     char tb = 'n';
-                    int im = AO_BLOCK_LENGTH;
+                    int im = block_length;
                     int in = k_aoc_num;
                     int ik = l_aoc_num;
                     int lda = im;
@@ -331,7 +332,7 @@ void get_density(const int mat_dim,
                                &in,
                                &ik,
                                &alpha,
-                               &l_aoc[(ixyz + 1) * AO_BLOCK_LENGTH * mat_dim],
+                               &l_aoc[(ixyz + 1) * block_length * mat_dim],
                                &lda,
                                D,
                                &ldb,
@@ -342,13 +343,13 @@ void get_density(const int mat_dim,
 
                 for (int k = 0; k < k_aoc_num; k++)
                 {
-                    iboff = k * AO_BLOCK_LENGTH;
-                    for (int ib = 0; ib < AO_BLOCK_LENGTH; ib++)
+                    iboff = k * block_length;
+                    for (int ib = 0; ib < block_length; ib++)
                     {
-                        density[4 * AO_BLOCK_LENGTH + ib] +=
+                        density[4 * block_length + ib] +=
                             prefactors[4] * X[iboff + ib] *
-                            k_aoc[(ixyz + 1) * AO_BLOCK_LENGTH * mat_dim +
-                                  iboff + ib];
+                            k_aoc[(ixyz + 1) * block_length * mat_dim + iboff +
+                                  ib];
                     }
                 }
             }
@@ -362,6 +363,7 @@ void get_density(const int mat_dim,
 }
 
 void get_dens_geo_derv(const int mat_dim,
+                       const int block_length,
                        const int num_aos,
                        const int buffer_len,
                        const double ao[],
@@ -402,6 +404,7 @@ void get_dens_geo_derv(const int mat_dim,
     case 1:
         k_coor.push_back(coor[0]);
         diff_u_wrt_center_tuple(mat_dim,
+                                block_length,
                                 num_aos,
                                 buffer_len,
                                 ao,
@@ -421,6 +424,7 @@ void get_dens_geo_derv(const int mat_dim,
         k_coor.push_back(coor[0]);
         k_coor.push_back(coor[1]);
         diff_u_wrt_center_tuple(mat_dim,
+                                block_length,
                                 num_aos,
                                 buffer_len,
                                 ao,
@@ -438,6 +442,7 @@ void get_dens_geo_derv(const int mat_dim,
         k_coor.push_back(coor[0]);
         l_coor.push_back(coor[1]);
         diff_u_wrt_center_tuple(mat_dim,
+                                block_length,
                                 num_aos,
                                 buffer_len,
                                 ao,
@@ -458,6 +463,7 @@ void get_dens_geo_derv(const int mat_dim,
         k_coor.push_back(coor[1]);
         k_coor.push_back(coor[2]);
         diff_u_wrt_center_tuple(mat_dim,
+                                block_length,
                                 num_aos,
                                 buffer_len,
                                 ao,
@@ -476,6 +482,7 @@ void get_dens_geo_derv(const int mat_dim,
         k_coor.push_back(coor[1]);
         l_coor.push_back(coor[2]);
         diff_u_wrt_center_tuple(mat_dim,
+                                block_length,
                                 num_aos,
                                 buffer_len,
                                 ao,
@@ -494,6 +501,7 @@ void get_dens_geo_derv(const int mat_dim,
         l_coor.push_back(coor[1]);
         l_coor.push_back(coor[2]);
         diff_u_wrt_center_tuple(mat_dim,
+                                block_length,
                                 num_aos,
                                 buffer_len,
                                 ao,
@@ -512,6 +520,7 @@ void get_dens_geo_derv(const int mat_dim,
         k_coor.push_back(coor[2]);
         l_coor.push_back(coor[1]);
         diff_u_wrt_center_tuple(mat_dim,
+                                block_length,
                                 num_aos,
                                 buffer_len,
                                 ao,
@@ -533,6 +542,7 @@ void get_dens_geo_derv(const int mat_dim,
         k_coor.push_back(coor[2]);
         k_coor.push_back(coor[3]);
         diff_u_wrt_center_tuple(mat_dim,
+                                block_length,
                                 num_aos,
                                 buffer_len,
                                 ao,
@@ -552,6 +562,7 @@ void get_dens_geo_derv(const int mat_dim,
         k_coor.push_back(coor[2]);
         l_coor.push_back(coor[3]);
         diff_u_wrt_center_tuple(mat_dim,
+                                block_length,
                                 num_aos,
                                 buffer_len,
                                 ao,
@@ -571,6 +582,7 @@ void get_dens_geo_derv(const int mat_dim,
         l_coor.push_back(coor[2]);
         l_coor.push_back(coor[3]);
         diff_u_wrt_center_tuple(mat_dim,
+                                block_length,
                                 num_aos,
                                 buffer_len,
                                 ao,
@@ -590,6 +602,7 @@ void get_dens_geo_derv(const int mat_dim,
         l_coor.push_back(coor[2]);
         l_coor.push_back(coor[3]);
         diff_u_wrt_center_tuple(mat_dim,
+                                block_length,
                                 num_aos,
                                 buffer_len,
                                 ao,
@@ -609,6 +622,7 @@ void get_dens_geo_derv(const int mat_dim,
         k_coor.push_back(coor[3]);
         l_coor.push_back(coor[2]);
         diff_u_wrt_center_tuple(mat_dim,
+                                block_length,
                                 num_aos,
                                 buffer_len,
                                 ao,
@@ -628,6 +642,7 @@ void get_dens_geo_derv(const int mat_dim,
         k_coor.push_back(coor[3]);
         l_coor.push_back(coor[1]);
         diff_u_wrt_center_tuple(mat_dim,
+                                block_length,
                                 num_aos,
                                 buffer_len,
                                 ao,
@@ -647,6 +662,7 @@ void get_dens_geo_derv(const int mat_dim,
         l_coor.push_back(coor[1]);
         l_coor.push_back(coor[3]);
         diff_u_wrt_center_tuple(mat_dim,
+                                block_length,
                                 num_aos,
                                 buffer_len,
                                 ao,
@@ -666,6 +682,7 @@ void get_dens_geo_derv(const int mat_dim,
         l_coor.push_back(coor[1]);
         l_coor.push_back(coor[2]);
         diff_u_wrt_center_tuple(mat_dim,
+                                block_length,
                                 num_aos,
                                 buffer_len,
                                 ao,
@@ -689,6 +706,7 @@ void get_dens_geo_derv(const int mat_dim,
 }
 
 void get_mat_geo_derv(const int mat_dim,
+                      const int block_length,
                       const int num_aos,
                       const int buffer_len,
                       const double ao[],
@@ -729,6 +747,7 @@ void get_mat_geo_derv(const int mat_dim,
     case 1:
         k_coor.push_back(coor[0]);
         diff_M_wrt_center_tuple(mat_dim,
+                                block_length,
                                 num_aos,
                                 buffer_len,
                                 ao,
@@ -748,6 +767,7 @@ void get_mat_geo_derv(const int mat_dim,
         k_coor.push_back(coor[0]);
         k_coor.push_back(coor[1]);
         diff_M_wrt_center_tuple(mat_dim,
+                                block_length,
                                 num_aos,
                                 buffer_len,
                                 ao,
@@ -765,6 +785,7 @@ void get_mat_geo_derv(const int mat_dim,
         k_coor.push_back(coor[0]);
         l_coor.push_back(coor[1]);
         diff_M_wrt_center_tuple(mat_dim,
+                                block_length,
                                 num_aos,
                                 buffer_len,
                                 ao,
@@ -785,6 +806,7 @@ void get_mat_geo_derv(const int mat_dim,
         k_coor.push_back(coor[1]);
         k_coor.push_back(coor[2]);
         diff_M_wrt_center_tuple(mat_dim,
+                                block_length,
                                 num_aos,
                                 buffer_len,
                                 ao,
@@ -803,6 +825,7 @@ void get_mat_geo_derv(const int mat_dim,
         k_coor.push_back(coor[1]);
         l_coor.push_back(coor[2]);
         diff_M_wrt_center_tuple(mat_dim,
+                                block_length,
                                 num_aos,
                                 buffer_len,
                                 ao,
@@ -821,6 +844,7 @@ void get_mat_geo_derv(const int mat_dim,
         l_coor.push_back(coor[1]);
         l_coor.push_back(coor[2]);
         diff_M_wrt_center_tuple(mat_dim,
+                                block_length,
                                 num_aos,
                                 buffer_len,
                                 ao,
@@ -839,6 +863,7 @@ void get_mat_geo_derv(const int mat_dim,
         k_coor.push_back(coor[2]);
         l_coor.push_back(coor[1]);
         diff_M_wrt_center_tuple(mat_dim,
+                                block_length,
                                 num_aos,
                                 buffer_len,
                                 ao,
@@ -860,6 +885,7 @@ void get_mat_geo_derv(const int mat_dim,
         k_coor.push_back(coor[2]);
         k_coor.push_back(coor[3]);
         diff_M_wrt_center_tuple(mat_dim,
+                                block_length,
                                 num_aos,
                                 buffer_len,
                                 ao,
@@ -879,6 +905,7 @@ void get_mat_geo_derv(const int mat_dim,
         k_coor.push_back(coor[2]);
         l_coor.push_back(coor[3]);
         diff_M_wrt_center_tuple(mat_dim,
+                                block_length,
                                 num_aos,
                                 buffer_len,
                                 ao,
@@ -898,6 +925,7 @@ void get_mat_geo_derv(const int mat_dim,
         l_coor.push_back(coor[2]);
         l_coor.push_back(coor[3]);
         diff_M_wrt_center_tuple(mat_dim,
+                                block_length,
                                 num_aos,
                                 buffer_len,
                                 ao,
@@ -917,6 +945,7 @@ void get_mat_geo_derv(const int mat_dim,
         l_coor.push_back(coor[2]);
         l_coor.push_back(coor[3]);
         diff_M_wrt_center_tuple(mat_dim,
+                                block_length,
                                 num_aos,
                                 buffer_len,
                                 ao,
@@ -936,6 +965,7 @@ void get_mat_geo_derv(const int mat_dim,
         k_coor.push_back(coor[3]);
         l_coor.push_back(coor[2]);
         diff_M_wrt_center_tuple(mat_dim,
+                                block_length,
                                 num_aos,
                                 buffer_len,
                                 ao,
@@ -955,6 +985,7 @@ void get_mat_geo_derv(const int mat_dim,
         k_coor.push_back(coor[3]);
         l_coor.push_back(coor[1]);
         diff_M_wrt_center_tuple(mat_dim,
+                                block_length,
                                 num_aos,
                                 buffer_len,
                                 ao,
@@ -974,6 +1005,7 @@ void get_mat_geo_derv(const int mat_dim,
         l_coor.push_back(coor[1]);
         l_coor.push_back(coor[3]);
         diff_M_wrt_center_tuple(mat_dim,
+                                block_length,
                                 num_aos,
                                 buffer_len,
                                 ao,
@@ -993,6 +1025,7 @@ void get_mat_geo_derv(const int mat_dim,
         l_coor.push_back(coor[1]);
         l_coor.push_back(coor[2]);
         diff_M_wrt_center_tuple(mat_dim,
+                                block_length,
                                 num_aos,
                                 buffer_len,
                                 ao,
@@ -1016,6 +1049,7 @@ void get_mat_geo_derv(const int mat_dim,
 }
 
 void diff_u_wrt_center_tuple(const int mat_dim,
+                             const int block_length,
                              const int num_aos,
                              const int buffer_len,
                              const double ao[],
@@ -1038,6 +1072,7 @@ void diff_u_wrt_center_tuple(const int mat_dim,
     int slice_offsets[4];
     compute_slice_offsets(get_geo_offset, k_coor, slice_offsets);
     compress(use_gradient,
+             block_length,
              k_ao_compressed_num,
              k_ao_compressed_index,
              k_ao_compressed,
@@ -1048,6 +1083,7 @@ void diff_u_wrt_center_tuple(const int mat_dim,
              slice_offsets);
     compute_slice_offsets(get_geo_offset, l_coor, slice_offsets);
     compress(use_gradient,
+             block_length,
              l_ao_compressed_num,
              l_ao_compressed_index,
              l_ao_compressed,
@@ -1061,6 +1097,7 @@ void diff_u_wrt_center_tuple(const int mat_dim,
 
     // evaluate density dervs
     get_density(mat_dim,
+                block_length,
                 use_gradient,
                 use_tau,
                 prefactors,
@@ -1078,6 +1115,7 @@ void diff_u_wrt_center_tuple(const int mat_dim,
     {
         prefactors[0] = 0.0;
         get_density(mat_dim,
+                    block_length,
                     use_gradient,
                     false,
                     prefactors,
@@ -1099,6 +1137,7 @@ void diff_u_wrt_center_tuple(const int mat_dim,
 }
 
 void diff_M_wrt_center_tuple(const int mat_dim,
+                             const int block_length,
                              const int num_aos,
                              const int buffer_len,
                              const double ao[],
@@ -1121,6 +1160,7 @@ void diff_M_wrt_center_tuple(const int mat_dim,
     int slice_offsets[4];
     compute_slice_offsets(get_geo_offset, k_coor, slice_offsets);
     compress(use_gradient,
+             block_length,
              k_ao_compressed_num,
              k_ao_compressed_index,
              k_ao_compressed,
@@ -1131,6 +1171,7 @@ void diff_M_wrt_center_tuple(const int mat_dim,
              slice_offsets);
     compute_slice_offsets(get_geo_offset, l_coor, slice_offsets);
     compress(use_gradient,
+             block_length,
              l_ao_compressed_num,
              l_ao_compressed_index,
              l_ao_compressed,
@@ -1144,6 +1185,7 @@ void diff_M_wrt_center_tuple(const int mat_dim,
 
     // distribute over XC potential derivative matrix
     distribute_matrix(mat_dim,
+                      block_length,
                       use_gradient,
                       use_tau,
                       prefactors,
@@ -1159,6 +1201,7 @@ void diff_M_wrt_center_tuple(const int mat_dim,
     {
         prefactors[0] = 0.0;
         distribute_matrix(mat_dim,
+                          block_length,
                           use_gradient,
                           false,
                           prefactors,

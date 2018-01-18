@@ -149,14 +149,13 @@ void XCint::integrate_batch(const double dmat[],
     double *buffer = new double[buffer_len];
     std::fill(&buffer[0], &buffer[buffer_len], 0.0);
 
-    int ierr;
-    ierr = balboa_get_ao(balboa_context,
-                         max_ao_geo_order,
-                         block_length,
-                         &grid_x_bohr[ipoint],
-                         &grid_y_bohr[ipoint],
-                         &grid_z_bohr[ipoint],
-                         buffer);
+    int ierr = balboa_get_ao(balboa_context,
+                             max_ao_geo_order,
+                             block_length,
+                             &grid_x_bohr[ipoint],
+                             &grid_y_bohr[ipoint],
+                             &grid_z_bohr[ipoint],
+                             buffer);
 
     std::copy(&buffer[0], &buffer[buffer_len], &ao[0]);
 
@@ -184,6 +183,7 @@ void XCint::integrate_batch(const double dmat[],
 
     compute_slice_offsets(std::vector<int>(), slice_offsets);
     compress(get_gradient,
+             block_length,
              ao_compressed_num,
              ao_compressed_index,
              ao_compressed,
@@ -193,6 +193,7 @@ void XCint::integrate_batch(const double dmat[],
              std::vector<int>(),
              slice_offsets);
     get_density(mat_dim,
+                block_length,
                 get_gradient,
                 get_tau,
                 prefactors,
@@ -259,6 +260,7 @@ void XCint::integrate_batch(const double dmat[],
                 }
                 get_density(
                     mat_dim,
+                    block_length,
                     get_gradient,
                     get_tau,
                     prefactors,
@@ -343,6 +345,7 @@ void XCint::integrate_batch(const double dmat[],
                 }
                 get_density(
                     mat_dim,
+                    block_length,
                     get_gradient,
                     get_tau,
                     prefactors,
@@ -392,6 +395,7 @@ void XCint::integrate_batch(const double dmat[],
                 coor.push_back(geo_coor[0]);
                 get_dens_geo_derv(mat_dim,
                                   num_aos,
+                                  block_length,
                                   buffer_len,
                                   ao,
                                   ao_centers,
@@ -470,6 +474,7 @@ void XCint::integrate_batch(const double dmat[],
                 coor.push_back(geo_coor[1]);
                 get_dens_geo_derv(mat_dim,
                                   num_aos,
+                                  block_length,
                                   buffer_len,
                                   ao,
                                   ao_centers,
@@ -509,6 +514,7 @@ void XCint::integrate_batch(const double dmat[],
                 coor.push_back(geo_coor[0]);
                 get_dens_geo_derv(mat_dim,
                                   num_aos,
+                                  block_length,
                                   buffer_len,
                                   ao,
                                   ao_centers,
@@ -550,6 +556,7 @@ void XCint::integrate_batch(const double dmat[],
                 coor.push_back(geo_coor[0]);
                 get_dens_geo_derv(mat_dim,
                                   num_aos,
+                                  block_length,
                                   buffer_len,
                                   ao,
                                   ao_centers,
@@ -571,6 +578,7 @@ void XCint::integrate_batch(const double dmat[],
                 coor.push_back(geo_coor[1]);
                 get_dens_geo_derv(mat_dim,
                                   num_aos,
+                                  block_length,
                                   buffer_len,
                                   ao,
                                   ao_centers,
@@ -593,6 +601,7 @@ void XCint::integrate_batch(const double dmat[],
                 coor.push_back(geo_coor[1]);
                 get_dens_geo_derv(mat_dim,
                                   num_aos,
+                                  block_length,
                                   buffer_len,
                                   ao,
                                   ao_centers,
@@ -635,6 +644,7 @@ void XCint::integrate_batch(const double dmat[],
                     n_is_used[k] = true;
                 }
                 get_density(mat_dim,
+                            block_length,
                             get_gradient,
                             get_tau,
                             prefactors,
@@ -679,6 +689,7 @@ void XCint::integrate_batch(const double dmat[],
                 coor.push_back(geo_coor[0]);
                 get_dens_geo_derv(mat_dim,
                                   num_aos,
+                                  block_length,
                                   buffer_len,
                                   ao,
                                   ao_centers,
@@ -700,6 +711,7 @@ void XCint::integrate_batch(const double dmat[],
                 coor.push_back(geo_coor[0]);
                 get_dens_geo_derv(mat_dim,
                                   num_aos,
+                                  block_length,
                                   buffer_len,
                                   ao,
                                   ao_centers,
@@ -1143,6 +1155,7 @@ void XCint::distribute_matrix2(const int block_length,
         int slice_offsets[4];
         compute_slice_offsets(std::vector<int>(), slice_offsets);
         compress(distribute_gradient,
+                 block_length,
                  ao_compressed_num,
                  ao_compressed_index,
                  ao_compressed,
@@ -1152,6 +1165,7 @@ void XCint::distribute_matrix2(const int block_length,
                  std::vector<int>(),
                  slice_offsets);
         distribute_matrix(mat_dim,
+                          block_length,
                           distribute_gradient,
                           distribute_tau,
                           prefactors,
@@ -1183,6 +1197,7 @@ void XCint::distribute_matrix2(const int block_length,
         }
         get_mat_geo_derv(mat_dim,
                          num_aos,
+                         block_length,
                          buffer_len,
                          ao,
                          ao_centers,

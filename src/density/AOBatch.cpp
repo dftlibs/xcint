@@ -8,6 +8,7 @@
 #include "AOBatch.h"
 #include "blas_interface.h"
 #include "density_parameters.h"
+#include "compress.h"
 
 AOBatch::AOBatch()
 {
@@ -134,77 +135,13 @@ void AOBatch::get_ao(const bool use_gradient,
     delete[] y_coordinates_bohr;
     delete[] z_coordinates_bohr;
 
-    compress(use_gradient,
+    compress(balboa_context,
+             use_gradient,
              ao_compressed_num,
              ao_compressed_index,
              ao_compressed,
+             ao,
              std::vector<int>());
-}
-
-void AOBatch::compress(const bool use_gradient,
-                       int &aoc_num,
-                       int *(&aoc_index),
-                       double *(&aoc),
-                       const std::vector<int> &coor)
-{
-    std::vector<int> cent;
-    for (size_t j = 0; j < coor.size(); j++)
-    {
-        cent.push_back((coor[j] - 1) / 3);
-    }
-
-    int num_slices;
-    (use_gradient) ? (num_slices = 4) : (num_slices = 1);
-
-    int n = 0;
-    for (int i = 0; i < balboa_get_num_aos(balboa_context); i++)
-    {
-        if (is_same_center(balboa_get_ao_center(balboa_context, i), cent))
-        {
-            double tmax = 0.0;
-            for (int ib = 0; ib < AO_BLOCK_LENGTH; ib++)
-            {
-                double t = fabs(ao[i * AO_BLOCK_LENGTH + ib]);
-                if (t > tmax)
-                    tmax = t;
-            }
-            if (tmax > 1.0e-15)
-            {
-                aoc_index[n] = i;
-                n++;
-            }
-        }
-    }
-    aoc_num = n;
-
-    if (aoc_num == 0)
-        return;
-
-    int kp[3] = {0, 0, 0};
-    for (size_t j = 0; j < coor.size(); j++)
-    {
-        kp[(coor[j] - 1) % 3]++;
-    }
-
-    int off[4];
-    off[0] = balboa_get_geo_offset(balboa_context, kp[0], kp[1], kp[2]);
-    off[1] = balboa_get_geo_offset(balboa_context, kp[0] + 1, kp[1], kp[2]);
-    off[2] = balboa_get_geo_offset(balboa_context, kp[0], kp[1] + 1, kp[2]);
-    off[3] = balboa_get_geo_offset(balboa_context, kp[0], kp[1], kp[2] + 1);
-
-    for (int i = 0; i < aoc_num; i++)
-    {
-        for (int islice = 0; islice < num_slices; islice++)
-        {
-            int iuoff = off[islice];
-            int icoff = islice * balboa_get_num_aos(balboa_context);
-
-            int iu = AO_BLOCK_LENGTH * (iuoff + aoc_index[i]);
-            int ic = AO_BLOCK_LENGTH * (icoff + i);
-
-            std::copy(&ao[iu], &ao[iu + AO_BLOCK_LENGTH], &aoc[ic]);
-        }
-    }
 }
 
 void AOBatch::distribute_matrix_undiff(const int mat_dim,
@@ -935,16 +872,20 @@ void AOBatch::diff_u_wrt_center_tuple(const int mat_dim,
                                       double u[],
                                       const double M[])
 {
-    compress(use_gradient,
+    compress(balboa_context,
+             use_gradient,
              k_ao_compressed_num,
              k_ao_compressed_index,
              k_ao_compressed,
+             ao,
              k_coor);
 
-    compress(use_gradient,
+    compress(balboa_context,
+             use_gradient,
              l_ao_compressed_num,
              l_ao_compressed_index,
              l_ao_compressed,
+             ao,
              l_coor);
 
     double prefactors[5] = {f, f, f, f, 0.5 * f};
@@ -993,16 +934,20 @@ void AOBatch::diff_M_wrt_center_tuple(const int mat_dim,
                                       const double u[],
                                       double M[])
 {
-    compress(use_gradient,
+    compress(balboa_context,
+             use_gradient,
              k_ao_compressed_num,
              k_ao_compressed_index,
              k_ao_compressed,
+             ao,
              k_coor);
 
-    compress(use_gradient,
+    compress(balboa_context,
+             use_gradient,
              l_ao_compressed_num,
              l_ao_compressed_index,
              l_ao_compressed,
+             ao,
              l_coor);
 
     double prefactors[5] = {f, f, f, f, 0.5 * f};

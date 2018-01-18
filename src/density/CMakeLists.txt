@@ -16,6 +16,8 @@ add_library(
     blas_interface.h
     AOBatch.cpp
     AOBatch.h
+    compress.cpp
+    compress.h
     )
 
 add_dependencies(density balboa)

@@ -112,12 +112,6 @@ class AOBatch
                                  double u[],
                                  const double M[]);
 
-    void compress(const bool use_gradient,
-                  int &aoc_num,
-                  int *(&aoc_index),
-                  double *(&aoc),
-                  const std::vector<int> &coor);
-
     void nullify();
 
     int ao_length;

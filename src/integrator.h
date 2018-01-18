@@ -4,8 +4,6 @@
 #include "Functional.h"
 #include "balboa.h"
 
-typedef int (*print_function)(const char *line);
-
 class XCint
 {
   public:

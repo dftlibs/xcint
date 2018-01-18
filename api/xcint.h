@@ -72,7 +72,8 @@ int xcint_set_basis(
 /* convenience shortcut function for SCF contributions */
 XCINT_API
 int xcint_integrate_scf(
-    const xcint_context_t *context,
+//  const xcint_context_t *context,
+          xcint_context_t *context,
     const xcint_mode_t mode,
     const int    num_points,
     const double grid_x_bohr[],
@@ -87,7 +88,8 @@ int xcint_integrate_scf(
 /* general swiss army knife function */
 XCINT_API
 int xcint_integrate(
-    const xcint_context_t *context,
+//  const xcint_context_t *context,
+          xcint_context_t *context,
     const xcint_mode_t mode,
     const int    num_points,
     const double grid_x_bohr[],

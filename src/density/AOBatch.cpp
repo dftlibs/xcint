@@ -68,52 +68,6 @@ void AOBatch::get_ao(const bool use_gradient,
     delete[] buffer;
 }
 
-void AOBatch::distribute_matrix_undiff(const int mat_dim,
-                                       const bool use_gradient,
-                                       const bool use_tau,
-                                       const double prefactors[],
-                                       const double u[],
-                                       double fmat[])
-{
-    // FIXME can be moved one layer up since we need it also for density
-    int max_ao_geo_order = 5; // FIXME hardcoded
-    int buffer_len = balboa_get_buffer_len(balboa_context, max_ao_geo_order, AO_BLOCK_LENGTH);
-    double *ao_compressed = new double[buffer_len];
-    int *ao_compressed_index = new int[buffer_len];
-    int ao_compressed_num;
-    int num_aos = balboa_get_num_aos(balboa_context);
-    int *ao_centers = new int[num_aos];
-    for (int i = 0; i < num_aos; i++)
-    {
-        ao_centers[i] = balboa_get_ao_center(balboa_context, i);
-    }
-    int slice_offsets[4];
-    compute_slice_offsets(std::vector<int>(), slice_offsets);
-    compress(use_gradient,
-             ao_compressed_num,
-             ao_compressed_index,
-             ao_compressed,
-             num_aos,
-             ao,
-             ao_centers,
-             std::vector<int>(),
-             slice_offsets);
-    distribute_matrix(mat_dim,
-                      use_gradient,
-                      use_tau,
-                      prefactors,
-                      u,
-                      fmat,
-                      ao_compressed_num,
-                      ao_compressed_index,
-                      ao_compressed,
-                      ao_compressed_num,
-                      ao_compressed_index,
-                      ao_compressed);
-    delete[] ao_compressed;
-    delete[] ao_compressed_index;
-    delete[] ao_centers;
-}
 
 void AOBatch::distribute_matrix(const int mat_dim,
                                 const bool use_gradient,
@@ -234,57 +188,6 @@ void AOBatch::distribute_matrix(const int mat_dim,
 
     delete[] F;
     F = NULL;
-}
-
-void AOBatch::get_density_undiff(const int mat_dim,
-                                 const bool use_gradient,
-                                 const bool use_tau,
-                                 const double prefactors[],
-                                 double density[],
-                                 const double dmat[],
-                                 const bool dmat_is_symmetric,
-                                 const bool kl_match)
-{
-    // FIXME can be moved one layer up since we need it also for matrix distribution
-    int max_ao_geo_order = 5; // FIXME hardcoded
-    int buffer_len = balboa_get_buffer_len(balboa_context, max_ao_geo_order, AO_BLOCK_LENGTH);
-    double *ao_compressed = new double[buffer_len];
-    int *ao_compressed_index = new int[buffer_len];
-    int ao_compressed_num;
-    int num_aos = balboa_get_num_aos(balboa_context);
-    int *ao_centers = new int[num_aos];
-    for (int i = 0; i < num_aos; i++)
-    {
-        ao_centers[i] = balboa_get_ao_center(balboa_context, i);
-    }
-    int slice_offsets[4];
-    compute_slice_offsets(std::vector<int>(), slice_offsets);
-    compress(use_gradient,
-             ao_compressed_num,
-             ao_compressed_index,
-             ao_compressed,
-             num_aos,
-             ao,
-             ao_centers,
-             std::vector<int>(),
-             slice_offsets);
-    get_density(mat_dim,
-                use_gradient,
-                use_tau,
-                prefactors,
-                density,
-                dmat,
-                dmat_is_symmetric,
-                kl_match,
-                ao_compressed_num,
-                ao_compressed_index,
-                ao_compressed,
-                ao_compressed_num,
-                ao_compressed_index,
-                ao_compressed);
-    delete[] ao_compressed;
-    delete[] ao_compressed_index;
-    delete[] ao_centers;
 }
 
 void AOBatch::get_density(const int mat_dim,
@@ -1024,9 +927,6 @@ int AOBatch::set_basis(const int basis_type,
 
     return ierr;
 }
-
-int AOBatch::get_num_aos() { return balboa_get_num_aos(balboa_context); }
-
 
 void AOBatch::compute_slice_offsets(const std::vector<int> &coor,
                                     int off[])

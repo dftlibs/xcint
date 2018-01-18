@@ -13,6 +13,7 @@
 
 #include "generated_parameters.h"
 #include "xcint_parameters.h"
+#include "compress.h"
 
 #define AS_TYPE(Type, Obj) reinterpret_cast<Type *>(Obj)
 #define AS_CTYPE(Type, Obj) reinterpret_cast<const Type *>(Obj)
@@ -26,7 +27,10 @@ xcint_context_t *xcint_new_context()
 {
     return AS_TYPE(xcint_context_t, new XCint());
 }
-XCint::XCint() { batch = new AOBatch(); }
+XCint::XCint() {
+    batch = new AOBatch();
+    balboa_context = balboa_new_context();
+}
 
 XCINT_API
 void xcint_free_context(xcint_context_t *xcint_context)
@@ -35,7 +39,10 @@ void xcint_free_context(xcint_context_t *xcint_context)
         return;
     delete AS_TYPE(XCint, xcint_context);
 }
-XCint::~XCint() { delete batch; }
+XCint::~XCint() {
+    delete batch;
+    balboa_free_context(balboa_context);
+}
 
 XCINT_API
 int xcint_set_functional(xcint_context_t *context, const char *line)
@@ -90,6 +97,16 @@ int XCint::set_basis(const int basis_type,
                                 shell_num_primitives,
                                 primitive_exponents,
                                 contraction_coefficients);
+    ierr = balboa_set_basis(balboa_context,
+                            basis_type,
+                            num_centers,
+                            center_coordinates_bohr,
+                            num_shells,
+                            shell_centers,
+                            shell_l_quantum_numbers,
+                            shell_num_primitives,
+                            primitive_exponents,
+                            contraction_coefficients);
 
     return ierr;
 }
@@ -116,7 +133,8 @@ void XCint::integrate_batch(const double dmat[],
                             const double grid_x_bohr[],
                             const double grid_y_bohr[],
                             const double grid_z_bohr[],
-                            const double grid_w[]) const
+                            const double grid_w[])
+                        //  const double grid_w[]) const
 {
     double *n = new double[AO_BLOCK_LENGTH * num_variables * MAX_NUM_DENSITIES];
     double *u = new double[AO_BLOCK_LENGTH * num_variables];
@@ -133,14 +151,80 @@ void XCint::integrate_batch(const double dmat[],
                       &grid_y_bohr[ipoint],
                       &grid_z_bohr[ipoint]);
 
+
+
+
+
+    int max_ao_geo_order = max_ao_order_g; // FIXME
+    assert(max_ao_geo_order <= MAX_GEO_DIFF_ORDER);
+
+    int buffer_len = balboa_get_buffer_len(
+        balboa_context, max_ao_geo_order, AO_BLOCK_LENGTH);
+    //  FIXME should be:
+    //  int buffer_len = balboa_get_buffer_len(balboa_context, max_ao_geo_order,
+    //  block_length);
+
+    ao_length = buffer_len;
+    ao = new double[buffer_len];
+
+    std::fill(&ao[0], &ao[buffer_len], 0.0);
+
+    // FIXME is this really needed?
+    double *buffer = new double[buffer_len];
+    std::fill(&buffer[0], &buffer[buffer_len], 0.0);
+
+    int ierr;
+    ierr = balboa_get_ao(balboa_context,
+                         max_ao_geo_order,
+                         block_length,
+                         &grid_x_bohr[ipoint],
+                         &grid_y_bohr[ipoint],
+                         &grid_z_bohr[ipoint],
+                         buffer);
+
+    std::copy(&buffer[0], &buffer[buffer_len], &ao[0]);
+
+    delete[] buffer;
+
+
+
+
+
+
     if (!n_is_used[0])
     {
         std::fill(&n[0], &n[block_length * num_variables], 0.0);
         n_is_used[0] = true;
     }
 
-    batch->get_density_undiff(
-        mat_dim, get_gradient, get_tau, prefactors, n, dmat, true, true);
+    double *ao_compressed = new double[buffer_len];
+    int *ao_compressed_index = new int[buffer_len];
+    int ao_compressed_num;
+    int num_aos = balboa_get_num_aos(balboa_context);
+    int *ao_centers = new int[num_aos];
+    for (int i = 0; i < num_aos; i++)
+    {
+        ao_centers[i] = balboa_get_ao_center(balboa_context, i);
+    }
+    int slice_offsets[4];
+    compute_slice_offsets(std::vector<int>(), slice_offsets);
+    compress(get_gradient,
+             ao_compressed_num,
+             ao_compressed_index,
+             ao_compressed,
+             num_aos,
+             ao,
+             ao_centers,
+             std::vector<int>(),
+             slice_offsets);
+    batch->get_density(
+        mat_dim, get_gradient, get_tau, prefactors, n, dmat, true, true,
+                ao_compressed_num,
+                ao_compressed_index,
+                ao_compressed,
+                ao_compressed_num,
+                ao_compressed_index,
+                ao_compressed);
 
     for (int ib = 0; ib < block_length; ib++)
     {
@@ -192,7 +276,7 @@ void XCint::integrate_batch(const double dmat[],
                               0.0);
                     n_is_used[k] = true;
                 }
-                batch->get_density_undiff(
+                batch->get_density(
                     mat_dim,
                     get_gradient,
                     get_tau,
@@ -200,7 +284,13 @@ void XCint::integrate_batch(const double dmat[],
                     &n[k * block_length * num_variables],
                     &dmat[dmat_index[k]],
                     false,
-                    false); // FIXME can be true based on dmat, saving possible
+                    false,  // FIXME can be true based on dmat, saving possible
+                ao_compressed_num,
+                ao_compressed_index,
+                ao_compressed,
+                ao_compressed_num,
+                ao_compressed_index,
+                ao_compressed);
             }
         }
 
@@ -269,7 +359,7 @@ void XCint::integrate_batch(const double dmat[],
                               0.0);
                     n_is_used[k] = true;
                 }
-                batch->get_density_undiff(
+                batch->get_density(
                     mat_dim,
                     get_gradient,
                     get_tau,
@@ -277,8 +367,14 @@ void XCint::integrate_batch(const double dmat[],
                     &n[k * block_length * num_variables],
                     &dmat[(ifield + 1) * mat_dim * mat_dim],
                     false,
-                    false); // FIXME can be true depending on perturbation
+                    false,  // FIXME can be true depending on perturbation
                             // (savings possible)
+                ao_compressed_num,
+                ao_compressed_index,
+                ao_compressed,
+                ao_compressed_num,
+                ao_compressed_index,
+                ao_compressed);
             }
 
             distribute_matrix(block_length,
@@ -526,16 +622,22 @@ void XCint::integrate_batch(const double dmat[],
                               0.0);
                     n_is_used[k] = true;
                 }
-                batch->get_density_undiff(mat_dim,
+                batch->get_density(mat_dim,
                                           get_gradient,
                                           get_tau,
                                           prefactors,
                                           &n[k * block_length * num_variables],
                                           &dmat[1 * mat_dim * mat_dim],
                                           false,
-                                          false); // FIXME can be true depending
+                                          false,  // FIXME can be true depending
                                                   // on perturbation (savings
                                                   // possible)
+                ao_compressed_num,
+                ao_compressed_index,
+                ao_compressed,
+                ao_compressed_num,
+                ao_compressed_index,
+                ao_compressed);
                 coor.push_back(geo_coor[0]);
                 distribute_matrix(block_length,
                                   num_variables,
@@ -619,10 +721,15 @@ void XCint::integrate_batch(const double dmat[],
 
     delete[] n;
     delete[] u;
+    delete[] ao;
+    delete[] ao_compressed;
+    delete[] ao_compressed_index;
+    delete[] ao_centers;
 }
 
 XCINT_API
-int xcint_integrate_scf(const xcint_context_t *context,
+//int xcint_integrate_scf(const xcint_context_t *context,
+int xcint_integrate_scf(      xcint_context_t *context,
                         const xcint_mode_t mode,
                         const int num_points,
                         const double grid_x_bohr[],
@@ -641,7 +748,7 @@ int xcint_integrate_scf(const xcint_context_t *context,
     int *perturbation_indices = NULL;
     bool get_exc = true;
     bool get_vxc = true;
-    return AS_CTYPE(XCint, context)
+    return AS_TYPE(XCint, context)
         ->integrate(mode,
                     num_points,
                     grid_x_bohr,
@@ -662,7 +769,8 @@ int xcint_integrate_scf(const xcint_context_t *context,
 }
 
 XCINT_API
-int xcint_integrate(const xcint_context_t *context,
+//int xcint_integrate(const xcint_context_t *context,
+int xcint_integrate(      xcint_context_t *context,
                     const xcint_mode_t mode,
                     const int num_points,
                     const double grid_x_bohr[],
@@ -681,7 +789,7 @@ int xcint_integrate(const xcint_context_t *context,
                     double vxc[],
                     double *num_electrons)
 {
-    return AS_CTYPE(XCint, context)
+    return AS_TYPE(XCint, context)
         ->integrate(mode,
                     num_points,
                     grid_x_bohr,
@@ -716,7 +824,8 @@ int XCint::integrate(const xcint_mode_t mode,
                      double *exc,
                      const bool get_vxc,
                      double vxc[],
-                     double *num_electrons) const
+                 //  double *num_electrons) const
+                     double *num_electrons)
 {
     xcfun = xc_new_functional();
     for (size_t i = 0; i < fun.keys.size(); i++)
@@ -738,7 +847,7 @@ int XCint::integrate(const xcint_mode_t mode,
 
     std::vector<int> coor;
 
-    int mat_dim = batch->get_num_aos();
+    int mat_dim = balboa_get_num_aos(balboa_context);
 
     int geo_derv_order = 0;
     int num_fields = 0;
@@ -907,7 +1016,8 @@ void XCint::distribute_matrix(const int block_length,
                               double vxc[],
                               double &exc,
                               const std::vector<int> coor,
-                              const double grid_w[]) const
+                              const double grid_w[])
+                         //   const double grid_w[]) const
 {
     int off;
 
@@ -994,8 +1104,40 @@ void XCint::distribute_matrix(const int block_length,
 
     if (coor.size() == 0)
     {
-        batch->distribute_matrix_undiff(
-            mat_dim, distribute_gradient, distribute_tau, prefactors, u, vxc);
+        // FIXME can be moved one layer up since we need it also for density
+        int max_ao_geo_order = 5; // FIXME hardcoded
+        int buffer_len = balboa_get_buffer_len(balboa_context, max_ao_geo_order, AO_BLOCK_LENGTH);
+        double *ao_compressed = new double[buffer_len];
+        int *ao_compressed_index = new int[buffer_len];
+        int ao_compressed_num;
+        int num_aos = balboa_get_num_aos(balboa_context);
+        int *ao_centers = new int[num_aos];
+        for (int i = 0; i < num_aos; i++)
+        {
+            ao_centers[i] = balboa_get_ao_center(balboa_context, i);
+        }
+        int slice_offsets[4];
+        compute_slice_offsets(std::vector<int>(), slice_offsets);
+        compress(distribute_gradient,
+                 ao_compressed_num,
+                 ao_compressed_index,
+                 ao_compressed,
+                 num_aos,
+                 ao,
+                 ao_centers,
+                 std::vector<int>(),
+                 slice_offsets);
+        batch->distribute_matrix(
+            mat_dim, distribute_gradient, distribute_tau, prefactors, u, vxc,
+                      ao_compressed_num,
+                      ao_compressed_index,
+                      ao_compressed,
+                      ao_compressed_num,
+                      ao_compressed_index,
+                      ao_compressed);
+    delete[] ao_compressed;
+    delete[] ao_compressed_index;
+    delete[] ao_centers;
     }
     else
     {
@@ -1010,4 +1152,17 @@ void XCint::distribute_matrix(const int block_length,
 
     delete[] xcin;
     delete[] xcout;
+}
+
+void XCint::compute_slice_offsets(const std::vector<int> &coor, int off[])
+{
+    int kp[3] = {0, 0, 0};
+    for (size_t j = 0; j < coor.size(); j++)
+    {
+        kp[(coor[j] - 1) % 3]++;
+    }
+    off[0] = balboa_get_geo_offset(balboa_context, kp[0], kp[1], kp[2]);
+    off[1] = balboa_get_geo_offset(balboa_context, kp[0] + 1, kp[1], kp[2]);
+    off[2] = balboa_get_geo_offset(balboa_context, kp[0], kp[1] + 1, kp[2]);
+    off[3] = balboa_get_geo_offset(balboa_context, kp[0], kp[1], kp[2] + 1);
 }

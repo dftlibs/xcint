@@ -28,15 +28,6 @@ class AOBatch
                 const double grid_y_bohr[],
                 const double grid_z_bohr[]);
 
-    int get_num_aos();
-
-    void distribute_matrix_undiff(const int mat_dim,
-                                  const bool use_gradient,
-                                  const bool use_tau,
-                                  const double prefactors[],
-                                  const double u[],
-                                  double fmat[]);
-
     void distribute_matrix(const int mat_dim,
                            const bool use_gradient,
                            const bool use_tau,
@@ -49,15 +40,6 @@ class AOBatch
                            const int l_aoc_num,
                            const int l_aoc_index[],
                            const double l_aoc[]);
-
-    void get_density_undiff(const int mat_dim,
-                            const bool use_gradient,
-                            const bool use_tau,
-                            const double prefactors[],
-                            double density[],
-                            const double dmat[],
-                            const bool dmat_is_symmetric,
-                            const bool kl_match);
 
     void get_density(const int mat_dim,
                      const bool use_gradient,

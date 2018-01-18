@@ -116,16 +116,4 @@ class AOBatch
 
     int ao_length;
     double *ao;
-
-    double *ao_compressed;
-    int ao_compressed_num;
-    int *ao_compressed_index;
-
-    double *k_ao_compressed;
-    int k_ao_compressed_num;
-    int *k_ao_compressed_index;
-
-    double *l_ao_compressed;
-    int l_ao_compressed_num;
-    int *l_ao_compressed_index;
 };

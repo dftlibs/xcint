@@ -20,16 +20,6 @@ AOBatch::AOBatch()
 AOBatch::~AOBatch()
 {
     delete[] ao;
-
-    delete[] ao_compressed;
-    delete[] ao_compressed_index;
-
-    delete[] k_ao_compressed;
-    delete[] k_ao_compressed_index;
-
-    delete[] l_ao_compressed;
-    delete[] l_ao_compressed_index;
-
     nullify();
     balboa_free_context(balboa_context);
 }
@@ -38,16 +28,6 @@ void AOBatch::nullify()
 {
     ao_length = -1;
     ao = NULL;
-
-    ao_compressed = NULL;
-    ao_compressed_num = -1;
-    ao_compressed_index = NULL;
-    k_ao_compressed = NULL;
-    k_ao_compressed_num = -1;
-    k_ao_compressed_index = NULL;
-    l_ao_compressed = NULL;
-    l_ao_compressed_num = -1;
-    l_ao_compressed_index = NULL;
 }
 
 void AOBatch::get_ao(const bool use_gradient,
@@ -84,24 +64,6 @@ void AOBatch::get_ao(const bool use_gradient,
 
         delete[] ao;
         ao = new double[buffer_len];
-
-        delete[] ao_compressed;
-        ao_compressed = new double[buffer_len];
-
-        delete[] k_ao_compressed;
-        k_ao_compressed = new double[buffer_len];
-
-        delete[] l_ao_compressed;
-        l_ao_compressed = new double[buffer_len];
-
-        delete[] ao_compressed_index;
-        ao_compressed_index = new int[buffer_len];
-
-        delete[] k_ao_compressed_index;
-        k_ao_compressed_index = new int[buffer_len];
-
-        delete[] l_ao_compressed_index;
-        l_ao_compressed_index = new int[buffer_len];
     }
 
     std::fill(&ao[0], &ao[buffer_len], 0.0);
@@ -143,8 +105,12 @@ void AOBatch::distribute_matrix_undiff(const int mat_dim,
                                        const double u[],
                                        double fmat[])
 {
-
     // FIXME can be moved one layer up since we need it also for density
+    int max_ao_geo_order = 5; // FIXME hardcoded
+    int buffer_len = balboa_get_buffer_len(balboa_context, max_ao_geo_order, AO_BLOCK_LENGTH);
+    double *ao_compressed = new double[buffer_len];
+    int *ao_compressed_index = new int[buffer_len];
+    int ao_compressed_num;
     compress(balboa_context,
              use_gradient,
              ao_compressed_num,
@@ -164,6 +130,8 @@ void AOBatch::distribute_matrix_undiff(const int mat_dim,
                       ao_compressed_num,
                       ao_compressed_index,
                       ao_compressed);
+    delete[] ao_compressed;
+    delete[] ao_compressed_index;
 }
 
 void AOBatch::distribute_matrix(const int mat_dim,
@@ -301,6 +269,11 @@ void AOBatch::get_density_undiff(const int mat_dim,
                                  const bool kl_match)
 {
     // FIXME can be moved one layer up since we need it also for matrix distribution
+    int max_ao_geo_order = 5; // FIXME hardcoded
+    int buffer_len = balboa_get_buffer_len(balboa_context, max_ao_geo_order, AO_BLOCK_LENGTH);
+    double *ao_compressed = new double[buffer_len];
+    int *ao_compressed_index = new int[buffer_len];
+    int ao_compressed_num;
     compress(balboa_context,
              use_gradient,
              ao_compressed_num,
@@ -322,6 +295,8 @@ void AOBatch::get_density_undiff(const int mat_dim,
                 ao_compressed_num,
                 ao_compressed_index,
                 ao_compressed);
+    delete[] ao_compressed;
+    delete[] ao_compressed_index;
 }
 
 void AOBatch::get_density(const int mat_dim,
@@ -881,6 +856,14 @@ void AOBatch::diff_u_wrt_center_tuple(const int mat_dim,
                                       double u[],
                                       const double M[])
 {
+    int max_ao_geo_order = 5; // FIXME hardcoded
+    int buffer_len = balboa_get_buffer_len(balboa_context, max_ao_geo_order, AO_BLOCK_LENGTH);
+    double *k_ao_compressed = new double[buffer_len];
+    int *k_ao_compressed_index = new int[buffer_len];
+    int k_ao_compressed_num;
+    double *l_ao_compressed = new double[buffer_len];
+    int *l_ao_compressed_index = new int[buffer_len];
+    int l_ao_compressed_num;
     compress(balboa_context,
              use_gradient,
              k_ao_compressed_num,
@@ -932,6 +915,10 @@ void AOBatch::diff_u_wrt_center_tuple(const int mat_dim,
                     k_ao_compressed_index,
                     k_ao_compressed);
     }
+    delete[] k_ao_compressed;
+    delete[] k_ao_compressed_index;
+    delete[] l_ao_compressed;
+    delete[] l_ao_compressed_index;
 }
 
 void AOBatch::diff_M_wrt_center_tuple(const int mat_dim,
@@ -943,6 +930,14 @@ void AOBatch::diff_M_wrt_center_tuple(const int mat_dim,
                                       const double u[],
                                       double M[])
 {
+    int max_ao_geo_order = 5; // FIXME hardcoded
+    int buffer_len = balboa_get_buffer_len(balboa_context, max_ao_geo_order, AO_BLOCK_LENGTH);
+    double *k_ao_compressed = new double[buffer_len];
+    int *k_ao_compressed_index = new int[buffer_len];
+    int k_ao_compressed_num;
+    double *l_ao_compressed = new double[buffer_len];
+    int *l_ao_compressed_index = new int[buffer_len];
+    int l_ao_compressed_num;
     compress(balboa_context,
              use_gradient,
              k_ao_compressed_num,
@@ -990,6 +985,10 @@ void AOBatch::diff_M_wrt_center_tuple(const int mat_dim,
                           k_ao_compressed_index,
                           k_ao_compressed);
     }
+    delete[] k_ao_compressed;
+    delete[] k_ao_compressed_index;
+    delete[] l_ao_compressed;
+    delete[] l_ao_compressed_index;
 }
 
 bool AOBatch::is_same_center(const int c, const std::vector<int> &carray)

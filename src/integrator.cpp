@@ -703,7 +703,7 @@ int XCint::integrate(const xcint_mode_t mode,
                      double *num_electrons) const
 {
     xcfun = xc_new_functional();
-    for (int i = 0; i < fun.keys.size(); i++)
+    for (size_t i = 0; i < fun.keys.size(); i++)
     {
         int ierr = xc_set(xcfun, fun.keys[i].c_str(), fun.weights[i]);
         if (ierr != 0)
@@ -719,21 +719,10 @@ int XCint::integrate(const xcint_mode_t mode,
     int max_ao_order_g;
 
     double a;
-    double prefactors[5] = {1.0, 2.0, 2.0, 2.0, 0.5};
-
-    double *n = NULL;
-    double *u = NULL;
-
-    bool contribution_is_implemented;
 
     std::vector<int> coor;
 
-    int rank = 0;
-    int num_proc = 1;
-
-    int mat_dim;
-    if (rank == 0)
-        mat_dim = batch->get_num_aos();
+    int mat_dim = batch->get_num_aos();
 
     int geo_derv_order = 0;
     int num_fields = 0;
@@ -934,16 +923,13 @@ int XCint::integrate(const xcint_mode_t mode,
     if (get_vxc)
     {
         // symmetrize result matrix
-        if (rank == 0)
+        for (int k = 0; k < mat_dim; k++)
         {
-            for (int k = 0; k < mat_dim; k++)
+            for (int l = 0; l < k; l++)
             {
-                for (int l = 0; l < k; l++)
-                {
-                    a = vxc[k * mat_dim + l] + vxc[l * mat_dim + k];
-                    vxc[k * mat_dim + l] = 0.5 * a;
-                    vxc[l * mat_dim + k] = 0.5 * a;
-                }
+                a = vxc[k * mat_dim + l] + vxc[l * mat_dim + k];
+                vxc[k * mat_dim + l] = 0.5 * a;
+                vxc[l * mat_dim + k] = 0.5 * a;
             }
         }
     }

@@ -12,6 +12,7 @@
 #include "integrator.h"
 
 #include "compress.h"
+#include "density.h"
 #include "generated_parameters.h"
 #include "xcint_parameters.h"
 
@@ -27,11 +28,7 @@ xcint_context_t *xcint_new_context()
 {
     return AS_TYPE(xcint_context_t, new XCint());
 }
-XCint::XCint()
-{
-    batch = new AOBatch();
-    balboa_context = balboa_new_context();
-}
+XCint::XCint() { balboa_context = balboa_new_context(); }
 
 XCINT_API
 void xcint_free_context(xcint_context_t *xcint_context)
@@ -40,11 +37,7 @@ void xcint_free_context(xcint_context_t *xcint_context)
         return;
     delete AS_TYPE(XCint, xcint_context);
 }
-XCint::~XCint()
-{
-    delete batch;
-    balboa_free_context(balboa_context);
-}
+XCint::~XCint() { balboa_free_context(balboa_context); }
 
 XCINT_API
 int xcint_set_functional(xcint_context_t *context, const char *line)
@@ -199,20 +192,20 @@ void XCint::integrate_batch(const double dmat[],
              ao_centers,
              std::vector<int>(),
              slice_offsets);
-    batch->get_density(mat_dim,
-                       get_gradient,
-                       get_tau,
-                       prefactors,
-                       n,
-                       dmat,
-                       true,
-                       true,
-                       ao_compressed_num,
-                       ao_compressed_index,
-                       ao_compressed,
-                       ao_compressed_num,
-                       ao_compressed_index,
-                       ao_compressed);
+    get_density(mat_dim,
+                get_gradient,
+                get_tau,
+                prefactors,
+                n,
+                dmat,
+                true,
+                true,
+                ao_compressed_num,
+                ao_compressed_index,
+                ao_compressed,
+                ao_compressed_num,
+                ao_compressed_index,
+                ao_compressed);
 
     for (int ib = 0; ib < block_length; ib++)
     {
@@ -264,7 +257,7 @@ void XCint::integrate_batch(const double dmat[],
                               0.0);
                     n_is_used[k] = true;
                 }
-                batch->get_density(
+                get_density(
                     mat_dim,
                     get_gradient,
                     get_tau,
@@ -348,7 +341,7 @@ void XCint::integrate_batch(const double dmat[],
                               0.0);
                     n_is_used[k] = true;
                 }
-                batch->get_density(
+                get_density(
                     mat_dim,
                     get_gradient,
                     get_tau,
@@ -366,19 +359,19 @@ void XCint::integrate_batch(const double dmat[],
                     ao_compressed);
             }
 
-            distribute_matrix(block_length,
-                              num_variables,
-                              num_perturbations,
-                              mat_dim,
-                              prefactors,
-                              ipoint,
-                              n_is_used,
-                              n,
-                              u,
-                              vxc,
-                              exc,
-                              coor,
-                              grid_w);
+            distribute_matrix2(block_length,
+                               num_variables,
+                               num_perturbations,
+                               mat_dim,
+                               prefactors,
+                               ipoint,
+                               n_is_used,
+                               n,
+                               u,
+                               vxc,
+                               exc,
+                               coor,
+                               grid_w);
         }
 
         if (geo_derv_order > 0) // we have geo dervs
@@ -397,48 +390,48 @@ void XCint::integrate_batch(const double dmat[],
                     n_is_used[k] = true;
                 }
                 coor.push_back(geo_coor[0]);
-                batch->get_dens_geo_derv(mat_dim,
-                                         num_aos,
-                                         buffer_len,
-                                         ao,
-                                         ao_centers,
-                                         get_gradient,
-                                         get_tau,
-                                         coor,
-                                         get_geo_offset,
-                                         &n[k * block_length * num_variables],
-                                         &dmat[0]);
-                coor.clear();
-                distribute_matrix(block_length,
-                                  num_variables,
-                                  1,
-                                  mat_dim,
-                                  prefactors,
-                                  ipoint,
-                                  n_is_used,
-                                  n,
-                                  u,
-                                  vxc,
-                                  exc,
+                get_dens_geo_derv(mat_dim,
+                                  num_aos,
+                                  buffer_len,
+                                  ao,
+                                  ao_centers,
+                                  get_gradient,
+                                  get_tau,
                                   coor,
-                                  grid_w);
+                                  get_geo_offset,
+                                  &n[k * block_length * num_variables],
+                                  &dmat[0]);
+                coor.clear();
+                distribute_matrix2(block_length,
+                                   num_variables,
+                                   1,
+                                   mat_dim,
+                                   prefactors,
+                                   ipoint,
+                                   n_is_used,
+                                   n,
+                                   u,
+                                   vxc,
+                                   exc,
+                                   coor,
+                                   grid_w);
                 n_is_used[1] = false;
 
                 // M_i  d_n
                 coor.push_back(geo_coor[0]);
-                distribute_matrix(block_length,
-                                  num_variables,
-                                  0,
-                                  mat_dim,
-                                  prefactors,
-                                  ipoint,
-                                  n_is_used,
-                                  n,
-                                  u,
-                                  vxc,
-                                  exc,
-                                  coor,
-                                  grid_w);
+                distribute_matrix2(block_length,
+                                   num_variables,
+                                   0,
+                                   mat_dim,
+                                   prefactors,
+                                   ipoint,
+                                   n_is_used,
+                                   n,
+                                   u,
+                                   vxc,
+                                   exc,
+                                   coor,
+                                   grid_w);
                 coor.clear();
             }
 
@@ -449,19 +442,19 @@ void XCint::integrate_batch(const double dmat[],
                 // M_ij d_n
                 coor.push_back(geo_coor[0]);
                 coor.push_back(geo_coor[1]);
-                distribute_matrix(block_length,
-                                  num_variables,
-                                  0,
-                                  mat_dim,
-                                  prefactors,
-                                  ipoint,
-                                  n_is_used,
-                                  n,
-                                  u,
-                                  vxc,
-                                  exc,
-                                  coor,
-                                  grid_w);
+                distribute_matrix2(block_length,
+                                   num_variables,
+                                   0,
+                                   mat_dim,
+                                   prefactors,
+                                   ipoint,
+                                   n_is_used,
+                                   n,
+                                   u,
+                                   vxc,
+                                   exc,
+                                   coor,
+                                   grid_w);
                 coor.clear();
 
                 // FIXME add shortcut if i == j
@@ -475,32 +468,32 @@ void XCint::integrate_batch(const double dmat[],
                     n_is_used[k] = true;
                 }
                 coor.push_back(geo_coor[1]);
-                batch->get_dens_geo_derv(mat_dim,
-                                         num_aos,
-                                         buffer_len,
-                                         ao,
-                                         ao_centers,
-                                         get_gradient,
-                                         get_tau,
-                                         coor,
-                                         get_geo_offset,
-                                         &n[k * block_length * num_variables],
-                                         &dmat[0]);
+                get_dens_geo_derv(mat_dim,
+                                  num_aos,
+                                  buffer_len,
+                                  ao,
+                                  ao_centers,
+                                  get_gradient,
+                                  get_tau,
+                                  coor,
+                                  get_geo_offset,
+                                  &n[k * block_length * num_variables],
+                                  &dmat[0]);
                 coor.clear();
                 coor.push_back(geo_coor[0]);
-                distribute_matrix(block_length,
-                                  num_variables,
-                                  1,
-                                  mat_dim,
-                                  prefactors,
-                                  ipoint,
-                                  n_is_used,
-                                  n,
-                                  u,
-                                  vxc,
-                                  exc,
-                                  coor,
-                                  grid_w);
+                distribute_matrix2(block_length,
+                                   num_variables,
+                                   1,
+                                   mat_dim,
+                                   prefactors,
+                                   ipoint,
+                                   n_is_used,
+                                   n,
+                                   u,
+                                   vxc,
+                                   exc,
+                                   coor,
+                                   grid_w);
                 coor.clear();
                 n_is_used[1] = false;
 
@@ -514,32 +507,32 @@ void XCint::integrate_batch(const double dmat[],
                     n_is_used[k] = true;
                 }
                 coor.push_back(geo_coor[0]);
-                batch->get_dens_geo_derv(mat_dim,
-                                         num_aos,
-                                         buffer_len,
-                                         ao,
-                                         ao_centers,
-                                         get_gradient,
-                                         get_tau,
-                                         coor,
-                                         get_geo_offset,
-                                         &n[k * block_length * num_variables],
-                                         &dmat[0]);
+                get_dens_geo_derv(mat_dim,
+                                  num_aos,
+                                  buffer_len,
+                                  ao,
+                                  ao_centers,
+                                  get_gradient,
+                                  get_tau,
+                                  coor,
+                                  get_geo_offset,
+                                  &n[k * block_length * num_variables],
+                                  &dmat[0]);
                 coor.clear();
                 coor.push_back(geo_coor[1]);
-                distribute_matrix(block_length,
-                                  num_variables,
-                                  1,
-                                  mat_dim,
-                                  prefactors,
-                                  ipoint,
-                                  n_is_used,
-                                  n,
-                                  u,
-                                  vxc,
-                                  exc,
-                                  coor,
-                                  grid_w);
+                distribute_matrix2(block_length,
+                                   num_variables,
+                                   1,
+                                   mat_dim,
+                                   prefactors,
+                                   ipoint,
+                                   n_is_used,
+                                   n,
+                                   u,
+                                   vxc,
+                                   exc,
+                                   coor,
+                                   grid_w);
                 coor.clear();
                 n_is_used[1] = false;
 
@@ -555,17 +548,17 @@ void XCint::integrate_batch(const double dmat[],
                     n_is_used[k] = true;
                 }
                 coor.push_back(geo_coor[0]);
-                batch->get_dens_geo_derv(mat_dim,
-                                         num_aos,
-                                         buffer_len,
-                                         ao,
-                                         ao_centers,
-                                         get_gradient,
-                                         get_tau,
-                                         coor,
-                                         get_geo_offset,
-                                         &n[k * block_length * num_variables],
-                                         &dmat[0]);
+                get_dens_geo_derv(mat_dim,
+                                  num_aos,
+                                  buffer_len,
+                                  ao,
+                                  ao_centers,
+                                  get_gradient,
+                                  get_tau,
+                                  coor,
+                                  get_geo_offset,
+                                  &n[k * block_length * num_variables],
+                                  &dmat[0]);
                 coor.clear();
                 k = 2;
                 if (!n_is_used[k])
@@ -576,17 +569,17 @@ void XCint::integrate_batch(const double dmat[],
                     n_is_used[k] = true;
                 }
                 coor.push_back(geo_coor[1]);
-                batch->get_dens_geo_derv(mat_dim,
-                                         num_aos,
-                                         buffer_len,
-                                         ao,
-                                         ao_centers,
-                                         get_gradient,
-                                         get_tau,
-                                         coor,
-                                         get_geo_offset,
-                                         &n[k * block_length * num_variables],
-                                         &dmat[0]);
+                get_dens_geo_derv(mat_dim,
+                                  num_aos,
+                                  buffer_len,
+                                  ao,
+                                  ao_centers,
+                                  get_gradient,
+                                  get_tau,
+                                  coor,
+                                  get_geo_offset,
+                                  &n[k * block_length * num_variables],
+                                  &dmat[0]);
                 coor.clear();
                 k = 3;
                 if (!n_is_used[k])
@@ -598,31 +591,31 @@ void XCint::integrate_batch(const double dmat[],
                 }
                 coor.push_back(geo_coor[0]);
                 coor.push_back(geo_coor[1]);
-                batch->get_dens_geo_derv(mat_dim,
-                                         num_aos,
-                                         buffer_len,
-                                         ao,
-                                         ao_centers,
-                                         get_gradient,
-                                         get_tau,
-                                         coor,
-                                         get_geo_offset,
-                                         &n[k * block_length * num_variables],
-                                         &dmat[0]);
-                coor.clear();
-                distribute_matrix(block_length,
-                                  num_variables,
-                                  2,
-                                  mat_dim,
-                                  prefactors,
-                                  ipoint,
-                                  n_is_used,
-                                  n,
-                                  u,
-                                  vxc,
-                                  exc,
+                get_dens_geo_derv(mat_dim,
+                                  num_aos,
+                                  buffer_len,
+                                  ao,
+                                  ao_centers,
+                                  get_gradient,
+                                  get_tau,
                                   coor,
-                                  grid_w);
+                                  get_geo_offset,
+                                  &n[k * block_length * num_variables],
+                                  &dmat[0]);
+                coor.clear();
+                distribute_matrix2(block_length,
+                                   num_variables,
+                                   2,
+                                   mat_dim,
+                                   prefactors,
+                                   ipoint,
+                                   n_is_used,
+                                   n,
+                                   u,
+                                   vxc,
+                                   exc,
+                                   coor,
+                                   grid_w);
                 n_is_used[1] = false;
                 n_is_used[2] = false;
                 n_is_used[3] = false;
@@ -641,36 +634,36 @@ void XCint::integrate_batch(const double dmat[],
                               0.0);
                     n_is_used[k] = true;
                 }
-                batch->get_density(mat_dim,
-                                   get_gradient,
-                                   get_tau,
-                                   prefactors,
-                                   &n[k * block_length * num_variables],
-                                   &dmat[1 * mat_dim * mat_dim],
-                                   false,
-                                   false, // FIXME can be true depending
-                                          // on perturbation (savings
-                                          // possible)
-                                   ao_compressed_num,
-                                   ao_compressed_index,
-                                   ao_compressed,
-                                   ao_compressed_num,
-                                   ao_compressed_index,
-                                   ao_compressed);
+                get_density(mat_dim,
+                            get_gradient,
+                            get_tau,
+                            prefactors,
+                            &n[k * block_length * num_variables],
+                            &dmat[1 * mat_dim * mat_dim],
+                            false,
+                            false, // FIXME can be true depending
+                                   // on perturbation (savings
+                                   // possible)
+                            ao_compressed_num,
+                            ao_compressed_index,
+                            ao_compressed,
+                            ao_compressed_num,
+                            ao_compressed_index,
+                            ao_compressed);
                 coor.push_back(geo_coor[0]);
-                distribute_matrix(block_length,
-                                  num_variables,
-                                  1,
-                                  mat_dim,
-                                  prefactors,
-                                  ipoint,
-                                  n_is_used,
-                                  n,
-                                  u,
-                                  vxc,
-                                  exc,
-                                  coor,
-                                  grid_w);
+                distribute_matrix2(block_length,
+                                   num_variables,
+                                   1,
+                                   mat_dim,
+                                   prefactors,
+                                   ipoint,
+                                   n_is_used,
+                                   n,
+                                   u,
+                                   vxc,
+                                   exc,
+                                   coor,
+                                   grid_w);
                 coor.clear();
 
                 // M    d_nnn n_i n_a
@@ -684,17 +677,17 @@ void XCint::integrate_batch(const double dmat[],
                     n_is_used[k] = true;
                 }
                 coor.push_back(geo_coor[0]);
-                batch->get_dens_geo_derv(mat_dim,
-                                         num_aos,
-                                         buffer_len,
-                                         ao,
-                                         ao_centers,
-                                         get_gradient,
-                                         get_tau,
-                                         coor,
-                                         get_geo_offset,
-                                         &n[k * block_length * num_variables],
-                                         &dmat[0]);
+                get_dens_geo_derv(mat_dim,
+                                  num_aos,
+                                  buffer_len,
+                                  ao,
+                                  ao_centers,
+                                  get_gradient,
+                                  get_tau,
+                                  coor,
+                                  get_geo_offset,
+                                  &n[k * block_length * num_variables],
+                                  &dmat[0]);
                 coor.clear();
                 k = 3;
                 if (!n_is_used[k])
@@ -705,31 +698,31 @@ void XCint::integrate_batch(const double dmat[],
                     n_is_used[k] = true;
                 }
                 coor.push_back(geo_coor[0]);
-                batch->get_dens_geo_derv(mat_dim,
-                                         num_aos,
-                                         buffer_len,
-                                         ao,
-                                         ao_centers,
-                                         get_gradient,
-                                         get_tau,
-                                         coor,
-                                         get_geo_offset,
-                                         &n[k * block_length * num_variables],
-                                         &dmat[1 * mat_dim * mat_dim]);
-                coor.clear();
-                distribute_matrix(block_length,
-                                  num_variables,
-                                  2,
-                                  mat_dim,
-                                  prefactors,
-                                  ipoint,
-                                  n_is_used,
-                                  n,
-                                  u,
-                                  vxc,
-                                  exc,
+                get_dens_geo_derv(mat_dim,
+                                  num_aos,
+                                  buffer_len,
+                                  ao,
+                                  ao_centers,
+                                  get_gradient,
+                                  get_tau,
                                   coor,
-                                  grid_w);
+                                  get_geo_offset,
+                                  &n[k * block_length * num_variables],
+                                  &dmat[1 * mat_dim * mat_dim]);
+                coor.clear();
+                distribute_matrix2(block_length,
+                                   num_variables,
+                                   2,
+                                   mat_dim,
+                                   prefactors,
+                                   ipoint,
+                                   n_is_used,
+                                   n,
+                                   u,
+                                   vxc,
+                                   exc,
+                                   coor,
+                                   grid_w);
                 n_is_used[1] = false;
                 n_is_used[2] = false;
                 n_is_used[3] = false;
@@ -1034,19 +1027,19 @@ int XCint::integrate(const xcint_mode_t mode,
     return 0;
 }
 
-void XCint::distribute_matrix(const int block_length,
-                              const int num_variables,
-                              const int num_perturbations,
-                              const int mat_dim,
-                              const double prefactors[],
-                              const int w_off,
-                              const bool n_is_used[],
-                              const double n[],
-                              double u[],
-                              double vxc[],
-                              double &exc,
-                              const std::vector<int> coor,
-                              const double grid_w[])
+void XCint::distribute_matrix2(const int block_length,
+                               const int num_variables,
+                               const int num_perturbations,
+                               const int mat_dim,
+                               const double prefactors[],
+                               const int w_off,
+                               const bool n_is_used[],
+                               const double n[],
+                               double u[],
+                               double vxc[],
+                               double &exc,
+                               const std::vector<int> coor,
+                               const double grid_w[])
 //   const double grid_w[]) const
 {
     int off;
@@ -1158,18 +1151,18 @@ void XCint::distribute_matrix(const int block_length,
                  ao_centers,
                  std::vector<int>(),
                  slice_offsets);
-        batch->distribute_matrix(mat_dim,
-                                 distribute_gradient,
-                                 distribute_tau,
-                                 prefactors,
-                                 u,
-                                 vxc,
-                                 ao_compressed_num,
-                                 ao_compressed_index,
-                                 ao_compressed,
-                                 ao_compressed_num,
-                                 ao_compressed_index,
-                                 ao_compressed);
+        distribute_matrix(mat_dim,
+                          distribute_gradient,
+                          distribute_tau,
+                          prefactors,
+                          u,
+                          vxc,
+                          ao_compressed_num,
+                          ao_compressed_index,
+                          ao_compressed,
+                          ao_compressed_num,
+                          ao_compressed_index,
+                          ao_compressed);
         delete[] ao_compressed;
         delete[] ao_compressed_index;
         delete[] ao_centers;
@@ -1188,17 +1181,17 @@ void XCint::distribute_matrix(const int block_length,
         {
             ao_centers[i] = balboa_get_ao_center(balboa_context, i);
         }
-        batch->get_mat_geo_derv(mat_dim,
-                                num_aos,
-                                buffer_len,
-                                ao,
-                                ao_centers,
-                                distribute_gradient,
-                                distribute_tau,
-                                coor,
-                                get_geo_offset,
-                                u,
-                                vxc);
+        get_mat_geo_derv(mat_dim,
+                         num_aos,
+                         buffer_len,
+                         ao,
+                         ao_centers,
+                         distribute_gradient,
+                         distribute_tau,
+                         coor,
+                         get_geo_offset,
+                         u,
+                         vxc);
         delete[] ao_centers;
     }
 

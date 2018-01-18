@@ -14,8 +14,8 @@ add_library(
     SHARED
     blas_interface.cpp
     blas_interface.h
-    AOBatch.cpp
-    AOBatch.h
+    density.cpp
+    density.h
     compress.cpp
     compress.h
     )

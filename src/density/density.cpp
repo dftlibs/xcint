@@ -5,27 +5,23 @@
 #include <assert.h>
 #include <iostream>
 
-#include "AOBatch.h"
 #include "blas_interface.h"
 #include "compress.h"
+#include "density.h"
 #include "density_parameters.h"
 
-AOBatch::AOBatch() { assert(AO_BLOCK_LENGTH % AO_CHUNK_LENGTH == 0); }
-
-AOBatch::~AOBatch() {}
-
-void AOBatch::distribute_matrix(const int mat_dim,
-                                const bool use_gradient,
-                                const bool use_tau,
-                                const double prefactors[],
-                                const double u[],
-                                double fmat[],
-                                const int k_aoc_num,
-                                const int k_aoc_index[],
-                                const double k_aoc[],
-                                const int l_aoc_num,
-                                const int l_aoc_index[],
-                                const double l_aoc[])
+void distribute_matrix(const int mat_dim,
+                       const bool use_gradient,
+                       const bool use_tau,
+                       const double prefactors[],
+                       const double u[],
+                       double fmat[],
+                       const int k_aoc_num,
+                       const int k_aoc_index[],
+                       const double k_aoc[],
+                       const int l_aoc_num,
+                       const int l_aoc_index[],
+                       const double l_aoc[])
 {
     // here we compute       F(k, l) += AO_k(k, b) u(b) AO_l(l, b)
     // in two steps
@@ -135,20 +131,20 @@ void AOBatch::distribute_matrix(const int mat_dim,
     F = NULL;
 }
 
-void AOBatch::get_density(const int mat_dim,
-                          const bool use_gradient,
-                          const bool use_tau,
-                          const double prefactors[],
-                          double density[],
-                          const double dmat[],
-                          const bool dmat_is_symmetric,
-                          const bool kl_match,
-                          const int k_aoc_num,
-                          const int k_aoc_index[],
-                          const double k_aoc[],
-                          const int l_aoc_num,
-                          const int l_aoc_index[],
-                          const double l_aoc[])
+void get_density(const int mat_dim,
+                 const bool use_gradient,
+                 const bool use_tau,
+                 const double prefactors[],
+                 double density[],
+                 const double dmat[],
+                 const bool dmat_is_symmetric,
+                 const bool kl_match,
+                 const int k_aoc_num,
+                 const int k_aoc_index[],
+                 const double k_aoc[],
+                 const int l_aoc_num,
+                 const int l_aoc_index[],
+                 const double l_aoc[])
 {
     // here we compute       n(b)    = AO_k(k, b) D(k, l) AO_l(l, b)
     // in two steps
@@ -365,18 +361,17 @@ void AOBatch::get_density(const int mat_dim,
     X = NULL;
 }
 
-void AOBatch::get_dens_geo_derv(
-    const int mat_dim,
-    const int num_aos,
-    const int buffer_len,
-    const double ao[],
-    const int ao_centers[],
-    const bool use_gradient,
-    const bool use_tau,
-    const std::vector<int> &coor,
-    std::function<int(int, int, int)> get_geo_offset,
-    double density[],
-    const double mat[])
+void get_dens_geo_derv(const int mat_dim,
+                       const int num_aos,
+                       const int buffer_len,
+                       const double ao[],
+                       const int ao_centers[],
+                       const bool use_gradient,
+                       const bool use_tau,
+                       const std::vector<int> &coor,
+                       std::function<int(int, int, int)> get_geo_offset,
+                       double density[],
+                       const double mat[])
 {
     /*
     1st                        a,0
@@ -693,17 +688,17 @@ void AOBatch::get_dens_geo_derv(
     }
 }
 
-void AOBatch::get_mat_geo_derv(const int mat_dim,
-                               const int num_aos,
-                               const int buffer_len,
-                               const double ao[],
-                               const int ao_centers[],
-                               const bool use_gradient,
-                               const bool use_tau,
-                               const std::vector<int> &coor,
-                               std::function<int(int, int, int)> get_geo_offset,
-                               const double density[],
-                               double mat[])
+void get_mat_geo_derv(const int mat_dim,
+                      const int num_aos,
+                      const int buffer_len,
+                      const double ao[],
+                      const int ao_centers[],
+                      const bool use_gradient,
+                      const bool use_tau,
+                      const std::vector<int> &coor,
+                      std::function<int(int, int, int)> get_geo_offset,
+                      const double density[],
+                      double mat[])
 {
     /*
     1st                        a,0
@@ -1020,21 +1015,23 @@ void AOBatch::get_mat_geo_derv(const int mat_dim,
     }
 }
 
-void AOBatch::diff_u_wrt_center_tuple(
-    const int mat_dim,
-    const int num_aos,
-    const int buffer_len,
-    const double ao[],
-    const int ao_centers[],
-    const bool use_gradient,
-    const bool use_tau,
-    const double f,
-    std::function<int(int, int, int)> get_geo_offset,
-    const std::vector<int> &k_coor,
-    const std::vector<int> &l_coor,
-    double u[],
-    const double M[])
+void diff_u_wrt_center_tuple(const int mat_dim,
+                             const int num_aos,
+                             const int buffer_len,
+                             const double ao[],
+                             const int ao_centers[],
+                             const bool use_gradient,
+                             const bool use_tau,
+                             const double f,
+                             std::function<int(int, int, int)> get_geo_offset,
+                             const std::vector<int> &k_coor,
+                             const std::vector<int> &l_coor,
+                             double u[],
+                             const double M[])
 {
+    // FIXME move somewhere else
+    assert(AO_BLOCK_LENGTH % AO_CHUNK_LENGTH == 0);
+
     double *k_ao_compressed = new double[buffer_len];
     int *k_ao_compressed_index = new int[buffer_len];
     int k_ao_compressed_num;
@@ -1104,20 +1101,19 @@ void AOBatch::diff_u_wrt_center_tuple(
     delete[] l_ao_compressed_index;
 }
 
-void AOBatch::diff_M_wrt_center_tuple(
-    const int mat_dim,
-    const int num_aos,
-    const int buffer_len,
-    const double ao[],
-    const int ao_centers[],
-    const bool use_gradient,
-    const bool use_tau,
-    const double f,
-    std::function<int(int, int, int)> get_geo_offset,
-    const std::vector<int> &k_coor,
-    const std::vector<int> &l_coor,
-    const double u[],
-    double M[])
+void diff_M_wrt_center_tuple(const int mat_dim,
+                             const int num_aos,
+                             const int buffer_len,
+                             const double ao[],
+                             const int ao_centers[],
+                             const bool use_gradient,
+                             const bool use_tau,
+                             const double f,
+                             std::function<int(int, int, int)> get_geo_offset,
+                             const std::vector<int> &k_coor,
+                             const std::vector<int> &l_coor,
+                             const double u[],
+                             double M[])
 {
     double *k_ao_compressed = new double[buffer_len];
     int *k_ao_compressed_index = new int[buffer_len];
@@ -1184,10 +1180,9 @@ void AOBatch::diff_M_wrt_center_tuple(
     delete[] l_ao_compressed_index;
 }
 
-void AOBatch::compute_slice_offsets(
-    std::function<int(int, int, int)> get_geo_offset,
-    const std::vector<int> &coor,
-    int off[])
+void compute_slice_offsets(std::function<int(int, int, int)> get_geo_offset,
+                           const std::vector<int> &coor,
+                           int off[])
 {
     int kp[3] = {0, 0, 0};
     for (size_t j = 0; j < coor.size(); j++)

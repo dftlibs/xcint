@@ -1,6 +1,5 @@
 #pragma once
 
-#include "AOBatch.h"
 #include "Functional.h"
 #include "balboa.h"
 
@@ -46,26 +45,25 @@ class XCint
     XCint &operator=(const XCint &rhs); // not implemented
 
     Functional fun;
-    AOBatch *batch;
     balboa_context_t *balboa_context;
     int ao_length;
     double *ao;
 
     void nullify();
 
-    void distribute_matrix(const int block_length,
-                           const int num_variables,
-                           const int num_perturbations,
-                           const int mat_dim,
-                           const double prefactors[],
-                           const int w_off,
-                           const bool n_is_used[],
-                           const double n[],
-                           double u[],
-                           double vxc[],
-                           double &exc,
-                           const std::vector<int> coor,
-                           const double grid_w[]);
+    void distribute_matrix2(const int block_length,
+                            const int num_variables,
+                            const int num_perturbations,
+                            const int mat_dim,
+                            const double prefactors[],
+                            const int w_off,
+                            const bool n_is_used[],
+                            const double n[],
+                            double u[],
+                            double vxc[],
+                            double &exc,
+                            const std::vector<int> coor,
+                            const double grid_w[]);
     //            const double grid_w[]) const;
 
     void integrate_batch(const double dmat[],

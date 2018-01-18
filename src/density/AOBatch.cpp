@@ -37,21 +37,6 @@ void AOBatch::get_ao(const bool use_gradient,
 {
     assert(max_ao_geo_order <= MAX_GEO_DIFF_ORDER);
 
-    //  debug
-    //  if (max_ao_geo_order == 1)
-    //  {
-    //      printf("use_gradient = %i\n", use_gradient);
-    //      printf("max_ao_geo_order = %i\n", max_ao_geo_order);
-    //      printf("block_length = %i\n", block_length);
-    //      for (int ib = 0; ib < block_length; ib++)
-    //      {
-    //          printf("grid = %e %e %e %e\n", p[ib*4 + 0],
-    //                                         p[ib*4 + 1],
-    //                                         p[ib*4 + 2],
-    //                                         p[ib*4 + 3]);
-    //      }
-    //  }
-
     int buffer_len = balboa_get_buffer_len(
         balboa_context, max_ao_geo_order, AO_BLOCK_LENGTH);
     //  FIXME should be:

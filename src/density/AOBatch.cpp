@@ -44,13 +44,13 @@ void AOBatch::get_ao(const bool use_gradient,
     if (buffer_len != ao_length) // FIXME
     {
         ao_length = buffer_len;
-
         delete[] ao;
         ao = new double[buffer_len];
     }
 
     std::fill(&ao[0], &ao[buffer_len], 0.0);
 
+    // FIXME is this really needed?
     double *buffer = new double[buffer_len];
     std::fill(&buffer[0], &buffer[buffer_len], 0.0);
 

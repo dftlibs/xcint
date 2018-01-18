@@ -93,7 +93,10 @@ module xcint
       function xcint_integrate_scf(context,       &
                                    mode,          &
                                    num_points,    &
-                                   grid,          &
+                                   grid_x_bohr,   &
+                                   grid_y_bohr,   &
+                                   grid_z_bohr,   &
+                                   grid_w,        &
                                    dmat,          &
                                    exc,           &
                                    vxc,           &
@@ -102,7 +105,10 @@ module xcint
          type(c_ptr), value                :: context
          integer(c_int), intent(in), value :: mode
          integer(c_int), intent(in), value :: num_points
-         real(c_double), intent(in)        :: grid(*)
+         real(c_double), intent(in)        :: grid_x_bohr(*)
+         real(c_double), intent(in)        :: grid_y_bohr(*)
+         real(c_double), intent(in)        :: grid_z_bohr(*)
+         real(c_double), intent(in)        :: grid_w(*)
          real(c_double), intent(in)        :: dmat(*)
          real(c_double), intent(inout)     :: exc
          real(c_double), intent(inout)     :: vxc(*)
@@ -115,7 +121,10 @@ module xcint
       function xcint_integrate(context,              &
                                mode,                 &
                                num_points,           &
-                               grid,                 &
+                               grid_x_bohr,          &
+                               grid_y_bohr,          &
+                               grid_z_bohr,          &
+                               grid_w,               &
                                num_perturbations,    &
                                perturbations,        &
                                components,           &
@@ -131,7 +140,10 @@ module xcint
          type(c_ptr), value                :: context
          integer(c_int), intent(in), value :: mode
          integer(c_int), intent(in), value :: num_points
-         real(c_double), intent(in)        :: grid(*)
+         real(c_double), intent(in)        :: grid_x_bohr(*)
+         real(c_double), intent(in)        :: grid_y_bohr(*)
+         real(c_double), intent(in)        :: grid_z_bohr(*)
+         real(c_double), intent(in)        :: grid_w(*)
          integer(c_int), intent(in), value :: num_perturbations
          integer(c_int), intent(in)        :: perturbations(*)
          integer(c_int), intent(in)        :: components(*)

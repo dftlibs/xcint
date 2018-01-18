@@ -24,7 +24,9 @@ class AOBatch
     void get_ao(const bool use_gradient,
                 const int max_ao_geo_order,
                 const int block_length,
-                const double p[]);
+                const double grid_x_bohr[],
+                const double grid_y_bohr[],
+                const double grid_z_bohr[]);
 
     int get_num_aos();
 

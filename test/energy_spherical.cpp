@@ -22,17 +22,17 @@ TEST(xcint, energy_spherical)
     center_coordinates[4] = 0.0;
     center_coordinates[5] = 0.0;
 
-    double x_coordinates_au[2];
-    x_coordinates_au[0] = 1.7;
-    x_coordinates_au[1] = 0.0;
+    double x_coordinates_bohr[2];
+    x_coordinates_bohr[0] = 1.7;
+    x_coordinates_bohr[1] = 0.0;
 
-    double y_coordinates_au[2];
-    y_coordinates_au[0] = 0.0;
-    y_coordinates_au[1] = 0.0;
+    double y_coordinates_bohr[2];
+    y_coordinates_bohr[0] = 0.0;
+    y_coordinates_bohr[1] = 0.0;
 
-    double z_coordinates_au[2];
-    z_coordinates_au[0] = 0.0;
-    z_coordinates_au[1] = 0.0;
+    double z_coordinates_bohr[2];
+    z_coordinates_bohr[0] = 0.0;
+    z_coordinates_bohr[1] = 0.0;
 
     int *proton_charges = NULL;
     proton_charges = new int[num_centers];
@@ -170,9 +170,12 @@ TEST(xcint, energy_spherical)
     max_l_quantum_numbers[0] = 2;
     max_l_quantum_numbers[1] = 1;
 
-    int num_points = 0;
-    double *grid = NULL;
-    grid = new double[4*31424];
+    int num_points = 31424;  // cheat to avoid reading twice
+    double *grid_x_bohr = new double[num_points];
+    double *grid_y_bohr = new double[num_points];
+    double *grid_z_bohr = new double[num_points];
+    double *grid_w = new double[num_points];
+    num_points = 0;
 
     for (int center_index = 0; center_index < num_centers; center_index++)
     {
@@ -187,36 +190,36 @@ TEST(xcint, energy_spherical)
 
         int num_points_center = numgrid_get_num_grid_points(context);
 
-        double *grid_x_au = new double[num_points_center];
-        double *grid_y_au = new double[num_points_center];
-        double *grid_z_au = new double[num_points_center];
-        double *grid_w = new double[num_points_center];
+        double *atom_grid_x_bohr = new double[num_points_center];
+        double *atom_grid_y_bohr = new double[num_points_center];
+        double *atom_grid_z_bohr = new double[num_points_center];
+        double *atom_grid_w = new double[num_points_center];
 
         numgrid_get_grid(context,
                          num_centers,
                          center_index,
-                         x_coordinates_au,
-                         y_coordinates_au,
-                         z_coordinates_au,
+                         x_coordinates_bohr,
+                         y_coordinates_bohr,
+                         z_coordinates_bohr,
                          proton_charges,
-                         grid_x_au,
-                         grid_y_au,
-                         grid_z_au,
-                         grid_w);
+                         atom_grid_x_bohr,
+                         atom_grid_y_bohr,
+                         atom_grid_z_bohr,
+                         atom_grid_w);
 
         for (int i = 0; i < num_points_center; i++)
         {
-            grid[4*num_points + 4*i + 0] = grid_x_au[i];
-            grid[4*num_points + 4*i + 1] = grid_y_au[i];
-            grid[4*num_points + 4*i + 2] = grid_z_au[i];
-            grid[4*num_points + 4*i + 3] = grid_w[i];
+            grid_x_bohr[num_points + i] = atom_grid_x_bohr[i];
+            grid_y_bohr[num_points + i] = atom_grid_y_bohr[i];
+            grid_z_bohr[num_points + i] = atom_grid_z_bohr[i];
+            grid_w[num_points + i] = atom_grid_w[i];
         }
         num_points += num_points_center;
 
-        delete[] grid_x_au;
-        delete[] grid_y_au;
-        delete[] grid_z_au;
-        delete[] grid_w;
+        delete[] atom_grid_x_bohr;
+        delete[] atom_grid_y_bohr;
+        delete[] atom_grid_z_bohr;
+        delete[] atom_grid_w;
 
         numgrid_free_atom_grid(context);
     }
@@ -297,7 +300,10 @@ TEST(xcint, energy_spherical)
     ierr = xcint_integrate_scf(xcint_context,
                                XCINT_MODE_RKS,
                                num_points,
-                               grid,
+                               grid_x_bohr,
+                               grid_y_bohr,
+                               grid_z_bohr,
+                               grid_w,
                                dmat,
                                &exc,
                                vxc,
@@ -318,7 +324,10 @@ TEST(xcint, energy_spherical)
     ierr = xcint_integrate_scf(xcint_context,
                                XCINT_MODE_RKS,
                                num_points,
-                               grid,
+                               grid_x_bohr,
+                               grid_y_bohr,
+                               grid_z_bohr,
+                               grid_w,
                                dmat,
                                &exc,
                                vxc,

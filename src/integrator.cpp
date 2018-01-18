@@ -113,7 +113,10 @@ void XCint::integrate_batch(const double dmat[],
                             const bool get_gradient,
                             const bool get_tau,
                             const int dmat_index[],
-                            const double grid[]) const
+                            const double grid_x_bohr[],
+                            const double grid_y_bohr[],
+                            const double grid_z_bohr[],
+                            const double grid_w[]) const
 {
     double *n = new double[AO_BLOCK_LENGTH * num_variables * MAX_NUM_DENSITIES];
     double *u = new double[AO_BLOCK_LENGTH * num_variables];
@@ -125,7 +128,10 @@ void XCint::integrate_batch(const double dmat[],
     std::fill(&n_is_used[0], &n_is_used[MAX_NUM_DENSITIES], false);
 
     batch->get_ao(
-        get_gradient, max_ao_order_g, block_length, &grid[ipoint * 4]);
+        get_gradient, max_ao_order_g, block_length,
+                      &grid_x_bohr[ipoint],
+                      &grid_y_bohr[ipoint],
+                      &grid_z_bohr[ipoint]);
 
     if (!n_is_used[0])
     {
@@ -138,7 +144,7 @@ void XCint::integrate_batch(const double dmat[],
 
     for (int ib = 0; ib < block_length; ib++)
     {
-        num_electrons += grid[(ipoint + ib) * 4 + 3] * n[ib];
+        num_electrons += grid_w[ipoint + ib] * n[ib];
     }
 
     // expectation value contribution
@@ -228,13 +234,12 @@ void XCint::integrate_batch(const double dmat[],
         double sum = 0.0;
         for (int ib = 0; ib < block_length; ib++)
         {
-            if (n[ib] > 1.0e-14 and fabs(grid[(ipoint + ib) * 4 + 3]) > 1.0e-30)
+            if (n[ib] > 1.0e-14 and fabs(grid_w[ipoint + ib]) > 1.0e-30)
             {
                 xc_eval(xcfun,
                         &xcin[ib * num_variables * dens_offset],
                         &xcout[ib * dens_offset]);
-                sum += xcout[ib * dens_offset + dens_offset - 1] *
-                       grid[(ipoint + ib) * 4 + 3];
+                sum += xcout[ib * dens_offset + dens_offset - 1] * grid_w[ipoint + ib];
             }
         }
         exc += sum;
@@ -288,7 +293,7 @@ void XCint::integrate_batch(const double dmat[],
                               vxc,
                               exc,
                               coor,
-                              grid);
+                              grid_w);
         }
 
         if (geo_derv_order > 0) // we have geo dervs
@@ -326,7 +331,7 @@ void XCint::integrate_batch(const double dmat[],
                                   vxc,
                                   exc,
                                   coor,
-                                  grid);
+                                  grid_w);
                 n_is_used[1] = false;
 
                 // M_i  d_n
@@ -343,7 +348,7 @@ void XCint::integrate_batch(const double dmat[],
                                   vxc,
                                   exc,
                                   coor,
-                                  grid);
+                                  grid_w);
                 coor.clear();
             }
 
@@ -366,7 +371,7 @@ void XCint::integrate_batch(const double dmat[],
                                   vxc,
                                   exc,
                                   coor,
-                                  grid);
+                                  grid_w);
                 coor.clear();
 
                 // FIXME add shortcut if i == j
@@ -400,7 +405,7 @@ void XCint::integrate_batch(const double dmat[],
                                   vxc,
                                   exc,
                                   coor,
-                                  grid);
+                                  grid_w);
                 coor.clear();
                 n_is_used[1] = false;
 
@@ -434,7 +439,7 @@ void XCint::integrate_batch(const double dmat[],
                                   vxc,
                                   exc,
                                   coor,
-                                  grid);
+                                  grid_w);
                 coor.clear();
                 n_is_used[1] = false;
 
@@ -502,7 +507,7 @@ void XCint::integrate_batch(const double dmat[],
                                   vxc,
                                   exc,
                                   coor,
-                                  grid);
+                                  grid_w);
                 n_is_used[1] = false;
                 n_is_used[2] = false;
                 n_is_used[3] = false;
@@ -544,7 +549,7 @@ void XCint::integrate_batch(const double dmat[],
                                   vxc,
                                   exc,
                                   coor,
-                                  grid);
+                                  grid_w);
                 coor.clear();
 
                 // M    d_nnn n_i n_a
@@ -593,7 +598,7 @@ void XCint::integrate_batch(const double dmat[],
                                   vxc,
                                   exc,
                                   coor,
-                                  grid);
+                                  grid_w);
                 n_is_used[1] = false;
                 n_is_used[2] = false;
                 n_is_used[3] = false;
@@ -620,7 +625,10 @@ XCINT_API
 int xcint_integrate_scf(const xcint_context_t *context,
                         const xcint_mode_t mode,
                         const int num_points,
-                        const double grid[],
+                        const double grid_x_bohr[],
+                        const double grid_y_bohr[],
+                        const double grid_z_bohr[],
+                        const double grid_w[],
                         const double dmat[],
                         double *exc,
                         double vxc[],
@@ -636,7 +644,10 @@ int xcint_integrate_scf(const xcint_context_t *context,
     return AS_CTYPE(XCint, context)
         ->integrate(mode,
                     num_points,
-                    grid,
+                    grid_x_bohr,
+                    grid_y_bohr,
+                    grid_z_bohr,
+                    grid_w,
                     num_perturbations,
                     perturbations,
                     components,
@@ -654,7 +665,10 @@ XCINT_API
 int xcint_integrate(const xcint_context_t *context,
                     const xcint_mode_t mode,
                     const int num_points,
-                    const double grid[],
+                    const double grid_x_bohr[],
+                    const double grid_y_bohr[],
+                    const double grid_z_bohr[],
+                    const double grid_w[],
                     const int num_perturbations,
                     const xcint_perturbation_t perturbations[],
                     const int components[],
@@ -670,7 +684,10 @@ int xcint_integrate(const xcint_context_t *context,
     return AS_CTYPE(XCint, context)
         ->integrate(mode,
                     num_points,
-                    grid,
+                    grid_x_bohr,
+                    grid_y_bohr,
+                    grid_z_bohr,
+                    grid_w,
                     num_perturbations,
                     perturbations,
                     components,
@@ -685,7 +702,10 @@ int xcint_integrate(const xcint_context_t *context,
 }
 int XCint::integrate(const xcint_mode_t mode,
                      const int num_points,
-                     const double grid[],
+                     const double grid_x_bohr[],
+                     const double grid_y_bohr[],
+                     const double grid_z_bohr[],
+                     const double grid_w[],
                      const int num_perturbations,
                      const xcint_perturbation_t perturbations[],
                      const int components[],
@@ -842,7 +862,10 @@ int XCint::integrate(const xcint_mode_t mode,
                         get_gradient,
                         get_tau,
                         dmat_index,
-                        grid);
+                        grid_x_bohr,
+                        grid_y_bohr,
+                        grid_z_bohr,
+                        grid_w);
 
         num_points_left -= block_length;
     }
@@ -884,7 +907,7 @@ void XCint::distribute_matrix(const int block_length,
                               double vxc[],
                               double &exc,
                               const std::vector<int> coor,
-                              const double grid[]) const
+                              const double grid_w[]) const
 {
     int off;
 
@@ -939,13 +962,13 @@ void XCint::distribute_matrix(const int block_length,
         std::fill(&xcout[0], &xcout[dens_offset * block_length], 0.0);
         for (int ib = 0; ib < block_length; ib++)
         {
-            if (n[ib] > 1.0e-14 and fabs(grid[(w_off + ib) * 4 + 3]) > 1.0e-30)
+            if (n[ib] > 1.0e-14 and fabs(grid_w[w_off + ib]) > 1.0e-30)
             {
                 xc_eval(xcfun,
                         &xcin[ib * num_variables * dens_offset],
                         &xcout[ib * dens_offset]);
                 u[off + ib] += xcout[(ib + 1) * dens_offset - 1] *
-                               grid[(w_off + ib) * 4 + 3];
+                               grid_w[w_off + ib];
             }
         }
     }
@@ -982,7 +1005,7 @@ void XCint::distribute_matrix(const int block_length,
 
     for (int ib = 0; ib < block_length; ib++)
     {
-        exc += xcout[ib * dens_offset] * grid[(w_off + ib) * 4 + 3];
+        exc += xcout[ib * dens_offset] * grid_w[w_off + ib];
     }
 
     delete[] xcin;

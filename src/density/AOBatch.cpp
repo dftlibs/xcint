@@ -29,7 +29,9 @@ AOBatch::~AOBatch()
 void AOBatch::get_ao(const bool use_gradient,
                      const int max_ao_geo_order,
                      const int block_length,
-                     const double p[])
+                     const double grid_x_bohr[],
+                     const double grid_y_bohr[],
+                     const double grid_z_bohr[])
 {
     assert(max_ao_geo_order <= MAX_GEO_DIFF_ORDER);
 
@@ -51,32 +53,19 @@ void AOBatch::get_ao(const bool use_gradient,
 
     double *buffer = new double[buffer_len];
     std::fill(&buffer[0], &buffer[buffer_len], 0.0);
-    double *x_coordinates_bohr = new double[block_length];
-    double *y_coordinates_bohr = new double[block_length];
-    double *z_coordinates_bohr = new double[block_length];
-
-    for (int i = 0; i < block_length; i++)
-    {
-        x_coordinates_bohr[i] = p[i * 4 + 0];
-        y_coordinates_bohr[i] = p[i * 4 + 1];
-        z_coordinates_bohr[i] = p[i * 4 + 2];
-    }
 
     int ierr;
     ierr = balboa_get_ao(balboa_context,
                          max_ao_geo_order,
                          block_length,
-                         x_coordinates_bohr,
-                         y_coordinates_bohr,
-                         z_coordinates_bohr,
+                         grid_x_bohr,
+                         grid_y_bohr,
+                         grid_z_bohr,
                          buffer);
 
     std::copy(&buffer[0], &buffer[buffer_len], &ao[0]);
 
     delete[] buffer;
-    delete[] x_coordinates_bohr;
-    delete[] y_coordinates_bohr;
-    delete[] z_coordinates_bohr;
 }
 
 void AOBatch::distribute_matrix_undiff(const int mat_dim,

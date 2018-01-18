@@ -26,7 +26,10 @@ class XCint
 
     int integrate(const xcint_mode_t mode,
                   const int num_points,
-                  const double grid[],
+                  const double grid_x_bohr[],
+                  const double grid_y_bohr[],
+                  const double grid_z_bohr[],
+                  const double grid_w[],
                   const int num_perturbations,
                   const xcint_perturbation_t perturbations[],
                   const int components[],
@@ -81,5 +84,8 @@ class XCint
                          const bool get_gradient,
                          const bool get_tau,
                          const int dmat_index[],
-                         const double grid_pw[]) const;
+                         const double grid_x_bohr[],
+                         const double grid_y_bohr[],
+                         const double grid_z_bohr[],
+                         const double grid_w[]) const;
 };

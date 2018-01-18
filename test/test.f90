@@ -38,7 +38,6 @@ program test
    integer              :: center_index
    integer              :: ipoint
    real(8)              :: error
-   real(8), allocatable :: grid(:)
    integer              :: ierr
    real(8), allocatable :: dmat(:)
    real(8), allocatable :: vxc(:)
@@ -49,13 +48,17 @@ program test
    real(8)              :: alpha_max
    integer              :: max_l_quantum_number
    real(8)              :: alpha_min(3)
-   real(8), allocatable :: grid_x_au(:)
-   real(8), allocatable :: grid_y_au(:)
-   real(8), allocatable :: grid_z_au(:)
+   real(8), allocatable :: atom_grid_x_bohr(:)
+   real(8), allocatable :: atom_grid_y_bohr(:)
+   real(8), allocatable :: atom_grid_z_bohr(:)
+   real(8), allocatable :: atom_grid_w(:)
+   real(8), allocatable :: grid_x_bohr(:)
+   real(8), allocatable :: grid_y_bohr(:)
+   real(8), allocatable :: grid_z_bohr(:)
    real(8), allocatable :: grid_w(:)
-   real(8)              :: x_coordinates_au(2)
-   real(8)              :: y_coordinates_au(2)
-   real(8)              :: z_coordinates_au(2)
+   real(8)              :: x_coordinates_bohr(2)
+   real(8)              :: y_coordinates_bohr(2)
+   real(8)              :: z_coordinates_bohr(2)
 
    radial_precision = 1.0d-12
    min_num_angular_points = 86
@@ -72,14 +75,14 @@ program test
    center_coordinates(5) = 0.0d0
    center_coordinates(6) = 0.0d0
 
-   x_coordinates_au(1) = 1.7d0
-   x_coordinates_au(2) = 0.0d0
+   x_coordinates_bohr(1) = 1.7d0
+   x_coordinates_bohr(2) = 0.0d0
 
-   y_coordinates_au(1) = 0.0d0
-   y_coordinates_au(2) = 0.0d0
+   y_coordinates_bohr(1) = 0.0d0
+   y_coordinates_bohr(2) = 0.0d0
 
-   z_coordinates_au(1) = 0.0d0
-   z_coordinates_au(2) = 0.0d0
+   z_coordinates_bohr(1) = 0.0d0
+   z_coordinates_bohr(2) = 0.0d0
 
    allocate(proton_charges(num_centers))
 
@@ -192,7 +195,11 @@ program test
    contraction_coefficients(30) =  1.47123d-1
    contraction_coefficients(31) =  9.56881d-1
 
-   allocate(grid(4*31424))
+   num_points = 31424  ! cheat to avoid reading twice
+   allocate(grid_x_bohr(num_points))
+   allocate(grid_y_bohr(num_points))
+   allocate(grid_z_bohr(num_points))
+   allocate(grid_w(num_points))
 
    num_points = 0
    do center_index = 1, num_centers
@@ -222,35 +229,35 @@ program test
 
       num_points_center = numgrid_get_num_grid_points(numgrid_context)
 
-      allocate(grid_x_au(num_points_center))
-      allocate(grid_y_au(num_points_center))
-      allocate(grid_z_au(num_points_center))
-      allocate(grid_w(num_points_center))
+      allocate(atom_grid_x_bohr(num_points_center))
+      allocate(atom_grid_y_bohr(num_points_center))
+      allocate(atom_grid_z_bohr(num_points_center))
+      allocate(atom_grid_w(num_points_center))
 
       call numgrid_get_grid(numgrid_context,  &
                             num_centers,      &
                             center_index - 1, &
-                            x_coordinates_au, &
-                            y_coordinates_au, &
-                            z_coordinates_au, &
+                            x_coordinates_bohr, &
+                            y_coordinates_bohr, &
+                            z_coordinates_bohr, &
                             proton_charges,   &
-                            grid_x_au,        &
-                            grid_y_au,        &
-                            grid_z_au,        &
-                            grid_w)
+                            atom_grid_x_bohr,        &
+                            atom_grid_y_bohr,        &
+                            atom_grid_z_bohr,        &
+                            atom_grid_w)
 
       do ipoint = 1, num_points_center
-          grid(4*num_points + 4*(ipoint - 1) + 1) = grid_x_au(ipoint)
-          grid(4*num_points + 4*(ipoint - 1) + 2) = grid_y_au(ipoint)
-          grid(4*num_points + 4*(ipoint - 1) + 3) = grid_z_au(ipoint)
-          grid(4*num_points + 4*(ipoint - 1) + 4) = grid_w(ipoint)
+          grid_x_bohr(num_points + ipoint) = atom_grid_x_bohr(ipoint)
+          grid_y_bohr(num_points + ipoint) = atom_grid_y_bohr(ipoint)
+          grid_z_bohr(num_points + ipoint) = atom_grid_z_bohr(ipoint)
+          grid_w(num_points + ipoint) = atom_grid_w(ipoint)
       end do
       num_points = num_points + num_points_center
 
-      deallocate(grid_x_au)
-      deallocate(grid_y_au)
-      deallocate(grid_z_au)
-      deallocate(grid_w)
+      deallocate(atom_grid_x_bohr)
+      deallocate(atom_grid_y_bohr)
+      deallocate(atom_grid_z_bohr)
+      deallocate(atom_grid_w)
 
       call numgrid_free_atom_grid(numgrid_context)
    end do
@@ -297,7 +304,10 @@ program test
    ierr = xcint_integrate_scf(xcint_context,  &
                               XCINT_MODE_RKS, &
                               num_points,     &
-                              grid,           &
+                              grid_x_bohr,    &
+                              grid_y_bohr,    &
+                              grid_z_bohr,    &
+                              grid_w,         &
                               dmat,           &
                               exc,            &
                               vxc,            &
@@ -311,7 +321,10 @@ program test
    ierr = xcint_integrate(xcint_context,  &
                           XCINT_MODE_RKS, &
                           num_points,     &
-                          grid,           &
+                          grid_x_bohr,    &
+                          grid_y_bohr,    &
+                          grid_z_bohr,    &
+                          grid_w,         &
                           0,              &
                           (/0/),          &
                           (/0/),          &
@@ -323,6 +336,11 @@ program test
                           1,              &
                           vxc,            &
                           num_electrons)
+
+   deallocate(grid_x_bohr)
+   deallocate(grid_y_bohr)
+   deallocate(grid_z_bohr)
+   deallocate(grid_w)
 
    if (dabs(num_electrons - 9.999992072209077d0) > 1.0e-12) stop 1
    if (dabs(exc + 17.475254754225027d0) > 1.0e-12) stop 1

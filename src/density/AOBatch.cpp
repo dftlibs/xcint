@@ -173,8 +173,6 @@ void AOBatch::distribute_matrix(const int mat_dim,
             for (int k = 0; k < k_aoc_num; k++)
             {
                 iboff = k * AO_BLOCK_LENGTH;
-#pragma ivdep
-#pragma vector aligned
                 for (int ib = 0; ib < AO_BLOCK_LENGTH; ib++)
                 {
                     W[iboff + ib] +=
@@ -211,8 +209,6 @@ void AOBatch::distribute_matrix(const int mat_dim,
                 for (int k = 0; k < k_aoc_num; k++)
                 {
                     iboff = k * AO_BLOCK_LENGTH;
-#pragma ivdep
-#pragma vector aligned
                     for (int ib = 0; ib < AO_BLOCK_LENGTH; ib++)
                     {
                         W[iboff + ib] =
@@ -441,8 +437,6 @@ void AOBatch::get_density(const int mat_dim,
             for (int k = 0; k < k_aoc_num; k++)
             {
                 iboff = k * AO_BLOCK_LENGTH;
-#pragma ivdep
-#pragma vector aligned
                 for (int ib = 0; ib < AO_BLOCK_LENGTH; ib++)
                 {
                     density[islice * AO_BLOCK_LENGTH + ib] +=
@@ -513,8 +507,6 @@ void AOBatch::get_density(const int mat_dim,
                 for (int k = 0; k < k_aoc_num; k++)
                 {
                     iboff = k * AO_BLOCK_LENGTH;
-#pragma ivdep
-#pragma vector aligned
                     for (int ib = 0; ib < AO_BLOCK_LENGTH; ib++)
                     {
                         density[4 * AO_BLOCK_LENGTH + ib] +=

@@ -92,8 +92,6 @@ class AOBatch
 
     balboa_context_t *balboa_context;
 
-    bool is_same_center(const int c, const std::vector<int> &carray);
-
     void diff_M_wrt_center_tuple(const int mat_dim,
                                  const bool use_gradient,
                                  const bool use_tau,

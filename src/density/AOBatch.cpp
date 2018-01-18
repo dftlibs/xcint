@@ -983,17 +983,6 @@ void AOBatch::diff_M_wrt_center_tuple(const int mat_dim,
     delete[] l_ao_compressed_index;
 }
 
-bool AOBatch::is_same_center(const int c, const std::vector<int> &carray)
-// returns true if carray is empty (no derivatives)
-{
-    for (unsigned int i = 0; i < carray.size(); i++)
-    {
-        if (c != carray[i])
-            return false;
-    }
-    return true;
-}
-
 int AOBatch::set_basis(const int basis_type,
                        const int num_centers,
                        const double center_coordinates_bohr[],

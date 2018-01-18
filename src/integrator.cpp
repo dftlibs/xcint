@@ -144,21 +144,13 @@ void XCint::integrate_batch(const double dmat[],
 
     std::fill(&ao[0], &ao[buffer_len], 0.0);
 
-    // FIXME is this really needed?
-    double *buffer = new double[buffer_len];
-    std::fill(&buffer[0], &buffer[buffer_len], 0.0);
-
     int ierr = balboa_get_ao(balboa_context,
                              max_ao_geo_order,
                              block_length,
                              &grid_x_bohr[ipoint],
                              &grid_y_bohr[ipoint],
                              &grid_z_bohr[ipoint],
-                             buffer);
-
-    std::copy(&buffer[0], &buffer[buffer_len], &ao[0]);
-
-    delete[] buffer;
+                             ao);
 
     if (!n_is_used[0])
     {

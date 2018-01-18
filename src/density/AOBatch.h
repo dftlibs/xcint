@@ -1,8 +1,8 @@
 #pragma once
 
+#include <functional>
 #include <stdlib.h>
 #include <vector>
-#include <functional>
 
 #include "balboa.h"
 
@@ -21,13 +21,6 @@ class AOBatch
                   const int shell_num_primitives[],
                   const double primitive_exponents[],
                   const double contraction_coefficients[]);
-
-    void get_ao(const bool use_gradient,
-                const int max_ao_geo_order,
-                const int block_length,
-                const double grid_x_bohr[],
-                const double grid_y_bohr[],
-                const double grid_z_bohr[]);
 
     void distribute_matrix(const int mat_dim,
                            const bool use_gradient,
@@ -58,6 +51,9 @@ class AOBatch
                      const double l_aoc[]);
 
     void get_mat_geo_derv(const int mat_dim,
+                          const int num_aos,
+                          const int buffer_len,
+                          const int ao_centers[],
                           const bool use_gradient,
                           const bool use_tau,
                           const std::vector<int> &coor,
@@ -66,6 +62,9 @@ class AOBatch
                           double mat[]);
 
     void get_dens_geo_derv(const int mat_dim,
+                           const int num_aos,
+                           const int buffer_len,
+                           const int ao_centers[],
                            const bool use_gradient,
                            const bool use_tau,
                            const std::vector<int> &coor,
@@ -79,25 +78,33 @@ class AOBatch
 
     balboa_context_t *balboa_context;
 
-    void diff_M_wrt_center_tuple(const int mat_dim,
-                                 const bool use_gradient,
-                                 const bool use_tau,
-                                 const double f,
-                                 std::function<int(int, int, int)> get_geo_offset,
-                                 const std::vector<int> &k_coor,
-                                 const std::vector<int> &l_coor,
-                                 const double u[],
-                                 double M[]);
+    void
+    diff_M_wrt_center_tuple(const int mat_dim,
+                            const int num_aos,
+                            const int buffer_len,
+                            const int ao_centers[],
+                            const bool use_gradient,
+                            const bool use_tau,
+                            const double f,
+                            std::function<int(int, int, int)> get_geo_offset,
+                            const std::vector<int> &k_coor,
+                            const std::vector<int> &l_coor,
+                            const double u[],
+                            double M[]);
 
-    void diff_u_wrt_center_tuple(const int mat_dim,
-                                 const bool use_gradient,
-                                 const bool use_tau,
-                                 const double f,
-                                 std::function<int(int, int, int)> get_geo_offset,
-                                 const std::vector<int> &k_coor,
-                                 const std::vector<int> &l_coor,
-                                 double u[],
-                                 const double M[]);
+    void
+    diff_u_wrt_center_tuple(const int mat_dim,
+                            const int num_aos,
+                            const int buffer_len,
+                            const int ao_centers[],
+                            const bool use_gradient,
+                            const bool use_tau,
+                            const double f,
+                            std::function<int(int, int, int)> get_geo_offset,
+                            const std::vector<int> &k_coor,
+                            const std::vector<int> &l_coor,
+                            double u[],
+                            const double M[]);
 
     int ao_length;
     double *ao;

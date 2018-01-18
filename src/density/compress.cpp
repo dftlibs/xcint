@@ -67,7 +67,8 @@ void compress(const bool use_gradient,
             int iu = AO_BLOCK_LENGTH * (iuoff + compressed_aos_indices[i]);
             int ic = AO_BLOCK_LENGTH * (icoff + i);
 
-            std::copy(&aos[iu], &aos[iu + AO_BLOCK_LENGTH], &compressed_aos[ic]);
+            std::copy(
+                &aos[iu], &aos[iu + AO_BLOCK_LENGTH], &compressed_aos[ic]);
         }
     }
 }

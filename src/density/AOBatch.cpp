@@ -7,8 +7,8 @@
 
 #include "AOBatch.h"
 #include "blas_interface.h"
-#include "density_parameters.h"
 #include "compress.h"
+#include "density_parameters.h"
 
 AOBatch::AOBatch()
 {
@@ -25,49 +25,6 @@ AOBatch::~AOBatch()
     ao = NULL;
     balboa_free_context(balboa_context);
 }
-
-void AOBatch::get_ao(const bool use_gradient,
-                     const int max_ao_geo_order,
-                     const int block_length,
-                     const double grid_x_bohr[],
-                     const double grid_y_bohr[],
-                     const double grid_z_bohr[])
-{
-    assert(max_ao_geo_order <= MAX_GEO_DIFF_ORDER);
-
-    int buffer_len = balboa_get_buffer_len(
-        balboa_context, max_ao_geo_order, AO_BLOCK_LENGTH);
-    //  FIXME should be:
-    //  int buffer_len = balboa_get_buffer_len(balboa_context, max_ao_geo_order,
-    //  block_length);
-
-    if (buffer_len != ao_length) // FIXME
-    {
-        ao_length = buffer_len;
-        delete[] ao;
-        ao = new double[buffer_len];
-    }
-
-    std::fill(&ao[0], &ao[buffer_len], 0.0);
-
-    // FIXME is this really needed?
-    double *buffer = new double[buffer_len];
-    std::fill(&buffer[0], &buffer[buffer_len], 0.0);
-
-    int ierr;
-    ierr = balboa_get_ao(balboa_context,
-                         max_ao_geo_order,
-                         block_length,
-                         grid_x_bohr,
-                         grid_y_bohr,
-                         grid_z_bohr,
-                         buffer);
-
-    std::copy(&buffer[0], &buffer[buffer_len], &ao[0]);
-
-    delete[] buffer;
-}
-
 
 void AOBatch::distribute_matrix(const int mat_dim,
                                 const bool use_gradient,
@@ -322,7 +279,7 @@ void AOBatch::get_density(const int mat_dim,
     int num_slices;
     (use_gradient) ? (num_slices = 4) : (num_slices = 1);
 
-    std::fill(&density[0], &density[num_slices*AO_BLOCK_LENGTH], 0.0);
+    std::fill(&density[0], &density[num_slices * AO_BLOCK_LENGTH], 0.0);
 
     // assemble density and possibly gradient
     for (int islice = 0; islice < num_slices; islice++)
@@ -420,13 +377,17 @@ void AOBatch::get_density(const int mat_dim,
     X = NULL;
 }
 
-void AOBatch::get_dens_geo_derv(const int mat_dim,
-                                const bool use_gradient,
-                                const bool use_tau,
-                                const std::vector<int> &coor,
-                                std::function<int(int, int, int)> get_geo_offset,
-                                double density[],
-                                const double mat[])
+void AOBatch::get_dens_geo_derv(
+    const int mat_dim,
+    const int num_aos,
+    const int buffer_len,
+    const int ao_centers[],
+    const bool use_gradient,
+    const bool use_tau,
+    const std::vector<int> &coor,
+    std::function<int(int, int, int)> get_geo_offset,
+    double density[],
+    const double mat[])
 {
     /*
     1st                        a,0
@@ -456,22 +417,52 @@ void AOBatch::get_dens_geo_derv(const int mat_dim,
     // FIXME implement shortcuts
     case 1:
         k_coor.push_back(coor[0]);
-        diff_u_wrt_center_tuple(
-            mat_dim, use_gradient, use_tau, f, get_geo_offset, k_coor, l_coor, density, mat);
+        diff_u_wrt_center_tuple(mat_dim,
+                                num_aos,
+                                buffer_len,
+                                ao_centers,
+                                use_gradient,
+                                use_tau,
+                                f,
+                                get_geo_offset,
+                                k_coor,
+                                l_coor,
+                                density,
+                                mat);
         k_coor.clear();
         l_coor.clear();
         break;
     case 2:
         k_coor.push_back(coor[0]);
         k_coor.push_back(coor[1]);
-        diff_u_wrt_center_tuple(
-            mat_dim, use_gradient, use_tau, f, get_geo_offset, k_coor, l_coor, density, mat);
+        diff_u_wrt_center_tuple(mat_dim,
+                                num_aos,
+                                buffer_len,
+                                ao_centers,
+                                use_gradient,
+                                use_tau,
+                                f,
+                                get_geo_offset,
+                                k_coor,
+                                l_coor,
+                                density,
+                                mat);
         k_coor.clear();
         l_coor.clear();
         k_coor.push_back(coor[0]);
         l_coor.push_back(coor[1]);
-        diff_u_wrt_center_tuple(
-            mat_dim, use_gradient, use_tau, f, get_geo_offset, k_coor, l_coor, density, mat);
+        diff_u_wrt_center_tuple(mat_dim,
+                                num_aos,
+                                buffer_len,
+                                ao_centers,
+                                use_gradient,
+                                use_tau,
+                                f,
+                                get_geo_offset,
+                                k_coor,
+                                l_coor,
+                                density,
+                                mat);
         k_coor.clear();
         l_coor.clear();
         break;
@@ -479,29 +470,69 @@ void AOBatch::get_dens_geo_derv(const int mat_dim,
         k_coor.push_back(coor[0]);
         k_coor.push_back(coor[1]);
         k_coor.push_back(coor[2]);
-        diff_u_wrt_center_tuple(
-            mat_dim, use_gradient, use_tau, f, get_geo_offset, k_coor, l_coor, density, mat);
+        diff_u_wrt_center_tuple(mat_dim,
+                                num_aos,
+                                buffer_len,
+                                ao_centers,
+                                use_gradient,
+                                use_tau,
+                                f,
+                                get_geo_offset,
+                                k_coor,
+                                l_coor,
+                                density,
+                                mat);
         k_coor.clear();
         l_coor.clear();
         k_coor.push_back(coor[0]);
         k_coor.push_back(coor[1]);
         l_coor.push_back(coor[2]);
-        diff_u_wrt_center_tuple(
-            mat_dim, use_gradient, use_tau, f, get_geo_offset, k_coor, l_coor, density, mat);
+        diff_u_wrt_center_tuple(mat_dim,
+                                num_aos,
+                                buffer_len,
+                                ao_centers,
+                                use_gradient,
+                                use_tau,
+                                f,
+                                get_geo_offset,
+                                k_coor,
+                                l_coor,
+                                density,
+                                mat);
         k_coor.clear();
         l_coor.clear();
         k_coor.push_back(coor[0]);
         l_coor.push_back(coor[1]);
         l_coor.push_back(coor[2]);
-        diff_u_wrt_center_tuple(
-            mat_dim, use_gradient, use_tau, f, get_geo_offset, k_coor, l_coor, density, mat);
+        diff_u_wrt_center_tuple(mat_dim,
+                                num_aos,
+                                buffer_len,
+                                ao_centers,
+                                use_gradient,
+                                use_tau,
+                                f,
+                                get_geo_offset,
+                                k_coor,
+                                l_coor,
+                                density,
+                                mat);
         k_coor.clear();
         l_coor.clear();
         k_coor.push_back(coor[0]);
         k_coor.push_back(coor[2]);
         l_coor.push_back(coor[1]);
-        diff_u_wrt_center_tuple(
-            mat_dim, use_gradient, use_tau, f, get_geo_offset, k_coor, l_coor, density, mat);
+        diff_u_wrt_center_tuple(mat_dim,
+                                num_aos,
+                                buffer_len,
+                                ao_centers,
+                                use_gradient,
+                                use_tau,
+                                f,
+                                get_geo_offset,
+                                k_coor,
+                                l_coor,
+                                density,
+                                mat);
         k_coor.clear();
         l_coor.clear();
         break;
@@ -510,64 +541,144 @@ void AOBatch::get_dens_geo_derv(const int mat_dim,
         k_coor.push_back(coor[1]);
         k_coor.push_back(coor[2]);
         k_coor.push_back(coor[3]);
-        diff_u_wrt_center_tuple(
-            mat_dim, use_gradient, use_tau, f, get_geo_offset, k_coor, l_coor, density, mat);
+        diff_u_wrt_center_tuple(mat_dim,
+                                num_aos,
+                                buffer_len,
+                                ao_centers,
+                                use_gradient,
+                                use_tau,
+                                f,
+                                get_geo_offset,
+                                k_coor,
+                                l_coor,
+                                density,
+                                mat);
         k_coor.clear();
         l_coor.clear();
         k_coor.push_back(coor[0]);
         k_coor.push_back(coor[1]);
         k_coor.push_back(coor[2]);
         l_coor.push_back(coor[3]);
-        diff_u_wrt_center_tuple(
-            mat_dim, use_gradient, use_tau, f, get_geo_offset, k_coor, l_coor, density, mat);
+        diff_u_wrt_center_tuple(mat_dim,
+                                num_aos,
+                                buffer_len,
+                                ao_centers,
+                                use_gradient,
+                                use_tau,
+                                f,
+                                get_geo_offset,
+                                k_coor,
+                                l_coor,
+                                density,
+                                mat);
         k_coor.clear();
         l_coor.clear();
         k_coor.push_back(coor[0]);
         k_coor.push_back(coor[1]);
         l_coor.push_back(coor[2]);
         l_coor.push_back(coor[3]);
-        diff_u_wrt_center_tuple(
-            mat_dim, use_gradient, use_tau, f, get_geo_offset, k_coor, l_coor, density, mat);
+        diff_u_wrt_center_tuple(mat_dim,
+                                num_aos,
+                                buffer_len,
+                                ao_centers,
+                                use_gradient,
+                                use_tau,
+                                f,
+                                get_geo_offset,
+                                k_coor,
+                                l_coor,
+                                density,
+                                mat);
         k_coor.clear();
         l_coor.clear();
         k_coor.push_back(coor[0]);
         l_coor.push_back(coor[1]);
         l_coor.push_back(coor[2]);
         l_coor.push_back(coor[3]);
-        diff_u_wrt_center_tuple(
-            mat_dim, use_gradient, use_tau, f, get_geo_offset, k_coor, l_coor, density, mat);
+        diff_u_wrt_center_tuple(mat_dim,
+                                num_aos,
+                                buffer_len,
+                                ao_centers,
+                                use_gradient,
+                                use_tau,
+                                f,
+                                get_geo_offset,
+                                k_coor,
+                                l_coor,
+                                density,
+                                mat);
         k_coor.clear();
         l_coor.clear();
         k_coor.push_back(coor[0]);
         k_coor.push_back(coor[1]);
         k_coor.push_back(coor[3]);
         l_coor.push_back(coor[2]);
-        diff_u_wrt_center_tuple(
-            mat_dim, use_gradient, use_tau, f, get_geo_offset, k_coor, l_coor, density, mat);
+        diff_u_wrt_center_tuple(mat_dim,
+                                num_aos,
+                                buffer_len,
+                                ao_centers,
+                                use_gradient,
+                                use_tau,
+                                f,
+                                get_geo_offset,
+                                k_coor,
+                                l_coor,
+                                density,
+                                mat);
         k_coor.clear();
         l_coor.clear();
         k_coor.push_back(coor[0]);
         k_coor.push_back(coor[2]);
         k_coor.push_back(coor[3]);
         l_coor.push_back(coor[1]);
-        diff_u_wrt_center_tuple(
-            mat_dim, use_gradient, use_tau, f, get_geo_offset, k_coor, l_coor, density, mat);
+        diff_u_wrt_center_tuple(mat_dim,
+                                num_aos,
+                                buffer_len,
+                                ao_centers,
+                                use_gradient,
+                                use_tau,
+                                f,
+                                get_geo_offset,
+                                k_coor,
+                                l_coor,
+                                density,
+                                mat);
         k_coor.clear();
         l_coor.clear();
         k_coor.push_back(coor[0]);
         k_coor.push_back(coor[2]);
         l_coor.push_back(coor[1]);
         l_coor.push_back(coor[3]);
-        diff_u_wrt_center_tuple(
-            mat_dim, use_gradient, use_tau, f, get_geo_offset, k_coor, l_coor, density, mat);
+        diff_u_wrt_center_tuple(mat_dim,
+                                num_aos,
+                                buffer_len,
+                                ao_centers,
+                                use_gradient,
+                                use_tau,
+                                f,
+                                get_geo_offset,
+                                k_coor,
+                                l_coor,
+                                density,
+                                mat);
         k_coor.clear();
         l_coor.clear();
         k_coor.push_back(coor[0]);
         k_coor.push_back(coor[3]);
         l_coor.push_back(coor[1]);
         l_coor.push_back(coor[2]);
-        diff_u_wrt_center_tuple(
-            mat_dim, use_gradient, use_tau, f, get_geo_offset, k_coor, l_coor, density, mat);
+        diff_u_wrt_center_tuple(mat_dim,
+                                num_aos,
+                                buffer_len,
+                                ao_centers,
+                                use_gradient,
+                                use_tau,
+                                f,
+                                get_geo_offset,
+                                k_coor,
+                                l_coor,
+                                density,
+                                mat);
         k_coor.clear();
         l_coor.clear();
         break;
@@ -579,6 +690,9 @@ void AOBatch::get_dens_geo_derv(const int mat_dim,
 }
 
 void AOBatch::get_mat_geo_derv(const int mat_dim,
+                               const int num_aos,
+                               const int buffer_len,
+                               const int ao_centers[],
                                const bool use_gradient,
                                const bool use_tau,
                                const std::vector<int> &coor,
@@ -614,22 +728,52 @@ void AOBatch::get_mat_geo_derv(const int mat_dim,
     // FIXME implement shortcuts
     case 1:
         k_coor.push_back(coor[0]);
-        diff_M_wrt_center_tuple(
-            mat_dim, use_gradient, use_tau, f, get_geo_offset, k_coor, l_coor, density, mat);
+        diff_M_wrt_center_tuple(mat_dim,
+                                num_aos,
+                                buffer_len,
+                                ao_centers,
+                                use_gradient,
+                                use_tau,
+                                f,
+                                get_geo_offset,
+                                k_coor,
+                                l_coor,
+                                density,
+                                mat);
         k_coor.clear();
         l_coor.clear();
         break;
     case 2:
         k_coor.push_back(coor[0]);
         k_coor.push_back(coor[1]);
-        diff_M_wrt_center_tuple(
-            mat_dim, use_gradient, use_tau, f, get_geo_offset, k_coor, l_coor, density, mat);
+        diff_M_wrt_center_tuple(mat_dim,
+                                num_aos,
+                                buffer_len,
+                                ao_centers,
+                                use_gradient,
+                                use_tau,
+                                f,
+                                get_geo_offset,
+                                k_coor,
+                                l_coor,
+                                density,
+                                mat);
         k_coor.clear();
         l_coor.clear();
         k_coor.push_back(coor[0]);
         l_coor.push_back(coor[1]);
-        diff_M_wrt_center_tuple(
-            mat_dim, use_gradient, use_tau, f, get_geo_offset, k_coor, l_coor, density, mat);
+        diff_M_wrt_center_tuple(mat_dim,
+                                num_aos,
+                                buffer_len,
+                                ao_centers,
+                                use_gradient,
+                                use_tau,
+                                f,
+                                get_geo_offset,
+                                k_coor,
+                                l_coor,
+                                density,
+                                mat);
         k_coor.clear();
         l_coor.clear();
         break;
@@ -637,29 +781,69 @@ void AOBatch::get_mat_geo_derv(const int mat_dim,
         k_coor.push_back(coor[0]);
         k_coor.push_back(coor[1]);
         k_coor.push_back(coor[2]);
-        diff_M_wrt_center_tuple(
-            mat_dim, use_gradient, use_tau, f, get_geo_offset, k_coor, l_coor, density, mat);
+        diff_M_wrt_center_tuple(mat_dim,
+                                num_aos,
+                                buffer_len,
+                                ao_centers,
+                                use_gradient,
+                                use_tau,
+                                f,
+                                get_geo_offset,
+                                k_coor,
+                                l_coor,
+                                density,
+                                mat);
         k_coor.clear();
         l_coor.clear();
         k_coor.push_back(coor[0]);
         k_coor.push_back(coor[1]);
         l_coor.push_back(coor[2]);
-        diff_M_wrt_center_tuple(
-            mat_dim, use_gradient, use_tau, f, get_geo_offset, k_coor, l_coor, density, mat);
+        diff_M_wrt_center_tuple(mat_dim,
+                                num_aos,
+                                buffer_len,
+                                ao_centers,
+                                use_gradient,
+                                use_tau,
+                                f,
+                                get_geo_offset,
+                                k_coor,
+                                l_coor,
+                                density,
+                                mat);
         k_coor.clear();
         l_coor.clear();
         k_coor.push_back(coor[0]);
         l_coor.push_back(coor[1]);
         l_coor.push_back(coor[2]);
-        diff_M_wrt_center_tuple(
-            mat_dim, use_gradient, use_tau, f, get_geo_offset, k_coor, l_coor, density, mat);
+        diff_M_wrt_center_tuple(mat_dim,
+                                num_aos,
+                                buffer_len,
+                                ao_centers,
+                                use_gradient,
+                                use_tau,
+                                f,
+                                get_geo_offset,
+                                k_coor,
+                                l_coor,
+                                density,
+                                mat);
         k_coor.clear();
         l_coor.clear();
         k_coor.push_back(coor[0]);
         k_coor.push_back(coor[2]);
         l_coor.push_back(coor[1]);
-        diff_M_wrt_center_tuple(
-            mat_dim, use_gradient, use_tau, f, get_geo_offset, k_coor, l_coor, density, mat);
+        diff_M_wrt_center_tuple(mat_dim,
+                                num_aos,
+                                buffer_len,
+                                ao_centers,
+                                use_gradient,
+                                use_tau,
+                                f,
+                                get_geo_offset,
+                                k_coor,
+                                l_coor,
+                                density,
+                                mat);
         k_coor.clear();
         l_coor.clear();
         break;
@@ -668,64 +852,144 @@ void AOBatch::get_mat_geo_derv(const int mat_dim,
         k_coor.push_back(coor[1]);
         k_coor.push_back(coor[2]);
         k_coor.push_back(coor[3]);
-        diff_M_wrt_center_tuple(
-            mat_dim, use_gradient, use_tau, f, get_geo_offset, k_coor, l_coor, density, mat);
+        diff_M_wrt_center_tuple(mat_dim,
+                                num_aos,
+                                buffer_len,
+                                ao_centers,
+                                use_gradient,
+                                use_tau,
+                                f,
+                                get_geo_offset,
+                                k_coor,
+                                l_coor,
+                                density,
+                                mat);
         k_coor.clear();
         l_coor.clear();
         k_coor.push_back(coor[0]);
         k_coor.push_back(coor[1]);
         k_coor.push_back(coor[2]);
         l_coor.push_back(coor[3]);
-        diff_M_wrt_center_tuple(
-            mat_dim, use_gradient, use_tau, f, get_geo_offset, k_coor, l_coor, density, mat);
+        diff_M_wrt_center_tuple(mat_dim,
+                                num_aos,
+                                buffer_len,
+                                ao_centers,
+                                use_gradient,
+                                use_tau,
+                                f,
+                                get_geo_offset,
+                                k_coor,
+                                l_coor,
+                                density,
+                                mat);
         k_coor.clear();
         l_coor.clear();
         k_coor.push_back(coor[0]);
         k_coor.push_back(coor[1]);
         l_coor.push_back(coor[2]);
         l_coor.push_back(coor[3]);
-        diff_M_wrt_center_tuple(
-            mat_dim, use_gradient, use_tau, f, get_geo_offset, k_coor, l_coor, density, mat);
+        diff_M_wrt_center_tuple(mat_dim,
+                                num_aos,
+                                buffer_len,
+                                ao_centers,
+                                use_gradient,
+                                use_tau,
+                                f,
+                                get_geo_offset,
+                                k_coor,
+                                l_coor,
+                                density,
+                                mat);
         k_coor.clear();
         l_coor.clear();
         k_coor.push_back(coor[0]);
         l_coor.push_back(coor[1]);
         l_coor.push_back(coor[2]);
         l_coor.push_back(coor[3]);
-        diff_M_wrt_center_tuple(
-            mat_dim, use_gradient, use_tau, f, get_geo_offset, k_coor, l_coor, density, mat);
+        diff_M_wrt_center_tuple(mat_dim,
+                                num_aos,
+                                buffer_len,
+                                ao_centers,
+                                use_gradient,
+                                use_tau,
+                                f,
+                                get_geo_offset,
+                                k_coor,
+                                l_coor,
+                                density,
+                                mat);
         k_coor.clear();
         l_coor.clear();
         k_coor.push_back(coor[0]);
         k_coor.push_back(coor[1]);
         k_coor.push_back(coor[3]);
         l_coor.push_back(coor[2]);
-        diff_M_wrt_center_tuple(
-            mat_dim, use_gradient, use_tau, f, get_geo_offset, k_coor, l_coor, density, mat);
+        diff_M_wrt_center_tuple(mat_dim,
+                                num_aos,
+                                buffer_len,
+                                ao_centers,
+                                use_gradient,
+                                use_tau,
+                                f,
+                                get_geo_offset,
+                                k_coor,
+                                l_coor,
+                                density,
+                                mat);
         k_coor.clear();
         l_coor.clear();
         k_coor.push_back(coor[0]);
         k_coor.push_back(coor[2]);
         k_coor.push_back(coor[3]);
         l_coor.push_back(coor[1]);
-        diff_M_wrt_center_tuple(
-            mat_dim, use_gradient, use_tau, f, get_geo_offset, k_coor, l_coor, density, mat);
+        diff_M_wrt_center_tuple(mat_dim,
+                                num_aos,
+                                buffer_len,
+                                ao_centers,
+                                use_gradient,
+                                use_tau,
+                                f,
+                                get_geo_offset,
+                                k_coor,
+                                l_coor,
+                                density,
+                                mat);
         k_coor.clear();
         l_coor.clear();
         k_coor.push_back(coor[0]);
         k_coor.push_back(coor[2]);
         l_coor.push_back(coor[1]);
         l_coor.push_back(coor[3]);
-        diff_M_wrt_center_tuple(
-            mat_dim, use_gradient, use_tau, f, get_geo_offset, k_coor, l_coor, density, mat);
+        diff_M_wrt_center_tuple(mat_dim,
+                                num_aos,
+                                buffer_len,
+                                ao_centers,
+                                use_gradient,
+                                use_tau,
+                                f,
+                                get_geo_offset,
+                                k_coor,
+                                l_coor,
+                                density,
+                                mat);
         k_coor.clear();
         l_coor.clear();
         k_coor.push_back(coor[0]);
         k_coor.push_back(coor[3]);
         l_coor.push_back(coor[1]);
         l_coor.push_back(coor[2]);
-        diff_M_wrt_center_tuple(
-            mat_dim, use_gradient, use_tau, f, get_geo_offset, k_coor, l_coor, density, mat);
+        diff_M_wrt_center_tuple(mat_dim,
+                                num_aos,
+                                buffer_len,
+                                ao_centers,
+                                use_gradient,
+                                use_tau,
+                                f,
+                                get_geo_offset,
+                                k_coor,
+                                l_coor,
+                                density,
+                                mat);
         k_coor.clear();
         l_coor.clear();
         break;
@@ -736,30 +1000,26 @@ void AOBatch::get_mat_geo_derv(const int mat_dim,
     }
 }
 
-void AOBatch::diff_u_wrt_center_tuple(const int mat_dim,
-                                      const bool use_gradient,
-                                      const bool use_tau,
-                                      const double f,
-                                      std::function<int(int, int, int)> get_geo_offset,
-                                      const std::vector<int> &k_coor,
-                                      const std::vector<int> &l_coor,
-                                      double u[],
-                                      const double M[])
+void AOBatch::diff_u_wrt_center_tuple(
+    const int mat_dim,
+    const int num_aos,
+    const int buffer_len,
+    const int ao_centers[],
+    const bool use_gradient,
+    const bool use_tau,
+    const double f,
+    std::function<int(int, int, int)> get_geo_offset,
+    const std::vector<int> &k_coor,
+    const std::vector<int> &l_coor,
+    double u[],
+    const double M[])
 {
-    int max_ao_geo_order = 5; // FIXME hardcoded
-    int buffer_len = balboa_get_buffer_len(balboa_context, max_ao_geo_order, AO_BLOCK_LENGTH);
     double *k_ao_compressed = new double[buffer_len];
     int *k_ao_compressed_index = new int[buffer_len];
     int k_ao_compressed_num;
     double *l_ao_compressed = new double[buffer_len];
     int *l_ao_compressed_index = new int[buffer_len];
     int l_ao_compressed_num;
-    int num_aos = balboa_get_num_aos(balboa_context);
-    int *ao_centers = new int[num_aos];
-    for (int i = 0; i < num_aos; i++)
-    {
-        ao_centers[i] = balboa_get_ao_center(balboa_context, i);
-    }
     int slice_offsets[4];
     compute_slice_offsets(get_geo_offset, k_coor, slice_offsets);
     compress(use_gradient,
@@ -821,33 +1081,28 @@ void AOBatch::diff_u_wrt_center_tuple(const int mat_dim,
     delete[] k_ao_compressed_index;
     delete[] l_ao_compressed;
     delete[] l_ao_compressed_index;
-    delete[] ao_centers;
 }
 
-void AOBatch::diff_M_wrt_center_tuple(const int mat_dim,
-                                      const bool use_gradient,
-                                      const bool use_tau,
-                                      const double f,
-                                      std::function<int(int, int, int)> get_geo_offset,
-                                      const std::vector<int> &k_coor,
-                                      const std::vector<int> &l_coor,
-                                      const double u[],
-                                      double M[])
+void AOBatch::diff_M_wrt_center_tuple(
+    const int mat_dim,
+    const int num_aos,
+    const int buffer_len,
+    const int ao_centers[],
+    const bool use_gradient,
+    const bool use_tau,
+    const double f,
+    std::function<int(int, int, int)> get_geo_offset,
+    const std::vector<int> &k_coor,
+    const std::vector<int> &l_coor,
+    const double u[],
+    double M[])
 {
-    int max_ao_geo_order = 5; // FIXME hardcoded
-    int buffer_len = balboa_get_buffer_len(balboa_context, max_ao_geo_order, AO_BLOCK_LENGTH);
     double *k_ao_compressed = new double[buffer_len];
     int *k_ao_compressed_index = new int[buffer_len];
     int k_ao_compressed_num;
     double *l_ao_compressed = new double[buffer_len];
     int *l_ao_compressed_index = new int[buffer_len];
     int l_ao_compressed_num;
-    int num_aos = balboa_get_num_aos(balboa_context);
-    int *ao_centers = new int[num_aos];
-    for (int i = 0; i < num_aos; i++)
-    {
-        ao_centers[i] = balboa_get_ao_center(balboa_context, i);
-    }
     int slice_offsets[4];
     compute_slice_offsets(get_geo_offset, k_coor, slice_offsets);
     compress(use_gradient,
@@ -905,7 +1160,6 @@ void AOBatch::diff_M_wrt_center_tuple(const int mat_dim,
     delete[] k_ao_compressed_index;
     delete[] l_ao_compressed;
     delete[] l_ao_compressed_index;
-    delete[] ao_centers;
 }
 
 int AOBatch::set_basis(const int basis_type,
@@ -932,9 +1186,10 @@ int AOBatch::set_basis(const int basis_type,
     return ierr;
 }
 
-void AOBatch::compute_slice_offsets(std::function<int(int, int, int)> get_geo_offset,
-                                    const std::vector<int> &coor,
-                                    int off[])
+void AOBatch::compute_slice_offsets(
+    std::function<int(int, int, int)> get_geo_offset,
+    const std::vector<int> &coor,
+    int off[])
 {
     int kp[3] = {0, 0, 0};
     for (size_t j = 0; j < coor.size(); j++)

@@ -510,6 +510,8 @@ void AOBatch::get_density(const int mat_dim,
     int num_slices;
     (use_gradient) ? (num_slices = 4) : (num_slices = 1);
 
+    std::fill(&density[0], &density[num_slices*AO_BLOCK_LENGTH], 0.0);
+
     // assemble density and possibly gradient
     for (int islice = 0; islice < num_slices; islice++)
     {

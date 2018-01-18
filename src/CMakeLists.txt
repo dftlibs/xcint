@@ -3,7 +3,6 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(AO_BLOCK_LENGTH "128" CACHE STRING "AO block length")
-set(MAX_GEO_DIFF_ORDER "5" CACHE STRING "Maximum geometric differentiation order")
 configure_file(
     ${PROJECT_SOURCE_DIR}/src/parameters.h.in
     ${PROJECT_BINARY_DIR}/generated/generated_parameters.h

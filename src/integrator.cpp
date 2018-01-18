@@ -132,7 +132,6 @@ void XCint::integrate_batch(const double dmat[],
     std::fill(&n_is_used[0], &n_is_used[MAX_NUM_DENSITIES], false);
 
     int max_ao_geo_order = max_ao_order_g; // FIXME
-    assert(max_ao_geo_order <= MAX_GEO_DIFF_ORDER);
 
     int buffer_len = balboa_get_buffer_len(
         balboa_context, max_ao_geo_order, AO_BLOCK_LENGTH);

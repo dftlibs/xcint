@@ -14,10 +14,6 @@
 #include "generated_parameters.h"
 #include "xcint_parameters.h"
 
-#ifdef ENABLE_OMP
-#include "omp.h"
-#endif
-
 #define AS_TYPE(Type, Obj) reinterpret_cast<Type *>(Obj)
 #define AS_CTYPE(Type, Obj) reinterpret_cast<const Type *>(Obj)
 
@@ -808,113 +804,51 @@ int XCint::integrate(const xcint_mode_t mode,
     if (num_points % AO_BLOCK_LENGTH != 0)
         num_batches++;
 
-#ifdef ENABLE_OMP
-    int num_threads = 0;
-
-#pragma omp parallel
-    {
-        if (omp_get_thread_num() == 0)
-            num_threads = omp_get_num_threads();
-    }
-
-    double *exc_buffer = NULL;
-    if (get_exc)
-        exc_buffer = new double[num_threads];
-
-    double *num_electrons_buffer = new double[num_threads];
-
-    double *vxc_buffer = NULL;
-    if (get_vxc)
-    {
-        vxc_buffer = new double[num_threads * mat_dim * mat_dim];
-        std::fill(
-            &vxc_buffer[0], &vxc_buffer[num_threads * mat_dim * mat_dim], 0.0);
-    }
-
-#pragma omp parallel
-    {
-        int ithread = omp_get_thread_num();
-
-        double exc_local = 0.0;
-        double num_electrons_local = 0.0;
-
-        double *vxc_local = NULL;
-        if (get_vxc)
-            vxc_local = &vxc_buffer[ithread * mat_dim * mat_dim];
-
-#pragma omp for schedule(dynamic)
-#else
     double exc_local = *exc;
     double num_electrons_local = *num_electrons;
     double *vxc_local = NULL;
-    if (get_vxc)
-        vxc_local = &vxc[0];
-#endif
-        for (int ibatch = 0; ibatch < num_batches; ibatch++)
-        {
-            int ipoint = ibatch * AO_BLOCK_LENGTH;
 
-            if (num_points_left < AO_BLOCK_LENGTH)
-            {
-                block_length = num_points_left;
-            }
-            else
-            {
-                block_length = AO_BLOCK_LENGTH;
-            }
+    if (get_vxc) vxc_local = &vxc[0];
 
-            integrate_batch(dmat,
-                            get_exc,
-                            exc_local,
-                            get_vxc,
-                            vxc_local,
-                            num_electrons_local,
-                            geo_coor,
-                            use_dmat,
-                            ipoint,
-                            geo_derv_order,
-                            max_ao_order_g,
-                            block_length,
-                            num_variables,
-                            num_perturbations,
-                            num_fields,
-                            mat_dim,
-                            get_gradient,
-                            get_tau,
-                            dmat_index,
-                            grid);
-
-            num_points_left -= block_length;
-        }
-
-#ifdef ENABLE_OMP
-        if (get_exc)
-            exc_buffer[ithread] = exc_local;
-        num_electrons_buffer[ithread] = num_electrons_local;
-    }
-
-    for (size_t ithread = 0; ithread < num_threads; ithread++)
+    for (int ibatch = 0; ibatch < num_batches; ibatch++)
     {
-        num_electrons += num_electrons_buffer[ithread];
-        if (get_exc)
-            exc += exc_buffer[ithread];
-        if (get_vxc)
+        int ipoint = ibatch * AO_BLOCK_LENGTH;
+
+        if (num_points_left < AO_BLOCK_LENGTH)
         {
-            // FIXME consider using blas daxpy for this
-            for (int i = 0; i < mat_dim * mat_dim; i++)
-            {
-                vxc[i] += vxc_buffer[ithread * mat_dim * mat_dim + i];
-            }
+            block_length = num_points_left;
         }
+        else
+        {
+            block_length = AO_BLOCK_LENGTH;
+        }
+
+        integrate_batch(dmat,
+                        get_exc,
+                        exc_local,
+                        get_vxc,
+                        vxc_local,
+                        num_electrons_local,
+                        geo_coor,
+                        use_dmat,
+                        ipoint,
+                        geo_derv_order,
+                        max_ao_order_g,
+                        block_length,
+                        num_variables,
+                        num_perturbations,
+                        num_fields,
+                        mat_dim,
+                        get_gradient,
+                        get_tau,
+                        dmat_index,
+                        grid);
+
+        num_points_left -= block_length;
     }
 
-    delete[] num_electrons_buffer;
-    delete[] exc_buffer;
-    delete[] vxc_buffer;
-#else
     *exc = exc_local;
     *num_electrons = num_electrons_local;
-#endif
 
     delete[] use_dmat;
     delete[] dmat_index;

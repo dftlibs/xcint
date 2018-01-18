@@ -2,6 +2,7 @@
 
 #include <stdlib.h>
 #include <vector>
+#include <functional>
 
 #include "balboa.h"
 
@@ -60,6 +61,7 @@ class AOBatch
                           const bool use_gradient,
                           const bool use_tau,
                           const std::vector<int> &coor,
+                          std::function<int(int, int, int)> get_geo_offset,
                           const double density[],
                           double mat[]);
 
@@ -67,6 +69,7 @@ class AOBatch
                            const bool use_gradient,
                            const bool use_tau,
                            const std::vector<int> &coor,
+                           std::function<int(int, int, int)> get_geo_offset,
                            double density[],
                            const double mat[]);
 
@@ -80,6 +83,7 @@ class AOBatch
                                  const bool use_gradient,
                                  const bool use_tau,
                                  const double f,
+                                 std::function<int(int, int, int)> get_geo_offset,
                                  const std::vector<int> &k_coor,
                                  const std::vector<int> &l_coor,
                                  const double u[],
@@ -89,6 +93,7 @@ class AOBatch
                                  const bool use_gradient,
                                  const bool use_tau,
                                  const double f,
+                                 std::function<int(int, int, int)> get_geo_offset,
                                  const std::vector<int> &k_coor,
                                  const std::vector<int> &l_coor,
                                  double u[],
@@ -97,6 +102,7 @@ class AOBatch
     int ao_length;
     double *ao;
 
-    void compute_slice_offsets(const std::vector<int> &coor,
+    void compute_slice_offsets(std::function<int(int, int, int)> get_geo_offset,
+                               const std::vector<int> &coor,
                                int off[]);
 };

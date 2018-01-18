@@ -207,6 +207,8 @@ void XCint::integrate_batch(const double dmat[],
         ao_centers[i] = balboa_get_ao_center(balboa_context, i);
     }
     int slice_offsets[4];
+    auto get_geo_offset = [&](int i, int j, int k) { return balboa_get_geo_offset(balboa_context, i, j, k); };
+
     compute_slice_offsets(std::vector<int>(), slice_offsets);
     compress(get_gradient,
              ao_compressed_num,
@@ -412,6 +414,7 @@ void XCint::integrate_batch(const double dmat[],
                                          get_gradient,
                                          get_tau,
                                          coor,
+                                         get_geo_offset,
                                          &n[k * block_length * num_variables],
                                          &dmat[0]);
                 coor.clear();
@@ -485,6 +488,7 @@ void XCint::integrate_batch(const double dmat[],
                                          get_gradient,
                                          get_tau,
                                          coor,
+                                         get_geo_offset,
                                          &n[k * block_length * num_variables],
                                          &dmat[0]);
                 coor.clear();
@@ -519,6 +523,7 @@ void XCint::integrate_batch(const double dmat[],
                                          get_gradient,
                                          get_tau,
                                          coor,
+                                         get_geo_offset,
                                          &n[k * block_length * num_variables],
                                          &dmat[0]);
                 coor.clear();
@@ -555,6 +560,7 @@ void XCint::integrate_batch(const double dmat[],
                                          get_gradient,
                                          get_tau,
                                          coor,
+                                         get_geo_offset,
                                          &n[k * block_length * num_variables],
                                          &dmat[0]);
                 coor.clear();
@@ -571,6 +577,7 @@ void XCint::integrate_batch(const double dmat[],
                                          get_gradient,
                                          get_tau,
                                          coor,
+                                         get_geo_offset,
                                          &n[k * block_length * num_variables],
                                          &dmat[0]);
                 coor.clear();
@@ -588,6 +595,7 @@ void XCint::integrate_batch(const double dmat[],
                                          get_gradient,
                                          get_tau,
                                          coor,
+                                         get_geo_offset,
                                          &n[k * block_length * num_variables],
                                          &dmat[0]);
                 coor.clear();
@@ -669,6 +677,7 @@ void XCint::integrate_batch(const double dmat[],
                                          get_gradient,
                                          get_tau,
                                          coor,
+                                         get_geo_offset,
                                          &n[k * block_length * num_variables],
                                          &dmat[0]);
                 coor.clear();
@@ -685,6 +694,7 @@ void XCint::integrate_batch(const double dmat[],
                                          get_gradient,
                                          get_tau,
                                          coor,
+                                         get_geo_offset,
                                          &n[k * block_length * num_variables],
                                          &dmat[1 * mat_dim * mat_dim]);
                 coor.clear();
@@ -1141,8 +1151,9 @@ void XCint::distribute_matrix(const int block_length,
     }
     else
     {
+        auto get_geo_offset = [&](int i, int j, int k) { return balboa_get_geo_offset(balboa_context, i, j, k); };
         batch->get_mat_geo_derv(
-            mat_dim, distribute_gradient, distribute_tau, coor, u, vxc);
+            mat_dim, distribute_gradient, distribute_tau, coor, get_geo_offset, u, vxc);
     }
 
     for (int ib = 0; ib < block_length; ib++)

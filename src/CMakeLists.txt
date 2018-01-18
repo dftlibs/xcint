@@ -16,7 +16,6 @@ include_directories(
 
 add_library(
     xcint
-    CMakeLists.txt
     Functional.cpp
     Functional.h
     integrator.cpp

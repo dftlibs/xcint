@@ -39,7 +39,7 @@ class XCint
                   const bool get_vxc,
                   double vxc[],
                   double *num_electrons);
-             //   double *num_electrons) const;
+    //   double *num_electrons) const;
 
   private:
     XCint(const XCint &rhs);            // not implemented
@@ -66,7 +66,7 @@ class XCint
                            double &exc,
                            const std::vector<int> coor,
                            const double grid_w[]);
-             //            const double grid_w[]) const;
+    //            const double grid_w[]) const;
 
     void integrate_batch(const double dmat[],
                          const bool get_exc,
@@ -90,7 +90,7 @@ class XCint
                          const double grid_x_bohr[],
                          const double grid_y_bohr[],
                          const double grid_z_bohr[],
-                  //     const double grid_w[]) const;
+                         //     const double grid_w[]) const;
                          const double grid_w[]);
 
     void compute_slice_offsets(const std::vector<int> &coor, int off[]);

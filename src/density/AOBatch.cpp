@@ -12,7 +12,8 @@
 
 AOBatch::AOBatch()
 {
-    nullify();
+    ao_length = -1;
+    ao = NULL;
     assert(AO_BLOCK_LENGTH % AO_CHUNK_LENGTH == 0);
     balboa_context = balboa_new_context();
 }
@@ -20,14 +21,9 @@ AOBatch::AOBatch()
 AOBatch::~AOBatch()
 {
     delete[] ao;
-    nullify();
-    balboa_free_context(balboa_context);
-}
-
-void AOBatch::nullify()
-{
     ao_length = -1;
     ao = NULL;
+    balboa_free_context(balboa_context);
 }
 
 void AOBatch::get_ao(const bool use_gradient,

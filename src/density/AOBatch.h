@@ -110,8 +110,6 @@ class AOBatch
                                  double u[],
                                  const double M[]);
 
-    void nullify();
-
     int ao_length;
     double *ao;
 };

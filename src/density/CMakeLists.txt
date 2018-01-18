@@ -1,5 +1,4 @@
 set(AO_BLOCK_LENGTH "128" CACHE STRING "AO block length")
-set(AO_CHUNK_LENGTH "32" CACHE STRING "AO chunk length")
 
 configure_file(
     parameters.h.in

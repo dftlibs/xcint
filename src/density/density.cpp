@@ -1029,9 +1029,6 @@ void diff_u_wrt_center_tuple(const int mat_dim,
                              double u[],
                              const double M[])
 {
-    // FIXME move somewhere else
-    assert(AO_BLOCK_LENGTH % AO_CHUNK_LENGTH == 0);
-
     double *k_ao_compressed = new double[buffer_len];
     int *k_ao_compressed_index = new int[buffer_len];
     int k_ao_compressed_num;

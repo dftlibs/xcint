@@ -1,2 +1,1 @@
 const int AO_BLOCK_LENGTH = @AO_BLOCK_LENGTH@;
-const int AO_CHUNK_LENGTH = @AO_CHUNK_LENGTH@;

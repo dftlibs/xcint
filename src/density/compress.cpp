@@ -18,8 +18,8 @@ bool is_same_center(const int c, const std::vector<int> &carray)
 void compress(balboa_context_t *balboa_context,
               const bool use_gradient,
               int &aoc_num,
-              int *(&aoc_index),
-              double *(&aoc),
+              int aoc_index[],
+              double aoc[],
               double ao[],
               const std::vector<int> &coor)
 {

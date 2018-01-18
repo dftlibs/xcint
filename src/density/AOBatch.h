@@ -4,23 +4,11 @@
 #include <stdlib.h>
 #include <vector>
 
-#include "balboa.h"
-
 class AOBatch
 {
   public:
     AOBatch();
     ~AOBatch();
-
-    int set_basis(const int basis_type,
-                  const int num_centers,
-                  const double center_coordinates_bohr[],
-                  const int num_shells,
-                  const int shell_centers[],
-                  const int shell_l_quantum_numbers[],
-                  const int shell_num_primitives[],
-                  const double primitive_exponents[],
-                  const double contraction_coefficients[]);
 
     void distribute_matrix(const int mat_dim,
                            const bool use_gradient,
@@ -53,6 +41,7 @@ class AOBatch
     void get_mat_geo_derv(const int mat_dim,
                           const int num_aos,
                           const int buffer_len,
+			  const double ao[],
                           const int ao_centers[],
                           const bool use_gradient,
                           const bool use_tau,
@@ -64,6 +53,7 @@ class AOBatch
     void get_dens_geo_derv(const int mat_dim,
                            const int num_aos,
                            const int buffer_len,
+			  const double ao[],
                            const int ao_centers[],
                            const bool use_gradient,
                            const bool use_tau,
@@ -76,12 +66,11 @@ class AOBatch
     AOBatch(const AOBatch &rhs);            // not implemented
     AOBatch &operator=(const AOBatch &rhs); // not implemented
 
-    balboa_context_t *balboa_context;
-
     void
     diff_M_wrt_center_tuple(const int mat_dim,
                             const int num_aos,
                             const int buffer_len,
+                            const double ao[],
                             const int ao_centers[],
                             const bool use_gradient,
                             const bool use_tau,
@@ -96,6 +85,7 @@ class AOBatch
     diff_u_wrt_center_tuple(const int mat_dim,
                             const int num_aos,
                             const int buffer_len,
+                            const double ao[],
                             const int ao_centers[],
                             const bool use_gradient,
                             const bool use_tau,
@@ -105,9 +95,6 @@ class AOBatch
                             const std::vector<int> &l_coor,
                             double u[],
                             const double M[]);
-
-    int ao_length;
-    double *ao;
 
     void compute_slice_offsets(std::function<int(int, int, int)> get_geo_offset,
                                const std::vector<int> &coor,

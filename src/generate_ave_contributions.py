@@ -45,6 +45,7 @@ def get_fortran_code(j, density_index, dmat_index_rest):
     s += '        batch->get_dens_geo_derv(mat_dim,\n'
     s += '                                num_aos,\n'
     s += '                                buffer_len,\n'
+    s += '                                ao,\n'
     s += '                                ao_centers,\n'
     s += '                                get_gradient,\n'
     s += '                                get_tau,\n'

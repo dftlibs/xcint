@@ -134,14 +134,6 @@ void AOBatch::get_ao(const bool use_gradient,
     delete[] x_coordinates_bohr;
     delete[] y_coordinates_bohr;
     delete[] z_coordinates_bohr;
-
-    compress(balboa_context,
-             use_gradient,
-             ao_compressed_num,
-             ao_compressed_index,
-             ao_compressed,
-             ao,
-             std::vector<int>());
 }
 
 void AOBatch::distribute_matrix_undiff(const int mat_dim,
@@ -151,6 +143,15 @@ void AOBatch::distribute_matrix_undiff(const int mat_dim,
                                        const double u[],
                                        double fmat[])
 {
+
+    // FIXME can be moved one layer up since we need it also for density
+    compress(balboa_context,
+             use_gradient,
+             ao_compressed_num,
+             ao_compressed_index,
+             ao_compressed,
+             ao,
+             std::vector<int>());
     distribute_matrix(mat_dim,
                       use_gradient,
                       use_tau,
@@ -299,6 +300,14 @@ void AOBatch::get_density_undiff(const int mat_dim,
                                  const bool dmat_is_symmetric,
                                  const bool kl_match)
 {
+    // FIXME can be moved one layer up since we need it also for matrix distribution
+    compress(balboa_context,
+             use_gradient,
+             ao_compressed_num,
+             ao_compressed_index,
+             ao_compressed,
+             ao,
+             std::vector<int>());
     get_density(mat_dim,
                 use_gradient,
                 use_tau,

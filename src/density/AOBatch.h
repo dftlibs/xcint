@@ -114,4 +114,7 @@ class AOBatch
 
     int ao_length;
     double *ao;
+
+    void compute_slice_offsets(const std::vector<int> &coor,
+                               int off[]);
 };

@@ -81,13 +81,23 @@ void AOBatch::distribute_matrix_undiff(const int mat_dim,
     double *ao_compressed = new double[buffer_len];
     int *ao_compressed_index = new int[buffer_len];
     int ao_compressed_num;
-    compress(balboa_context,
-             use_gradient,
+    int num_aos = balboa_get_num_aos(balboa_context);
+    int *ao_centers = new int[num_aos];
+    for (int i = 0; i < num_aos; i++)
+    {
+        ao_centers[i] = balboa_get_ao_center(balboa_context, i);
+    }
+    int slice_offsets[4];
+    compute_slice_offsets(std::vector<int>(), slice_offsets);
+    compress(use_gradient,
              ao_compressed_num,
              ao_compressed_index,
              ao_compressed,
+             num_aos,
              ao,
-             std::vector<int>());
+             ao_centers,
+             std::vector<int>(),
+             slice_offsets);
     distribute_matrix(mat_dim,
                       use_gradient,
                       use_tau,
@@ -102,6 +112,7 @@ void AOBatch::distribute_matrix_undiff(const int mat_dim,
                       ao_compressed);
     delete[] ao_compressed;
     delete[] ao_compressed_index;
+    delete[] ao_centers;
 }
 
 void AOBatch::distribute_matrix(const int mat_dim,
@@ -240,13 +251,23 @@ void AOBatch::get_density_undiff(const int mat_dim,
     double *ao_compressed = new double[buffer_len];
     int *ao_compressed_index = new int[buffer_len];
     int ao_compressed_num;
-    compress(balboa_context,
-             use_gradient,
+    int num_aos = balboa_get_num_aos(balboa_context);
+    int *ao_centers = new int[num_aos];
+    for (int i = 0; i < num_aos; i++)
+    {
+        ao_centers[i] = balboa_get_ao_center(balboa_context, i);
+    }
+    int slice_offsets[4];
+    compute_slice_offsets(std::vector<int>(), slice_offsets);
+    compress(use_gradient,
              ao_compressed_num,
              ao_compressed_index,
              ao_compressed,
+             num_aos,
              ao,
-             std::vector<int>());
+             ao_centers,
+             std::vector<int>(),
+             slice_offsets);
     get_density(mat_dim,
                 use_gradient,
                 use_tau,
@@ -263,6 +284,7 @@ void AOBatch::get_density_undiff(const int mat_dim,
                 ao_compressed);
     delete[] ao_compressed;
     delete[] ao_compressed_index;
+    delete[] ao_centers;
 }
 
 void AOBatch::get_density(const int mat_dim,
@@ -826,21 +848,33 @@ void AOBatch::diff_u_wrt_center_tuple(const int mat_dim,
     double *l_ao_compressed = new double[buffer_len];
     int *l_ao_compressed_index = new int[buffer_len];
     int l_ao_compressed_num;
-    compress(balboa_context,
-             use_gradient,
+    int num_aos = balboa_get_num_aos(balboa_context);
+    int *ao_centers = new int[num_aos];
+    for (int i = 0; i < num_aos; i++)
+    {
+        ao_centers[i] = balboa_get_ao_center(balboa_context, i);
+    }
+    int slice_offsets[4];
+    compute_slice_offsets(k_coor, slice_offsets);
+    compress(use_gradient,
              k_ao_compressed_num,
              k_ao_compressed_index,
              k_ao_compressed,
+             num_aos,
              ao,
-             k_coor);
-
-    compress(balboa_context,
-             use_gradient,
+             ao_centers,
+             k_coor,
+             slice_offsets);
+    compute_slice_offsets(l_coor, slice_offsets);
+    compress(use_gradient,
              l_ao_compressed_num,
              l_ao_compressed_index,
              l_ao_compressed,
+             num_aos,
              ao,
-             l_coor);
+             ao_centers,
+             l_coor,
+             slice_offsets);
 
     double prefactors[5] = {f, f, f, f, 0.5 * f};
 
@@ -881,6 +915,7 @@ void AOBatch::diff_u_wrt_center_tuple(const int mat_dim,
     delete[] k_ao_compressed_index;
     delete[] l_ao_compressed;
     delete[] l_ao_compressed_index;
+    delete[] ao_centers;
 }
 
 void AOBatch::diff_M_wrt_center_tuple(const int mat_dim,
@@ -900,21 +935,33 @@ void AOBatch::diff_M_wrt_center_tuple(const int mat_dim,
     double *l_ao_compressed = new double[buffer_len];
     int *l_ao_compressed_index = new int[buffer_len];
     int l_ao_compressed_num;
-    compress(balboa_context,
-             use_gradient,
+    int num_aos = balboa_get_num_aos(balboa_context);
+    int *ao_centers = new int[num_aos];
+    for (int i = 0; i < num_aos; i++)
+    {
+        ao_centers[i] = balboa_get_ao_center(balboa_context, i);
+    }
+    int slice_offsets[4];
+    compute_slice_offsets(k_coor, slice_offsets);
+    compress(use_gradient,
              k_ao_compressed_num,
              k_ao_compressed_index,
              k_ao_compressed,
+             num_aos,
              ao,
-             k_coor);
-
-    compress(balboa_context,
-             use_gradient,
+             ao_centers,
+             k_coor,
+             slice_offsets);
+    compute_slice_offsets(l_coor, slice_offsets);
+    compress(use_gradient,
              l_ao_compressed_num,
              l_ao_compressed_index,
              l_ao_compressed,
+             num_aos,
              ao,
-             l_coor);
+             ao_centers,
+             l_coor,
+             slice_offsets);
 
     double prefactors[5] = {f, f, f, f, 0.5 * f};
 
@@ -951,6 +998,7 @@ void AOBatch::diff_M_wrt_center_tuple(const int mat_dim,
     delete[] k_ao_compressed_index;
     delete[] l_ao_compressed;
     delete[] l_ao_compressed_index;
+    delete[] ao_centers;
 }
 
 int AOBatch::set_basis(const int basis_type,
@@ -978,3 +1026,18 @@ int AOBatch::set_basis(const int basis_type,
 }
 
 int AOBatch::get_num_aos() { return balboa_get_num_aos(balboa_context); }
+
+
+void AOBatch::compute_slice_offsets(const std::vector<int> &coor,
+                                    int off[])
+{
+    int kp[3] = {0, 0, 0};
+    for (size_t j = 0; j < coor.size(); j++)
+    {
+        kp[(coor[j] - 1) % 3]++;
+    }
+    off[0] = balboa_get_geo_offset(balboa_context, kp[0], kp[1], kp[2]);
+    off[1] = balboa_get_geo_offset(balboa_context, kp[0] + 1, kp[1], kp[2]);
+    off[2] = balboa_get_geo_offset(balboa_context, kp[0], kp[1] + 1, kp[2]);
+    off[3] = balboa_get_geo_offset(balboa_context, kp[0], kp[1], kp[2] + 1);
+}

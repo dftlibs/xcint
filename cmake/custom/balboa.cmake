@@ -4,7 +4,7 @@ ExternalProject_Add(
     balboa
     PREFIX "${PROJECT_BINARY_DIR}/balboa"
     GIT_REPOSITORY https://github.com/bast/balboa.git
-    GIT_TAG 3a761627e07a2df57bdb991fefb49b81136d26a8
+    GIT_TAG c095e8ccf8fa797a55114723b1705e11751158b8
     INSTALL_COMMAND true  # currently no install command
     CMAKE_ARGS "-DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}"
     )

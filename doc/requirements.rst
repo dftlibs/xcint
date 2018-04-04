@@ -22,6 +22,6 @@ External libraries used by XCint
 
 - XCFun
       Copyright: Ulf Ekstrom,
-      licensed under LGPL Version 3
+      licensed under MPL version 2.0
 - Google Test
       Copyright: Google Inc.

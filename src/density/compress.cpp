@@ -3,8 +3,8 @@
 // size_t
 #include <cstddef>
 
-// fabs
-#include <math.h>
+// abs
+#include <cmath>
 
 bool is_same_center(const int c, const std::vector<int> &carray)
 {
@@ -45,7 +45,7 @@ void compress(const bool use_gradient,
             double tmax = 0.0;
             for (int ib = 0; ib < block_length; ib++)
             {
-                double t = fabs(aos[i * block_length + ib]);
+                double t = std::abs(aos[i * block_length + ib]);
                 if (t > tmax)
                     tmax = t;
             }

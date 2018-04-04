@@ -47,7 +47,7 @@ void distribute_matrix(const int mat_dim,
 
     for (int islice = 0; islice < num_slices; islice++)
     {
-        if (fabs(prefactors[islice]) > 0.0)
+        if (std::abs(prefactors[islice]) > 0.0)
         {
             for (int k = 0; k < k_aoc_num; k++)
             {
@@ -81,7 +81,7 @@ void distribute_matrix(const int mat_dim,
 
     if (use_tau)
     {
-        if (fabs(prefactors[4]) > 0.0)
+        if (std::abs(prefactors[4]) > 0.0)
         {
             for (int ixyz = 0; ixyz < 3; ixyz++)
             {
@@ -272,7 +272,7 @@ void get_density(const int mat_dim,
     // assemble density and possibly gradient
     for (int islice = 0; islice < num_slices; islice++)
     {
-        if (fabs(prefactors[islice]) > 0.0)
+        if (std::abs(prefactors[islice]) > 0.0)
         {
             for (int k = 0; k < k_aoc_num; k++)
             {
@@ -289,7 +289,7 @@ void get_density(const int mat_dim,
 
     if (use_tau)
     {
-        if (fabs(prefactors[4]) > 0.0)
+        if (std::abs(prefactors[4]) > 0.0)
         {
             for (int ixyz = 0; ixyz < 3; ixyz++)
             {

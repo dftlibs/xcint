@@ -298,7 +298,7 @@ void XCint::integrate_batch(const double dmat[],
         double sum = 0.0;
         for (int ib = 0; ib < block_length; ib++)
         {
-            if (n[ib] > 1.0e-14 and fabs(grid_w[ipoint + ib]) > 1.0e-30)
+            if (n[ib] > 1.0e-14 and std::abs(grid_w[ipoint + ib]) > 1.0e-30)
             {
                 xc_eval(xcfun,
                         &xcin[ib * num_variables * dens_offset],
@@ -1098,7 +1098,7 @@ void XCint::distribute_matrix2(const int block_length,
         std::fill(&xcout[0], &xcout[dens_offset * block_length], 0.0);
         for (int ib = 0; ib < block_length; ib++)
         {
-            if (n[ib] > 1.0e-14 and fabs(grid_w[w_off + ib]) > 1.0e-30)
+            if (n[ib] > 1.0e-14 and std::abs(grid_w[w_off + ib]) > 1.0e-30)
             {
                 xc_eval(xcfun,
                         &xcin[ib * num_variables * dens_offset],

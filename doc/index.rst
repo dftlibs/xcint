@@ -8,6 +8,6 @@ XCint - Integrate your exciting ideas
 
    purpose
    requirements
-   interfacing
    building
+   interfacing
    status

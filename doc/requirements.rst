@@ -4,7 +4,7 @@ System requirements
 ===================
 
 
-- CMake
+- CMake above 3.5
 - C and C++ compiler
 - BLAS library
 

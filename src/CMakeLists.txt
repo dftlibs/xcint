@@ -11,13 +11,6 @@ configure_file(
 
 add_subdirectory(density)
 
-include_directories(
-    ${PROJECT_BINARY_DIR}/external/include
-    ${PROJECT_SOURCE_DIR}/api
-    ${PROJECT_SOURCE_DIR}/src/density
-    ${PROJECT_BINARY_DIR}/generated
-    )
-
 add_library(
     xcint
     Functional.cpp
@@ -25,6 +18,19 @@ add_library(
     integrator.cpp
     integrator.h
     xcint_parameters.h
+    )
+
+target_link_libraries(
+    xcint
+    PRIVATE
+       density
+    )
+
+target_include_directories(
+    xcint
+    PRIVATE
+       ${PROJECT_BINARY_DIR}/external/include
+       ${PROJECT_BINARY_DIR}/generated
     )
 
 set_target_properties(xcint PROPERTIES COMPILE_FLAGS "-fPIC")

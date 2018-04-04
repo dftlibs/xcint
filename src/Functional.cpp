@@ -1,3 +1,6 @@
+#include "Functional.h"
+#include "xcfun.h"
+
 #include <math.h>
 
 #include <algorithm>
@@ -9,8 +12,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "Functional.h"
-#include "xcfun.h"
 
 Functional::Functional() { nullify(); }
 

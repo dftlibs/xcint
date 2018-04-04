@@ -1,9 +1,10 @@
+#include "compress.h"
+
 // size_t
 #include <cstddef>
 
-#include <math.h> // fabs
-
-#include "compress.h"
+// fabs
+#include <math.h>
 
 bool is_same_center(const int c, const std::vector<int> &carray)
 {

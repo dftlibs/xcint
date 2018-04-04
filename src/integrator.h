@@ -2,6 +2,7 @@
 
 #include "Functional.h"
 #include "balboa.h"
+#include "xcint.h"
 
 class XCint
 {

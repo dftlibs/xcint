@@ -1,3 +1,10 @@
+#include "integrator.h"
+
+#include "compress.h"
+#include "density.h"
+#include "generated_parameters.h"
+#include "xcint_parameters.h"
+
 #include "xcfun.h"
 #include "xcint.h"
 
@@ -8,13 +15,6 @@
 #include <algorithm>
 #include <cstdlib>
 #include <fstream>
-
-#include "integrator.h"
-
-#include "compress.h"
-#include "density.h"
-#include "generated_parameters.h"
-#include "xcint_parameters.h"
 
 #define AS_TYPE(Type, Obj) reinterpret_cast<Type *>(Obj)
 #define AS_CTYPE(Type, Obj) reinterpret_cast<const Type *>(Obj)

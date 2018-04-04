@@ -30,11 +30,13 @@ introduced by the caller in very few lines.  Not having MPI parallelization
 inside XCint simplifies the code and testing.
 
 
-Fortran interface
------------------
+Functional parsing
+------------------
 
-An optional Fortran interface is currently broken and will be restored/reintroduced
-as soon as the C interface stabilizes a bit.
+This is currently done inside the code but should move outside. The reason why the functional
+is parsed and tracked inside the code is that XCFun does not allow to track the same functional
+using both the Fortan and C interfaces in the same run. Moving the functional parsing out now
+would break the Fortran interface of XCint.
 
 
 Outlook

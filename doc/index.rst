@@ -11,6 +11,4 @@ XCint - Integrate your exciting ideas
    interfacing
    building
    api
-   basis_functions
-   xcfun
    status

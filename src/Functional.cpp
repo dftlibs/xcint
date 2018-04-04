@@ -1,16 +1,15 @@
 #include "Functional.h"
 #include "xcfun.h"
 
-#include <math.h>
-
+#include <cmath>
 #include <algorithm>
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <iterator>
 #include <sstream>
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
 
 
 Functional::Functional() { nullify(); }

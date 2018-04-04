@@ -5,11 +5,10 @@
 // size_t
 #include <cstddef>
 
-#include <math.h>
-#include <stdio.h>
-
+#include <cmath>
+#include <cstdio>
 #include <algorithm>
-#include <assert.h>
+#include <cassert>
 #include <iostream>
 
 void distribute_matrix(const int mat_dim,

@@ -1,5 +1,5 @@
 #include <fstream>
-#include <stdlib.h>  /* getenv */
+#include <cstdlib>  /* getenv */
 
 #include "gtest/gtest.h"
 

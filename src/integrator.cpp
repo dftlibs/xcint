@@ -8,9 +8,9 @@
 #include "xcfun.h"
 #include "xcint.h"
 
-#include <assert.h>
-#include <math.h>
-#include <time.h>
+#include <cassert>
+#include <cmath>
+#include <ctime>
 
 #include <algorithm>
 #include <cstdlib>

@@ -10,5 +10,4 @@ XCint - Integrate your exciting ideas
    requirements
    interfacing
    building
-   api
    status

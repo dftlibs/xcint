@@ -1,10 +1,11 @@
 
 
-===========
 Interfacing
 ===========
 
-Some hopefully useful hints for interfacing with other codes:
+
+General hints
+-------------
 
 The first is that the density matrix has to be scaled by half before calling
 the routine, and that is already counting that D is spin-restricted.

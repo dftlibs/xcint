@@ -44,7 +44,7 @@ if(ENABLE_UNIT_TESTS)
         density
         ${PROJECT_BINARY_DIR}/external/xcfun-build/libxcfun.a
         ${NUMGRID_LIBS}
-        ${BALBOA_LIBS}
+        ${PROJECT_BINARY_DIR}/balboa/src/balboa-build/lib/libbalboa.so
         ${MATH_LIBS}
         pthread
         )
@@ -59,9 +59,8 @@ if(ENABLE_UNIT_TESTS)
 
         target_link_libraries(
             fortran_test
-            ${BALBOA_LIBS}
             xcint_fortran
-            ${BALBOA_LIBS}
+            ${PROJECT_BINARY_DIR}/balboa/src/balboa-build/lib/libbalboa.so
             ${NUMGRID_LIBS}
             )
 

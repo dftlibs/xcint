@@ -9,8 +9,6 @@ ExternalProject_Add(
     CMAKE_ARGS "-DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}"
     )
 
-link_directories(${PROJECT_BINARY_DIR}/balboa/src/balboa-build/lib)
-
 # workaround:
 # different dynamic lib suffix on mac
 if(APPLE)
@@ -18,10 +16,6 @@ if(APPLE)
 else()
     set(_dyn_lib_suffix so)
 endif()
-
-set(BALBOA_LIBS
-    libbalboa.${_dyn_lib_suffix}
-    )
 
 include_directories(${PROJECT_BINARY_DIR}/balboa/src/balboa/balboa)
 include_directories(${PROJECT_BINARY_DIR}/balboa/src/balboa-build/include)

@@ -24,6 +24,7 @@ target_link_libraries(
     xcint
     PRIVATE
        density
+       ${PROJECT_BINARY_DIR}/balboa/src/balboa-build/lib/libbalboa.so
     )
 
 target_include_directories(

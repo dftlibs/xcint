@@ -60,8 +60,9 @@ if(ENABLE_UNIT_TESTS)
         target_link_libraries(
             fortran_test
             xcint_fortran
-            ${PROJECT_BINARY_DIR}/balboa/src/balboa-build/lib/libbalboa.so
             ${NUMGRID_LIBS}
+            ${PROJECT_BINARY_DIR}/balboa/src/balboa-build/lib/libbalboa.so
+            ${MATH_LIBS}
             )
 
         set_target_properties(fortran_test PROPERTIES LINKER_LANGUAGE Fortran)

@@ -31,6 +31,7 @@ target_include_directories(
     PRIVATE
        ${PROJECT_BINARY_DIR}/external/include
        ${PROJECT_BINARY_DIR}/generated
+       ${PROJECT_BINARY_DIR}/balboa/src/balboa/balboa/
     )
 
 set_target_properties(xcint PROPERTIES COMPILE_FLAGS "-fPIC")

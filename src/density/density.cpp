@@ -365,8 +365,8 @@ void get_density(const int mat_dim,
 }
 
 void get_dens_geo_derv(const int mat_dim,
-                       const int block_length,
                        const int num_aos,
+                       const int block_length,
                        const int buffer_len,
                        const double ao[],
                        const int ao_centers[],
@@ -406,8 +406,8 @@ void get_dens_geo_derv(const int mat_dim,
     case 1:
         k_coor.push_back(coor[0]);
         diff_u_wrt_center_tuple(mat_dim,
-                                block_length,
                                 num_aos,
+                                block_length,
                                 buffer_len,
                                 ao,
                                 ao_centers,
@@ -426,8 +426,8 @@ void get_dens_geo_derv(const int mat_dim,
         k_coor.push_back(coor[0]);
         k_coor.push_back(coor[1]);
         diff_u_wrt_center_tuple(mat_dim,
-                                block_length,
                                 num_aos,
+                                block_length,
                                 buffer_len,
                                 ao,
                                 ao_centers,
@@ -444,8 +444,8 @@ void get_dens_geo_derv(const int mat_dim,
         k_coor.push_back(coor[0]);
         l_coor.push_back(coor[1]);
         diff_u_wrt_center_tuple(mat_dim,
-                                block_length,
                                 num_aos,
+                                block_length,
                                 buffer_len,
                                 ao,
                                 ao_centers,
@@ -465,8 +465,8 @@ void get_dens_geo_derv(const int mat_dim,
         k_coor.push_back(coor[1]);
         k_coor.push_back(coor[2]);
         diff_u_wrt_center_tuple(mat_dim,
-                                block_length,
                                 num_aos,
+                                block_length,
                                 buffer_len,
                                 ao,
                                 ao_centers,
@@ -484,8 +484,8 @@ void get_dens_geo_derv(const int mat_dim,
         k_coor.push_back(coor[1]);
         l_coor.push_back(coor[2]);
         diff_u_wrt_center_tuple(mat_dim,
-                                block_length,
                                 num_aos,
+                                block_length,
                                 buffer_len,
                                 ao,
                                 ao_centers,
@@ -503,8 +503,8 @@ void get_dens_geo_derv(const int mat_dim,
         l_coor.push_back(coor[1]);
         l_coor.push_back(coor[2]);
         diff_u_wrt_center_tuple(mat_dim,
-                                block_length,
                                 num_aos,
+                                block_length,
                                 buffer_len,
                                 ao,
                                 ao_centers,
@@ -522,8 +522,8 @@ void get_dens_geo_derv(const int mat_dim,
         k_coor.push_back(coor[2]);
         l_coor.push_back(coor[1]);
         diff_u_wrt_center_tuple(mat_dim,
-                                block_length,
                                 num_aos,
+                                block_length,
                                 buffer_len,
                                 ao,
                                 ao_centers,
@@ -544,8 +544,8 @@ void get_dens_geo_derv(const int mat_dim,
         k_coor.push_back(coor[2]);
         k_coor.push_back(coor[3]);
         diff_u_wrt_center_tuple(mat_dim,
-                                block_length,
                                 num_aos,
+                                block_length,
                                 buffer_len,
                                 ao,
                                 ao_centers,
@@ -564,8 +564,8 @@ void get_dens_geo_derv(const int mat_dim,
         k_coor.push_back(coor[2]);
         l_coor.push_back(coor[3]);
         diff_u_wrt_center_tuple(mat_dim,
-                                block_length,
                                 num_aos,
+                                block_length,
                                 buffer_len,
                                 ao,
                                 ao_centers,
@@ -584,8 +584,8 @@ void get_dens_geo_derv(const int mat_dim,
         l_coor.push_back(coor[2]);
         l_coor.push_back(coor[3]);
         diff_u_wrt_center_tuple(mat_dim,
-                                block_length,
                                 num_aos,
+                                block_length,
                                 buffer_len,
                                 ao,
                                 ao_centers,
@@ -604,8 +604,8 @@ void get_dens_geo_derv(const int mat_dim,
         l_coor.push_back(coor[2]);
         l_coor.push_back(coor[3]);
         diff_u_wrt_center_tuple(mat_dim,
-                                block_length,
                                 num_aos,
+                                block_length,
                                 buffer_len,
                                 ao,
                                 ao_centers,
@@ -624,8 +624,8 @@ void get_dens_geo_derv(const int mat_dim,
         k_coor.push_back(coor[3]);
         l_coor.push_back(coor[2]);
         diff_u_wrt_center_tuple(mat_dim,
-                                block_length,
                                 num_aos,
+                                block_length,
                                 buffer_len,
                                 ao,
                                 ao_centers,
@@ -644,8 +644,8 @@ void get_dens_geo_derv(const int mat_dim,
         k_coor.push_back(coor[3]);
         l_coor.push_back(coor[1]);
         diff_u_wrt_center_tuple(mat_dim,
-                                block_length,
                                 num_aos,
+                                block_length,
                                 buffer_len,
                                 ao,
                                 ao_centers,
@@ -664,8 +664,8 @@ void get_dens_geo_derv(const int mat_dim,
         l_coor.push_back(coor[1]);
         l_coor.push_back(coor[3]);
         diff_u_wrt_center_tuple(mat_dim,
-                                block_length,
                                 num_aos,
+                                block_length,
                                 buffer_len,
                                 ao,
                                 ao_centers,
@@ -684,8 +684,8 @@ void get_dens_geo_derv(const int mat_dim,
         l_coor.push_back(coor[1]);
         l_coor.push_back(coor[2]);
         diff_u_wrt_center_tuple(mat_dim,
-                                block_length,
                                 num_aos,
+                                block_length,
                                 buffer_len,
                                 ao,
                                 ao_centers,
@@ -708,8 +708,8 @@ void get_dens_geo_derv(const int mat_dim,
 }
 
 void get_mat_geo_derv(const int mat_dim,
-                      const int block_length,
                       const int num_aos,
+                      const int block_length,
                       const int buffer_len,
                       const double ao[],
                       const int ao_centers[],
@@ -749,8 +749,8 @@ void get_mat_geo_derv(const int mat_dim,
     case 1:
         k_coor.push_back(coor[0]);
         diff_M_wrt_center_tuple(mat_dim,
-                                block_length,
                                 num_aos,
+                                block_length,
                                 buffer_len,
                                 ao,
                                 ao_centers,
@@ -769,8 +769,8 @@ void get_mat_geo_derv(const int mat_dim,
         k_coor.push_back(coor[0]);
         k_coor.push_back(coor[1]);
         diff_M_wrt_center_tuple(mat_dim,
-                                block_length,
                                 num_aos,
+                                block_length,
                                 buffer_len,
                                 ao,
                                 ao_centers,
@@ -787,8 +787,8 @@ void get_mat_geo_derv(const int mat_dim,
         k_coor.push_back(coor[0]);
         l_coor.push_back(coor[1]);
         diff_M_wrt_center_tuple(mat_dim,
-                                block_length,
                                 num_aos,
+                                block_length,
                                 buffer_len,
                                 ao,
                                 ao_centers,
@@ -808,8 +808,8 @@ void get_mat_geo_derv(const int mat_dim,
         k_coor.push_back(coor[1]);
         k_coor.push_back(coor[2]);
         diff_M_wrt_center_tuple(mat_dim,
-                                block_length,
                                 num_aos,
+                                block_length,
                                 buffer_len,
                                 ao,
                                 ao_centers,
@@ -827,8 +827,8 @@ void get_mat_geo_derv(const int mat_dim,
         k_coor.push_back(coor[1]);
         l_coor.push_back(coor[2]);
         diff_M_wrt_center_tuple(mat_dim,
-                                block_length,
                                 num_aos,
+                                block_length,
                                 buffer_len,
                                 ao,
                                 ao_centers,
@@ -846,8 +846,8 @@ void get_mat_geo_derv(const int mat_dim,
         l_coor.push_back(coor[1]);
         l_coor.push_back(coor[2]);
         diff_M_wrt_center_tuple(mat_dim,
-                                block_length,
                                 num_aos,
+                                block_length,
                                 buffer_len,
                                 ao,
                                 ao_centers,
@@ -865,8 +865,8 @@ void get_mat_geo_derv(const int mat_dim,
         k_coor.push_back(coor[2]);
         l_coor.push_back(coor[1]);
         diff_M_wrt_center_tuple(mat_dim,
-                                block_length,
                                 num_aos,
+                                block_length,
                                 buffer_len,
                                 ao,
                                 ao_centers,
@@ -887,8 +887,8 @@ void get_mat_geo_derv(const int mat_dim,
         k_coor.push_back(coor[2]);
         k_coor.push_back(coor[3]);
         diff_M_wrt_center_tuple(mat_dim,
-                                block_length,
                                 num_aos,
+                                block_length,
                                 buffer_len,
                                 ao,
                                 ao_centers,
@@ -907,8 +907,8 @@ void get_mat_geo_derv(const int mat_dim,
         k_coor.push_back(coor[2]);
         l_coor.push_back(coor[3]);
         diff_M_wrt_center_tuple(mat_dim,
-                                block_length,
                                 num_aos,
+                                block_length,
                                 buffer_len,
                                 ao,
                                 ao_centers,
@@ -927,8 +927,8 @@ void get_mat_geo_derv(const int mat_dim,
         l_coor.push_back(coor[2]);
         l_coor.push_back(coor[3]);
         diff_M_wrt_center_tuple(mat_dim,
-                                block_length,
                                 num_aos,
+                                block_length,
                                 buffer_len,
                                 ao,
                                 ao_centers,
@@ -947,8 +947,8 @@ void get_mat_geo_derv(const int mat_dim,
         l_coor.push_back(coor[2]);
         l_coor.push_back(coor[3]);
         diff_M_wrt_center_tuple(mat_dim,
-                                block_length,
                                 num_aos,
+                                block_length,
                                 buffer_len,
                                 ao,
                                 ao_centers,
@@ -967,8 +967,8 @@ void get_mat_geo_derv(const int mat_dim,
         k_coor.push_back(coor[3]);
         l_coor.push_back(coor[2]);
         diff_M_wrt_center_tuple(mat_dim,
-                                block_length,
                                 num_aos,
+                                block_length,
                                 buffer_len,
                                 ao,
                                 ao_centers,
@@ -987,8 +987,8 @@ void get_mat_geo_derv(const int mat_dim,
         k_coor.push_back(coor[3]);
         l_coor.push_back(coor[1]);
         diff_M_wrt_center_tuple(mat_dim,
-                                block_length,
                                 num_aos,
+                                block_length,
                                 buffer_len,
                                 ao,
                                 ao_centers,
@@ -1007,8 +1007,8 @@ void get_mat_geo_derv(const int mat_dim,
         l_coor.push_back(coor[1]);
         l_coor.push_back(coor[3]);
         diff_M_wrt_center_tuple(mat_dim,
-                                block_length,
                                 num_aos,
+                                block_length,
                                 buffer_len,
                                 ao,
                                 ao_centers,
@@ -1027,8 +1027,8 @@ void get_mat_geo_derv(const int mat_dim,
         l_coor.push_back(coor[1]);
         l_coor.push_back(coor[2]);
         diff_M_wrt_center_tuple(mat_dim,
-                                block_length,
                                 num_aos,
+                                block_length,
                                 buffer_len,
                                 ao,
                                 ao_centers,
@@ -1051,8 +1051,8 @@ void get_mat_geo_derv(const int mat_dim,
 }
 
 void diff_u_wrt_center_tuple(const int mat_dim,
-                             const int block_length,
                              const int num_aos,
+                             const int block_length,
                              const int buffer_len,
                              const double ao[],
                              const int ao_centers[],
@@ -1139,8 +1139,8 @@ void diff_u_wrt_center_tuple(const int mat_dim,
 }
 
 void diff_M_wrt_center_tuple(const int mat_dim,
-                             const int block_length,
                              const int num_aos,
+                             const int block_length,
                              const int buffer_len,
                              const double ao[],
                              const int ao_centers[],

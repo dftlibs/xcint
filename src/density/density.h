@@ -60,8 +60,8 @@ void get_dens_geo_derv(const int mat_dim,
                        const double mat[]);
 
 void diff_M_wrt_center_tuple(const int mat_dim,
-                             const int block_length,
                              const int num_aos,
+                             const int block_length,
                              const int buffer_len,
                              const double ao[],
                              const int ao_centers[],
@@ -75,8 +75,8 @@ void diff_M_wrt_center_tuple(const int mat_dim,
                              double M[]);
 
 void diff_u_wrt_center_tuple(const int mat_dim,
-                             const int block_length,
                              const int num_aos,
+                             const int block_length,
                              const int buffer_len,
                              const double ao[],
                              const int ao_centers[],

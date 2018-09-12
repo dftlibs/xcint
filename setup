@@ -25,11 +25,6 @@ Options:
   --extra-cxx-flags=<EXTRA_CXXFLAGS>     Extra C++ compiler flags [default: ''].
   --coverage                             Enable code coverage [default: OFF].
   --omp                                  Enable OpenMP parallelization [default: False].
-  --blas=<BLAS>                          Detect and link BLAS library (auto or off) [default: auto].
-  --lapack=<LAPACK>                      Detect and link LAPACK library (auto or off) [default: auto].
-  --mkl=<MKL>                            Pass MKL flag to the Intel compiler and linker and skip BLAS/LAPACK detection (sequential, parallel, cluster, or off) [default: off].
-  --scalapack=<SCALAPACK_LIBRARIES>      Link line for ScaLAPACK libraries [default: ]
-  --blacs=<BLACS_IMPLEMENTATION>         Implementation of BLACS for MKL ScaLAPACK (openmpi, intelmpi, sgimpt) [default: openmpi]
   --python=<PYTHON_INTERPRETER>          The Python interpreter (development version) to use. [default: ''].
   --type=<TYPE>                          Set the CMake build type (debug, release, relwithdebinfo, minsizerel) [default: release].
   --generator=<STRING>                   Set the CMake build system generator [default: Unix Makefiles].
@@ -53,14 +48,6 @@ def gen_cmake_command(options, arguments):
     command.append('-DCMAKE_CXX_COMPILER={0} -DEXTRA_CXXFLAGS="{1}"'.format(arguments['--cxx'], arguments['--extra-cxx-flags']))
     command.append('-DENABLE_CODE_COVERAGE={0}'.format(arguments['--coverage']))
     command.append('-DENABLE_OPENMP={0}'.format(arguments['--omp']))
-    command.append('-DENABLE_BLAS={0}'.format(arguments['--blas']))
-    command.append('-DENABLE_LAPACK={0}'.format(arguments['--lapack']))
-    command.append('-DMKL_FLAG={0}'.format(arguments['--mkl']))
-    command.append('-DMATH_LIB_SEARCH_ORDER="MKL;ESSL;OPENBLAS;ATLAS;ACML;SYSTEM_NATIVE"')
-    command.append('-DBLAS_LANG=Fortran')
-    command.append('-DLAPACK_LANG=Fortran')
-    command.append('-DSCALAPACK_LIBRARIES="{0}"'.format(arguments['--scalapack']))
-    command.append('-DBLACS_IMPLEMENTATION="{0}"'.format(arguments['--blacs']))
     command.append('-DPYTHON_INTERPRETER="{0}"'.format(arguments['--python']))
     command.append('-DCMAKE_BUILD_TYPE={0}'.format(arguments['--type']))
     command.append('-G"{0}"'.format(arguments['--generator']))

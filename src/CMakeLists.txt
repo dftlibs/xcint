@@ -46,7 +46,6 @@ add_library(
 if(APPLE)
     target_link_libraries(
         xcint_shared
-        ${MATH_LIBS}
         "-Wl, -force_load"
         xcint
         density
@@ -55,7 +54,6 @@ if(APPLE)
 else()
     target_link_libraries(
         xcint_shared
-        ${MATH_LIBS}
         "-Wl,--whole-archive"
         xcint
         density

@@ -37,6 +37,8 @@ if(ENABLE_UNIT_TESTS)
         set(_dyn_lib_suffix so)
     endif()
 
+    find_package(BLAS REQUIRED)
+
     target_link_libraries(
         cpp_test
         libgtest.a
@@ -45,7 +47,7 @@ if(ENABLE_UNIT_TESTS)
         ${PROJECT_BINARY_DIR}/external/xcfun-build/libxcfun.a
         ${NUMGRID_LIBS}
         ${PROJECT_BINARY_DIR}/balboa/src/balboa-build/lib/libbalboa.so
-        ${MATH_LIBS}
+        ${BLAS_LIBRARIES}
         pthread
         )
 
@@ -62,7 +64,7 @@ if(ENABLE_UNIT_TESTS)
             xcint_fortran
             ${NUMGRID_LIBS}
             ${PROJECT_BINARY_DIR}/balboa/src/balboa-build/lib/libbalboa.so
-            ${MATH_LIBS}
+            ${BLAS_LIBRARIES}
             )
 
         set_target_properties(fortran_test PROPERTIES LINKER_LANGUAGE Fortran)

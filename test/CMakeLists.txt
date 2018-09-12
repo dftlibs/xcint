@@ -77,6 +77,9 @@ if(ENABLE_UNIT_TESTS)
     target_link_libraries(
       fortran_test
       xcint_fortran
+      xcint
+      density
+      ${PROJECT_BINARY_DIR}/external/xcfun-build/libxcfun.a
       ${NUMGRID_LIBS}
       ${PROJECT_BINARY_DIR}/balboa/src/balboa-build/lib/libbalboa.so
       ${BLAS_LIBRARIES}

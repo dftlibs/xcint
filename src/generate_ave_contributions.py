@@ -4,7 +4,7 @@ import math
 import itertools
 
 
-def add_perturbation(l, debug=False):
+def add_perturbation(l):
     order = int(math.log(len(l)+1, 2))
     l_new = []
     for x in l:
@@ -14,8 +14,6 @@ def add_perturbation(l, debug=False):
         y = x[:]
         y.extend([order+1])
         l_new.append(y)
-    if debug:
-        print(l_new)
     return l_new
 
 

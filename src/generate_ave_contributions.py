@@ -31,8 +31,8 @@ def get_fortran_code(j, density_index, dmat_index_rest):
     for i in j:
         s += '        coor.push_back(geo_coor[%i]);\n' % int(i-1)
     s += '            get_dens_geo_derv(mat_dim,\n'
-    s += '                              block_length,\n'
     s += '                              num_aos,\n'
+    s += '                              block_length,\n'
     s += '                              buffer_len,\n'
     s += '                              ao,\n'
     s += '                              ao_centers,\n'

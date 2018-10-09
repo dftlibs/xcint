@@ -17,17 +17,9 @@ def add_perturbation(l):
     return l_new
 
 
-def highest_element(t):
-    i = 0
-    for x in t:
-        if x > i:
-            i = x
-    return i
-
-
 def get_fortran_code(j, density_index, dmat_index_rest):
     s  = ''
-    s += 'if (geo_derv_order > %i)\n' % (highest_element(j)-1)
+    s += 'if (geo_derv_order > %i)\n' % (max(j) - 1)
     s += '{\n'
     s += '    if (use_dmat[%i])\n' % dmat_index_rest
     s += '    {\n'

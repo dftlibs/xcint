@@ -266,7 +266,9 @@ void get_density(const int mat_dim,
     int num_slices;
     (use_gradient) ? (num_slices = 4) : (num_slices = 1);
 
-    std::fill(&density[0], &density[num_slices * block_length], 0.0);
+//  it is not ok to zero out here since geometric
+//  derivatives are accumulated from several contributions
+//  std::fill(&density[0], &density[num_slices * block_length], 0.0);
 
     // assemble density and possibly gradient
     for (int islice = 0; islice < num_slices; islice++)

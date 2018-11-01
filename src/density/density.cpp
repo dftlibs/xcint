@@ -67,16 +67,27 @@ void distribute_matrix(const int mat_dim,
     // we transpose W instead of AO_l because we call fortran blas
     char ta = 't';
     char tb = 'n';
-    int im = k_aoc_num;
-    int in = l_aoc_num;
+    int im = l_aoc_num;
+    int in = k_aoc_num;
     int ik = block_length;
     int lda = ik;
     int ldb = ik;
     int ldc = im;
     double alpha = 1.0;
     double beta = 0.0;
-    wrap_dgemm(
-        &ta, &tb, &im, &in, &ik, &alpha, W, &lda, l_aoc, &ldb, &beta, F, &ldc);
+    wrap_dgemm(&ta,
+               &tb,
+               &im,
+               &in,
+               &ik,
+               &alpha,
+               l_aoc,
+               &lda,
+               W,
+               &ldb,
+               &beta,
+               F,
+               &ldc);
 
     if (use_tau)
     {

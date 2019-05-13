@@ -4,7 +4,7 @@ ExternalProject_Add(
   numgrid
   PREFIX "${PROJECT_BINARY_DIR}/numgrid"
   GIT_REPOSITORY https://github.com/dftlibs/numgrid.git
-  GIT_TAG v1.0.2
+  GIT_TAG v1.1.0
   INSTALL_COMMAND true  # currently no install command
   CMAKE_ARGS
     -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}

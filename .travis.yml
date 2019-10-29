@@ -11,10 +11,9 @@ addons:
     sources:
       - ubuntu-toolchain-r-test
     packages:
-      - g++-7
-      - gfortran-7
+      - g++
+      - gfortran
       - libblas-dev
-      - libblas3gf
       - python-virtualenv
 
 install:
@@ -38,8 +37,8 @@ before_script:
 
 script:
   - git submodule update --init --recursive
-  - if test ${TRAVIS_OS_NAME} = linux; then ./setup --cxx=g++-7 --fc=gfortran-7 --coverage --type=debug;
-                                       else ./setup --cxx=g++-7 --fc=gfortran-7            --type=debug; fi
+  - if test ${TRAVIS_OS_NAME} = linux; then ./setup --cxx=g++ --fc=gfortran --coverage --type=debug;
+                                       else ./setup --cxx=g++ --fc=gfortran            --type=debug; fi
   - cd build
   - make
   - make test

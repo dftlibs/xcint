@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include "xcfun.h"
+#include "XCFun/xcfun.h"
 
 class Functional
 {

@@ -1,5 +1,4 @@
 #include "Functional.h"
-#include "xcfun.h"
 
 #include <cmath>
 #include <algorithm>

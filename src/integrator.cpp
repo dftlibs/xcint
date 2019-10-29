@@ -5,7 +5,7 @@
 #include "generated_parameters.h"
 #include "xcint_parameters.h"
 
-#include "xcfun.h"
+#include "XCFun/xcfun.h"
 #include "xcint.h"
 
 #include <cassert>

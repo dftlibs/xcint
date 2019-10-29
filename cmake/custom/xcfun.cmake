@@ -1,24 +1,18 @@
 include(FetchContent)
 
+set(XCFun_XC_MAX_ORDER 6)
+
 FetchContent_Populate(xcfun_sources
   QUIET
   GIT_REPOSITORY
     https://github.com/dftlibs/xcfun.git
   GIT_TAG
     ca137ba62577796b6cf916fbb83ab79784096ecf
-  CMAKE_ARGS
-    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-    -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
-    -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
-    -DENABLE_FORTRAN_INTERFACE=OFF
-    -DENABLE_TESTALL=OFF
-    -DXCFun_XC_MAX_ORDER=6
-  CMAKE_CACHE_ARGS
-    -DCMAKE_C_FLAGS:STRING=${CMAKE_C_FLAGS}
-    -DCMAKE_CXX_FLAGS:STRING=${CMAKE_CXX_FLAGS}
   )
 
 add_subdirectory(
   ${xcfun_sources_SOURCE_DIR}
   ${xcfun_sources_BINARY_DIR}
   )
+
+unset(XCFun_XC_MAX_ORDER)

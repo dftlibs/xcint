@@ -11,6 +11,7 @@ ExternalProject_Add(
     -DCMAKE_Fortran_COMPILER=${CMAKE_Fortran_COMPILER}
     -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
     -DENABLE_UNIT_TESTS=OFF
+    -DENABLE_FC_SUPPORT=ON
   )
 
 include(GNUInstallDirs)

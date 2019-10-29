@@ -8,7 +8,7 @@ set(ExternalProjectCMakeArgs
     -DENABLE_FORTRAN_INTERFACE=OFF
     -DENABLE_TESTALL=OFF
     -DENABLE_STATIC_LINKING=ON # we need the -fPIC
-    -DXC_MAX_ORDER=6
+    -DXCFun_XC_MAX_ORDER=6
     )
 
 ExternalProject_Add(xcfun

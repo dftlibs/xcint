@@ -25,14 +25,15 @@ target_link_libraries(
   xcint
   PRIVATE
     density
+    xcfun
     ${PROJECT_BINARY_DIR}/balboa/src/balboa-build/lib/libbalboa.so
   )
 
 target_include_directories(
   xcint
   PRIVATE
-    ${PROJECT_BINARY_DIR}/external/include
-    ${PROJECT_BINARY_DIR}/generated
+    ${PROJECT_BINARY_DIR}/xcfun_sources-build/include/
+    ${PROJECT_BINARY_DIR}/generated/
     ${PROJECT_BINARY_DIR}/balboa/src/balboa/balboa/
   )
 

@@ -56,7 +56,6 @@ if(ENABLE_UNIT_TESTS)
     gtest_main
     xcint
     density
-    ${PROJECT_BINARY_DIR}/external/xcfun-build/lib64/libxcfun.a
     ${NUMGRID_LIBS}
     ${PROJECT_BINARY_DIR}/balboa/src/balboa-build/lib/libbalboa.so
     ${BLAS_LIBRARIES}
@@ -79,7 +78,6 @@ if(ENABLE_UNIT_TESTS)
       xcint_fortran
       xcint
       density
-      ${PROJECT_BINARY_DIR}/external/xcfun-build/lib64/libxcfun.a
       ${NUMGRID_LIBS}
       ${PROJECT_BINARY_DIR}/balboa/src/balboa-build/lib/libbalboa.so
       ${BLAS_LIBRARIES}

@@ -20,7 +20,7 @@
 #define AS_CTYPE(Type, Obj) reinterpret_cast<const Type *>(Obj)
 
 // FIXME ugly global
-xc_functional xcfun;
+xcfun_t * xcfun;
 int dens_offset;
 
 XCINT_API
@@ -300,7 +300,7 @@ void XCint::integrate_batch(const double dmat[],
         {
             if (n[ib] > 1.0e-14 and std::abs(grid_w[ipoint + ib]) > 1.0e-30)
             {
-                xc_eval(xcfun,
+                xcfun_eval(xcfun,
                         &xcin[ib * num_variables * dens_offset],
                         &xcout[ib * dens_offset]);
                 sum += xcout[ib * dens_offset + dens_offset - 1] *
@@ -852,10 +852,10 @@ int XCint::integrate(const xcint_mode_t mode,
                      //  double *num_electrons) const
                      double *num_electrons)
 {
-    xcfun = xc_new_functional();
+    xcfun = xcfun_new();
     for (size_t i = 0; i < fun.keys.size(); i++)
     {
-        int ierr = xc_set(xcfun, fun.keys[i].c_str(), fun.weights[i]);
+        int ierr = xcfun_set(xcfun, fun.keys[i].c_str(), fun.weights[i]);
         if (ierr != 0)
         {
             fprintf(stderr,
@@ -1026,7 +1026,6 @@ int XCint::integrate(const xcint_mode_t mode,
         }
     }
 
-    xc_free_functional(xcfun);
     return 0;
 }
 
@@ -1100,7 +1099,7 @@ void XCint::distribute_matrix2(const int block_length,
         {
             if (n[ib] > 1.0e-14 and std::abs(grid_w[w_off + ib]) > 1.0e-30)
             {
-                xc_eval(xcfun,
+                xcfun_eval(xcfun,
                         &xcin[ib * num_variables * dens_offset],
                         &xcout[ib * dens_offset]);
                 u[off + ib] +=

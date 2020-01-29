@@ -12,7 +12,7 @@ class Functional
     ~Functional();
 
     void set_functional(const char *line);
-    int set_order(const int order, xc_functional fun) const;
+    int set_order(const int order, xcfun_t * fun) const;
 
     bool is_gga;                   // FIXME make private
     bool is_tau_mgga;              // FIXME make private

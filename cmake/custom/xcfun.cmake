@@ -7,7 +7,7 @@ FetchContent_Populate(xcfun_sources
   GIT_REPOSITORY
     https://github.com/dftlibs/xcfun.git
   GIT_TAG
-    v2.0.0a1
+    v2.0.0a4
   )
 
 add_subdirectory(

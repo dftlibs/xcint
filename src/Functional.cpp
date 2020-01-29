@@ -42,11 +42,11 @@ void Functional::set_functional(const char *line)
         functional_line[i] = line[i];
     functional_line[strlen(line)] = '\0';
 
-    xc_functional fun;
-    fun = xc_new_functional();
+    xcfun_t * fun;
+    fun = xcfun_new();
     for (int i = 0; i < keys.size(); i++)
     {
-        ierr = xc_set(fun, keys[i].c_str(), weights[i]);
+        ierr = xcfun_set(fun, keys[i].c_str(), weights[i]);
         if (ierr != 0)
         {
             fprintf(stderr,
@@ -55,7 +55,6 @@ void Functional::set_functional(const char *line)
             exit(-1);
         }
     }
-    xc_free_functional(fun);
 }
 
 void Functional::parse(const char *line)
@@ -221,7 +220,7 @@ void Functional::parse(const char *line)
     }
 }
 
-int Functional::set_order(const int order, xc_functional fun) const
+int Functional::set_order(const int order, xcfun_t * fun) const
 {
     int ierr = -1;
 
@@ -229,15 +228,15 @@ int Functional::set_order(const int order, xc_functional fun) const
 
     if (is_tau_mgga)
     {
-        ierr = xc_eval_setup(fun, XC_N_NX_NY_NZ_TAUN, XC_CONTRACTED, order);
+        ierr = xcfun_eval_setup(fun, XC_N_NX_NY_NZ_TAUN, XC_CONTRACTED, order);
     }
     else if (is_gga)
     {
-        ierr = xc_eval_setup(fun, XC_N_NX_NY_NZ, XC_CONTRACTED, order);
+        ierr = xcfun_eval_setup(fun, XC_N_NX_NY_NZ, XC_CONTRACTED, order);
     }
     else
     {
-        ierr = xc_eval_setup(fun, XC_N, XC_CONTRACTED, order);
+        ierr = xcfun_eval_setup(fun, XC_N, XC_CONTRACTED, order);
     }
 
     if (ierr != 0)

@@ -625,7 +625,7 @@ void XCint::integrate_batch(const double dmat[],
             {
                 contribution_is_implemented = true;
 
-                // M_i  d_nn  n_a
+                // M_i  d_nn  n_j
                 k = 1;
                 if (!n_is_used[k])
                 {
@@ -634,23 +634,23 @@ void XCint::integrate_batch(const double dmat[],
                               0.0);
                     n_is_used[k] = true;
                 }
-                get_density(mat_dim,
-                            block_length,
-                            get_gradient,
-                            get_tau,
-                            prefactors,
-                            &n[k * block_length * num_variables],
-                            &dmat[1 * mat_dim * mat_dim],
-                            false,
-                            false, // FIXME can be true depending
-                                   // on perturbation (savings
-                                   // possible)
-                            ao_compressed_num,
-                            ao_compressed_index,
-                            ao_compressed,
-                            ao_compressed_num,
-                            ao_compressed_index,
-                            ao_compressed);
+                get_density(
+                    mat_dim,
+                    block_length,
+                    get_gradient,
+                    get_tau,
+                    prefactors,
+                    &n[k * block_length * num_variables],
+                    &dmat[2 * mat_dim * mat_dim],
+                    false,
+                    false, // FIXME can be true depending on perturbation
+                           // (savings possible)
+                    ao_compressed_num,
+                    ao_compressed_index,
+                    ao_compressed,
+                    ao_compressed_num,
+                    ao_compressed_index,
+                    ao_compressed);
                 coor.push_back(geo_coor[0]);
                 distribute_matrix2(block_length,
                                    num_variables,
@@ -666,10 +666,11 @@ void XCint::integrate_batch(const double dmat[],
                                    coor,
                                    grid_w);
                 coor.clear();
+                n_is_used[1] = false;
 
-                // M    d_nnn n_i n_a
-                // M    d_nn  n_ia
-                k = 2;
+                // M    d_nnn n_i n_j
+                // M    d_nn  n_ij
+                k = 1;
                 if (!n_is_used[k])
                 {
                     std::fill(&n[k * block_length * num_variables],
@@ -691,6 +692,48 @@ void XCint::integrate_batch(const double dmat[],
                                   &n[k * block_length * num_variables],
                                   &dmat[0]);
                 coor.clear();
+                get_density(
+                    mat_dim,
+                    block_length,
+                    get_gradient,
+                    get_tau,
+                    prefactors,
+                    &n[k * block_length * num_variables],
+                    &dmat[1 * mat_dim * mat_dim],
+                    false,
+                    false, // FIXME can be true depending on perturbation
+                           // (savings possible)
+                    ao_compressed_num,
+                    ao_compressed_index,
+                    ao_compressed,
+                    ao_compressed_num,
+                    ao_compressed_index,
+                    ao_compressed);
+                k = 2;
+                if (!n_is_used[k])
+                {
+                    std::fill(&n[k * block_length * num_variables],
+                              &n[(k + 1) * block_length * num_variables],
+                              0.0);
+                    n_is_used[k] = true;
+                }
+                get_density(
+                    mat_dim,
+                    block_length,
+                    get_gradient,
+                    get_tau,
+                    prefactors,
+                    &n[k * block_length * num_variables],
+                    &dmat[2 * mat_dim * mat_dim],
+                    false,
+                    false, // FIXME can be true depending on perturbation
+                           // (savings possible)
+                    ao_compressed_num,
+                    ao_compressed_index,
+                    ao_compressed,
+                    ao_compressed_num,
+                    ao_compressed_index,
+                    ao_compressed);
                 k = 3;
                 if (!n_is_used[k])
                 {
@@ -711,8 +754,25 @@ void XCint::integrate_batch(const double dmat[],
                                   coor,
                                   get_geo_offset,
                                   &n[k * block_length * num_variables],
-                                  &dmat[1 * mat_dim * mat_dim]);
+                                  &dmat[2 * mat_dim * mat_dim]);
                 coor.clear();
+                get_density(
+                    mat_dim,
+                    block_length,
+                    get_gradient,
+                    get_tau,
+                    prefactors,
+                    &n[k * block_length * num_variables],
+                    &dmat[3 * mat_dim * mat_dim],
+                    false,
+                    false, // FIXME can be true depending on perturbation
+                           // (savings possible)
+                    ao_compressed_num,
+                    ao_compressed_index,
+                    ao_compressed,
+                    ao_compressed_num,
+                    ao_compressed_index,
+                    ao_compressed);
                 distribute_matrix2(block_length,
                                    num_variables,
                                    2,

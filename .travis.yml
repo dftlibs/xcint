@@ -1,6 +1,6 @@
 language: cpp
-
 sudo: false
+dist: bionic
 
 os:
   - linux
@@ -8,8 +8,6 @@ os:
 
 addons:
   apt:
-    sources:
-      - ubuntu-toolchain-r-test
     packages:
       - g++
       - gfortran

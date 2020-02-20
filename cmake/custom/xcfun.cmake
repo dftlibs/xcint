@@ -1,8 +1,7 @@
 find_package(XCFun CONFIG QUIET)
 
 if(TARGET XCFun::xcfun)
-  get_property(_loc TARGET XCFun::xcfun PROPERTY LOCATION)
-  message(STATUS "Found XCFun: ${_loc} (found version ${XCFun_VERSION})")
+  message(STATUS "Found XCFun version ${XCFun_VERSION}")
 else()
   include(FetchContent)
 

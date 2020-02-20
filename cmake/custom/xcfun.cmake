@@ -1,18 +1,25 @@
-include(FetchContent)
+find_package(XCFun CONFIG QUIET)
 
-set(XCFun_XC_MAX_ORDER 6)
+if(TARGET xcfun)
+  get_property(_loc TARGET xcfun PROPERTY LOCATION)
+  message(STATUS "Found XCFun: ${_loc} (found version ${XCFun_VERSION})")
+else()
+  include(FetchContent)
 
-FetchContent_Populate(xcfun_sources
-  QUIET
-  GIT_REPOSITORY
-    https://github.com/dftlibs/xcfun.git
-  GIT_TAG
-    v2.0.0a5
-  )
+  set(XCFun_XC_MAX_ORDER 6)
 
-add_subdirectory(
-  ${xcfun_sources_SOURCE_DIR}
-  ${xcfun_sources_BINARY_DIR}
-  )
+  FetchContent_Populate(xcfun_sources
+    QUIET
+    GIT_REPOSITORY
+      https://github.com/dftlibs/xcfun.git
+    GIT_TAG
+      v2.0.0a4
+    )
 
-unset(XCFun_XC_MAX_ORDER)
+  add_subdirectory(
+    ${xcfun_sources_SOURCE_DIR}
+    ${xcfun_sources_BINARY_DIR}
+    )
+
+  unset(XCFun_XC_MAX_ORDER)
+endif()

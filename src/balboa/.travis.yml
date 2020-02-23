@@ -1,0 +1,28 @@
+language: python
+
+sudo: false
+
+matrix:
+  include:
+    - os: linux
+      compiler: gcc
+      addons: &gcc49
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++', 'gcc']
+      env:
+        - CXX='g++'
+        - CC='gcc'
+
+install:
+  - pip install -r requirements.txt
+
+script:
+  - pycodestyle --ignore=E501 test/test.py
+  - cmake -H. -Bbuild
+  - cd build
+  - cmake --build .
+  - ctest
+
+notifications:
+  email: false

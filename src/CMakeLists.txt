@@ -10,6 +10,7 @@ configure_file(
   )
 
 add_subdirectory(density)
+add_subdirectory(balboa)
 
 add_library(
   xcint
@@ -26,7 +27,7 @@ target_link_libraries(
   PRIVATE
     density
     XCFun::xcfun
-    ${PROJECT_BINARY_DIR}/balboa/src/balboa-build/lib/libbalboa.so
+    balboa
   )
 
 target_include_directories(
@@ -34,12 +35,9 @@ target_include_directories(
   PRIVATE
     ${PROJECT_BINARY_DIR}/xcfun_sources-build/include/
     ${PROJECT_BINARY_DIR}/generated/
-    ${PROJECT_BINARY_DIR}/balboa/src/balboa/balboa/
   )
 
-add_dependencies(xcint xcfun)
 add_dependencies(xcint numgrid)
-add_dependencies(xcint balboa)
 
 if(ENABLE_FC_SUPPORT)
   add_library(

@@ -432,7 +432,9 @@ void XCint::integrate_batch(const double dmat[],
 
             if (geo_derv_order == 2 && num_fields == 0)
             {
-                contribution_is_implemented = true;
+                fprintf(stderr, "F_xc^GG contribution is not fully implemented/tested");
+                exit(-1);
+           //   contribution_is_implemented = true;
 
                 // M_ij d_n
                 coor.push_back(geo_coor[0]);

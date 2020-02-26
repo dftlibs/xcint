@@ -18,20 +18,32 @@ endforeach()
 file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/generated)
 
 # generate AO evaluation code
-add_custom_command(
-    OUTPUT
-        ${_generated_files}
-    COMMAND
-        ${PYTHON_EXECUTABLE} ${PROJECT_SOURCE_DIR}/balboa/generate.py
-                             ${PROJECT_BINARY_DIR}/generated
-                             ${MAX_L_VALUE}
-                             ${AO_CHUNK_LENGTH}
-                             ${MAX_GEO_DIFF_ORDER}
-    DEPENDS
-        generate.py
-        cs_trans.py
-        ${PROJECT_SOURCE_DIR}/cmake/custom/parameters.cmake
-    )
+execute_process(
+  COMMAND
+    ${PYTHON_EXECUTABLE} ${PROJECT_SOURCE_DIR}/balboa/generate.py
+                         ${PROJECT_BINARY_DIR}/generated
+                         ${MAX_L_VALUE}
+                         ${AO_CHUNK_LENGTH}
+                         ${MAX_GEO_DIFF_ORDER}
+  )
+set_source_files_properties(${_generated_files} PROPERTIES GENERATED 1)
+
+# the above is a workaround to prevent sources to be regenerated at each build
+# which is very annoying since release build then takes forever
+#add_custom_command(
+#    OUTPUT
+#        ${_generated_files}
+#    COMMAND
+#        ${PYTHON_EXECUTABLE} ${PROJECT_SOURCE_DIR}/balboa/generate.py
+#                             ${PROJECT_BINARY_DIR}/generated
+#                             ${MAX_L_VALUE}
+#                             ${AO_CHUNK_LENGTH}
+#                             ${MAX_GEO_DIFF_ORDER}
+#    DEPENDS
+#        generate.py
+#        cs_trans.py
+#        ${PROJECT_SOURCE_DIR}/cmake/custom/parameters.cmake
+#    )
 
 add_library(
     balboa

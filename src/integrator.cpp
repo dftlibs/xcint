@@ -105,6 +105,8 @@ void XCint::integrate_batch(const double dmat[],
                             double &num_electrons,
                             const int geo_coor[],
                             const bool use_dmat[],
+                            const int num_dmat,
+                            const int perturbation_indices[],
                             const int ipoint,
                             const int geo_derv_order,
                             const int max_ao_order_g,
@@ -397,6 +399,25 @@ void XCint::integrate_batch(const double dmat[],
                                   &n[k * block_length * num_variables],
                                   &dmat[0]);
                 coor.clear();
+                if (num_dmat > 1)
+                {
+                    get_density(
+                        mat_dim,
+                        block_length,
+                        get_gradient,
+                        get_tau,
+                        prefactors,
+                        &n[k * block_length * num_variables],
+                        &dmat[perturbation_indices[1] * mat_dim * mat_dim],
+                        false,
+                        false,
+                        ao_compressed_num,
+                        ao_compressed_index,
+                        ao_compressed,
+                        ao_compressed_num,
+                        ao_compressed_index,
+                        ao_compressed);
+                }
                 distribute_matrix2(block_length,
                                    num_variables,
                                    1,
@@ -1008,6 +1029,7 @@ int XCint::integrate(const xcint_mode_t mode,
     dmat_index[0] = 0;
     for (int k = 1; k < num_dmat; k++)
     {
+        assert(perturbation_indices[k] <= MAX_NUM_DENSITIES);
         use_dmat[perturbation_indices[k]] = true;
         dmat_index[perturbation_indices[k]] = k * mat_dim * mat_dim;
     }
@@ -1048,6 +1070,8 @@ int XCint::integrate(const xcint_mode_t mode,
                         num_electrons_local,
                         geo_coor,
                         use_dmat,
+                        num_dmat,
+                        perturbation_indices,
                         ipoint,
                         geo_derv_order,
                         max_ao_order_g,

@@ -75,6 +75,8 @@ class XCint
                          double &num_electrons,
                          const int geo_coor[],
                          const bool use_dmat[],
+                         const int num_dmat,
+                         const int perturbation_indices[],
                          const int ipoint,
                          const int geo_derv_order,
                          const int max_ao_order_g,

@@ -664,7 +664,7 @@ void XCint::integrate_batch(const double dmat[],
                     get_tau,
                     prefactors,
                     &n[k * block_length * num_variables],
-                    &dmat[2 * mat_dim * mat_dim],
+                    &dmat[perturbation_indices[2] * mat_dim * mat_dim],
                     false,
                     false, // FIXME can be true depending on perturbation
                            // (savings possible)
@@ -722,7 +722,7 @@ void XCint::integrate_batch(const double dmat[],
                     get_tau,
                     prefactors,
                     &n[k * block_length * num_variables],
-                    &dmat[1 * mat_dim * mat_dim],
+                    &dmat[perturbation_indices[1] * mat_dim * mat_dim],
                     false,
                     false, // FIXME can be true depending on perturbation
                            // (savings possible)
@@ -747,7 +747,7 @@ void XCint::integrate_batch(const double dmat[],
                     get_tau,
                     prefactors,
                     &n[k * block_length * num_variables],
-                    &dmat[2 * mat_dim * mat_dim],
+                    &dmat[perturbation_indices[2] * mat_dim * mat_dim],
                     false,
                     false, // FIXME can be true depending on perturbation
                            // (savings possible)
@@ -777,25 +777,28 @@ void XCint::integrate_batch(const double dmat[],
                                   coor,
                                   get_geo_offset,
                                   &n[k * block_length * num_variables],
-                                  &dmat[2 * mat_dim * mat_dim]);
+                                  &dmat[perturbation_indices[2] * mat_dim * mat_dim]);
                 coor.clear();
-                get_density(
-                    mat_dim,
-                    block_length,
-                    get_gradient,
-                    get_tau,
-                    prefactors,
-                    &n[k * block_length * num_variables],
-                    &dmat[3 * mat_dim * mat_dim],
-                    false,
-                    false, // FIXME can be true depending on perturbation
-                           // (savings possible)
-                    ao_compressed_num,
-                    ao_compressed_index,
-                    ao_compressed,
-                    ao_compressed_num,
-                    ao_compressed_index,
-                    ao_compressed);
+                if (num_dmat > 3)
+                {
+                    get_density(
+                        mat_dim,
+                        block_length,
+                        get_gradient,
+                        get_tau,
+                        prefactors,
+                        &n[k * block_length * num_variables],
+                        &dmat[perturbation_indices[3] * mat_dim * mat_dim],
+                        false,
+                        false, // FIXME can be true depending on perturbation
+                               // (savings possible)
+                        ao_compressed_num,
+                        ao_compressed_index,
+                        ao_compressed,
+                        ao_compressed_num,
+                        ao_compressed_index,
+                        ao_compressed);
+                }
                 distribute_matrix2(block_length,
                                    num_variables,
                                    2,

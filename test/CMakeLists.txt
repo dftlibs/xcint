@@ -1,9 +1,9 @@
 # we will use the network to fetch Google Test sources
 # make it possible to disable unit tests when not on network
-option(ENABLE_UNIT_TESTS "Enable unit tests" ON)
-message(STATUS "Enable testing: ${ENABLE_UNIT_TESTS}")
+option(ENABLE_XCINT_UNIT_TESTS "Enable unit tests" ON)
+message(STATUS "Enable testing: ${ENABLE_XCINT_UNIT_TESTS}")
 
-if(ENABLE_UNIT_TESTS)
+if(ENABLE_XCINT_UNIT_TESTS)
   # the following code to fetch googletest
   # is inspired by and adapted after:
   #   - https://cmake.org/cmake/help/v3.11/module/FetchContent.html

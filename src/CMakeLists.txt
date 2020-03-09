@@ -37,8 +37,6 @@ target_include_directories(
     ${PROJECT_BINARY_DIR}/generated/
   )
 
-add_dependencies(xcint numgrid)
-
 if(ENABLE_FC_SUPPORT)
   add_library(
     xcint_fortran

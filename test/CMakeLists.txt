@@ -43,21 +43,50 @@ if(ENABLE_XCINT_UNIT_TESTS)
     endif()
   endif()
 
+  FetchContent_Declare(numgrid_sources
+    QUIET
+    URL
+      https://github.com/dftlibs/numgrid/archive/v1.1.0.tar.gz
+    )
+
+  FetchContent_GetProperties(numgrid_sources)
+
+  set(ENABLE_UNIT_TESTS FALSE CACHE BOOL "")
+  set(ENABLE_FC_SUPPORT FALSE CACHE BOOL "")
+
+  if(NOT numgrid_sources_POPULATED)
+    FetchContent_Populate(numgrid_sources)
+
+    add_subdirectory(
+      ${numgrid_sources_SOURCE_DIR}
+      ${numgrid_sources_BINARY_DIR}
+      )
+  endif()
+
   add_executable(
     cpp_test
     main.cpp
-    energy_spherical.cpp
     )
 
   find_package(BLAS REQUIRED)
 
+  add_library(
+    energy_spherical
+    energy_spherical.cpp
+    )
+
+  target_link_libraries(
+    energy_spherical
+    gtest_main
+    numgrid-objects
+    )
+
   target_link_libraries(
     cpp_test
-    gtest_main
     xcint
     density
     balboa
-    ${NUMGRID_LIBS}
+    energy_spherical
     ${BLAS_LIBRARIES}
     )
 
@@ -79,9 +108,18 @@ if(ENABLE_XCINT_UNIT_TESTS)
       xcint
       density
       balboa
-      ${NUMGRID_LIBS}
+      numgrid-shared
+      numgrid_fortran_bindings
       ${BLAS_LIBRARIES}
       )
+
+    target_include_directories(
+      fortran_test
+      PRIVATE
+        ${PROJECT_BINARY_DIR}/_deps/numgrid_sources-build/modules
+      )
+
+    add_dependencies(fortran_test numgrid_fortran_bindings)
 
     set_target_properties(fortran_test PROPERTIES LINKER_LANGUAGE Fortran)
 

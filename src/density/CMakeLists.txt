@@ -12,6 +12,13 @@ target_sources(
     ${CMAKE_CURRENT_LIST_DIR}/density.h
   )
 
+find_package(BLAS REQUIRED)
+target_link_libraries(
+  density
+  PUBLIC
+    ${BLAS_LIBRARIES}
+  )
+
 target_include_directories(
   density
   PRIVATE

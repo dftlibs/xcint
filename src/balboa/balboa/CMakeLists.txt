@@ -64,5 +64,5 @@ target_include_directories(
     )
 
 install(TARGETS balboa LIBRARY DESTINATION lib)
-install(FILES ${PROJECT_BINARY_DIR}/include/balboa.h DESTINATION include)
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/balboa.h DESTINATION include)
 install(FILES ${PROJECT_BINARY_DIR}/include/balboa_export.h DESTINATION include)

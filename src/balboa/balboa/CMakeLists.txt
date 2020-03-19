@@ -47,7 +47,7 @@ set_source_files_properties(${_generated_files} PROPERTIES GENERATED 1)
 
 add_library(
     balboa
-    SHARED
+    STATIC
     Main.cpp
     Main.h
     ao_vector.cpp
@@ -63,6 +63,6 @@ target_include_directories(
     ${PROJECT_BINARY_DIR}/include
     )
 
-install(TARGETS balboa LIBRARY DESTINATION lib)
+install(TARGETS balboa ARCHIVE DESTINATION lib)
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/balboa.h DESTINATION include)
 install(FILES ${PROJECT_BINARY_DIR}/include/balboa_export.h DESTINATION include)

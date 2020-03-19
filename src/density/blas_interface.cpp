@@ -34,72 +34,72 @@ extern void dsymm_(char *si,
 };
 #endif
 
-void wrap_dgemm(char *ta,
-                char *tb,
-                int *m,
-                int *n,
-                int *k,
-                double *alpha,
+void wrap_dgemm(char ta,
+                char tb,
+                int m,
+                int n,
+                int k,
+                double alpha,
                 const double *a,
-                int *lda,
+                int lda,
                 const double *b,
-                int *ldb,
-                double *beta,
+                int ldb,
+                double beta,
                 double *c,
-                int *ldc)
+                int ldc)
 {
 #ifdef HAVE_MKL_BLAS
-    CBLAS_TRANSPOSE cta = (*ta == 't') ? CblasNoTrans : CblasTrans;
-    CBLAS_TRANSPOSE ctb = (*tb == 't') ? CblasNoTrans : CblasTrans;
+    CBLAS_TRANSPOSE cta = (ta == 't') ? CblasNoTrans : CblasTrans;
+    CBLAS_TRANSPOSE ctb = (tb == 't') ? CblasNoTrans : CblasTrans;
     cblas_dgemm(CblasRowMajor,
                 cta,
                 ctb,
-                *m,
-                *n,
-                *k,
-                *alpha,
+                m,
+                n,
+                k,
+                alpha,
                 a,
-                *lda,
+                lda,
                 b,
-                *ldb,
-                *beta,
+                ldb,
+                beta,
                 c,
-                *ldc);
+                ldc);
 #else
-    dgemm_(ta, tb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc);
+    dgemm_(&ta, &tb, &m, &n, &k, &alpha, a, &lda, b, &ldb, &beta, c, &ldc);
 #endif
 }
 
-void wrap_dsymm(char *si,
-                char *up,
-                int *m,
-                int *n,
-                double *alpha,
+void wrap_dsymm(char si,
+                char up,
+                int m,
+                int n,
+                double alpha,
                 const double *a,
-                int *lda,
+                int lda,
                 const double *b,
-                int *ldb,
-                double *beta,
+                int ldb,
+                double beta,
                 double *c,
-                int *ldc)
+                int ldc)
 {
 #ifdef HAVE_MKL_BLAS
-    CBLAS_SIDE cs = (*si == 'r') ? CblasLeft : CblasRight;
-    CBLAS_UPLO cu = (*up == 'u') ? CblasLower : CblasUpper;
+    CBLAS_SIDE cs = (si == 'r') ? CblasLeft : CblasRight;
+    CBLAS_UPLO cu = (up == 'u') ? CblasLower : CblasUpper;
     cblas_dsymm(CblasRowMajor,
                 cs,
                 cu,
-                *n,
-                *m,
-                *alpha,
+                n,
+                m,
+                alpha,
                 a,
-                *lda,
+                lda,
                 b,
-                *ldb,
-                *beta,
+                ldb,
+                beta,
                 c,
-                *ldc);
+                ldc);
 #else
-    dsymm_(si, up, m, n, alpha, a, lda, b, ldb, beta, c, ldc);
+    dsymm_(&si, &up, &m, &n, &alpha, a, &lda, b, &ldb, &beta, c, &ldc);
 #endif
 }

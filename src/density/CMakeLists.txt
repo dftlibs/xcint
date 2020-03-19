@@ -1,4 +1,4 @@
-add_library(density SHARED "")
+add_library(density STATIC "")
 
 target_sources(
   density
@@ -32,3 +32,5 @@ set_target_properties(
   PROPERTIES
     COMPILE_FLAGS "-fPIC"
   )
+
+install(TARGETS density ARCHIVE DESTINATION lib)

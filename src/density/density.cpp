@@ -75,19 +75,19 @@ void distribute_matrix(const int mat_dim,
     int ldc = im;
     double alpha = 1.0;
     double beta = 0.0;
-    wrap_dgemm(&ta,
-               &tb,
-               &im,
-               &in,
-               &ik,
-               &alpha,
+    wrap_dgemm(ta,
+               tb,
+               im,
+               in,
+               ik,
+               alpha,
                l_aoc,
-               &lda,
+               lda,
                W,
-               &ldb,
-               &beta,
+               ldb,
+               beta,
                F,
-               &ldc);
+               ldc);
 
     if (use_tau)
     {
@@ -109,19 +109,19 @@ void distribute_matrix(const int mat_dim,
 
                 alpha = prefactors[4];
                 beta = 1.0;
-                wrap_dgemm(&ta,
-                           &tb,
-                           &im,
-                           &in,
-                           &ik,
-                           &alpha,
+                wrap_dgemm(ta,
+                           tb,
+                           im,
+                           in,
+                           ik,
+                           alpha,
                            W,
-                           &lda,
+                           lda,
                            &l_aoc[(ixyz + 1) * block_length * mat_dim],
-                           &ldb,
-                           &beta,
+                           ldb,
+                           beta,
                            F,
-                           &ldc);
+                           ldc);
             }
         }
     }
@@ -245,7 +245,7 @@ void get_density(const int mat_dim,
         double alpha = 1.0;
         double beta = 0.0;
         wrap_dsymm(
-            &si, &up, &im, &in, &alpha, D, &lda, l_aoc, &ldb, &beta, X, &ldc);
+            si, up, im, in, alpha, D, lda, l_aoc, ldb, beta, X, ldc);
     }
     else
     {
@@ -259,19 +259,19 @@ void get_density(const int mat_dim,
         int ldc = im;
         double alpha = 1.0;
         double beta = 0.0;
-        wrap_dgemm(&ta,
-                   &tb,
-                   &im,
-                   &in,
-                   &ik,
-                   &alpha,
+        wrap_dgemm(ta,
+                   tb,
+                   im,
+                   in,
+                   ik,
+                   alpha,
                    l_aoc,
-                   &lda,
+                   lda,
                    D,
-                   &ldb,
-                   &beta,
+                   ldb,
+                   beta,
                    X,
-                   &ldc);
+                   ldc);
     }
 
     int num_slices;
@@ -316,18 +316,18 @@ void get_density(const int mat_dim,
                     int ldc = im;
                     double alpha = 1.0;
                     double beta = 0.0;
-                    wrap_dsymm(&si,
-                               &up,
-                               &im,
-                               &in,
-                               &alpha,
+                    wrap_dsymm(si,
+                               up,
+                               im,
+                               in,
+                               alpha,
                                D,
-                               &lda,
+                               lda,
                                &l_aoc[(ixyz + 1) * block_length * mat_dim],
-                               &ldb,
-                               &beta,
+                               ldb,
+                               beta,
                                X,
-                               &ldc);
+                               ldc);
                 }
                 else
                 {
@@ -341,19 +341,19 @@ void get_density(const int mat_dim,
                     int ldc = im;
                     double alpha = 1.0;
                     double beta = 0.0;
-                    wrap_dgemm(&ta,
-                               &tb,
-                               &im,
-                               &in,
-                               &ik,
-                               &alpha,
+                    wrap_dgemm(ta,
+                               tb,
+                               im,
+                               in,
+                               ik,
+                               alpha,
                                &l_aoc[(ixyz + 1) * block_length * mat_dim],
-                               &lda,
+                               lda,
                                D,
-                               &ldb,
-                               &beta,
+                               ldb,
+                               beta,
                                X,
-                               &ldc);
+                               ldc);
                 }
 
                 for (int k = 0; k < k_aoc_num; k++)

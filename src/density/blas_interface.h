@@ -26,3 +26,32 @@ void wrap_dsymm(char si,
                 double beta,
                 double *c,
                 int ldc);
+
+extern "C"
+{
+    void dgemm_(const char *ta,
+                const char *tb,
+                const int *m,
+                const int *n,
+                const int *k,
+                const double *alpha,
+                const double *a,
+                const int *lda,
+                const double *b,
+                const int *ldb,
+                const double *beta,
+                double *c,
+                const int *ldc);
+    void dsymm_(const char *si,
+                const char *up,
+                const int *m,
+                const int *n,
+                const double *alpha,
+                const double *a,
+                const int *lda,
+                const double *b,
+                const int *ldb,
+                const double *beta,
+                const double *c,
+                int *ldc);
+};

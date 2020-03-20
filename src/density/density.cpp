@@ -1,15 +1,14 @@
-#include "blas_interface.h"
-#include "compress.h"
 #include "density.h"
 
-// size_t
-#include <cstddef>
-
-#include <cmath>
-#include <cstdio>
 #include <algorithm>
 #include <cassert>
+#include <cmath>
+#include <cstddef>
+#include <cstdio>
 #include <iostream>
+
+#include "blas_interface.h"
+#include "compress.h"
 
 void distribute_matrix(const int mat_dim,
                        const int block_length,

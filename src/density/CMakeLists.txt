@@ -1,3 +1,5 @@
+cmake_policy(SET CMP0074 NEW)
+
 add_library(density STATIC "")
 
 target_sources(

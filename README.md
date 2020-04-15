@@ -13,7 +13,6 @@ Exchange-correlation integrator.
 - [Build and test history](https://travis-ci.org/dftlibs/xcint/builds)
 - [Code coverage](https://coveralls.io/r/dftlibs/xcint)
 - Built with [Autocmake](https://github.com/coderefinery/autocmake)
-- Status: pre-alpha
 - Licensed under [Mozilla Public License Version 2.0](../master/LICENSE)
 
 

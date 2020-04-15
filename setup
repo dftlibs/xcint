@@ -85,4 +85,4 @@ cmake_command = '{0} -H{1}'.format(gen_cmake_command(options, arguments), root_d
 
 
 # run cmake
-configure.configure(root_directory, build_path, cmake_command, arguments['--show'])
+configure.configure(root_directory, build_path, cmake_command, arguments)

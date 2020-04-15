@@ -46,7 +46,7 @@ if(ENABLE_XCINT_UNIT_TESTS)
   FetchContent_Declare(numgrid_sources
     QUIET
     URL
-      https://github.com/dftlibs/numgrid/archive/v1.1.0.tar.gz
+      https://github.com/dftlibs/numgrid/archive/v1.1.1.tar.gz
     )
 
   FetchContent_GetProperties(numgrid_sources)

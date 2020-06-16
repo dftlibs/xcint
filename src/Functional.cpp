@@ -38,13 +38,13 @@ void Functional::set_functional(const char *line)
     delete[] functional_line;
     functional_line = NULL;
     functional_line = new char[strlen(line) + 1];
-    for (int i = 0; i < strlen(line); i++)
+    for (size_t i = 0; i < strlen(line); i++)
         functional_line[i] = line[i];
     functional_line[strlen(line)] = '\0';
 
     xcfun_t * fun;
     fun = xcfun_new();
-    for (int i = 0; i < keys.size(); i++)
+    for (size_t i = 0; i < keys.size(); i++)
     {
         ierr = xcfun_set(fun, keys[i].c_str(), weights[i]);
         if (ierr != 0)
@@ -59,7 +59,6 @@ void Functional::set_functional(const char *line)
 
 void Functional::parse(const char *line)
 {
-    int pos;
     double w;
     std::string key;
 
@@ -76,9 +75,9 @@ void Functional::parse(const char *line)
     is_gga = false;
     is_tau_mgga = false;
 
-    for (int i = 0; i < tokens.size(); i++)
+    for (size_t i = 0; i < tokens.size(); i++)
     {
-        pos = tokens[i].find("=");
+        size_t pos = tokens[i].find("=");
         if (pos != std::string::npos)
         {
             key = tokens[i].substr(0, pos);

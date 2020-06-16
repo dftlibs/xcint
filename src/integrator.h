@@ -20,7 +20,7 @@ class XCint
                   const double primitive_exponents[],
                   const double contraction_coefficients[]);
 
-    int set_functional(const char *line);
+    int set_functional(      char *line);
 
     int integrate(const xcint_mode_t mode,
                   const int num_points,
@@ -45,10 +45,8 @@ class XCint
     XCint(const XCint &rhs);            // not implemented
     XCint &operator=(const XCint &rhs); // not implemented
 
-    Functional fun;
+    char *functional_line;
     balboa_context_t *balboa_context;
-    int ao_length;
-    double *ao;
 
     void nullify();
 
@@ -56,6 +54,9 @@ class XCint
                             const int num_variables,
                             const int num_perturbations,
                             const int mat_dim,
+                                  xcfun_t *xcfun,
+                                  Functional *fun,
+                            const double ao[],
                             const double prefactors[],
                             const int w_off,
                             const bool n_is_used[],
@@ -68,6 +69,8 @@ class XCint
     //            const double grid_w[]) const;
 
     void integrate_batch(const double dmat[],
+                         xcfun_t *xcfun,
+                         Functional *fun,
                          const bool get_exc,
                          double &exc,
                          const bool get_vxc,

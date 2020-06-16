@@ -16,12 +16,12 @@
 #include <cstdlib>
 #include <fstream>
 
+#ifdef HAVE_OPENMP
+#include "omp.h"
+#endif
+
 #define AS_TYPE(Type, Obj) reinterpret_cast<Type *>(Obj)
 #define AS_CTYPE(Type, Obj) reinterpret_cast<const Type *>(Obj)
-
-// FIXME ugly global
-xcfun_t * xcfun;
-int dens_offset;
 
 XCINT_API
 xcint_context_t *xcint_new_context()
@@ -40,13 +40,13 @@ void xcint_free_context(xcint_context_t *xcint_context)
 XCint::~XCint() { balboa_free_context(balboa_context); }
 
 XCINT_API
-int xcint_set_functional(xcint_context_t *context, const char *line)
+int xcint_set_functional(xcint_context_t *context,       char *line)
 {
     return AS_TYPE(XCint, context)->set_functional(line);
 }
-int XCint::set_functional(const char *line)
+int XCint::set_functional(      char *line)
 {
-    fun.set_functional(line);
+    functional_line = line;
     return 0;
 }
 
@@ -98,6 +98,8 @@ int XCint::set_basis(const int basis_type,
 }
 
 void XCint::integrate_batch(const double dmat[],
+                                  xcfun_t *xcfun,
+                                  Functional *fun,
                             const bool get_exc,
                             double &exc,
                             const bool get_vxc,
@@ -141,8 +143,7 @@ void XCint::integrate_batch(const double dmat[],
     //  int buffer_len = balboa_get_buffer_len(balboa_context, max_ao_geo_order,
     //  block_length);
 
-    ao_length = buffer_len;
-    ao = new double[buffer_len];
+    double *ao = new double[buffer_len];
 
     std::fill(&ao[0], &ao[buffer_len], 0.0);
 
@@ -272,7 +273,7 @@ void XCint::integrate_batch(const double dmat[],
 
 #include "ave_contributions.h"
 
-        dens_offset = fun.set_order(num_perturbations, xcfun);
+        int dens_offset = fun->set_order(num_perturbations, xcfun);
 
         xcin = new double[num_variables * dens_offset * block_length];
         std::fill(
@@ -359,6 +360,9 @@ void XCint::integrate_batch(const double dmat[],
                                num_variables,
                                num_perturbations,
                                mat_dim,
+                               xcfun,
+                               fun,
+                               ao,
                                prefactors,
                                ipoint,
                                n_is_used,
@@ -422,6 +426,9 @@ void XCint::integrate_batch(const double dmat[],
                                    num_variables,
                                    1,
                                    mat_dim,
+                                   xcfun,
+                                   fun,
+                                   ao,
                                    prefactors,
                                    ipoint,
                                    n_is_used,
@@ -439,6 +446,9 @@ void XCint::integrate_batch(const double dmat[],
                                    num_variables,
                                    0,
                                    mat_dim,
+                                   xcfun,
+                                   fun,
+                                   ao,
                                    prefactors,
                                    ipoint,
                                    n_is_used,
@@ -464,6 +474,9 @@ void XCint::integrate_batch(const double dmat[],
                                    num_variables,
                                    0,
                                    mat_dim,
+                                   xcfun,
+                                   fun,
+                                   ao,
                                    prefactors,
                                    ipoint,
                                    n_is_used,
@@ -504,6 +517,9 @@ void XCint::integrate_batch(const double dmat[],
                                    num_variables,
                                    1,
                                    mat_dim,
+                                   xcfun,
+                                   fun,
+                                   ao,
                                    prefactors,
                                    ipoint,
                                    n_is_used,
@@ -544,6 +560,9 @@ void XCint::integrate_batch(const double dmat[],
                                    num_variables,
                                    1,
                                    mat_dim,
+                                   xcfun,
+                                   fun,
+                                   ao,
                                    prefactors,
                                    ipoint,
                                    n_is_used,
@@ -630,6 +649,9 @@ void XCint::integrate_batch(const double dmat[],
                                    num_variables,
                                    2,
                                    mat_dim,
+                                   xcfun,
+                                   fun,
+                                   ao,
                                    prefactors,
                                    ipoint,
                                    n_is_used,
@@ -679,6 +701,9 @@ void XCint::integrate_batch(const double dmat[],
                                    num_variables,
                                    1,
                                    mat_dim,
+                                   xcfun,
+                                   fun,
+                                   ao,
                                    prefactors,
                                    ipoint,
                                    n_is_used,
@@ -803,6 +828,9 @@ void XCint::integrate_batch(const double dmat[],
                                    num_variables,
                                    2,
                                    mat_dim,
+                                   xcfun,
+                                   fun,
+                                   ao,
                                    prefactors,
                                    ipoint,
                                    n_is_used,
@@ -938,23 +966,7 @@ int XCint::integrate(const xcint_mode_t mode,
                      //  double *num_electrons) const
                      double *num_electrons)
 {
-    xcfun = xcfun_new();
-    for (size_t i = 0; i < fun.keys.size(); i++)
-    {
-        int ierr = xcfun_set(xcfun, fun.keys[i].c_str(), fun.weights[i]);
-        if (ierr != 0)
-        {
-            fprintf(stderr,
-                    "ERROR in fun init: \"%s\" not recognized, quitting.\n",
-                    fun.keys[i].c_str());
-            exit(-1);
-        }
-    }
-
-    int num_variables;
-    int max_ao_order_g;
-
-    double a;
+    assert(mode == XCINT_MODE_RKS);
 
     std::vector<int> coor;
 
@@ -981,8 +993,6 @@ int XCint::integrate(const xcint_mode_t mode,
         }
     }
 
-    assert(mode == XCINT_MODE_RKS);
-
     *exc = 0.0;
     *num_electrons = 0.0;
 
@@ -991,34 +1001,6 @@ int XCint::integrate(const xcint_mode_t mode,
 
     bool get_gradient;
     bool get_tau;
-
-    max_ao_order_g = 0;
-
-    if (fun.is_tau_mgga)
-    {
-        num_variables = 5;
-        get_gradient = true;
-        get_tau = true;
-        max_ao_order_g++;
-    }
-    else if (fun.is_gga)
-    {
-        num_variables = 4;
-        get_gradient = true;
-        get_tau = false;
-        max_ao_order_g++;
-    }
-    else
-    {
-        num_variables = 1;
-        get_gradient = false;
-        get_tau = false;
-    }
-
-    for (int i = 0; i < geo_derv_order; i++)
-    {
-        max_ao_order_g++;
-    }
 
     int *dmat_index = new int[MAX_NUM_DENSITIES];
     std::fill(&dmat_index[0], &dmat_index[MAX_NUM_DENSITIES], 0);
@@ -1039,63 +1021,192 @@ int XCint::integrate(const xcint_mode_t mode,
 
     assert(num_perturbations < 7);
 
-    int block_length;
-    int num_points_left = num_points;
-    int num_batches = num_points / AO_BLOCK_LENGTH;
-    if (num_points % AO_BLOCK_LENGTH != 0)
-        num_batches++;
+#ifdef HAVE_OPENMP
+    size_t num_threads = 0;
 
-    double exc_local = *exc;
-    double num_electrons_local = *num_electrons;
-    double *vxc_local = NULL;
-
-    if (get_vxc)
-        vxc_local = &vxc[0];
-
-    for (int ibatch = 0; ibatch < num_batches; ibatch++)
+#pragma omp parallel
     {
-        int ipoint = ibatch * AO_BLOCK_LENGTH;
+        if (omp_get_thread_num() == 0)
+            num_threads = omp_get_num_threads();
+    }
 
-        if (num_points_left < AO_BLOCK_LENGTH)
+    double *num_electrons_buffer = new double[num_threads];
+    double *exc_buffer = new double[num_threads];
+    double *vxc_buffer = new double[num_threads * mat_dim * mat_dim];
+    std::fill(
+        &vxc_buffer[0], &vxc_buffer[num_threads * mat_dim * mat_dim], 0.0);
+
+#pragma omp parallel
+    {
+        int ithread = omp_get_thread_num();
+
+        double exc_local = 0.0;
+        double num_electrons_local = 0.0;
+
+        double *vxc_local = NULL;
+        if (get_vxc)
+            vxc_local = &vxc_buffer[ithread * mat_dim * mat_dim];
+#else
+        double exc_local = *exc;
+        double num_electrons_local = *num_electrons;
+        double *vxc_local = NULL;
+
+        if (get_vxc)
+            vxc_local = &vxc[0];
+#endif /* HAVE_OPENMP */
+
+        auto xcfun = xcfun_new();
+        Functional fun;
+        fun.set_functional(functional_line);
+        for (size_t i = 0; i < fun.keys.size(); i++)
         {
-            block_length = num_points_left;
+            int ierr = xcfun_set(xcfun, fun.keys[i].c_str(), fun.weights[i]);
+            if (ierr != 0)
+            {
+                fprintf(stderr,
+                        "ERROR in fun init: \"%s\" not recognized, quitting.\n",
+                        fun.keys[i].c_str());
+                exit(-1);
+            }
+        }
+
+        int num_variables;
+        int max_ao_order_g;
+        max_ao_order_g = 0;
+
+        if (fun.is_tau_mgga)
+        {
+            num_variables = 5;
+            get_gradient = true;
+            get_tau = true;
+            max_ao_order_g++;
+        }
+        else if (fun.is_gga)
+        {
+            num_variables = 4;
+            get_gradient = true;
+            get_tau = false;
+            max_ao_order_g++;
         }
         else
         {
-            block_length = AO_BLOCK_LENGTH;
+            num_variables = 1;
+            get_gradient = false;
+            get_tau = false;
         }
 
-        integrate_batch(dmat,
-                        get_exc,
-                        exc_local,
-                        get_vxc,
-                        vxc_local,
-                        num_electrons_local,
-                        geo_coor,
-                        use_dmat,
-                        num_dmat,
-                        perturbation_indices,
-                        ipoint,
-                        geo_derv_order,
-                        max_ao_order_g,
-                        block_length,
-                        num_variables,
-                        num_perturbations,
-                        num_fields,
-                        mat_dim,
-                        get_gradient,
-                        get_tau,
-                        dmat_index,
-                        grid_x_bohr,
-                        grid_y_bohr,
-                        grid_z_bohr,
-                        grid_w);
+        for (int i = 0; i < geo_derv_order; i++)
+        {
+            max_ao_order_g++;
+        }
 
-        num_points_left -= block_length;
+	// first we integrate the number of points
+	// divisible by AO_BLOCK_LENGTH
+        int block_length = AO_BLOCK_LENGTH;
+        int num_batches = num_points / AO_BLOCK_LENGTH;
+#ifdef HAVE_OPENMP
+#pragma omp for schedule(dynamic)
+#endif
+        for (int ibatch = 0; ibatch < num_batches; ibatch++)
+        {
+            int ipoint = ibatch * AO_BLOCK_LENGTH;
+
+            integrate_batch(dmat,
+                            xcfun,
+                            &fun,
+                            get_exc,
+                            exc_local,
+                            get_vxc,
+                            vxc_local,
+                            num_electrons_local,
+                            geo_coor,
+                            use_dmat,
+                            num_dmat,
+                            perturbation_indices,
+                            ipoint,
+                            geo_derv_order,
+                            max_ao_order_g,
+                            block_length,
+                            num_variables,
+                            num_perturbations,
+                            num_fields,
+                            mat_dim,
+                            get_gradient,
+                            get_tau,
+                            dmat_index,
+                            grid_x_bohr,
+                            grid_y_bohr,
+                            grid_z_bohr,
+                            grid_w);
+        }
+
+	// if some points are left, we integreate
+	// them only on one thread
+#ifdef HAVE_OPENMP
+#pragma omp single
+#endif
+        if (num_points % AO_BLOCK_LENGTH != 0)
+	{
+            int ipoint = num_batches * AO_BLOCK_LENGTH;
+            int block_length = num_points - AO_BLOCK_LENGTH * num_batches;
+
+            integrate_batch(dmat,
+                            xcfun,
+                            &fun,
+                            get_exc,
+                            exc_local,
+                            get_vxc,
+                            vxc_local,
+                            num_electrons_local,
+                            geo_coor,
+                            use_dmat,
+                            num_dmat,
+                            perturbation_indices,
+                            ipoint,
+                            geo_derv_order,
+                            max_ao_order_g,
+                            block_length,
+                            num_variables,
+                            num_perturbations,
+                            num_fields,
+                            mat_dim,
+                            get_gradient,
+                            get_tau,
+                            dmat_index,
+                            grid_x_bohr,
+                            grid_y_bohr,
+                            grid_z_bohr,
+                            grid_w);
+	}
+
+#ifdef HAVE_OPENMP
+        if (get_exc)
+            exc_buffer[ithread] = exc_local;
+        num_electrons_buffer[ithread] = num_electrons_local;
     }
 
+    for (size_t ithread = 0; ithread < num_threads; ithread++)
+    {
+        *num_electrons += num_electrons_buffer[ithread];
+        if (get_exc)
+            *exc += exc_buffer[ithread];
+        if (get_vxc)
+        {
+	    // FIXME consider using blas daxpy for this
+            for (int i = 0; i < mat_dim * mat_dim; i++)
+            {
+                vxc[i] += vxc_buffer[ithread * mat_dim * mat_dim + i];
+            }
+        }
+    }
+
+    delete[] num_electrons_buffer;
+    delete[] exc_buffer;
+    delete[] vxc_buffer;
+#else
     *exc = exc_local;
     *num_electrons = num_electrons_local;
+#endif /* HAVE_OPENMP */
 
     delete[] use_dmat;
     delete[] dmat_index;
@@ -1108,7 +1219,7 @@ int XCint::integrate(const xcint_mode_t mode,
         {
             for (int l = 0; l < k; l++)
             {
-                a = vxc[k * mat_dim + l] + vxc[l * mat_dim + k];
+                double a = vxc[k * mat_dim + l] + vxc[l * mat_dim + k];
                 vxc[k * mat_dim + l] = 0.5 * a;
                 vxc[l * mat_dim + k] = 0.5 * a;
             }
@@ -1122,6 +1233,9 @@ void XCint::distribute_matrix2(const int block_length,
                                const int num_variables,
                                const int num_perturbations,
                                const int mat_dim,
+                                     xcfun_t *xcfun,
+                                     Functional *fun,
+                               const double ao[],
                                const double prefactors[],
                                const int w_off,
                                const bool n_is_used[],
@@ -1135,7 +1249,7 @@ void XCint::distribute_matrix2(const int block_length,
 {
     int off;
 
-    dens_offset = fun.set_order(num_perturbations + 1, xcfun);
+    int dens_offset = fun->set_order(num_perturbations + 1, xcfun);
 
     double *xcin = new double[num_variables * dens_offset * block_length];
     std::fill(&xcin[0], &xcin[num_variables * dens_offset * block_length], 0.0);
@@ -1200,12 +1314,12 @@ void XCint::distribute_matrix2(const int block_length,
     bool distribute_gradient;
     bool distribute_tau;
 
-    if (fun.is_tau_mgga)
+    if (fun->is_tau_mgga)
     {
         distribute_gradient = true;
         distribute_tau = true;
     }
-    else if (fun.is_gga)
+    else if (fun->is_gga)
     {
         distribute_gradient = true;
         distribute_tau = false;

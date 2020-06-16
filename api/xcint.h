@@ -52,7 +52,7 @@ void xcint_free_context(xcint_context_t *xcint_context);
 XCINT_API
 int xcint_set_functional(
     xcint_context_t *context,
-    const char *line
+          char *line
     );
 
 XCINT_API

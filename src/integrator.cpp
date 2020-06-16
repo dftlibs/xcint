@@ -1057,7 +1057,7 @@ int XCint::integrate(const xcint_mode_t mode,
 
         auto xcfun = xcfun_new();
         Functional fun;
-        fun.set_functional(functional_line);
+        fun.set_functional(functional_line.c_str());
         for (size_t i = 0; i < fun.keys.size(); i++)
         {
             int ierr = xcfun_set(xcfun, fun.keys[i].c_str(), fun.weights[i]);

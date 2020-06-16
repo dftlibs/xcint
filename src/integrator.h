@@ -4,6 +4,8 @@
 #include "balboa.h"
 #include "xcint.h"
 
+#include <string>
+
 class XCint
 {
   public:
@@ -45,7 +47,7 @@ class XCint
     XCint(const XCint &rhs);            // not implemented
     XCint &operator=(const XCint &rhs); // not implemented
 
-    char *functional_line;
+    std::string functional_line;
     balboa_context_t *balboa_context;
 
     void nullify();

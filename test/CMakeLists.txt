@@ -83,10 +83,10 @@ if(ENABLE_XCINT_UNIT_TESTS)
 
   target_link_libraries(
     cpp_test
-    xcint
     density
     balboa
     energy_spherical
+    xcint
     ${BLAS_LIBRARIES}
     )
 

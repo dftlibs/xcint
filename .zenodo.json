@@ -1,0 +1,11 @@
+{
+    "creators": [
+        {
+            "name": "Bast, Radovan"
+        }
+    ],
+    "license": {
+        "id": "MPL-2.0"
+    },
+    "title": "XCint: Exchange-correlation integrator"
+}

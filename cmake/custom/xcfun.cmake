@@ -12,7 +12,7 @@ else()
     GIT_REPOSITORY
       https://github.com/dftlibs/xcfun.git
     GIT_TAG
-      v2.0.1
+      v2.0.2
     )
 
   add_subdirectory(

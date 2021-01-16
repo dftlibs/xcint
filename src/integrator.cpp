@@ -463,8 +463,10 @@ void XCint::integrate_batch(const double dmat[],
 
             if (geo_derv_order == 2 && num_fields == 0)
             {
-                fprintf(stderr, "F_xc^GG contribution is not fully implemented/tested");
-                exit(-1);
+                if (!getenv("XCINT_IGNORE_STOPS")) {
+                    fprintf(stderr, "F_xc^GG contribution is not fully implemented/tested");
+                    exit(-1);
+                }
            //   contribution_is_implemented = true;
 
                 // M_ij d_n

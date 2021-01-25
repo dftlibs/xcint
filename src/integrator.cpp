@@ -467,7 +467,7 @@ void XCint::integrate_batch(const double dmat[],
                     fprintf(stderr, "F_xc^GG contribution is not fully implemented/tested");
                     exit(-1);
                 }
-           //   contribution_is_implemented = true;
+                contribution_is_implemented = true;
 
                 // M_ij d_n
                 coor.push_back(geo_coor[0]);
